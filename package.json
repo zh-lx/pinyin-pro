@@ -1,0 +1,23 @@
+{
+  "name": "get-chinese-pinyin",
+  "version": "0.0.2",
+  "description": "一个可以将汉语转化为拼音的库",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zh-lx/pinyin.git"
+  },
+  "keywords": [
+    "拼音",
+    "转化"
+  ],
+  "author": "zhoulixiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zh-lx/pinyin/issues"
+  },
+  "homepage": "https://github.com/zh-lx/pinyin#readme"
+}
