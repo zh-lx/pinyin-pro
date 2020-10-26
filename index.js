@@ -1,3 +1,1 @@
-export const getPinyin = () => {
-  return ['pinyin']
-}
+module.exports = require('./lib/pinyin')

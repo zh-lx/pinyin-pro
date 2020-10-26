@@ -1,7 +1,7 @@
 {
-  "name": "get-chinese-pinyin",
-  "version": "0.0.2",
-  "description": "一个可以将汉语转化为拼音的库",
+  "name": "pinyin-plus",
+  "version": "0.0.1",
+  "description": "功能最丰富的、最强大的汉语拼音转化库",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
