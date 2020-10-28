@@ -1,4 +1,6 @@
 const path = require('path')
+const WebpackBar = require('webpackbar')
+
 module.exports = {
   mode: 'production',
   entry: './index.js',
@@ -9,4 +11,5 @@ module.exports = {
     globalObject: 'this',
     library: 'webpackNumbers',
   },
+  plugins: [new WebpackBar()],
 }
