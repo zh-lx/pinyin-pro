@@ -9,7 +9,7 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'umd',
     globalObject: 'this',
-    library: 'webpackNumbers',
+    library: 'index',
   },
   plugins: [new WebpackBar()],
 }

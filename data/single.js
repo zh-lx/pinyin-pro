@@ -1,4 +1,4 @@
-let a = {
+export const single_map = {
   "锕": "a",
   "啊": "a",
   "阿": "a e he",

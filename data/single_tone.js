@@ -1,4 +1,4 @@
-let a = {
+export const single_map_tone = {
   "锕": "ā",
   "啊": "a ā á ǎ à",
   "阿": "ā ē ě ǎ à a hē",
