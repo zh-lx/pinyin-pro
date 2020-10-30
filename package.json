@@ -1,5 +1,5 @@
 {
-  "name": "pinyin-plus",
+  "name": "pinyin-pro",
   "version": "0.0.1",
   "description": "功能最丰富的、最强大的汉语拼音转化库",
   "main": "./dist/index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zh-lx/pinyin.git"
+    "url": "git+https://github.com/zh-lx/pinyin-pro.git"
   },
   "keywords": [
     "拼音",
@@ -19,9 +19,9 @@
   "author": "zhoulixiang",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zh-lx/pinyin/issues"
+    "url": "https://github.com/zh-lx/pinyin-pro/issues"
   },
-  "homepage": "https://github.com/zh-lx/pinyin#readme",
+  "homepage": "https://github.com/zh-lx/pinyin-pro#readme",
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^8.1.0",
@@ -34,6 +34,7 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.2.2",
     "cz-conventional-changelog": "^3.3.0"
   },

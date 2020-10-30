@@ -1,5 +1,6 @@
 const path = require('path')
 const WebpackBar = require('webpackbar')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -11,5 +12,5 @@ module.exports = {
     globalObject: 'this',
     library: 'index',
   },
-  plugins: [new WebpackBar()],
+  plugins: [new WebpackBar(), new CleanWebpackPlugin()],
 }
