@@ -1,6 +1,6 @@
 {
   "name": "pinyin-pro",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "专业的、功能最丰富的中文汉字与拼音的转化库",
   "main": "./dist/index.js",
   "scripts": {
