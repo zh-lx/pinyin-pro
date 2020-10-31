@@ -11,8 +11,12 @@ npm install pinyin-pro
 ## 引入
 
 ```javascript
-import { pinyin } from 'pinyin-pro'
+const { pinyin } = require('pinyin-pro')
 ```
+
+## 环境
+
+同时支持浏览器和 node 环境
 
 ## 基本用法
 
@@ -24,7 +28,7 @@ import { pinyin } from 'pinyin-pro'
 ### 获取各种格式的拼音
 
 ```javascript
-import { pinyin } from 'pinyin-pro'
+const { pinyin } = require('pinyin-pro')
 
 // 获取带音调拼音
 pinyin('汉语拼音') // 'hàn yǔ pīn yīn'
