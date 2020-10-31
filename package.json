@@ -1,6 +1,6 @@
 {
   "name": "pinyin-pro",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "专业的、功能最丰富的中文汉字与拼音的转化库",
   "main": "./dist/index.js",
   "scripts": {
@@ -30,17 +30,17 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.1.0",
     "babel-plugin-add-module-exports": "^1.0.4",
-    "babel-preset-env": "^1.7.0",
-    "webpack": "^5.2.0",
-    "webpack-cli": "^4.1.0",
-    "webpackbar": "^4.0.0"
+    "babel-preset-env": "^1.7.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.2.2",
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0",
+    "webpackbar": "^4.0.0"
   },
   "config": {
     "commitizen": {
