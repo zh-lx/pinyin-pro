@@ -1,4 +1,4 @@
-export const dict5 = {
+export const DICT5 = {
   阿尔巴尼亚: 'ā ěr bā ní yà',
   阿尔法射线: 'ā ěr fǎ shè xiàn',
   阿尔及利亚: 'ā ěr jí lì yà',

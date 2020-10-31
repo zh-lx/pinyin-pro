@@ -1,4 +1,4 @@
-export const dict3 = {
+export const DICT3 = {
   阿比让: 'ā bǐ ràng',
   阿波罗: 'ā bō luó',
   阿昌族: 'ā chāng zú',

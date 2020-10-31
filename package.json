@@ -1,7 +1,7 @@
 {
   "name": "pinyin-pro",
-  "version": "0.0.1",
-  "description": "功能最丰富的、最强大的汉语拼音转化库",
+  "version": "1.0.0",
+  "description": "专业的、功能最丰富的中文汉字与拼音的转化库",
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,10 +14,14 @@
   },
   "keywords": [
     "拼音",
-    "转化"
+    "转化",
+    "pinyin",
+    "chinese",
+    "汉语",
+    "中文"
   ],
   "author": "zh-lx",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zh-lx/pinyin-pro/issues"
   },

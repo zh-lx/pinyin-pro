@@ -1,4 +1,4 @@
-export const dict2 = {
+export const DICT2 = {
   阿爸: 'ā bà',
   阿鼻: 'ā bí',
   阿呆: 'ā dāi',

@@ -1,4 +1,4 @@
-export const dict4 = {
+export const DICT4 = {
   阿党相为: 'ē dǎng xiāng wéi',
   阿尔及尔: 'ā ěr jí ěr',
   阿狗阿猫: 'ā gǒu ā māo',
