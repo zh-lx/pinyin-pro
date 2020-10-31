@@ -1,3 +1,3 @@
-import { pinyinFn } from './lib/pinyin'
+import { pinyinFn } from './lib/index'
 
 export const pinyin = pinyinFn
