@@ -1,8 +1,9 @@
 {
   "name": "pinyin-pro",
-  "version": "1.1.0",
-  "description": "专业的、功能最丰富的中文汉字与拼音的转化库",
+  "version": "1.2.3",
+  "description": "汉字转拼音库。获取汉字、词语、句子等内容的拼音、韵母、声母、声调等信息。",
   "main": "./dist/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",

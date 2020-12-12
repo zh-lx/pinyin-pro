@@ -34,8 +34,8 @@ const { pinyin } = require('pinyin-pro');
 
 `pinyin(word, options)` 接收两个参数<br>
 
-- <b>word：</b>String 类型，需要转化为拼音的词语
-- <b>options：</b>Object 类型，用于配置各种输出形式，相关配置在后面
+- <b>word：</b>必填。String 类型，需要转化为拼音的词语
+- <b>options：</b>可选。Object 类型，用于配置各种输出形式，相关配置在后面
 
 ### 基本用法
 
@@ -73,7 +73,7 @@ pinyin('汉语拼音', { pattern: 'num' }); // '4 3 1 1'
 pinyin('汉语拼音', { type: 'array' }); // [ 'hàn', 'yǔ', 'pīn', 'yīn' ]
 
 // 获取数组形式的不带音调韵母
-pinyin('汉语拼音', { pattern: 'final', tone: false }); // ['an', 'u', 'in', 'in']
+pinyin('汉语拼音', { pattern: 'final', tone: false, type: 'array' }); // ['an', 'u', 'in', 'in']
 ```
 
 ### 获取单个字的多音
