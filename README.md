@@ -96,12 +96,12 @@ pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 
 ## options 配置
 
-| 参数     | 说明                                                | 类型    | 可选值                         | 默认值 |
-| -------- | --------------------------------------------------- | ------- | ------------------------------ | ------ |
-| pattern  | 输出的结果的信息（带音调全拼 / 声母 / 韵母 / 音调） | string  | pinyin / initial / final / num | pinyin |
-| tone     | 音调输出形式(拼音符号 / 数字 / 不加音调)            | string  | symbol / num / none            | symbol |
-| type     | 输出结果类型（字符串/数组）                         | string  | string / array                 | string |
-| multiple | 输出多音字全部拼音（仅在 word 为单字时生效）        | boolean | true / false                   | false  |
+| 参数     | 说明                                                          | 类型    | 可选值                         | 默认值 |
+| -------- | ------------------------------------------------------------- | ------- | ------------------------------ | ------ |
+| pattern  | 输出的结果的信息（拼音 / 声母 / 韵母 / 音调）                 | string  | pinyin / initial / final / num | pinyin |
+| tone     | 音调输出形式(拼音符号 / 数字 / 不加音调)                      | string  | symbol / num / none            | symbol |
+| type     | 输出结果类型（字符串/数组）                                   | string  | string / array                 | string |
+| multiple | 输出多音字全部拼音（仅在 word 为长度为 1 的汉字字符串时生效） | boolean | true / false                   | false  |
 
 ## 交流与反馈
 
