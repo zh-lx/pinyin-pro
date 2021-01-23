@@ -4,7 +4,7 @@
 
 ## 版本更新文档
 
-[版本更新文档]('./docs/versions.md')
+[版本更新文档](./docs/versions.md)
 
 ## 安装
 
