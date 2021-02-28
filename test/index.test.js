@@ -74,3 +74,8 @@ test('test14', () => {
   });
   expect(result).toBe('ao3 ao4');
 });
+
+test('test15', () => {
+  const result = pinyin('汉语拼音xxx.,');
+  expect(result).toBe('hàn yǔ pīn yīn xxx.,');
+});
