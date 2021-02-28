@@ -66,7 +66,7 @@ test('test13', () => {
   expect(result).toBe('hǎo hào');
 });
 
-test('test13', () => {
+test('test14', () => {
   const result = pinyin('好', {
     pattern: 'final',
     toneType: 'num',

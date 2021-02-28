@@ -4,7 +4,6 @@
   "description": "汉字转拼音库。获取汉字、词语、句子等内容的拼音、韵母、声母、声调等信息。",
   "main": "./dist/index.js",
   "typings": "./index.d.ts",
-  "files": ["dist", "index.d.ts"],
   "scripts": {
     "test": "jest",
     "build": "webpack",
