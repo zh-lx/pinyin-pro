@@ -11,7 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": false,
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "declarationDir": "types"
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "types"]
 }

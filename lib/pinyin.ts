@@ -7,33 +7,19 @@ import { INITIAL_LIST } from '../data/initial';
 const dictArr = [DICT1, DICT2, DICT3, DICT4, DICT5];
 
 type GetPinYin = (word: string, length: number) => string;
-type GetPinyinWithoutTone = (pinyin: string) => string;
-
-/**
- * @description: 得到对应的音调数字
- * @example
- * ```js
- * getPinyin('汉语拼音', 4); // 'hàn yǔ pīn yīn'
- * ```
- */
-export const getPinyin: GetPinYin = (word, length) => {
+const getPinyin: GetPinYin = (word, length) => {
   // 若word为空字符串返回空字符串
   if (length === 0) {
     return word;
   }
-  // 若length值大于5或大于word的词长，返回getPinyin(word, min)
-  const min = Math.min(length, word.length);
-  if (length > 5 || length > word.length) {
-    return getPinyin(word, min - 1);
-  }
-  // 若word长度为1, 找到则返回相应拼音（多音字的第一个）；未找到则返回word
-  if (word.length === 1) {
-    const pinyin_length_1 = dictArr[length - 1][word];
-    return pinyin_length_1 ? pinyin_length_1.split(' ')[0] : word;
+  // 若length值大于5，返回getPinyin(word, length - 1)
+  if (length > 5) {
+    return getPinyin(word, length - 1);
   }
   // 若当前dict存在word则返回相应拼音
-  if (dictArr[length - 1][word]) {
-    return dictArr[length - 1][word];
+  const current_pinyin = dictArr[length - 1][word];
+  if (current_pinyin) {
+    return word.length === 1 ? current_pinyin.split(' ')[0] : current_pinyin;
   }
   // 遍历
   let pinyin = '';
@@ -63,17 +49,8 @@ export const getPinyin: GetPinYin = (word, length) => {
   return pinyin ? pinyin : getPinyin(word, length - 1);
 };
 
-/**
- * @description: 得到无音调的拼音字符串
- * @example
- * ```js
- * getPinyinWithoutTone('hàn yǔ pīn yīn');  // 'han yu pin yin'
- * ```
- */
-export const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
-  if (pinyin.length === 0) {
-    return '';
-  }
+type GetPinyinWithoutTone = (pinyin: string) => string;
+const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
   return pinyin
     .replace(/(ā|á|ǎ|à)/g, 'a')
     .replace(/(ō|ó|ǒ|ò)/g, 'o')
@@ -83,38 +60,15 @@ export const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
     .replace(/(ǖ|ǘ|ǚ|ǜ)/g, 'ü');
 };
 
-/**
- * @description: 得到单个字的多音
- * @param {string} word 长度为1的汉字字符串
- * @return {string} 汉字的多个音调
- * @example
- * ```js
- * getMultipleTone('好');  // 'hǎo hào'
- * ```
- */
-export const getMultipleTone = (word) => {
-  if (word.length === 0) {
-    return '';
-  }
-  if (word.length !== 1) {
-    throw Error('getMultipleTone的参数必须为单个汉字字符串');
-  }
-  return DICT1[word];
+type GetMultipleTone = (word: string) => string;
+const getMultipleTone: GetMultipleTone = (word) => {
+  return word.length === 1 ? DICT1[word] : DICT1[word[0]];
 };
 
-/**
- * @description: 得到拼音的声母和韵母
- * @param {string} pinyin 拼音字符串
- * @return {{final: string; initial: string;}} 包含声母字符串和韵母字符串的对象
- * @example
- * ```js
- * getInitialAndFinal('hàn yǔ pīn yīn'); // {initial: 'h y p y', final: 'àn yǔ pīn yīn'}
- * ```
- */
-export const getInitialAndFinal = (pinyin) => {
-  if (pinyin.length === 0) {
-    return { final: '', initial: '' };
-  }
+type GetInitialAndFinal = (
+  pinyin: string
+) => { final: string; initial: string };
+const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
   const pinyin_arr = pinyin.split(' ');
   const initial_arr = [];
   const final_arr = [];
@@ -134,37 +88,26 @@ export const getInitialAndFinal = (pinyin) => {
   };
 };
 
-/**
- * @description: 得到对应的音调数字
- * @param {string} pinyin 拼音字符串
- * @return {string} 音调对应数字字符串
- * @example
- * ```js
- * getNumOfTone('hàn yǔ pīn yīn'); // '4 3 1 1'
- * ```
- */
-export const getNumOfTone = (pinyin) => {
-  if (pinyin.length === 0) {
-    return '';
-  }
+type GetNumOfTone = (pinyin: string) => string;
+const getNumOfTone: GetNumOfTone = (pinyin) => {
   const reg_tone1 = /(ā|ō|ē|ī|ū|ǖ)/;
   const reg_tone2 = /(á|ó|é|í|ú|ǘ)/;
   const reg_tone3 = /(ǎ|ǒ|ě|ǐ|ǔ|ǚ)/;
   const reg_tone4 = /(à|ò|è|ì|ù|ǜ)/;
   const reg_tone0 = /(a|o|e|i|u|ü)/;
-  const tone_num_arr = [];
+  const tone_num_arr: string[] = [];
   const pinyin_arr = pinyin.split(' ');
   pinyin_arr.forEach((_pinyin) => {
     if (reg_tone1.test(_pinyin)) {
-      tone_num_arr.push(1);
+      tone_num_arr.push('1');
     } else if (reg_tone2.test(_pinyin)) {
-      tone_num_arr.push(2);
+      tone_num_arr.push('2');
     } else if (reg_tone3.test(_pinyin)) {
-      tone_num_arr.push(3);
+      tone_num_arr.push('3');
     } else if (reg_tone4.test(_pinyin)) {
-      tone_num_arr.push(4);
+      tone_num_arr.push('4');
     } else if (reg_tone0.test(_pinyin)) {
-      tone_num_arr.push(0);
+      tone_num_arr.push('0');
     } else {
       tone_num_arr.push('');
     }
@@ -172,33 +115,22 @@ export const getNumOfTone = (pinyin) => {
   return tone_num_arr.join(' ');
 };
 
-/**
- * @description: 得到对应的音调数字
- * @param {string} pinyin 拼音字符串
- * @return {string} 以数字作为音调的拼音字符串
- * @example
- * ```js
- * getPinyinWithNum('hàn yǔ pīn yīn'); // 'han4 yu3 pin1 yin1'
- * ```
- */
-export const getPinyinWithNum = (pinyin) => {
-  if (pinyin.length === 0) {
-    return '';
-  }
+type GetPinyinWithNum = (pinyin: string) => string;
+const getPinyinWithNum: GetPinyinWithNum = (pinyin) => {
   const pinyin_arr = getPinyinWithoutTone(pinyin).split(' ');
   const tone_num_arr = getNumOfTone(pinyin).split(' ');
-  const res_arr = [];
+  const res_arr: string[] = [];
   pinyin_arr.forEach((item, index) => {
     res_arr.push(`${item}${tone_num_arr[index]}`);
   });
   return res_arr.join(' ');
 };
 
-/**
- * @description: 得到拼音首字母
- * @param {string} pinyin 拼音字符串
- * @return {string}
- */
-export const getFirstLetter = (pinyin) => {
-  return '';
+export {
+  getPinyin,
+  getPinyinWithoutTone,
+  getInitialAndFinal,
+  getMultipleTone,
+  getNumOfTone,
+  getPinyinWithNum,
 };

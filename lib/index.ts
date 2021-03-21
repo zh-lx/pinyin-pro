@@ -1,5 +1,3 @@
-import { DEFAULT_OPTIONS } from './options';
-
 import {
   getPinyin,
   getMultipleTone,
@@ -9,43 +7,31 @@ import {
   getPinyinWithNum,
 } from './pinyin';
 
-// /**
-//  * @description: 获取汉字的拼音
-//  * @param {string} word 汉语字符串
-//  * @param {{
-//  *   toneType?: 'symbol' | 'num' | 'none';
-//  *   pattern?: 'pinyin'| 'initial' | 'final' | 'num';
-//  *   type?: 'string' | 'array';
-//  *   multiple?: false | true;
-//  * }} options 输出配置
-//  * @return {string | string[]} 拼音字符串或数组
-//  */
-
-interface OptionsTypeString {
+const DEFAULT_OPTIONS: Options = {
+  pattern: 'pinyin',
+  toneType: 'symbol',
+  type: 'string',
+  multiple: false,
+};
+interface Options {
   toneType?: 'symbol' | 'num' | 'none';
   pattern?: 'pinyin' | 'initial' | 'final' | 'num';
-  type?: 'string';
+  type?: 'string' | 'array';
   multiple?: boolean;
 }
 
-interface OptionsTypeArray {
-  toneType?: 'symbol' | 'num' | 'none';
-  pattern?: 'pinyin' | 'initial' | 'final' | 'num';
-  type: 'array';
-  multiple?: boolean;
-}
+type PinyinFn = (word: string, options?: Options) => string | string[];
 
-export const pinyinFn = (word, options = DEFAULT_OPTIONS) => {
+const pinyinFn: PinyinFn = (word, options) => {
   options = { ...DEFAULT_OPTIONS, ...options };
   // word传入类型错误时
   if (typeof word !== 'string') {
-    throw Error('word需要为字符串类型!');
+    throw Error('The parameter word should be of string type!');
   }
   // 传入空字符串
-  if (!word) {
+  if (word === '') {
     return options.type === 'array' ? [] : '';
   }
-
   // 获取原始拼音
   let pinyin = getPinyin(word, word.length);
 
@@ -54,27 +40,34 @@ export const pinyinFn = (word, options = DEFAULT_OPTIONS) => {
     pinyin = getMultipleTone(word);
   }
 
-  // 对pattern的处理
-  if (options.pattern === 'num') {
-    const numOfTone = getNumOfTone(pinyin);
-    return options.type === 'array' ? numOfTone.split(' ') : numOfTone;
-  } else if (options.pattern === 'initial') {
-    pinyin = getInitialAndFinal(pinyin).initial;
-  } else if (options.pattern === 'final') {
-    pinyin = getInitialAndFinal(pinyin).final;
+  // pattern参数处理
+  switch (options.pattern) {
+    case 'num':
+      const numOfTone = getNumOfTone(pinyin);
+      return options.type === 'array' ? numOfTone.split(' ') : numOfTone;
+    case 'initial':
+      pinyin = getInitialAndFinal(pinyin).initial;
+      break;
+    case 'final':
+      pinyin = getInitialAndFinal(pinyin).final;
+      break;
+    default:
+      break;
   }
 
-  // 音调toneType处理
-  if (options.toneType === 'none') {
-    pinyin = getPinyinWithoutTone(pinyin);
-  } else if (options.toneType === 'num') {
-    pinyin = getPinyinWithNum(pinyin);
+  // toneType参数处理
+  switch (options.toneType) {
+    case 'none':
+      pinyin = getPinyinWithoutTone(pinyin);
+      break;
+    case 'num':
+      pinyin = getPinyinWithNum(pinyin);
+      break;
+    default:
+      break;
   }
 
-  // 对type的处理
-  if (options.type === 'array') {
-    return pinyin.split(' ');
-  } else {
-    return pinyin;
-  }
+  return options.type === 'array' ? pinyin.split(' ') : pinyin;
 };
+
+export { pinyinFn };
