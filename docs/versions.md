@@ -1,8 +1,15 @@
+## 3.0.0
+
+[version3.0.0](./3.0.0.md)
+
+- 使用 typescript + rollup 打包重构了项目，api 使用上没有发生变化
+- 支持 es 打包方式，优化实际使用体积
+
 ## 2.0.9
 
 [version2.0.9](./2.0.9.md)
 
-修复了 options 中 pattern 参数没有`num`可选项提示的问题
+- 修复了 options 中 pattern 参数没有`num`可选项提示的问题
 
 ## 2.0.8
 

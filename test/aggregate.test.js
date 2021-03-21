@@ -1,4 +1,3 @@
-// @ts-ignore
 const { pinyin } = require('../dist/index');
 
 test('aggregate1', () => {
