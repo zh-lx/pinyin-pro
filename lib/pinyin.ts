@@ -6,17 +6,15 @@ import { DICT5 } from '../data/dict5';
 import { INITIAL_LIST } from '../data/initial';
 const dictArr = [DICT1, DICT2, DICT3, DICT4, DICT5];
 
+type GetPinYin = (word: string, length: number) => string;
 /**
  * @description: 得到对应的音调数字
- * @param {string} word 汉字字符串
- * @param {number} length 当前length长度标记
- * @return {string} 拼音字符串
  * @example
  * ```js
  * getPinyin('汉语拼音', 4); // 'hàn yǔ pīn yīn'
  * ```
  */
-export const getPinyin = (word, length) => {
+export const getPinyin: GetPinYin = (word, length) => {
   // 若word为空字符串返回空字符串
   if (length === 0) {
     return word;

@@ -1,5 +1,5 @@
 // @ts-ignore
-const { pinyin } = require('../dist/index');
+const { pinyin } = require('../dist/cjs/index');
 
 test('test1', () => {
   const result = pinyin('汉语拼音');

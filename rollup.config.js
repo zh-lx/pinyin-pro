@@ -18,7 +18,7 @@ const plugins = [
 plugins.push(terser());
 
 module.exports = {
-  input: path.resolve('./lib/index.js'),
+  input: path.resolve('./index.js'),
   output: [
     {
       exports: 'auto',

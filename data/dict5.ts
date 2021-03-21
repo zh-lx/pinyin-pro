@@ -1,4 +1,4 @@
-export const DICT5 = {
+export const DICT5: { [prop: string]: string } = {
   阿尔巴尼亚: 'ā ěr bā ní yà',
   阿尔法射线: 'ā ěr fǎ shè xiàn',
   阿尔及利亚: 'ā ěr jí lì yà',
@@ -68,4 +68,4 @@ export const DICT5 = {
   着三不着两: 'zháo sān bù zháo liǎng',
   嘴尖舌头快: 'zuǐ jiān shé tóu kuài',
   坐山观虎斗: 'zuò shān guān hǔ dòu',
-}
+};
