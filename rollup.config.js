@@ -28,12 +28,6 @@ module.exports = {
       format: 'cjs',
       sourcemap: false,
     },
-    {
-      exports: 'auto',
-      file: path.resolve(__dirname, './dist/index.es.js'),
-      format: 'es',
-      sourcemap: false,
-    },
   ],
   plugins,
 };
