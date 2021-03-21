@@ -7,6 +7,8 @@ import { INITIAL_LIST } from '../data/initial';
 const dictArr = [DICT1, DICT2, DICT3, DICT4, DICT5];
 
 type GetPinYin = (word: string, length: number) => string;
+type GetPinyinWithoutTone = (pinyin: string) => string;
+
 /**
  * @description: 得到对应的音调数字
  * @example
@@ -63,14 +65,12 @@ export const getPinyin: GetPinYin = (word, length) => {
 
 /**
  * @description: 得到无音调的拼音字符串
- * @param {string} pinyin 带音调的拼音字符串
- * @return {string} 不带音调的拼音字符串
  * @example
  * ```js
  * getPinyinWithoutTone('hàn yǔ pīn yīn');  // 'han yu pin yin'
  * ```
  */
-export const getPinyinWithoutTone = (pinyin) => {
+export const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
   if (pinyin.length === 0) {
     return '';
   }

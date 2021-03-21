@@ -9,17 +9,32 @@ import {
   getPinyinWithNum,
 } from './pinyin';
 
-/**
- * @description: 获取汉字的拼音
- * @param {string} word 汉语字符串
- * @param {{
- *   toneType?: 'symbol' | 'num' | 'none';
- *   pattern?: 'pinyin'| 'initial' | 'final' | 'num';
- *   type?: 'string' | 'array';
- *   multiple?: false | true;
- * }} options 输出配置
- * @return {string | string[]} 拼音字符串或数组
- */
+// /**
+//  * @description: 获取汉字的拼音
+//  * @param {string} word 汉语字符串
+//  * @param {{
+//  *   toneType?: 'symbol' | 'num' | 'none';
+//  *   pattern?: 'pinyin'| 'initial' | 'final' | 'num';
+//  *   type?: 'string' | 'array';
+//  *   multiple?: false | true;
+//  * }} options 输出配置
+//  * @return {string | string[]} 拼音字符串或数组
+//  */
+
+interface OptionsTypeString {
+  toneType?: 'symbol' | 'num' | 'none';
+  pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+  type?: 'string';
+  multiple?: boolean;
+}
+
+interface OptionsTypeArray {
+  toneType?: 'symbol' | 'num' | 'none';
+  pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+  type: 'array';
+  multiple?: boolean;
+}
+
 export const pinyinFn = (word, options = DEFAULT_OPTIONS) => {
   options = { ...DEFAULT_OPTIONS, ...options };
   // word传入类型错误时
