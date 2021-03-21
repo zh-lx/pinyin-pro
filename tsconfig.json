@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": false,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "declarationDir": "types"
   },

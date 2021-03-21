@@ -10,8 +10,7 @@
     "lib",
     "types",
     "index.ts",
-    "tsconfig.json",
-    "data"
+    "tsconfig.json"
   ],
   "scripts": {
     "test": "jest",
