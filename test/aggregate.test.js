@@ -1,4 +1,4 @@
-const { pinyin } = require('../dist/cjs/index');
+const { pinyin } = require('../dist/index');
 
 test('aggregate1', () => {
   const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'num' });

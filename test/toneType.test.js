@@ -1,5 +1,5 @@
 // @ts-ignore
-const { pinyin } = require('../dist/cjs/index');
+const { pinyin } = require('../dist/index');
 
 test('toneType-num', () => {
   const result = pinyin('汉语拼音', { toneType: 'num' });
