@@ -1,20 +1,29 @@
-# pinyin-pro 汉字拼音转换工具(支持获取汉字、词语、句子的拼音、音调、声母、韵母多种形式)
+[![pinyin-pro Logo](https://i.ibb.co/26fJ5vF/pinyin-logo.png)](https://github.com/zh-lx/pinyin-pro)
+
+pinyin-pro —— 专业的汉字拼音转换工具
 
 [![NPM version](https://img.shields.io/npm/v/pinyin-pro.svg)](https://www.npmjs.com/package/pinyin-pro)
-[![NPM Downloads][downloads-image]][downloads-url]
-[![Linux Build][travis-image]][travis-url]
-[![Windows Build][appveyor-image]][appveyor-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
+[![GITHUB star](https://img.shields.io/github/stars/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
+[![NPM Downloads](https://img.shields.io/npm/dm/pinyin-pro.svg)](https://npmcharts.com/compare/pinyin-pro?minimal=true)
+[![MIT-license](https://img.shields.io/npm/l/pinyin-pro.svg)](https://opensource.org/licenses/MIT)
+[![GITHUB-language](https://img.shields.io/github/languages/top/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
 
-汉字拼音转换工具，支持获取汉字、词语、句子等多种内容的拼音、音调、声母、韵母等，支持繁体和简体字。通过高效的算法和丰富的字词库，保证体积轻量的同时识别准确率很高。
+## 特色功能
 
-## 版本更新文档
+- 支持汉字、词语、句子等多种格式的拼音、声母、韵母、音调等多种转换形式
+- 支持多音字，词语句子智能获取读音
+- 支持繁体字和简体字
+- 支持字符串和数组两种输出格式
+- 通过高效的算法，有效加快查找速度
+- 对包体积进行了优化，保证识别准确的同时体积轻便
+
+## 版本更新
 
 当前版本： 3.0.1 -> 3.0.2
 
-- 优化 npm 包质量
+- 优化了 npm 包质量
 
-[版本更新文档](./docs/versions.md)
+点击查看 [版本更新文档](./docs/versions.md)
 
 ## 安装
 
@@ -30,7 +39,7 @@ yarn 安装
 yarn add pinyin-pro
 ```
 
-## 使用
+## 引入
 
 浏览器端：
 
@@ -49,7 +58,16 @@ const { pinyin } = require('pinyin-pro');
 `pinyin(word, options)` 接收两个参数<br>
 
 - <b>word：</b>必填。String 类型，需要转化为拼音的中文
-- <b>options：</b>可选。Object 类型，用于配置各种输出形式，相关配置在后面有所介绍
+- <b>options：</b>可选。Object 类型，用于配置各种输出形式，options 的键值配置如下：
+
+| 参数     | 说明                                                          | 类型    | 可选值                         | 默认值 |
+| -------- | ------------------------------------------------------------- | ------- | ------------------------------ | ------ |
+| pattern  | 输出的结果的信息（拼音 / 声母 / 韵母 / 音调）                 | string  | pinyin / initial / final / num | pinyin |
+| tone     | 音调输出形式(拼音符号 / 数字 / 不加音调)                      | string  | symbol / num / none            | symbol |
+| type     | 输出结果类型（字符串/数组）                                   | string  | string / array                 | string |
+| multiple | 输出多音字全部拼音（仅在 word 为长度为 1 的汉字字符串时生效） | boolean | true / false                   | false  |
+
+## 使用
 
 ### 基本用法
 
@@ -104,15 +122,9 @@ pinyin('好', { multiple: true }); // 'hǎo hào'
 pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 ```
 
-## options 配置
+## 贡献与反馈
 
-| 参数     | 说明                                                          | 类型    | 可选值                         | 默认值 |
-| -------- | ------------------------------------------------------------- | ------- | ------------------------------ | ------ |
-| pattern  | 输出的结果的信息（拼音 / 声母 / 韵母 / 音调）                 | string  | pinyin / initial / final / num | pinyin |
-| tone     | 音调输出形式(拼音符号 / 数字 / 不加音调)                      | string  | symbol / num / none            | symbol |
-| type     | 输出结果类型（字符串/数组）                                   | string  | string / array                 | string |
-| multiple | 输出多音字全部拼音（仅在 word 为长度为 1 的汉字字符串时生效） | boolean | true / false                   | false  |
+使用遇到问题或者需要功能支持欢迎提 issue。
 
-## 交流与反馈
-
-有问题或者功能需求支持欢迎提 issue
+交流及参与贡献欢迎加微信：
+zhoulx1688888
