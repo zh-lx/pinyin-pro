@@ -1,12 +1,18 @@
 # pinyin-pro 汉字拼音转换工具(支持获取汉字、词语、句子的拼音、音调、声母、韵母多种形式)
 
+[![NPM version](https://img.shields.io/npm/v/pinyin-pro.svg)](https://www.npmjs.com/package/pinyin-pro)
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Linux Build][travis-image]][travis-url]
+[![Windows Build][appveyor-image]][appveyor-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+
 汉字拼音转换工具，支持获取汉字、词语、句子等多种内容的拼音、音调、声母、韵母等，支持繁体和简体字。通过高效的算法和丰富的字词库，保证体积轻量的同时识别准确率很高。
 
 ## 版本更新文档
 
-当前版本： 3.0.0 -> 3.0.1
+当前版本： 3.0.1 -> 3.0.2
 
-- 修复没有 index.d.ts 类型指向的问题
+- 优化 npm 包质量
 
 [版本更新文档](./docs/versions.md)
 
