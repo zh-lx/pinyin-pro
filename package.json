@@ -9,7 +9,8 @@
     "build": "rollup -c",
     "commit": "git-cz",
     "coverage": "istanbul cover _mocha -- -R spec --timeout 15000 --recursive",
-    "coverage:check": "istanbul check-coverage"
+    "coverage:check": "istanbul check-coverage",
+    "cover": "istanbul cover --report lcov node_modules/mocha/bin/_mocha -- -R spec test/*.js"
   },
   "repository": {
     "type": "git",
