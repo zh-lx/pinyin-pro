@@ -6,10 +6,10 @@ require('@babel/register')({
   extensions: ['.ts'],
 });
 
-const { pinyin } = require('../lib/index');
+const { pinyin } = require('../dist/index');
 const expect = require('chai').expect;
 
-describe('lib', () => {
+describe('aggregate', () => {
   it('test1', () => {
     const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'num' });
     expect(result).to.be.equal('4 3 1 1');
@@ -84,93 +84,46 @@ describe('lib', () => {
     });
     expect(result).to.deep.equal(['ao3', 'ao4']);
   });
+});
 
-  it('test11', () => {
-    const result = pinyin('汉语拼音', { multiple: true });
-    expect(result).to.be.equal('hàn yǔ pīn yīn');
-  });
-
-  it('test12', () => {
-    const result = pinyin('好', { multiple: true });
-    expect(result).to.be.equal('hǎo hào');
-  });
-
-  it('test13', () => {
-    const result = pinyin('汉语拼音', { multiple: true, type: 'array' });
-    expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
-  });
-
-  it('test14', () => {
-    const result = pinyin('好', { multiple: true, type: 'array' });
-    expect(result).to.deep.equal(['hǎo', 'hào']);
-  });
-  it('test15', () => {
-    const result = pinyin('汉语拼音', { pattern: 'num' });
-    expect(result).to.be.equal('4 3 1 1');
-  });
-
-  it('test16', () => {
-    const result = pinyin('汉语拼音', { pattern: 'num', type: 'array' });
-    expect(result).to.deep.equal(['4', '3', '1', '1']);
-  });
-
-  it('test17', () => {
-    const result = pinyin('汉语拼音', { pattern: 'final' });
-    expect(result).to.be.equal('àn ǔ īn īn');
-  });
-
-  it('test18', () => {
-    const result = pinyin('汉语拼音', { pattern: 'final', type: 'array' });
-    expect(result).to.deep.equal(['àn', 'ǔ', 'īn', 'īn']);
-  });
-
-  it('test19', () => {
-    const result = pinyin('汉语拼音', { pattern: 'initial' });
-    expect(result).to.be.equal('h y p y');
-  });
-
-  it('test20', () => {
-    const result = pinyin('汉语拼音', { pattern: 'initial', type: 'array' });
-    expect(result).to.deep.equal(['h', 'y', 'p', 'y']);
-  });
-
-  it('test21', () => {
+describe('boundary', () => {
+  it('test1', () => {
     const result = pinyin('汉语拼音');
     expect(result).to.be.equal('hàn yǔ pīn yīn');
   });
 
-  it('test22', () => {
+  it('test2', () => {
     const result = pinyin('汉语拼音xxx.,');
     expect(result).to.be.equal('hàn yǔ pīn yīn xxx.,');
   });
 
-  it('test23', () => {
+  it('test3', () => {
     const result = pinyin('汉语拼音', { type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
   });
 
-  it('test24', () => {
+  it('test4', () => {
     const result = pinyin('汉语拼音xxx.,', { type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn', 'xxx.,']);
   });
 
-  it('test25', () => {
+  it('test5', () => {
     const result = pinyin('');
     expect(result).to.be.equal('');
   });
 
-  it('test26', () => {
+  it('test6', () => {
     const result = pinyin('', { type: 'array' });
     expect(result).to.deep.equal([]);
   });
 
-  it('test27', () => {
-    const result = pinyin('哈发生你看三零四aaa');
-    expect(result).to.be.equal('hā fā shēng nǐ kàn sān líng sì aaa');
+  it('test7', () => {
+    const result = pinyin('哈发生你看三零四');
+    expect(result).to.be.equal('hā fā shēng nǐ kàn sān líng sì');
   });
 
-  it('test28', () => {
-    const result = pinyin('哈发生你看三零四aaa', { type: 'array' });
+  it('test8', () => {
+    const result = pinyin('哈发生你看三零四', { type: 'array' });
     expect(result).to.deep.equal([
       'hā',
       'fā',
@@ -180,36 +133,91 @@ describe('lib', () => {
       'sān',
       'líng',
       'sì',
-      'aaa',
     ]);
   });
+});
 
-  it('test29', () => {
+describe('multiple', () => {
+  it('word', () => {
+    const result = pinyin('汉语拼音', { multiple: true });
+    expect(result).to.be.equal('hàn yǔ pīn yīn');
+  });
+
+  it('single', () => {
+    const result = pinyin('好', { multiple: true });
+    expect(result).to.be.equal('hǎo hào');
+  });
+
+  it('word-array', () => {
+    const result = pinyin('汉语拼音', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
+  });
+
+  it('single-array', () => {
+    const result = pinyin('好', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['hǎo', 'hào']);
+  });
+});
+
+describe('pattern', () => {
+  it('num', () => {
+    const result = pinyin('汉语拼音', { pattern: 'num' });
+    expect(result).to.be.equal('4 3 1 1');
+  });
+
+  it('num-array', () => {
+    const result = pinyin('汉语拼音', { pattern: 'num', type: 'array' });
+    expect(result).to.deep.equal(['4', '3', '1', '1']);
+  });
+
+  it('final', () => {
+    const result = pinyin('汉语拼音', { pattern: 'final' });
+    expect(result).to.be.equal('àn ǔ īn īn');
+  });
+
+  it('final-array', () => {
+    const result = pinyin('汉语拼音', { pattern: 'final', type: 'array' });
+    expect(result).to.deep.equal(['àn', 'ǔ', 'īn', 'īn']);
+  });
+
+  it('initial', () => {
+    const result = pinyin('汉语拼音', { pattern: 'initial' });
+    expect(result).to.be.equal('h y p y');
+  });
+
+  it('initial-array', () => {
+    const result = pinyin('汉语拼音', { pattern: 'initial', type: 'array' });
+    expect(result).to.deep.equal(['h', 'y', 'p', 'y']);
+  });
+});
+
+describe('toneType', () => {
+  it('num', () => {
     const result = pinyin('汉语拼音', { toneType: 'num' });
     expect(result).to.be.equal('han4 yu3 pin1 yin1');
   });
 
-  it('test30', () => {
+  it('num-array', () => {
     const result = pinyin('汉语拼音', { toneType: 'num', type: 'array' });
     expect(result).to.deep.equal(['han4', 'yu3', 'pin1', 'yin1']);
   });
 
-  it('test31', () => {
+  it('none', () => {
     const result = pinyin('汉语拼音', { toneType: 'none' });
     expect(result).to.be.equal('han yu pin yin');
   });
 
-  it('test32', () => {
+  it('none-array', () => {
     const result = pinyin('汉语拼音', { toneType: 'none', type: 'array' });
     expect(result).to.deep.equal(['han', 'yu', 'pin', 'yin']);
   });
 
-  it('test33', () => {
+  it('symbol', () => {
     const result = pinyin('汉语拼音', { toneType: 'symbol' });
     expect(result).to.be.equal('hàn yǔ pīn yīn');
   });
 
-  it('test34', () => {
+  it('symbol-array', () => {
     const result = pinyin('汉语拼音', { toneType: 'symbol', type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
   });
