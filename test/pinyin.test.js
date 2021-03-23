@@ -32,7 +32,7 @@ describe('pinyinFn', () => {
       pattern: 'num',
       type: 'array',
     });
-    expect(resultNumArr).to.deep.equal([4, 2, 1, 3, 0]);
+    expect(resultNumArr).to.deep.equal(['4', '2', '1', '3', '0']);
 
     const resultInitial = pinyin('赵钱孙李吧', {
       pattern: 'initial',

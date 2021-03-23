@@ -1,12 +1,4 @@
-require('@babel/register')({
-  presets: [
-    ['@babel/preset-env', { modules: 'commonjs' }],
-    ['@babel/preset-typescript'],
-  ],
-  extensions: ['.ts'],
-});
-
-const { pinyin } = require('../lib/index');
+const { pinyin } = require('../dist/index');
 const expect = require('chai').expect;
 
 describe('getPinyin', () => {
