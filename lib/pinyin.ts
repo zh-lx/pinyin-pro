@@ -33,7 +33,7 @@ const pinyinFn: PinyinFn = (word, options) => {
   options = { ...DEFAULT_OPTIONS, ...options };
   // word传入类型错误时
   if (typeof word !== 'string') {
-    throw Error('The parameter word should be of string type!');
+    return word;
   }
   // 传入空字符串
   if (word === '') {

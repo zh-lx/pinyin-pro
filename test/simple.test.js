@@ -51,4 +51,9 @@ describe('simple-test', () => {
       'aaa',
     ]);
   });
+
+  it('test9', () => {
+    const result = pinyin(2222);
+    expect(result).to.be.equal(2222);
+  });
 });
