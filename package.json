@@ -44,6 +44,7 @@
     "@types/jest": "^26.0.20",
     "chai": "^4.3.4",
     "commitizen": "^4.2.2",
+    "coveralls": "^3.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^8.3.2",
     "rollup": "^2.42.1",
