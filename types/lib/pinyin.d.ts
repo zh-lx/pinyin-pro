@@ -1,9 +1,8 @@
-interface Options {
+declare type PinyinFn = (word: string, options?: {
     toneType?: 'symbol' | 'num' | 'none';
     pattern?: 'pinyin' | 'initial' | 'final' | 'num';
     type?: 'string' | 'array';
     multiple?: boolean;
-}
-declare type PinyinFn = (word: string, options?: Options) => string | string[];
+}) => string | string[];
 declare const pinyinFn: PinyinFn;
 export { pinyinFn };
