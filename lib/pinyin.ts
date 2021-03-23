@@ -7,20 +7,27 @@ import {
   getPinyinWithNum,
 } from './handle';
 
-const DEFAULT_OPTIONS: Options = {
+const DEFAULT_OPTIONS: {
+  toneType?: 'symbol' | 'num' | 'none';
+  pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+  type?: 'string' | 'array';
+  multiple?: boolean;
+} = {
   pattern: 'pinyin',
   toneType: 'symbol',
   type: 'string',
   multiple: false,
 };
-interface Options {
-  toneType?: 'symbol' | 'num' | 'none';
-  pattern?: 'pinyin' | 'initial' | 'final' | 'num';
-  type?: 'string' | 'array';
-  multiple?: boolean;
-}
 
-type PinyinFn = (word: string, options?: Options) => string | string[];
+type PinyinFn = (
+  word: string,
+  options?: {
+    toneType?: 'symbol' | 'num' | 'none';
+    pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+    type?: 'string' | 'array';
+    multiple?: boolean;
+  }
+) => string | string[];
 
 const pinyinFn: PinyinFn = (word, options) => {
   options = { ...DEFAULT_OPTIONS, ...options };
