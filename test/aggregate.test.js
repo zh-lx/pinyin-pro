@@ -1,76 +1,79 @@
 const { pinyin } = require('../dist/index');
+const expect = require('chai').expect;
 
-test('aggregate1', () => {
-  const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'num' });
-  expect(result).toBe('4 3 1 1');
-});
-
-test('aggregate2', () => {
-  const result = pinyin('汉语拼音', {
-    pattern: 'num',
-    toneType: 'num',
-    type: 'array',
+describe('aggregate', () => {
+  it('test1', () => {
+    const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'num' });
+    expect(result).to.be.equal('4 3 1 1');
   });
-  expect(result).toStrictEqual(['4', '3', '1', '1']);
-});
 
-test('aggregate3', () => {
-  const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'none' });
-  expect(result).toBe('4 3 1 1');
-});
-
-test('aggregate4', () => {
-  const result = pinyin('汉语拼音', {
-    pattern: 'num',
-    toneType: 'none',
-    type: 'array',
+  it('test2', () => {
+    const result = pinyin('汉语拼音', {
+      pattern: 'num',
+      toneType: 'num',
+      type: 'array',
+    });
+    expect(result).to.deep.equal(['4', '3', '1', '1']);
   });
-  expect(result).toStrictEqual(['4', '3', '1', '1']);
-});
 
-test('aggregate5', () => {
-  const result = pinyin('汉语拼音', { pattern: 'initial', toneType: 'num' });
-  expect(result).toBe('h y p y');
-});
-
-test('aggregate6', () => {
-  const result = pinyin('汉语拼音', {
-    pattern: 'initial',
-    toneType: 'num',
-    type: 'array',
+  it('test3', () => {
+    const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'none' });
+    expect(result).to.be.equal('4 3 1 1');
   });
-  expect(result).toStrictEqual(['h', 'y', 'p', 'y']);
-});
 
-test('aggregate7', () => {
-  const result = pinyin('汉语拼音', { pattern: 'final', toneType: 'num' });
-  expect(result).toBe('an4 u3 in1 in1');
-});
-
-test('aggregate8', () => {
-  const result = pinyin('汉语拼音', {
-    pattern: 'final',
-    toneType: 'num',
-    type: 'array',
+  it('test4', () => {
+    const result = pinyin('汉语拼音', {
+      pattern: 'num',
+      toneType: 'none',
+      type: 'array',
+    });
+    expect(result).to.deep.equal(['4', '3', '1', '1']);
   });
-  expect(result).toStrictEqual(['an4', 'u3', 'in1', 'in1']);
-});
 
-test('aggregate9', () => {
-  const result = pinyin('好', {
-    pattern: 'final',
-    toneType: 'num',
-    multiple: true,
+  it('test5', () => {
+    const result = pinyin('汉语拼音', { pattern: 'initial', toneType: 'num' });
+    expect(result).to.be.equal('h y p y');
   });
-  expect(result).toBe('ao3 ao4');
-});
 
-test('aggregate10', () => {
-  const result = pinyin('好', {
-    pattern: 'final',
-    toneType: 'num',
-    multiple: true,
-    type: 'array',
+  it('test6', () => {
+    const result = pinyin('汉语拼音', {
+      pattern: 'initial',
+      toneType: 'num',
+      type: 'array',
+    });
+    expect(result).to.deep.equal(['h', 'y', 'p', 'y']);
   });
-  expect(result).toStrictEqual(['ao3', 'ao4']);
+
+  it('test7', () => {
+    const result = pinyin('汉语拼音', { pattern: 'final', toneType: 'num' });
+    expect(result).to.be.equal('an4 u3 in1 in1');
+  });
+
+  it('test8', () => {
+    const result = pinyin('汉语拼音', {
+      pattern: 'final',
+      toneType: 'num',
+      type: 'array',
+    });
+    expect(result).to.deep.equal(['an4', 'u3', 'in1', 'in1']);
+  });
+
+  it('test9', () => {
+    const result = pinyin('好', {
+      pattern: 'final',
+      toneType: 'num',
+      multiple: true,
+    });
+    expect(result).to.be.equal('ao3 ao4');
+  });
+
+  it('test10', () => {
+    const result = pinyin('好', {
+      pattern: 'final',
+      toneType: 'num',
+      multiple: true,
+      type: 'array',
+    });
+    expect(result).to.deep.equal(['ao3', 'ao4']);
+  });
 });

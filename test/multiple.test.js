@@ -1,22 +1,24 @@
-// @ts-ignore
 const { pinyin } = require('../dist/index');
+const expect = require('chai').expect;
 
-test('multiple-word', () => {
-  const result = pinyin('汉语拼音', { multiple: true });
-  expect(result).toBe('hàn yǔ pīn yīn');
-});
+describe('multiple', () => {
+  it('word', () => {
+    const result = pinyin('汉语拼音', { multiple: true });
+    expect(result).to.be.equal('hàn yǔ pīn yīn');
+  });
 
-test('multiple-single', () => {
-  const result = pinyin('好', { multiple: true });
-  expect(result).toBe('hǎo hào');
-});
+  it('single', () => {
+    const result = pinyin('好', { multiple: true });
+    expect(result).to.be.equal('hǎo hào');
+  });
 
-test('multiple-word-array', () => {
-  const result = pinyin('汉语拼音', { multiple: true, type: 'array' });
-  expect(result).toStrictEqual(['hàn', 'yǔ', 'pīn', 'yīn']);
-});
+  it('word-array', () => {
+    const result = pinyin('汉语拼音', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
+  });
 
-test('multiple-single-array', () => {
-  const result = pinyin('好', { multiple: true, type: 'array' });
-  expect(result).toStrictEqual(['hǎo', 'hào']);
+  it('single-array', () => {
+    const result = pinyin('好', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['hǎo', 'hào']);
+  });
 });
