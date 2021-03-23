@@ -29,8 +29,7 @@ type PinyinFn = (
   }
 ) => string | string[];
 
-const pinyinFn: PinyinFn = (word, options) => {
-  options = { ...DEFAULT_OPTIONS, ...options };
+const pinyinFn: PinyinFn = (word, options = DEFAULT_OPTIONS) => {
   // word传入类型错误时
   if (typeof word !== 'string') {
     return word;

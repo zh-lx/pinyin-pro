@@ -62,7 +62,7 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
 
 type GetMultipleTone = (word: string) => string;
 const getMultipleTone: GetMultipleTone = (word) => {
-  return word.length === 1 ? DICT1[word] : DICT1[word[0]];
+  return DICT1[word];
 };
 
 type GetInitialAndFinal = (
