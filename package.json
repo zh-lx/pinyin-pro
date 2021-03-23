@@ -1,6 +1,6 @@
 {
   "name": "pinyin-pro",
-  "version": "3.0.2",
+  "version": "3.0.3-alpha.0",
   "description": "汉字转拼音库。获取汉字、词语、句子等内容的拼音、韵母、声母、声调等信息。",
   "main": "./dist/index.js",
   "typings": "./types/lib/index.d.ts",
@@ -18,10 +18,10 @@
   },
   "keywords": [
     "拼音",
-    "转化",
     "pinyin",
-    "chinese",
-    "汉语",
+    "汉字",
+    "中文",
+    "首字母",
     "韵母",
     "声母",
     "音调"
@@ -33,10 +33,6 @@
   },
   "homepage": "https://github.com/zh-lx/pinyin-pro#readme",
   "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/preset-typescript": "^7.13.0",
-    "@babel/register": "^7.13.8",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@rollup/plugin-commonjs": "^17.1.0",
@@ -46,6 +42,7 @@
     "chai": "^4.3.4",
     "commitizen": "^4.2.2",
     "coveralls": "^3.1.0",
+    "eslint": "^7.22.0",
     "istanbul": "^0.4.5",
     "mocha": "^8.3.2",
     "rollup": "^2.42.1",
