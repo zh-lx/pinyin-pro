@@ -1,6 +1,18 @@
+## 3.0.5
+
+- 优化 README.md 文档二维码大小
+
+## 3.0.4
+
+- README.md 增加二维码
+
+## 3.0.3
+
+- 增加 eslintrc
+
 ## 3.0.2
 
-- 优化 npm 包质量和 readme
+- 优化 npm 包质量和 README.md
 
 ## 3.0.1
 
@@ -24,8 +36,8 @@
 
 ## 1.2.4
 
-- 修改 readme 中获取多音字汉字全部拼音的参数 multitone 的错误，修正为 multiple。
-- 完善 readme 文档
+- 修改 README.md 中获取多音字汉字全部拼音的参数 multitone 的错误，修正为 multiple。
+- 完善 README.md 文档
 
 ## 1.2.3
 
