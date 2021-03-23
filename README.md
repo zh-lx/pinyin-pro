@@ -23,7 +23,7 @@ pinyin-pro —— 专业的汉字拼音转换工具
 
 当前版本： 3.0.3 -> 3.0.4
 
-- 优化了 npm 包质量和 readme
+- 添加 readme 联系方式
 
 点击查看 [版本更新文档](./docs/versions.md)
 
