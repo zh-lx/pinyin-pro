@@ -129,4 +129,5 @@ pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 使用遇到问题或者需要功能支持欢迎提 issue。
 
 交流及参与贡献欢迎加微信：
-![wechat](https://i.ibb.co/n12J13x/QQ-20210323221842.jpg)
+
+![wechat](https://i.ibb.co/n12J13x/QQ-20210323221842.jpg){:height="150px" width="150px"}
