@@ -21,7 +21,7 @@ pinyin-pro —— 专业的汉字拼音转换工具
 
 ## 版本更新
 
-当前版本： 3.0.1 -> 3.0.2
+当前版本： 3.0.3 -> 3.0.4
 
 - 优化了 npm 包质量和 readme
 
@@ -129,4 +129,4 @@ pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 使用遇到问题或者需要功能支持欢迎提 issue。
 
 交流及参与贡献欢迎加微信：
-zhoulx1688888
+![wechat](https://i.ibb.co/n12J13x/QQ-20210323221842.jpg)
