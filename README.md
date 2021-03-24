@@ -25,7 +25,7 @@ pinyin-pro —— 专业的汉字拼音转换工具
 
 - 优化 README.md 文档二维码大小
 
-点击查看 [版本更新文档](./docs/versions.md)
+点击查看 [版本更新文档](./CHANGELOG.md)
 
 ## 安装
 
