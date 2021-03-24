@@ -21,9 +21,9 @@ pinyin-pro —— 专业的汉字拼音转换工具
 
 ## 版本更新
 
-当前版本： 3.0.4 -> 3.0.5
+当前版本： 3.0.5 -> 3.0.6
 
-- 优化 README.md 文档二维码大小
+- 修复 readme 中版本更新文档无法访问的问题
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -130,4 +130,4 @@ pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 
 交流及参与贡献欢迎加微信：
 
-<img src="https://i.ibb.co/n12J13x/QQ-20210323221842.jpg" width = "150" height = "150" div />
+![wechat](https://i.ibb.co/VYXW19H/QQ-20210323221842.jpg)
