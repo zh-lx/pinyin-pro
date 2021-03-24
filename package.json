@@ -1,6 +1,6 @@
 {
   "name": "pinyin-pro",
-  "version": "3.0.5",
+  "version": "3.0.6-alpha.1",
   "description": "汉字转拼音库。获取汉字、词语、句子等内容的拼音、韵母、声母、声调等信息。",
   "main": "./dist/index.js",
   "typings": "./types/lib/index.d.ts",
@@ -10,7 +10,8 @@
     "commit": "git-cz",
     "coverage": "istanbul cover _mocha -- -R spec --timeout 15000 --recursive",
     "coverage:check": "istanbul check-coverage",
-    "cover": "istanbul cover --report lcov node_modules/mocha/bin/_mocha -- -R spec test/*.js"
+    "cover": "istanbul cover --report lcov node_modules/mocha/bin/_mocha -- -R spec test/*.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -55,5 +56,6 @@
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "readme": "README.md"
 }
