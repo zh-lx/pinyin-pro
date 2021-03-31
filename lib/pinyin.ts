@@ -5,6 +5,7 @@ import {
   getInitialAndFinal,
   getNumOfTone,
   getPinyinWithNum,
+  getFirstLetter,
 } from './handle';
 
 const DEFAULT_OPTIONS: {
