@@ -10,7 +10,7 @@ import {
 
 const DEFAULT_OPTIONS: {
   toneType?: 'symbol' | 'num' | 'none';
-  pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+  pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
   type?: 'string' | 'array';
   multiple?: boolean;
 } = {
@@ -24,7 +24,7 @@ type PinyinFn = (
   word: string,
   options?: {
     toneType?: 'symbol' | 'num' | 'none';
-    pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+    pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
     type?: 'string' | 'array';
     multiple?: boolean;
   }
@@ -57,6 +57,9 @@ const pinyinFn: PinyinFn = (word, options = DEFAULT_OPTIONS) => {
       break;
     case 'final':
       pinyin = getInitialAndFinal(pinyin).final;
+      break;
+    case 'first':
+      pinyin = getFirstLetter(pinyin);
       break;
     default:
       break;
