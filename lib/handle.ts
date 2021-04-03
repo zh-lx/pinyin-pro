@@ -126,6 +126,16 @@ const getPinyinWithNum: GetPinyinWithNum = (pinyin) => {
   return res_arr.join(' ');
 };
 
+type GetFirstLetter = (pinyin: string) => string;
+const getFirstLetter: GetFirstLetter = (pinyin) => {
+  const first_letter_arr: string[] = [];
+  const pinyin_arr = pinyin.split(' ');
+  pinyin_arr.forEach((pinyin) => {
+    first_letter_arr.push(pinyin[0]);
+  });
+  return first_letter_arr.join(' ');
+};
+
 export {
   getPinyin,
   getPinyinWithoutTone,
@@ -133,4 +143,5 @@ export {
   getMultipleTone,
   getNumOfTone,
   getPinyinWithNum,
+  getFirstLetter,
 };

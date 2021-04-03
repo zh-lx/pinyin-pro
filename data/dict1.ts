@@ -20582,7 +20582,7 @@ export const DICT1: { [prop: string]: string } = {
   晕: 'yūn yùn',
   晃: 'huàng huǎng',
   唉: 'ài āi',
-  啊: 'ā á ǎ à a',
+  啊: 'a ā á ǎ à',
   罢: 'bà ba pí',
   钻: 'zuàn zuān',
   铅: 'qiān yán',
