@@ -1,23 +1,23 @@
-[![pinyin-pro Logo](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/340e213b487e416d932a889a480a7674~tplv-k3u1fbpfcp-zoom-1.image)](https://github.com/zh-lx/pinyin-pro)
+[![pinyin-pro Logo](https://i.ibb.co/26fJ5vF/pinyin-logo.png)](https://github.com/zh-lx/pinyin-pro)
 
-pinyin-pro —— 专业的汉字拼音转换工具
-
-[![NPM version](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/51194c6889fa4586b6ea66034a465059~tplv-k3u1fbpfcp-zoom-1.image)](https://www.npmjs.com/package/pinyin-pro)
-[![GITHUB star](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/37eed68e3e98486880533efe2f3bb878~tplv-k3u1fbpfcp-zoom-1.image)](https://github.com/zh-lx/pinyin-pro)
-[![travis-build](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d09fea63f5b84ae1b4d94a97e0f7bc82~tplv-k3u1fbpfcp-zoom-1.image)](https://travis-ci.com/github/zh-lx/pinyin-pro)
-[![NPM Downloads](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e08cc9f729324cc68c4ce1757c20c91c~tplv-k3u1fbpfcp-zoom-1.image)](https://npmcharts.com/compare/pinyin-pro?minimal=true)
-[![Coverage Status](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/068c150e8b414eb397160044253057db~tplv-k3u1fbpfcp-zoom-1.image)](https://coveralls.io/github/zh-lx/pinyin-pro?branch=main)
-[![MIT-license](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dd06bb6172b44510bed7c9b1ea67f46a~tplv-k3u1fbpfcp-zoom-1.image)](https://opensource.org/licenses/MIT)
-[![GITHUB-language](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/47d5352c2bc944309cd4ec9c651138c2~tplv-k3u1fbpfcp-zoom-1.image)](https://github.com/zh-lx/pinyin-pro)
+[![NPM version](https://img.shields.io/npm/v/pinyin-pro.svg)](https://www.npmjs.com/package/pinyin-pro)
+[![GITHUB star](https://img.shields.io/github/stars/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
+[![travis-build](https://travis-ci.com/zh-lx/pinyin-pro.svg?branch=main)](https://travis-ci.com/github/zh-lx/pinyin-pro)
+[![NPM Downloads](https://img.shields.io/npm/dm/pinyin-pro.svg)](https://npmcharts.com/compare/pinyin-pro?minimal=true)
+[![Coverage Status](https://coveralls.io/repos/github/zh-lx/pinyin-pro/badge.svg?branch=main)](https://coveralls.io/github/zh-lx/pinyin-pro?branch=main)
+[![MIT-license](https://img.shields.io/npm/l/pinyin-pro.svg)](https://opensource.org/licenses/MIT)
+[![GITHUB-language](https://img.shields.io/github/languages/top/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
 
 ## 特色功能
 
-- 支持汉字、词语、句子等多种格式的拼音、声母、韵母、音调等多种转换形式
-- 支持多音字，词语句子智能获取读音
-- 支持繁体字和简体字
-- 支持字符串和数组两种输出格式
-- 通过高效的算法，有效加快查找速度
-- 对包体积进行了优化，保证识别准确的同时体积轻便
+- 支持汉字、词语、句子多种格式输入获取
+- 获取拼音
+- 获取声母
+- 获取韵母
+- 获取拼音首字母
+- 获取音调
+- 获取多音字的多种拼音
+- 支持字符串和数组两种输出形式
 
 ## 版本更新
 
@@ -162,4 +162,4 @@ pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 
 交流及参与贡献欢迎加微信：
 
-![wechat](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfdb0fa475e04407a8582d0bd185b69c~tplv-k3u1fbpfcp-zoom-1.image)
+![wechat](https://i.ibb.co/VYXW19H/QQ-20210323221842.jpg)
