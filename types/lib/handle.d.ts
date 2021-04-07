@@ -13,4 +13,6 @@ declare type GetNumOfTone = (pinyin: string) => string;
 declare const getNumOfTone: GetNumOfTone;
 declare type GetPinyinWithNum = (pinyin: string) => string;
 declare const getPinyinWithNum: GetPinyinWithNum;
-export { getPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, };
+declare type GetFirstLetter = (pinyin: string) => string;
+declare const getFirstLetter: GetFirstLetter;
+export { getPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, getFirstLetter, };

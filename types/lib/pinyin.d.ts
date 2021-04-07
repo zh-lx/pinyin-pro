@@ -1,6 +1,6 @@
 declare type PinyinFn = (word: string, options?: {
     toneType?: 'symbol' | 'num' | 'none';
-    pattern?: 'pinyin' | 'initial' | 'final' | 'num';
+    pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
     type?: 'string' | 'array';
     multiple?: boolean;
 }) => string | string[];
