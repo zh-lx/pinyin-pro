@@ -1,7 +1,5 @@
 [![pinyin-pro Logo](https://i.ibb.co/26fJ5vF/pinyin-logo.png)](https://github.com/zh-lx/pinyin-pro)
 
-pinyin-pro —— 专业的汉字拼音转换工具
-
 [![NPM version](https://img.shields.io/npm/v/pinyin-pro.svg)](https://www.npmjs.com/package/pinyin-pro)
 [![GITHUB star](https://img.shields.io/github/stars/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
 [![travis-build](https://travis-ci.com/zh-lx/pinyin-pro.svg?branch=main)](https://travis-ci.com/github/zh-lx/pinyin-pro)
@@ -12,18 +10,21 @@ pinyin-pro —— 专业的汉字拼音转换工具
 
 ## 特色功能
 
-- 支持汉字、词语、句子等多种格式的拼音、声母、韵母、音调等多种转换形式
-- 支持多音字，词语句子智能获取读音
-- 支持繁体字和简体字
-- 支持字符串和数组两种输出格式
-- 通过高效的算法，有效加快查找速度
-- 对包体积进行了优化，保证识别准确的同时体积轻便
+- 支持汉字、词语、句子多种格式输入获取
+- 获取拼音
+- 获取声母
+- 获取韵母
+- 获取拼音首字母
+- 获取音调
+- 获取多音字的多种拼音
+- 支持字符串和数组两种输出形式
 
 ## 版本更新
 
-当前版本： 3.0.6 -> 3.0.7
+当前版本： 3.0.7 -> 3.1.0
 
-- package.json 中去掉 readme 选项
+- 增加获取拼音首字母功能
+- 修复 readme 中音调形式参数 toneType 错写成了 tone 的错误
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -43,13 +44,13 @@ yarn add pinyin-pro
 
 ## 引入
 
-浏览器端：
+ES6 引入：
 
 ```javascript
 import { pinyin } from 'pinyin-pro';
 ```
 
-node 端：
+commonjs 引入：
 
 ```javascript
 const { pinyin } = require('pinyin-pro');
@@ -62,57 +63,86 @@ const { pinyin } = require('pinyin-pro');
 - <b>word：</b>必填。String 类型，需要转化为拼音的中文
 - <b>options：</b>可选。Object 类型，用于配置各种输出形式，options 的键值配置如下：
 
-| 参数     | 说明                                                          | 类型    | 可选值                         | 默认值 |
-| -------- | ------------------------------------------------------------- | ------- | ------------------------------ | ------ |
-| pattern  | 输出的结果的信息（拼音 / 声母 / 韵母 / 音调）                 | string  | pinyin / initial / final / num | pinyin |
-| tone     | 音调输出形式(拼音符号 / 数字 / 不加音调)                      | string  | symbol / num / none            | symbol |
-| type     | 输出结果类型（字符串/数组）                                   | string  | string / array                 | string |
-| multiple | 输出多音字全部拼音（仅在 word 为长度为 1 的汉字字符串时生效） | boolean | true / false                   | false  |
+| 参数     | 说明                                                          | 类型    | 可选值                                 | 默认值 |
+| -------- | ------------------------------------------------------------- | ------- | -------------------------------------- | ------ |
+| pattern  | 输出的结果的信息（拼音 / 声母 / 韵母 / 音调 / 首字母）        | string  | pinyin / initial / final / num / first | pinyin |
+| toneType | 音调输出形式(拼音符号 / 数字 / 不加音调)                      | string  | symbol / num / none                    | symbol |
+| type     | 输出结果类型（字符串/数组）                                   | string  | string / array                         | string |
+| multiple | 输出多音字全部拼音（仅在 word 为长度为 1 的汉字字符串时生效） | boolean | true / false                           | false  |
 
-## 使用
+## 使用示例
 
-### 基本用法
+### 获取拼音
 
-```javascript
-import { pinyin } from 'pinyin-pro'; // 若为node环境请用require形式引入
-
+```js
 // 获取带音调拼音
 pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 // 获取不带声调的拼音
 pinyin('汉语拼音', { toneType: 'none' }); // 'han yu pin yin'
 // 获取声调转换为数字后缀的拼音
 pinyin('汉语拼音', { toneType: 'num' }); // 'han4 yu3 pin1 yin1'
+// 获取数组形式带音调拼音
+pinyin('汉语拼音', { type: 'array' }); // ["hàn", "yǔ", "pīn", "yīn"]
+// 获取数组形式不带声调的拼音
+pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "pin", "yin"]
+// 获取数组形式声调转换为数字后缀的拼音
+pinyin('汉语拼音', { toneType: 'num', type: 'array' }); // ["han4", "yu3", "pin1", "yin1"]
+```
+
+### 获取声母
+
+```js
+import { pinyin } from 'pinyin-pro';
+
 // 获取声母
 pinyin('汉语拼音', { pattern: 'initial' }); // 'h y p y'
+// 获取数组形式声母
+pinyin('汉语拼音', { pattern: 'initial', type: 'array' }); // ["h", "y", "p", "y"]
+```
+
+### 获取韵母
+
+```js
+import { pinyin } from 'pinyin-pro';
+
 // 获取带音调韵母
 pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
 // 获取不带音调韵母
 pinyin('汉语拼音', { pattern: 'final', toneType: 'none' }); // 'an u in in'
 // 获取音调为数字的韵母
 pinyin('汉语拼音', { pattern: 'final', toneType: 'num' }); // 'an4 u3 in1 in1'
-// 获取音调
-pinyin('汉语拼音', { pattern: 'num' }); // '4 3 1 1'
+// 获取数组形式带音调韵母
+pinyin('汉语拼音', { pattern: 'final', type: 'array' }); // ["àn", "ǔ", "īn", "īn"]
+// 获取数组形式不带音调韵母
+pinyin('汉语拼音', { pattern: 'final', toneType: 'none', type: 'array' }); // ["an", "u", "in", "in"]
+// 获取数组形式音调为数字的韵母
+pinyin('汉语拼音', { pattern: 'final', toneType: 'num', type: 'array' }); // ['an4', 'u3', 'in1', 'in1']
 ```
 
-### 结果输出为数组格式
+### 获取音调
 
-通过在 options 参数中加入`type: 'array'`，可以以数组形式输出基本用法中的示例:
+```js
+import { pinyin } from 'pinyin-pro';
 
-```javascript
-// 获取带音调拼音
-pinyin('汉语拼音', { type: 'array' }); // ["hàn", "yǔ", "pīn", "yīn"]
-// 获取不带声调的拼音
-pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "pin", "yin"]
-// 获取声调转换为数字后缀的拼音
-pinyin('汉语拼音', { toneType: 'num', type: 'array' }); // ["han4", "yu3", "pin1", "yin1"]
-// 获取声母
-pinyin('汉语拼音', { pattern: 'initial', type: 'array' }); // ["h", "y", "p", "y"]
-// 获取带音调韵母
-pinyin('汉语拼音', { pattern: 'final', type: 'array' }); // ["àn", "ǔ", "īn", "īn"]
-// 获取不带音调韵母
-pinyin('汉语拼音', { pattern: 'final', toneType: 'none', type: 'array' }); // ["an", "u", "in", "in"]
 // 获取音调
+pinyin('汉语拼音', { pattern: 'num' }); // '4 3 1 1'
+// 获取数组形式音调
 pinyin('汉语拼音', { pattern: 'num', type: 'array' }); // ["4", "3", "1", "1"]
+```
+
+### 获取拼音首字母
+
+```js
+import { pinyin } from 'pinyin-pro';
+
+// 获取拼音首字母
+pinyin('赵钱孙李额', { pattern: 'first' }); // 'z q s l é'
+// 获取不带音调拼音首字母
+pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none' }); // 'z q s l e'
+// 获取数组形式拼音首字母
+pinyin('赵钱孙李额', { pattern: 'first', type: 'array' }); // ['z', 'q', 's', 'l', 'é']
+// 获取数组形式不带音调拼音首字母
+pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none'， type: 'array' }); // ['z', 'q', 's', 'l', 'e']
 ```
 
 ### 获取单个字的多音
@@ -120,7 +150,9 @@ pinyin('汉语拼音', { pattern: 'num', type: 'array' }); // ["4", "3", "1", "1
 只有单字可以获取到多音模式, 词语、句子无效。同样可以通过配置 options 选项获取数组形式、韵母等格式
 
 ```javascript
+// 获取多音
 pinyin('好', { multiple: true }); // 'hǎo hào'
+// 获取数组形式多音
 pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 ```
 

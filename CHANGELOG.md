@@ -1,3 +1,8 @@
+## 3.1.0
+
+- 增加获取拼音首字母功能
+- 修复 readme 中音调形式参数 toneType 错写成了 tone 的错误
+
 ## 3.0.7
 
 - package.json 中去掉 readme 选项

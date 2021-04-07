@@ -43,6 +43,17 @@ describe('pinyinFn', () => {
       pattern: 'final',
     });
     expect(resultFinal).to.be.equal('ào ián ūn ǐ a');
+
+    const resultFirst = pinyin('赵钱孙李额', {
+      pattern: 'first',
+    });
+    expect(resultFirst).to.be.equal('z q s l é');
+
+    const resultFirst2 = pinyin('赵钱孙李额', {
+      pattern: 'first',
+      toneType: 'none',
+    });
+    expect(resultFirst2).to.be.equal('z q s l e');
   });
 
   it('toneType', () => {
