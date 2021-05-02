@@ -28,6 +28,12 @@ module.exports = {
       format: 'cjs',
       sourcemap: false,
     },
+    {
+      exports: 'auto',
+      file: path.resolve(__dirname, './dist/pinyin-pro.js'),
+      format: 'umd',
+      name: 'pinyinPro',
+    },
   ],
   plugins,
 };
