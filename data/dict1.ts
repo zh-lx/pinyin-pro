@@ -20456,7 +20456,7 @@ export const DICT1: { [prop: string]: string } = {
   识: 'shí zhì',
   尿: 'niào suī',
   尾: 'wěi yǐ',
-  阿: 'ē ā',
+  阿: 'ā ē',
   劲: 'jìn jìng',
   纵: 'zòng zǒng',
   纹: 'wén wèn',
