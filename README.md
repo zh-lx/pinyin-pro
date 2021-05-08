@@ -21,10 +21,13 @@
 
 ## 版本更新
 
-当前版本： 3.0.7 -> 3.1.0
+当前版本： 3.1.0 -> 3.2.0
 
-- 增加获取拼音首字母功能
-- 修复 readme 中音调形式参数 toneType 错写成了 tone 的错误
+- 根据单字的使用频率调整字典顺序，性能大幅提升，长句的转换时间只需之前版本 50% 左右的时间
+- 修复部分单字的常用读音<br>
+  - 啊: ā -> a
+  - 阿: ē -> ā
+- 增加浏览器中 script 的引入方式
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -44,16 +47,28 @@ yarn add pinyin-pro
 
 ## 引入
 
-ES6 引入：
+浏览器 script 引入:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@3.2.0/dist/pinyin-pro.js"></script>
+<script>
+  var { pinyin } = pinyinPro;
+  pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
+</script>
+```
+
+ESModule 引入：
 
 ```javascript
 import { pinyin } from 'pinyin-pro';
+pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 ```
 
 commonjs 引入：
 
 ```javascript
 const { pinyin } = require('pinyin-pro');
+pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 ```
 
 ## 参数
@@ -75,6 +90,8 @@ const { pinyin } = require('pinyin-pro');
 ### 获取拼音
 
 ```js
+import { pinyin } from 'pinyin-pro';
+
 // 获取带音调拼音
 pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 // 获取不带声调的拼音
@@ -150,6 +167,8 @@ pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none'， type: 'array' 
 只有单字可以获取到多音模式, 词语、句子无效。同样可以通过配置 options 选项获取数组形式、韵母等格式
 
 ```javascript
+import { pinyin } from 'pinyin-pro';
+
 // 获取多音
 pinyin('好', { multiple: true }); // 'hǎo hào'
 // 获取数组形式多音
