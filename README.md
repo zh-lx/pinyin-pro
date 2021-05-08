@@ -24,9 +24,9 @@
 当前版本： 3.1.0 -> 3.2.0
 
 - 根据单字的使用频率调整字典顺序，性能大幅提升，长句的转换时间只需之前版本 50% 左右的时间
-- 修复部分单字的常用读音
-  啊: ā -> a
-  阿: ē -> ā
+- 修复部分单字的常用读音<br>
+  　啊: ā -> a
+  　阿: ē -> ā
 - 增加浏览器中 script 的引入方式
 
 点击查看 [版本更新文档](./CHANGELOG.md)
@@ -88,6 +88,8 @@ const { pinyin } = require('pinyin-pro');
 ### 获取拼音
 
 ```js
+import { pinyin } from 'pinyin-pro';
+
 // 获取带音调拼音
 pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 // 获取不带声调的拼音
@@ -163,6 +165,8 @@ pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none'， type: 'array' 
 只有单字可以获取到多音模式, 词语、句子无效。同样可以通过配置 options 选项获取数组形式、韵母等格式
 
 ```javascript
+import { pinyin } from 'pinyin-pro';
+
 // 获取多音
 pinyin('好', { multiple: true }); // 'hǎo hào'
 // 获取数组形式多音
