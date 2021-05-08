@@ -25,8 +25,8 @@
 
 - 根据单字的使用频率调整字典顺序，性能大幅提升，长句的转换时间只需之前版本 50% 左右的时间
 - 修复部分单字的常用读音<br>
-  　啊: ā -> a
-  　阿: ē -> ā
+  - 啊: ā -> a
+  - 阿: ē -> ā
 - 增加浏览器中 script 的引入方式
 
 点击查看 [版本更新文档](./CHANGELOG.md)
@@ -61,12 +61,14 @@ ESModule 引入：
 
 ```javascript
 import { pinyin } from 'pinyin-pro';
+pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 ```
 
 commonjs 引入：
 
 ```javascript
 const { pinyin } = require('pinyin-pro');
+pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 ```
 
 ## 参数
