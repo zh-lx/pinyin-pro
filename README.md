@@ -48,7 +48,10 @@ yarn add pinyin-pro
 浏览器 script 引入:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@3.2.0/dist/pinyin-pro.js"></script>
+<!--引入某个版本，如3.2.0版本-->
+<!-- <script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@3.2.0/dist/pinyin-pro.js"></script> -->
+<!--引入最新版本-->
+<script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@latest/dist/pinyin-pro.js"></script>
 <script>
   var { pinyin } = pinyinPro;
   pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
