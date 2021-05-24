@@ -65,9 +65,10 @@ const getMultipleTone: GetMultipleTone = (word) => {
   return DICT1[word];
 };
 
-type GetInitialAndFinal = (
-  pinyin: string
-) => { final: string; initial: string };
+type GetInitialAndFinal = (pinyin: string) => {
+  final: string;
+  initial: string;
+};
 const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
   const pinyin_arr = pinyin.split(' ');
   const initial_arr = [];
