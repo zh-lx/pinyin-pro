@@ -1,6 +1,6 @@
 ## 3.2.2
 
-- 修复 options 为 `{ mutiple: true, type: 'array' }` 时若未找到多音字结果的报错问题
+- 修复 options 为 `{ multiple: true, type: 'array' }` 时若未找到多音字结果的报错问题
 
 ## 3.2.1
 
