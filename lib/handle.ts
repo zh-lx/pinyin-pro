@@ -29,12 +29,12 @@ const getPinyin: GetPinYin = (word, length) => {
     if (index > -1) {
       // 取出该词后左边拼音
       const left_word = word.slice(0, index);
-      const left_pinyin = left_word.length > 0
+      const left_pinyin = left_word
         ? `${getPinyin(left_word, left_word.length)} `
         : '';
       // 取出该词后右边拼音
       const right_word = word.slice(index + key.length);
-      const right_pinyin = right_word.length > 0
+      const right_pinyin = right_word
         ? ` ${getPinyin(right_word, right_word.length)}`
         : '';
       // 取出的词的拼音
