@@ -8,7 +8,7 @@ const dictArr = [DICT1, DICT2, DICT3, DICT4, DICT5];
 
 type GetPinYin = (word: string, length: number) => string;
 const getPinyin: GetPinYin = (word, length) => {
-  // 若word为空字符串返回空字符串
+  // 若length为0时，返回原字符串
   if (length === 0) {
     return word;
   }
@@ -21,31 +21,32 @@ const getPinyin: GetPinYin = (word, length) => {
   if (current_pinyin) {
     return word.length === 1 ? current_pinyin.split(' ')[0] : current_pinyin;
   }
-  // 遍历
+  // 若当前dict不存在word，则遍历词典，看word中是否包含词典中的字
   let pinyin = '';
   for (let key in dictArr[length - 1]) {
-    // 若为单字则返回多音字第一个
-    const item =
-      key.length === 1
-        ? dictArr[length - 1][key].split(' ')[0]
-        : dictArr[length - 1][key];
     const index = word.indexOf(key);
-    // 遍历包含
+    // 若word中包含当前词典中某个词，则去取该词，对word取出后的左右继续遍历
     if (index > -1) {
+      // 取出该词后左边拼音
       const left_word = word.slice(0, index);
+      const left_pinyin = left_word.length > 0
+        ? `${getPinyin(left_word, left_word.length)} `
+        : '';
+      // 取出该词后右边拼音
       const right_word = word.slice(index + key.length);
-      const left_pinyin =
-        left_word.length > 0
-          ? `${getPinyin(left_word, left_word.length)} `
-          : '';
-      const right_pinyin =
-        right_word.length > 0
-          ? ` ${getPinyin(right_word, right_word.length)}`
-          : '';
-      pinyin = `${left_pinyin}${item}${right_pinyin}`;
+      const right_pinyin = right_word.length > 0
+        ? ` ${getPinyin(right_word, right_word.length)}`
+        : '';
+      // 取出的词的拼音
+      const word_pinyin =
+        key.length === 1
+          ? dictArr[length - 1][key].split(' ')[0]
+          : dictArr[length - 1][key];
+      pinyin = `${left_pinyin}${word_pinyin}${right_pinyin}`;
       break;
     }
   }
+  // 若不包含当前dict中的词，则对下一级词继续遍历
   return pinyin ? pinyin : getPinyin(word, length - 1);
 };
 
