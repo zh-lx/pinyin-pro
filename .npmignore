@@ -2,3 +2,4 @@ rollup.config.js
 docs
 coverage
 dist/pinyin-pro.js
+.github
