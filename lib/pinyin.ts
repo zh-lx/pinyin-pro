@@ -20,17 +20,26 @@ const DEFAULT_OPTIONS: {
   multiple: false,
 };
 
-type PinyinFn = (
+function pinyinFn(
   word: string,
   options?: {
     toneType?: 'symbol' | 'num' | 'none';
     pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
-    type?: 'string' | 'array';
+    type?: 'string';
     multiple?: boolean;
   }
-) => string | string[];
+): string;
+function pinyinFn(
+  word: string,
+  options?: {
+    toneType?: 'symbol' | 'num' | 'none';
+    pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
+    type: 'array';
+    multiple?: boolean;
+  }
+): string[];
 
-const pinyinFn: PinyinFn = (word, options = DEFAULT_OPTIONS) => {
+function pinyinFn (word: string, options = DEFAULT_OPTIONS): string | string[] {
   // word传入类型错误时
   if (typeof word !== 'string') {
     return word;

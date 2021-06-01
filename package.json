@@ -41,6 +41,8 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "commitizen": "^4.2.2",
