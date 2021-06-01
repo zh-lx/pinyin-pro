@@ -1,3 +1,9 @@
+## 3.2.3
+
+- 优化
+  - typescript 环境下根据 `options` 中 type 传入的值为 `'string'` 或者 `'array'`，自动提示结果为 `'string'` 还是 `'string[]'`
+  - 优化拼音转换算法，提高转换速度
+
 ## 3.2.2
 
 - 修复 options 为 `{ multiple: true, type: 'array' }` 时若未找到多音字结果的报错问题

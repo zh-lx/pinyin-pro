@@ -21,9 +21,11 @@
 
 ## 版本更新
 
-当前版本： 3.2.1 -> 3.2.2
+当前版本： 3.2.2 -> 3.2.3
 
-- 修复 options 为 `{ multiple: true, type: 'array' }` 时若未找到多音字结果的报错问题
+- 优化
+  - typescript 环境下根据 `options` 中 type 传入的值为 `'string'` 或者 `'array'`，自动提示结果为 `'string'` 还是 `'string[]'`
+  - 优化拼音转换算法，提高转换速度
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
