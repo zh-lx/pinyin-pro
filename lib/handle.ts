@@ -72,8 +72,8 @@ type GetInitialAndFinal = (pinyin: string) => {
 };
 const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
   const pinyin_arr = pinyin.split(' ');
-  const initial_arr = [];
-  const final_arr = [];
+  const initial_arr: string[] = [];
+  const final_arr: string[] = [];
   for (let _pinyin of pinyin_arr) {
     for (let _initial of INITIAL_LIST) {
       if (_pinyin.startsWith(_initial)) {
