@@ -178,6 +178,8 @@ pinyin('好', { multiple: true, type: 'array' }); // ["hǎo", "hào"]
 
 ## 贡献与反馈
 
+参与开源贡献请参照 [pinyin-pro 贡献](./docs/contribute.md)
+
 使用遇到问题或者需要功能支持欢迎提 issue。
 
 交流及参与贡献欢迎加微信：
