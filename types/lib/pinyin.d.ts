@@ -1,8 +1,13 @@
-declare type PinyinFn = (word: string, options?: {
+declare function pinyinFn(word: string, options?: {
     toneType?: 'symbol' | 'num' | 'none';
     pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
-    type?: 'string' | 'array';
+    type?: 'string';
     multiple?: boolean;
-}) => string | string[];
-declare const pinyinFn: PinyinFn;
+}): string;
+declare function pinyinFn(word: string, options?: {
+    toneType?: 'symbol' | 'num' | 'none';
+    pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
+    type: 'array';
+    multiple?: boolean;
+}): string[];
 export { pinyinFn };
