@@ -21,11 +21,10 @@
 
 ## 版本更新
 
-当前版本： 3.2.2 -> 3.2.3
+当前版本： 3.2.3 -> 3.3.0
 
 - 优化
-  - typescript 环境下根据 `options` 中 type 传入的值为 `'string'` 或者 `'array'`，自动提示结果为 `'string'` 还是 `'string[]'`
-  - 优化拼音转换算法，提高转换速度
+  优化拼音转换速度，经测试拼音转换速度提升近 30 倍！
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -48,8 +47,8 @@ yarn add pinyin-pro
 浏览器 script 引入:
 
 ```html
-<!--引入某个版本，如3.2.0版本-->
-<!-- <script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@3.2.0/dist/pinyin-pro.js"></script> -->
+<!--引入某个版本，如3.3.0版本-->
+<!-- <script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@3.3.0/dist/pinyin-pro.js"></script> -->
 <!--引入最新版本-->
 <script src="https://cdn.jsdelivr.net/gh/zh-lx/pinyin-pro@latest/dist/pinyin-pro.js"></script>
 <script>
