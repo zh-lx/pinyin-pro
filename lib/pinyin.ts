@@ -58,6 +58,8 @@ function pinyinFn (word: string, options = DEFAULT_OPTIONS): string | string[] {
 
   // pattern参数处理
   switch (options.pattern) {
+    case 'pinyin':
+      break;
     case 'num':
       const numOfTone = getNumOfTone(pinyin);
       return options.type === 'array' ? numOfTone.split(' ') : numOfTone;
@@ -76,6 +78,8 @@ function pinyinFn (word: string, options = DEFAULT_OPTIONS): string | string[] {
 
   // toneType参数处理
   switch (options.toneType) {
+    case 'symbol':
+      break;
     case 'none':
       pinyin = getPinyinWithoutTone(pinyin);
       break;
