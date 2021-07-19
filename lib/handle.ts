@@ -4,28 +4,67 @@ import { DICT3 } from '../data/dict3';
 import { DICT4 } from '../data/dict4';
 import { DICT5 } from '../data/dict5';
 import { INITIAL_LIST } from '../data/initial';
-const dictArr = [DICT1, DICT2, DICT3, DICT4, DICT5];
+const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
 
+/**
+ * @description: 获取单个字符的拼音
+ * @param {string} word
+ * @return {string}
+ */
+type GetSingleWordPinyin = (word: string) => string;
+const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
+  const wordCode = word.charCodeAt(0);
+  const pinyin = DICT1[wordCode];
+  // 若查到, 则返回第一个拼音; 若未查到, 返回原字符
+  return pinyin ? pinyin.split(' ')[0] : word;
+};
+
+/**
+ * @description: 获取字符串带符号音调的拼音
+ * @param {string} word
+ * @param {number} length
+ * @return {string}
+ */
 type GetPinYin = (word: string, length: number) => string;
 const getPinyin: GetPinYin = (word, length) => {
-  // 若length为0时，返回原字符串
-  if (length === 0) {
-    return word;
-  }
   // 若length值大于5，返回getPinyin(word, length - 1)
   if (length > 5) {
     return getPinyin(word, length - 1);
   }
-  // 若当前dict存在word则返回相应拼音
-  const current_pinyin = dictArr[length - 1][word];
-  if (current_pinyin) {
-    return word.length === 1 ? current_pinyin.split(' ')[0] : current_pinyin;
+
+  // 若length为0时，返回原字符串
+  if (length === 0) {
+    return word;
   }
-  // 若当前dict不存在word，则遍历词典，看word中是否包含词典中的字
+
   let pinyin = '';
-  for (let key in dictArr[length - 1]) {
+
+  // 若length为1，则说明字符串中不包含2字以上的词库字词，在DICT1中查询每个字符的拼音拼接后返回
+  if (length === 1) {
+    // 设置flag，记录DICT1中是否包含上一个处理的字符
+    let flag = false;
+    for (let i = 0; i < word.length; i++) {
+      const result = getSingleWordPinyin(word[i]);
+      if (flag && result === word[i]) {
+        // 若前一个处理的字符和当前处理的字符都不在DICT1中，则不加空格直接拼接
+        pinyin += result;
+      } else if (!flag && result === word[i]) {
+        // 若前一个处理的字符在DICT1中有，当前处理的字符在DICT1中没有。则加上空格拼接，并标记flag为true
+        pinyin += pinyin ? ` ${result}` : result;
+        flag = true;
+      } else {
+        // 若前一个处理的字符和当前处理的字符都在DICT1中，则加空格拼接并标记flag为false
+        pinyin += pinyin ? ` ${result}` : result;
+        flag = false;
+      }
+    }
+    return pinyin;
+  }
+
+  // 其他情况下，分治递归处理
+  for (let key in dictArr[length]) {
     const index = word.indexOf(key);
-    // 若word中包含当前词典中某个词，则去取该词，对word取出后的左右继续遍历
+    // 若word中包含当前词典中某个词，则取出该词拼音，对word取出后的左右继续遍历
     if (index > -1) {
       // 取出该词后左边拼音
       const left_word = word.slice(0, index);
@@ -38,10 +77,7 @@ const getPinyin: GetPinYin = (word, length) => {
         ? ` ${getPinyin(right_word, right_word.length)}`
         : '';
       // 取出的词的拼音
-      const word_pinyin =
-        key.length === 1
-          ? dictArr[length - 1][key].split(' ')[0]
-          : dictArr[length - 1][key];
+      const word_pinyin = dictArr[length][key];
       pinyin = `${left_pinyin}${word_pinyin}${right_pinyin}`;
       break;
     }
@@ -50,6 +86,11 @@ const getPinyin: GetPinYin = (word, length) => {
   return pinyin ? pinyin : getPinyin(word, length - 1);
 };
 
+/**
+ * @description: 将带音调符号拼音转换为不带音调拼音
+ * @param {string} pinyin
+ * @return {string}
+ */
 type GetPinyinWithoutTone = (pinyin: string) => string;
 const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
   return pinyin
@@ -61,11 +102,23 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
     .replace(/(ǖ|ǘ|ǚ|ǜ)/g, 'ü');
 };
 
+/**
+ * @description: 获取单字符的多音拼音
+ * @param {string} word
+ * @return {string}
+ */
 type GetMultipleTone = (word: string) => string;
 const getMultipleTone: GetMultipleTone = (word) => {
-  return DICT1[word] || word;
+  const wordCode = word.charCodeAt(0);
+  const pinyin = DICT1[wordCode];
+  return pinyin || word;
 };
 
+/**
+ * @description: 获取拼音的声明和韵母
+ * @param {string} pinyin
+ * @return {*}
+ */
 type GetInitialAndFinal = (pinyin: string) => {
   final: string;
   initial: string;
@@ -90,6 +143,11 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
   };
 };
 
+/**
+ * @description: 将带音调符号拼音转换为带音调数字
+ * @param {string} pinyin
+ * @return {string}
+ */
 type GetNumOfTone = (pinyin: string) => string;
 const getNumOfTone: GetNumOfTone = (pinyin) => {
   const reg_tone1 = /(ā|ō|ē|ī|ū|ǖ)/;
@@ -117,6 +175,11 @@ const getNumOfTone: GetNumOfTone = (pinyin) => {
   return tone_num_arr.join(' ');
 };
 
+/**
+ * @description: 将带音调符号拼音转换为带音调数字拼音
+ * @param {string} pinyin
+ * @return {string}
+ */
 type GetPinyinWithNum = (pinyin: string) => string;
 const getPinyinWithNum: GetPinyinWithNum = (pinyin) => {
   const pinyin_arr = getPinyinWithoutTone(pinyin).split(' ');
@@ -128,6 +191,11 @@ const getPinyinWithNum: GetPinyinWithNum = (pinyin) => {
   return res_arr.join(' ');
 };
 
+/**
+ * @description: 获取拼音的首字母
+ * @param {string} pinyin
+ * @return {string}
+ */
 type GetFirstLetter = (pinyin: string) => string;
 const getFirstLetter: GetFirstLetter = (pinyin) => {
   const first_letter_arr: string[] = [];
