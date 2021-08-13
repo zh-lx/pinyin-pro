@@ -20,6 +20,17 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 };
 
 /**
+ * @description: 获取长文本字符串带符号音调的拼音
+ * @param {string} word
+ * @param {number} length
+ * @return {string}
+ */
+type GetTextPinyin = (word: string, length: number) => string;
+const getTextPinyin: GetTextPinyin = (word, length) => {
+  return '';
+};
+
+/**
  * @description: 获取字符串带符号音调的拼音
  * @param {string} word
  * @param {number} length
