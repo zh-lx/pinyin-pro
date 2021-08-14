@@ -1,5 +1,5 @@
 import {
-  getPinyin,
+  getTextPinyin,
   getMultipleTone,
   getPinyinWithoutTone,
   getInitialAndFinal,
@@ -39,7 +39,7 @@ function pinyinFn(
   }
 ): string[];
 
-function pinyinFn (word: string, options = DEFAULT_OPTIONS): string | string[] {
+function pinyinFn(word: string, options = DEFAULT_OPTIONS): string | string[] {
   // word传入类型错误时
   if (typeof word !== 'string') {
     return word;
@@ -49,7 +49,7 @@ function pinyinFn (word: string, options = DEFAULT_OPTIONS): string | string[] {
     return options.type === 'array' ? [] : '';
   }
   // 获取原始拼音
-  let pinyin = getPinyin(word, word.length);
+  let pinyin = getTextPinyin(word, word.length);
 
   // 对multiple进行处理
   if (word.length === 1 && options.multiple) {
@@ -91,6 +91,6 @@ function pinyinFn (word: string, options = DEFAULT_OPTIONS): string | string[] {
   }
 
   return options.type === 'array' ? pinyin.split(' ') : pinyin;
-};
+}
 
 export { pinyinFn };

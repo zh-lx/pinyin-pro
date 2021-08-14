@@ -27,7 +27,15 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
  */
 type GetTextPinyin = (word: string, length: number) => string;
 const getTextPinyin: GetTextPinyin = (word, length) => {
-  return '';
+  let result = '';
+  let i = 0;
+  // 若字符长度超过200，则每200个字符截断，防止递归层数过多爆栈
+  while ((i + 1) * 200 < length) {
+    result += getPinyin(word.slice(i * 200, i * 200 + 200), 200);
+    i++;
+  }
+  result += getPinyin(word.slice(i * 200), length - i * 200);
+  return result;
 };
 
 /**
@@ -41,11 +49,6 @@ const getPinyin: GetPinYin = (word, length) => {
   // 若length值大于5，返回getPinyin(word, length - 1)
   if (length > 5) {
     return getPinyin(word, length - 1);
-  }
-
-  // 若length为0时，返回原字符串
-  if (length === 0) {
-    return word;
   }
 
   let pinyin = '';
@@ -219,6 +222,7 @@ const getFirstLetter: GetFirstLetter = (pinyin) => {
 
 export {
   getPinyin,
+  getTextPinyin,
   getPinyinWithoutTone,
   getInitialAndFinal,
   getMultipleTone,
