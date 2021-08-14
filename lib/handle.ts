@@ -20,6 +20,25 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 };
 
 /**
+ * @description: 获取长文本字符串带符号音调的拼音
+ * @param {string} word
+ * @param {number} length
+ * @return {string}
+ */
+type GetTextPinyin = (word: string, length: number) => string;
+const getTextPinyin: GetTextPinyin = (word, length) => {
+  let result = '';
+  let i = 0;
+  // 若字符长度超过200，则每200个字符截断，防止递归层数过多爆栈
+  while ((i + 1) * 200 < length) {
+    result += getPinyin(word.slice(i * 200, i * 200 + 200), 200);
+    i++;
+  }
+  result += getPinyin(word.slice(i * 200), length - i * 200);
+  return result;
+};
+
+/**
  * @description: 获取字符串带符号音调的拼音
  * @param {string} word
  * @param {number} length
@@ -30,11 +49,6 @@ const getPinyin: GetPinYin = (word, length) => {
   // 若length值大于5，返回getPinyin(word, length - 1)
   if (length > 5) {
     return getPinyin(word, length - 1);
-  }
-
-  // 若length为0时，返回原字符串
-  if (length === 0) {
-    return word;
   }
 
   let pinyin = '';
@@ -208,6 +222,7 @@ const getFirstLetter: GetFirstLetter = (pinyin) => {
 
 export {
   getPinyin,
+  getTextPinyin,
   getPinyinWithoutTone,
   getInitialAndFinal,
   getMultipleTone,

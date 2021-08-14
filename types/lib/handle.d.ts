@@ -1,4 +1,12 @@
 /**
+ * @description: 获取长文本字符串带符号音调的拼音
+ * @param {string} word
+ * @param {number} length
+ * @return {string}
+ */
+declare type GetTextPinyin = (word: string, length: number) => string;
+declare const getTextPinyin: GetTextPinyin;
+/**
  * @description: 获取字符串带符号音调的拼音
  * @param {string} word
  * @param {number} length
@@ -51,4 +59,4 @@ declare const getPinyinWithNum: GetPinyinWithNum;
  */
 declare type GetFirstLetter = (pinyin: string) => string;
 declare const getFirstLetter: GetFirstLetter;
-export { getPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, getFirstLetter, };
+export { getPinyin, getTextPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, getFirstLetter, };
