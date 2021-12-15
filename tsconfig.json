@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": ["ES2021"],
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",

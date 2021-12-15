@@ -1,10 +1,10 @@
-import { DICT1 } from '../data/dict1';
-import { DICT2 } from '../data/dict2';
-import { DICT3 } from '../data/dict3';
-import { DICT4 } from '../data/dict4';
-import { DICT5 } from '../data/dict5';
-import { INITIAL_LIST } from '../data/initial';
-const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
+// import { DICT1 } from '../data/dict1';
+// import { DICT2 } from '../data/dict2';
+// import { DICT3 } from '../data/dict3';
+// import { DICT4 } from '../data/dict4';
+// import { DICT5 } from '../data/dict5';
+import INITIAL_LIST from '../data/initial';
+// const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
 
 /**
  * @description: 获取单个字符的拼音
@@ -20,35 +20,21 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 };
 
 /**
- * @description: 获取长文本字符串带符号音调的拼音
- * @param {string} word
- * @param {number} length
- * @return {string}
- */
-type GetTextPinyin = (word: string, length: number) => string;
-const getTextPinyin: GetTextPinyin = (word, length) => {
-  let result = '';
-  let i = 0;
-  // 若字符长度超过200，则每200个字符截断，防止递归层数过多爆栈
-  while ((i + 1) * 200 < length) {
-    result += getPinyin(word.slice(i * 200, i * 200 + 200), 200);
-    i++;
-  }
-  result += getPinyin(word.slice(i * 200), length - i * 200);
-  return result;
-};
-
-/**
  * @description: 获取字符串带符号音调的拼音
  * @param {string} word
  * @param {number} length
+ * @param {string} mode
  * @return {string}
  */
-type GetPinYin = (word: string, length: number) => string;
-const getPinyin: GetPinYin = (word, length) => {
-  // 若length值大于5，返回getPinyin(word, length - 1)
+type GetPinYin = (
+  word: string,
+  length: number,
+  mode?: 'default' | 'surname'
+) => string;
+const getPinyin: GetPinYin = (word, length, mode = 'default') => {
+  // 若length值大于5，返回getPinyin(word, 5)
   if (length > 5) {
-    return getPinyin(word, length - 1);
+    return getPinyin(word, 5);
   }
 
   let pinyin = '';
@@ -98,6 +84,16 @@ const getPinyin: GetPinYin = (word, length) => {
   }
   // 若不包含当前dict中的词，则对下一级词继续遍历
   return pinyin ? pinyin : getPinyin(word, length - 1);
+};
+
+/**
+ * @description: 姓氏模式下优先匹配姓氏拼音
+ * @param {string} pinyin
+ * @return {string}
+ */
+type GetSurnamePinyin = (pinyin: string) => string;
+const getSurnamePinyin: GetSurnamePinyin = (pinyin) => {
+  return '';
 };
 
 /**
@@ -222,7 +218,6 @@ const getFirstLetter: GetFirstLetter = (pinyin) => {
 
 export {
   getPinyin,
-  getTextPinyin,
   getPinyinWithoutTone,
   getInitialAndFinal,
   getMultipleTone,

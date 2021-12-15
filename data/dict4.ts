@@ -1,4 +1,4 @@
-export const DICT4: { [prop: string]: string } = {
+const DICT4: { [prop: string]: string } = {
   阿党相为: 'ē dǎng xiāng wéi',
   阿尔及尔: 'ā ěr jí ěr',
   阿狗阿猫: 'ā gǒu ā māo',
@@ -3475,4 +3475,5 @@ export const DICT4: { [prop: string]: string } = {
   坐不重席: 'zuò bù chóng xí',
   坐地自划: 'zuò dì zì huá',
   坐视不救: 'zuò shī bù jiù',
-}
+};
+export default DICT4;

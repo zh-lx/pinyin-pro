@@ -1,4 +1,4 @@
-export const DICT2: { [prop: string]: string } = {
+const DICT2: { [prop: string]: string } = {
   阿爸: 'ā bà',
   阿鼻: 'ā bí',
   阿呆: 'ā dāi',
@@ -3160,4 +3160,5 @@ export const DICT2: { [prop: string]: string } = {
   作为: 'zuò wéi',
   坐禅: 'zuò chán',
   柞蚕: 'zuò cán',
-}
+};
+export default DICT2;
