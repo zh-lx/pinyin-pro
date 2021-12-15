@@ -6,7 +6,7 @@ import _DICT5 from '../data/dict5';
 import _INITIAL_LIST from '../data/initial';
 const _dictArr = [{}, {}, _DICT2, _DICT3, _DICT4, _DICT5];
 
-function customPinyin(config: { [key: string]: string } = {}) {
+export function customPinyin(config: { [key: string]: string } = {}) {
   for (let key in config) {
     let pinyin = config[key];
     if (key.length === 1) {

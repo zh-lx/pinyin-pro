@@ -1,3 +1,4 @@
-export declare const DICT5: {
+declare const DICT5: {
     [prop: string]: string;
 };
+export default DICT5;

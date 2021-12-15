@@ -1,3 +1,4 @@
-export declare const DICT4: {
+declare const DICT4: {
     [prop: string]: string;
 };
+export default DICT4;

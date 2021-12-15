@@ -1,1 +1,2 @@
-export { pinyinFn as pinyin } from './pinyin';
+export { pinyin } from './pinyin';
+export { customPinyin } from './data';

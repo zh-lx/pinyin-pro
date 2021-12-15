@@ -1,10 +1,6 @@
-// import { DICT1 } from '../data/dict1';
-// import { DICT2 } from '../data/dict2';
-// import { DICT3 } from '../data/dict3';
-// import { DICT4 } from '../data/dict4';
-// import { DICT5 } from '../data/dict5';
 import INITIAL_LIST from '../data/initial';
-// const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
+import Surnames from '../data/surname';
+import { DICT1, dictArr } from './data';
 
 /**
  * @description: 获取单个字符的拼音
@@ -29,9 +25,14 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 type GetPinYin = (
   word: string,
   length: number,
-  mode?: 'default' | 'surname'
+  mode?: 'normal' | 'surname'
 ) => string;
-const getPinyin: GetPinYin = (word, length, mode = 'default') => {
+const getPinyin: GetPinYin = (word, length, mode = 'normal') => {
+  // 如果是姓氏模式，则优先替换姓氏拼音
+  if (mode === 'surname') {
+    return getSurnamePinyin(word);
+  }
+
   // 若length值大于5，返回getPinyin(word, 5)
   if (length > 5) {
     return getPinyin(word, 5);
@@ -91,9 +92,27 @@ const getPinyin: GetPinYin = (word, length, mode = 'default') => {
  * @param {string} pinyin
  * @return {string}
  */
-type GetSurnamePinyin = (pinyin: string) => string;
-const getSurnamePinyin: GetSurnamePinyin = (pinyin) => {
-  return '';
+type GetSurnamePinyin = (word: string) => string;
+const getSurnamePinyin: GetSurnamePinyin = (word) => {
+  let _word = word;
+  for (let key in Surnames) {
+    let index = _word.indexOf(key);
+    if (index > -1) {
+      const left_word = word.slice(0, index);
+      const left_pinyin = left_word
+        ? `${getPinyin(left_word, left_word.length)} `
+        : '';
+      // 取出该词后右边拼音
+      const right_word = word.slice(index + key.length);
+      const right_pinyin = right_word
+        ? ` ${getPinyin(right_word, right_word.length, 'surname')}`
+        : '';
+      // 取出的词的拼音
+      const word_pinyin = Surnames[key];
+      return `${left_pinyin}${word_pinyin}${right_pinyin}`;
+    }
+  }
+  return getPinyin(word, word.length);
 };
 
 /**

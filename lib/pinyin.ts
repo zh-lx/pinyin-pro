@@ -7,7 +7,6 @@ import {
   getPinyinWithNum,
   getFirstLetter,
 } from './handle';
-import Surnames from '../data/surname';
 export { DICT1, dictArr } from './data';
 
 const DEFAULT_OPTIONS: {
@@ -24,7 +23,7 @@ const DEFAULT_OPTIONS: {
   mode: 'normal',
 };
 
-function pinyinFn(
+function pinyin(
   word: string,
   options?: {
     toneType?: 'symbol' | 'num' | 'none';
@@ -34,7 +33,7 @@ function pinyinFn(
     mode?: 'normal' | 'surname';
   }
 ): string;
-function pinyinFn(
+function pinyin(
   word: string,
   options?: {
     toneType?: 'symbol' | 'num' | 'none';
@@ -45,7 +44,7 @@ function pinyinFn(
   }
 ): string[];
 
-function pinyinFn(word: string, options = DEFAULT_OPTIONS): string | string[] {
+function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   // word传入类型错误时
   if (typeof word !== 'string') {
     return word;
@@ -56,7 +55,7 @@ function pinyinFn(word: string, options = DEFAULT_OPTIONS): string | string[] {
   }
 
   // 获取原始拼音
-  let pinyin = getPinyin(word, word.length);
+  let pinyin = getPinyin(word, word.length, options.mode);
 
   // 对multiple进行处理
   if (word.length === 1 && options.multiple) {
@@ -100,4 +99,4 @@ function pinyinFn(word: string, options = DEFAULT_OPTIONS): string | string[] {
   return options.type === 'array' ? pinyin.split(' ') : pinyin;
 }
 
-export { pinyinFn };
+export { pinyin };

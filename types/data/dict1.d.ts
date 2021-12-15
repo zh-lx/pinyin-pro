@@ -1,1 +1,2 @@
-export declare const DICT1: string[];
+declare const DICT1: string[];
+export default DICT1;
