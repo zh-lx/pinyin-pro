@@ -1,4 +1,4 @@
-export const DICT3: { [prop: string]: string } = {
+const DICT3: { [prop: string]: string } = {
   阿比让: 'ā bǐ ràng',
   阿波罗: 'ā bō luó',
   阿昌族: 'ā chāng zú',
@@ -401,3 +401,4 @@ export const DICT3: { [prop: string]: string } = {
   钻天杨: 'zuān tiān yáng',
   柞丝绸: 'zuò sī chóu',
 };
+export default DICT3;

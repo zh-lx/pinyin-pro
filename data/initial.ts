@@ -1,4 +1,4 @@
-export const INITIAL_LIST = [
+const INITIAL_LIST = [
   'zh',
   'ch',
   'sh',
@@ -23,4 +23,5 @@ export const INITIAL_LIST = [
   'y',
   'w',
   '',
-]
+];
+export default INITIAL_LIST;
