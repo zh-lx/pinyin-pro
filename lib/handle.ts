@@ -89,7 +89,7 @@ const getPinyin: GetPinYin = (word, length, mode = 'normal') => {
 
 /**
  * @description: 姓氏模式下优先匹配姓氏拼音
- * @param {string} pinyin
+ * @param {string} word
  * @return {string}
  */
 type GetSurnamePinyin = (word: string) => string;

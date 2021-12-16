@@ -7,7 +7,6 @@ import {
   getPinyinWithNum,
   getFirstLetter,
 } from './handle';
-export { DICT1, dictArr } from './data';
 
 const DEFAULT_OPTIONS: {
   toneType?: 'symbol' | 'num' | 'none';
