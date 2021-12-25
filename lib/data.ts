@@ -3,7 +3,6 @@ import _DICT2 from '../data/dict2';
 import _DICT3 from '../data/dict3';
 import _DICT4 from '../data/dict4';
 import _DICT5 from '../data/dict5';
-import _INITIAL_LIST from '../data/initial';
 const _dictArr = [{}, {}, _DICT2, _DICT3, _DICT4, _DICT5];
 
 export function customPinyin(config: { [key: string]: string } = {}) {

@@ -41,9 +41,10 @@ declare const getNumOfTone: GetNumOfTone;
 /**
  * @description: 将带音调符号拼音转换为带音调数字拼音
  * @param {string} pinyin
+ * @param {string} originPinyin
  * @return {string}
  */
-declare type GetPinyinWithNum = (pinyin: string) => string;
+declare type GetPinyinWithNum = (pinyin: string, originPinyin: string) => string;
 declare const getPinyinWithNum: GetPinyinWithNum;
 /**
  * @description: 获取拼音的首字母

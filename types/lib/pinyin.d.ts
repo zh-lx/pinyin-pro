@@ -1,4 +1,3 @@
-export { DICT1, dictArr } from './data';
 declare function pinyin(word: string, options?: {
     toneType?: 'symbol' | 'num' | 'none';
     pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';

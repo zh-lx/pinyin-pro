@@ -42,22 +42,9 @@ const getPinyin: GetPinYin = (word, length, mode = 'normal') => {
 
   // 若length为1，则说明字符串中不包含2字以上的词库字词，在DICT1中查询每个字符的拼音拼接后返回
   if (length === 1) {
-    // 设置flag，记录DICT1中是否包含上一个处理的字符
-    let flag = false;
     for (let i = 0; i < word.length; i++) {
       const result = getSingleWordPinyin(word[i]);
-      if (flag && result === word[i]) {
-        // 若前一个处理的字符和当前处理的字符都不在DICT1中，则不加空格直接拼接
-        pinyin += result;
-      } else if (!flag && result === word[i]) {
-        // 若前一个处理的字符在DICT1中有，当前处理的字符在DICT1中没有。则加上空格拼接，并标记flag为true
-        pinyin += pinyin ? ` ${result}` : result;
-        flag = true;
-      } else {
-        // 若前一个处理的字符和当前处理的字符都在DICT1中，则加空格拼接并标记flag为false
-        pinyin += pinyin ? ` ${result}` : result;
-        flag = false;
-      }
+      pinyin += pinyin ? ` ${result}` : result;
     }
     return pinyin;
   }
@@ -89,7 +76,7 @@ const getPinyin: GetPinYin = (word, length, mode = 'normal') => {
 
 /**
  * @description: 姓氏模式下优先匹配姓氏拼音
- * @param {string} pinyin
+ * @param {string} word
  * @return {string}
  */
 type GetSurnamePinyin = (word: string) => string;
@@ -207,12 +194,13 @@ const getNumOfTone: GetNumOfTone = (pinyin) => {
 /**
  * @description: 将带音调符号拼音转换为带音调数字拼音
  * @param {string} pinyin
+ * @param {string} originPinyin
  * @return {string}
  */
-type GetPinyinWithNum = (pinyin: string) => string;
-const getPinyinWithNum: GetPinyinWithNum = (pinyin) => {
+type GetPinyinWithNum = (pinyin: string, originPinyin: string) => string;
+const getPinyinWithNum: GetPinyinWithNum = (pinyin, originPinyin) => {
   const pinyin_arr = getPinyinWithoutTone(pinyin).split(' ');
-  const tone_num_arr = getNumOfTone(pinyin).split(' ');
+  const tone_num_arr = getNumOfTone(originPinyin).split(' ');
   const res_arr: string[] = [];
   pinyin_arr.forEach((item, index) => {
     res_arr.push(`${item}${tone_num_arr[index]}`);
