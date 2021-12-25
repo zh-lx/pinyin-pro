@@ -32,7 +32,7 @@ describe('aggregate', () => {
 
   it('test5', () => {
     const result = pinyin('汉语拼音', { pattern: 'initial', toneType: 'num' });
-    expect(result).to.be.equal('h y p y');
+    expect(result).to.be.equal('h4 y3 p1 y1');
   });
 
   it('test6', () => {
@@ -41,7 +41,7 @@ describe('aggregate', () => {
       toneType: 'num',
       type: 'array',
     });
-    expect(result).to.deep.equal(['h', 'y', 'p', 'y']);
+    expect(result).to.deep.equal(['h4', 'y3', 'p1', 'y1']);
   });
 
   it('test7', () => {
@@ -86,7 +86,7 @@ describe('boundary', () => {
 
   it('test2', () => {
     const result = pinyin('汉语拼音xxx.,');
-    expect(result).to.be.equal('hàn yǔ pīn yīn xxx.,');
+    expect(result).to.be.equal('hàn yǔ pīn yīn x x x . ,');
   });
 
   it('test3', () => {
@@ -96,7 +96,17 @@ describe('boundary', () => {
 
   it('test4', () => {
     const result = pinyin('汉语拼音xxx.,', { type: 'array' });
-    expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn', 'xxx.,']);
+    expect(result).to.deep.equal([
+      'hàn',
+      'yǔ',
+      'pīn',
+      'yīn',
+      'x',
+      'x',
+      'x',
+      '.',
+      ',',
+    ]);
   });
 
   it('test5', () => {
@@ -218,12 +228,17 @@ describe('toneType', () => {
     const result = pinyin('汉语拼音', { toneType: 'symbol', type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
   });
+
+  it('first with num', () => {
+    const result = pinyin('山西', { pattern: 'first', toneType: 'num' });
+    expect(result).to.be.equal('s1 x1');
+  });
 });
 
 describe('getPinyin', () => {
   it('double symbol', () => {
     const result = pinyin('aaaa');
-    expect(result).to.be.equal('aaaa');
+    expect(result).to.be.equal('a a a a');
   });
 
   it('length greater than 5', () => {

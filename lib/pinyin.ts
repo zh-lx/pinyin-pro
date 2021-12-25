@@ -61,6 +61,8 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
     pinyin = getMultipleTone(word);
   }
 
+  const originPinyin = pinyin;
+
   // pattern参数处理
   switch (options.pattern) {
     case 'pinyin':
@@ -88,9 +90,10 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
     case 'none':
       pinyin = getPinyinWithoutTone(pinyin);
       break;
-    case 'num':
-      pinyin = getPinyinWithNum(pinyin);
+    case 'num': {
+      pinyin = getPinyinWithNum(pinyin, originPinyin);
       break;
+    }
     default:
       break;
   }
