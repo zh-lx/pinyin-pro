@@ -1,6 +1,6 @@
 import INITIAL_LIST from '../data/initial';
 import Surnames from '../data/surname';
-import { DICT1, dictArr } from './data';
+import { DICT1, dictArr } from './custom';
 
 /**
  * @description: 获取单个字符的拼音
