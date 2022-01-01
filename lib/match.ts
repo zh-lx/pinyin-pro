@@ -26,7 +26,7 @@ export const match = (words: string, pinyin: string) => {
       break;
     }
   }
-  return result.length ? result : null;
+  return result.length && !currentPinyin ? result : null;
 };
 
 // 检测两个拼音最大的匹配长度
