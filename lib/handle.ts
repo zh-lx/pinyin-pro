@@ -86,6 +86,7 @@ const getSurnamePinyin: GetSurnamePinyin = (word) => {
     let index = _word.indexOf(key);
     if (index > -1) {
       const left_word = word.slice(0, index);
+      // left_word 存在时，说明左侧不存在姓氏词
       const left_pinyin = left_word
         ? `${getPinyin(left_word, left_word.length)} `
         : '';

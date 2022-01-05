@@ -5,6 +5,10 @@ import _DICT4 from '../data/dict4';
 import _DICT5 from '../data/dict5';
 const _dictArr = [{}, {}, _DICT2, _DICT3, _DICT4, _DICT5];
 
+/**
+ * @description: 用户自定义拼音
+ * @param {{ [key: string]: string }} config 用户自定义的拼音映射（支持汉字、词语、句子的映射），若匹配到该映射，优先将汉字转换为该映射
+ */
 export function customPinyin(config: { [key: string]: string } = {}) {
   for (let key in config) {
     let pinyin = config[key];
