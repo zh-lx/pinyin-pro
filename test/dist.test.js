@@ -451,3 +451,10 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 });
+
+describe('removeNonZh', () => {
+  it('removeNonZh', () => {
+    const result = pinyin('汉sa语2拼音', { removeNonZh: true });
+    expect(result).to.be.equal('hàn yǔ pīn yīn');
+  });
+});

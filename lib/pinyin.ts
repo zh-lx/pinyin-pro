@@ -67,6 +67,18 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   if (word === '') {
     return options.type === 'array' ? [] : '';
   }
+  // 如果 removeNonZh 为 true，移除非中文字符串
+  if (options.removeNonZh) {
+    let str = '';
+    for (let i = 0; i < word.length; i++) {
+      const char = word[i];
+      let code = char.charCodeAt(0);
+      if (code >= 19968 && code <= 40869) {
+        str += char;
+      }
+    }
+    word = str;
+  }
 
   // 获取原始拼音
   let pinyin = getPinyin(word, word.length, options.mode);

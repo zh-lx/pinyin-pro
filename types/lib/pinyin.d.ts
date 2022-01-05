@@ -3,6 +3,7 @@ interface BasicOptions {
     pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
     multiple?: boolean;
     mode?: 'normal' | 'surname';
+    removeNonZh?: boolean;
 }
 interface OptionsReturnString extends BasicOptions {
     type?: 'string';
