@@ -13,13 +13,14 @@ interface BasicOptions {
   pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
   multiple?: boolean;
   mode?: 'normal' | 'surname';
+  removeNonZh?: boolean;
 }
 
-interface StringOptions extends BasicOptions {
+interface OptionsReturnString extends BasicOptions {
   type?: 'string';
 }
 
-interface ArrayOptions extends BasicOptions {
+interface OptionsReturnArray extends BasicOptions {
   type: 'array';
 }
 interface CompleteOptions extends BasicOptions {
@@ -32,23 +33,24 @@ const DEFAULT_OPTIONS: CompleteOptions = {
   type: 'string',
   multiple: false,
   mode: 'normal',
+  removeNonZh: false,
 };
 
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
- * @param {StringOptions} options 配置项
+ * @param {OptionsReturnString} options 配置项
  * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
  */
-function pinyin(word: string, options?: StringOptions): string;
+function pinyin(word: string, options?: OptionsReturnString): string;
 
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
- * @param {ArrayOptions} options 配置项
+ * @param {OptionsReturnArray} options 配置项
  * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
  */
-function pinyin(word: string, options?: ArrayOptions): string[];
+function pinyin(word: string, options?: OptionsReturnArray): string[];
 
 /**
  * @description: 获取汉语字符串的拼音
