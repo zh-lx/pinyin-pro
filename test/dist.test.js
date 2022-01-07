@@ -457,4 +457,9 @@ describe('removeNonZh', () => {
     const result = pinyin('汉sa语2拼音', { removeNonZh: true });
     expect(result).to.be.equal('hàn yǔ pīn yīn');
   });
+
+  it('removeNonZh', () => {
+    const result = pinyin('saf21a', { removeNonZh: true });
+    expect(result).to.be.equal('');
+  });
 });
