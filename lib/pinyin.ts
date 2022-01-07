@@ -63,10 +63,6 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   if (typeof word !== 'string') {
     return word;
   }
-  // 传入空字符串
-  if (word === '') {
-    return options.type === 'array' ? [] : '';
-  }
   // 如果 removeNonZh 为 true，移除非中文字符串
   if (options.removeNonZh) {
     let str = '';
@@ -78,6 +74,10 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
       }
     }
     word = str;
+  }
+  // 传入空字符串
+  if (word === '') {
+    return options.type === 'array' ? [] : '';
   }
 
   // 获取原始拼音
