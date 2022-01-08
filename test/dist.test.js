@@ -269,53 +269,10 @@ describe('surname', () => {
     const result = pinyin('我叫令狐冲', { mode: 'surname' });
     expect(result).to.be.equal('wǒ jiào líng hú chōng');
   });
-});
 
-describe('customConfig', () => {
-  it('custom none', () => {
-    customPinyin();
-    const result = pinyin('干一行行一行');
-    expect(result).to.be.equal('gān yī xíng xíng yī xíng');
-  });
-
-  it('custom1', () => {
-    customPinyin({
-      能: 'nài',
-    });
-    const result = pinyin('我姓能');
-    expect(result).to.be.equal('wǒ xìng nài');
-  });
-
-  it('custom2', () => {
-    customPinyin({
-      好好: 'hào hǎo',
-    });
-    const result = pinyin('爱好好多');
-    expect(result).to.be.equal('ài hào hǎo duō');
-  });
-
-  it('custom3', () => {
-    customPinyin({
-      哈什玛: 'hà shén mǎ',
-    });
-    const result = pinyin('哈什玛');
-    expect(result).to.be.equal('hà shén mǎ');
-  });
-
-  it('custom4', () => {
-    customPinyin({
-      暴虎冯河: 'bào hǔ píng hé',
-    });
-    const result = pinyin('暴虎冯河');
-    expect(result).to.be.equal('bào hǔ píng hé');
-  });
-
-  it('custom>5', () => {
-    customPinyin({
-      干一行行一行: 'gàn yī háng xíng yī háng',
-    });
-    const result = pinyin('干一行行一行');
-    expect(result).to.be.equal('gàn yī háng xíng yī háng');
+  it('multiple surname2', () => {
+    const result = pinyin('曾令狐冲', { mode: 'surname' });
+    expect(result).to.be.equal('zēng líng hú chōng');
   });
 });
 
@@ -461,5 +418,70 @@ describe('removeNonZh', () => {
   it('removeNonZh', () => {
     const result = pinyin('saf21a', { removeNonZh: true });
     expect(result).to.be.equal('');
+  });
+});
+
+describe('customConfig', () => {
+  it('custom none', () => {
+    customPinyin();
+    const result = pinyin('干一行行一行');
+    expect(result).to.be.equal('gān yī xíng xíng yī xíng');
+  });
+
+  it('custom1', () => {
+    customPinyin({
+      能: 'nài',
+    });
+    const result = pinyin('我姓能');
+    expect(result).to.be.equal('wǒ xìng nài');
+  });
+
+  it('custom2', () => {
+    customPinyin({
+      好好: 'hào hǎo',
+    });
+    const result = pinyin('爱好好多');
+    expect(result).to.be.equal('ài hào hǎo duō');
+  });
+
+  it('custom3', () => {
+    customPinyin({
+      哈什玛: 'hà shén mǎ',
+    });
+    const result = pinyin('哈什玛');
+    expect(result).to.be.equal('hà shén mǎ');
+  });
+
+  it('custom4', () => {
+    customPinyin({
+      暴虎冯河: 'bào hǔ píng hé',
+    });
+    const result = pinyin('暴虎冯河');
+    expect(result).to.be.equal('bào hǔ píng hé');
+  });
+
+  it('custom>5', () => {
+    customPinyin({
+      干一行行一行: 'gàn yī háng xíng yī háng',
+    });
+    const result = pinyin('干一行行一行');
+    expect(result).to.be.equal('gàn yī háng xíng yī háng');
+  });
+
+  it('custom with surname', () => {
+    customPinyin({
+      乐嘉: 'lè jiā',
+    });
+    const result = pinyin('乐嘉', { mode: 'surname' });
+    expect(result).to.be.equal('lè jiā');
+  });
+
+  it('customs', () => {
+    customPinyin({
+      好: 'hào',
+      好好: 'hào hǎo',
+    });
+    const result = pinyin('好好');
+    expect(result).to.be.equal('hào hǎo');
   });
 });

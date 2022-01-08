@@ -5,7 +5,7 @@
 export declare function customPinyin(config?: {
     [key: string]: string;
 }): void;
-export declare const DICT1: string[];
-export declare const dictArr: {
-    [prop: string]: string;
-}[];
+export declare const getCustomDict: () => {
+    [key: string]: string;
+};
+export declare function hasCustomConfig(): boolean;
