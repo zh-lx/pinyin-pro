@@ -83,7 +83,7 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
 
   // 获取原始拼音
   let pinyin = getPinyin(word, word.length, {
-    mode: options.mode,
+    mode: options.mode || 'normal',
     useCustomConfig: hasCustomConfig(),
   });
 

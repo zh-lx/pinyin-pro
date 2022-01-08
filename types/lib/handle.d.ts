@@ -6,7 +6,7 @@
  * @return {string}
  */
 declare type GetPinYin = (word: string, length: number, params?: {
-    mode?: 'normal' | 'surname';
+    mode: 'normal' | 'surname';
     useCustomConfig?: boolean;
 }) => string;
 declare const getPinyin: GetPinYin;
