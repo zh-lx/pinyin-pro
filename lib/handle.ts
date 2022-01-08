@@ -32,7 +32,7 @@ type GetPinYin = (
   word: string,
   length: number,
   params?: {
-    mode?: 'normal' | 'surname';
+    mode: 'normal' | 'surname';
     useCustomConfig?: boolean;
   }
 ) => string;
@@ -42,12 +42,12 @@ const getPinyin: GetPinYin = (
   params = { mode: 'normal', useCustomConfig: false }
 ) => {
   // 如果有用户自定拼音，则优先使用自定义拼音
-  if (params?.useCustomConfig) {
-    return getCustomPinyin(word, params?.mode);
+  if (params.useCustomConfig) {
+    return getCustomPinyin(word, params.mode);
   }
 
   // 如果是姓氏模式，则优先替换姓氏拼音
-  if (params?.mode === 'surname') {
+  if (params.mode === 'surname') {
     return getSurnamePinyin(word);
   }
 
@@ -128,8 +128,8 @@ const getSurnamePinyin: GetSurnamePinyin = (word) => {
  * @param {string} mode
  * @return {string}
  */
-type GetCustomPinyin = (word: string, mode?: 'normal' | 'surname') => string;
-const getCustomPinyin: GetCustomPinyin = (word, mode = 'normal') => {
+type GetCustomPinyin = (word: string, mode: 'normal' | 'surname') => string;
+const getCustomPinyin: GetCustomPinyin = (word, mode) => {
   const customDict = getCustomDict();
   let _word = word;
   for (let key in customDict) {

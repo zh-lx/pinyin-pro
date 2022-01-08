@@ -1,4 +1,4 @@
-const { pinyin, customPinyin, match } = require('../dist/index');
+const { pinyin, customPinyin, match } = require('../dist/index.cjs.js');
 const expect = require('chai').expect;
 
 describe('aggregate', () => {
@@ -472,8 +472,14 @@ describe('customConfig', () => {
     customPinyin({
       乐嘉: 'lè jiā',
     });
-    const result = pinyin('乐嘉', { mode: 'surname' });
-    expect(result).to.be.equal('lè jiā');
+    const result = pinyin('乐嘉啊', { mode: 'surname' });
+    expect(result).to.be.equal('lè jiā a');
+
+    const result1 = pinyin('啊乐嘉', { mode: 'surname' });
+    expect(result1).to.be.equal('a lè jiā');
+
+    const result2 = pinyin('啊乐嘉是', { mode: 'surname' });
+    expect(result2).to.be.equal('a lè jiā shì');
   });
 
   it('customs', () => {
