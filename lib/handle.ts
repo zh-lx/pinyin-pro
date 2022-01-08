@@ -1,6 +1,12 @@
 import INITIAL_LIST from '../data/initial';
 import Surnames from '../data/surname';
-import { DICT1, dictArr } from './custom';
+import { getCustomDict } from './custom';
+import DICT1 from '../data/dict1';
+import DICT2 from '../data/dict2';
+import DICT3 from '../data/dict3';
+import DICT4 from '../data/dict4';
+import DICT5 from '../data/dict5';
+const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
 
 /**
  * @description: 获取单个字符的拼音
@@ -25,11 +31,23 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 type GetPinYin = (
   word: string,
   length: number,
-  mode?: 'normal' | 'surname'
+  params?: {
+    mode?: 'normal' | 'surname';
+    useCustomConfig?: boolean;
+  }
 ) => string;
-const getPinyin: GetPinYin = (word, length, mode = 'normal') => {
+const getPinyin: GetPinYin = (
+  word,
+  length,
+  params = { mode: 'normal', useCustomConfig: false }
+) => {
+  // 如果有用户自定拼音，则优先使用自定义拼音
+  if (params?.useCustomConfig) {
+    return getCustomPinyin(word, params?.mode);
+  }
+
   // 如果是姓氏模式，则优先替换姓氏拼音
-  if (mode === 'surname') {
+  if (params?.mode === 'surname') {
     return getSurnamePinyin(word);
   }
 
@@ -86,21 +104,59 @@ const getSurnamePinyin: GetSurnamePinyin = (word) => {
     let index = _word.indexOf(key);
     if (index > -1) {
       const left_word = word.slice(0, index);
-      // left_word 存在时，说明左侧不存在姓氏词
+      // 取出该词后左边拼音
       const left_pinyin = left_word
-        ? `${getPinyin(left_word, left_word.length)} `
+        ? `${getPinyin(left_word, left_word.length, { mode: 'surname' })} `
         : '';
       // 取出该词后右边拼音
       const right_word = word.slice(index + key.length);
       const right_pinyin = right_word
-        ? ` ${getPinyin(right_word, right_word.length, 'surname')}`
+        ? ` ${getPinyin(right_word, right_word.length, { mode: 'surname' })}`
         : '';
       // 取出的词的拼音
       const word_pinyin = Surnames[key];
       return `${left_pinyin}${word_pinyin}${right_pinyin}`;
     }
   }
+  // 若姓氏表中的词均为匹配成功，则使用常规匹配
   return getPinyin(word, word.length);
+};
+
+/**
+ * @description: 有自定义拼音优先匹配自定义拼音
+ * @param {string} word
+ * @param {string} mode
+ * @return {string}
+ */
+type GetCustomPinyin = (word: string, mode?: 'normal' | 'surname') => string;
+const getCustomPinyin: GetCustomPinyin = (word, mode = 'normal') => {
+  const customDict = getCustomDict();
+  let _word = word;
+  for (let key in customDict) {
+    let index = _word.indexOf(key);
+    if (index > -1) {
+      const left_word = word.slice(0, index);
+      // 取出该词后左边拼音
+      const left_pinyin = left_word
+        ? `${getPinyin(left_word, left_word.length, {
+            mode,
+            useCustomConfig: true,
+          })} `
+        : '';
+      // 取出该词后右边拼音
+      const right_word = word.slice(index + key.length);
+      const right_pinyin = right_word
+        ? ` ${getPinyin(right_word, right_word.length, {
+            mode,
+            useCustomConfig: true,
+          })}`
+        : '';
+      // 取出的词的拼音
+      const word_pinyin = customDict[key];
+      return `${left_pinyin}${word_pinyin}${right_pinyin}`;
+    }
+  }
+  return getPinyin(word, word.length, { mode });
 };
 
 /**

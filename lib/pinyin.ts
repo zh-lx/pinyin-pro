@@ -7,6 +7,7 @@ import {
   getPinyinWithNum,
   getFirstLetter,
 } from './handle';
+import { hasCustomConfig } from './custom';
 
 interface BasicOptions {
   toneType?: 'symbol' | 'num' | 'none';
@@ -81,7 +82,10 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   }
 
   // 获取原始拼音
-  let pinyin = getPinyin(word, word.length, options.mode);
+  let pinyin = getPinyin(word, word.length, {
+    mode: options.mode,
+    useCustomConfig: hasCustomConfig(),
+  });
 
   // 对multiple进行处理
   if (word.length === 1 && options.multiple) {

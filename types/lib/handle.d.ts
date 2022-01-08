@@ -5,7 +5,10 @@
  * @param {string} mode
  * @return {string}
  */
-declare type GetPinYin = (word: string, length: number, mode?: 'normal' | 'surname') => string;
+declare type GetPinYin = (word: string, length: number, params?: {
+    mode?: 'normal' | 'surname';
+    useCustomConfig?: boolean;
+}) => string;
 declare const getPinyin: GetPinYin;
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
