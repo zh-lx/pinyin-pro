@@ -214,6 +214,11 @@ describe('toneType', () => {
     expect(result).to.be.equal('han yu pin yin');
   });
 
+  it('none-嗯', () => {
+    const result = pinyin('阿斯蒂芬嗯', { pattern: 'first', toneType: 'none' });
+    expect(result).to.be.equal('a s d f n');
+  });
+
   it('none-array', () => {
     const result = pinyin('汉语拼音', { toneType: 'none', type: 'array' });
     expect(result).to.deep.equal(['han', 'yu', 'pin', 'yin']);
