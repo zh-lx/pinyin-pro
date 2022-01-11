@@ -20,9 +20,7 @@ export const getCustomDict = () => {
 
 export function hasCustomConfig() {
   for (let key in customDict) {
-    if (key) {
-      return true;
-    }
+    return true;
   }
   return false;
 }

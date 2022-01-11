@@ -4595,7 +4595,7 @@ export const DICT1: { [prop: string]: string } = {
   褴: 'lán',
   阆: 'làng',
   缈: 'miǎo',
-  嗯: 'ňg',
+  嗯: 'ǹg ńg ňg',
   妞: 'niū',
   沤: 'òu',
   跄: 'qiàng',

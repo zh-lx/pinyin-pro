@@ -23,11 +23,10 @@
 
 ## 版本更新
 
-当前版本： 3.6.2 -> 3.7.0
+当前版本： 3.7.0 -> 3.7.1
 
-- 使用完善
-  - 增加 esm 引入方式
-  - 完善测试用例
+- 修复问题
+  - 修复 “嗯” 在 `toneType: 'none'` 下拼音转换错误的问题
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -60,14 +59,14 @@ yarn add pinyin-pro
 </script>
 ```
 
-ESModule 引入：
+commonjs 浏览器引入：
 
 ```javascript
 import { pinyin } from 'pinyin-pro';
 pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 ```
 
-commonjs 引入：
+commonjs node 引入：
 
 ```javascript
 const { pinyin } = require('pinyin-pro');
