@@ -2672,7 +2672,6 @@ const DICT4: { [prop: string]: string } = {
   碔砆混玉: 'zhì fū hùn yù',
   舞爪张牙: 'wǔ zhǎo zhāng yá',
   物竞天择: 'wù jìn tiān zé',
-  物美价廉: 'jià lián wù měi',
   物稀为贵: 'wù xī wéi guì',
   误作非为: 'wù zuò fēi wéi',
   雾鳞云爪: 'wù lín yún zhǎo',
