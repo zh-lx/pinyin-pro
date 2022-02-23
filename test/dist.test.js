@@ -495,4 +495,18 @@ describe('customConfig', () => {
     const result = pinyin('好好');
     expect(result).to.be.equal('hào hǎo');
   });
+
+  it('nonZh', () => {
+    const result1 = pinyin('我very喜欢你');
+    expect(result1).to.be.equal('wǒ v e r y xǐ huān nǐ');
+
+    const result2 = pinyin('我very喜欢你', { nonZh: 'spaced' });
+    expect(result2).to.be.equal('wǒ v e r y xǐ huān nǐ');
+
+    const result3 = pinyin('我very喜欢你', { nonZh: 'consecutive' });
+    expect(result3).to.be.equal('wǒ very xǐ huān nǐ');
+
+    const result4 = pinyin('我very喜欢你', { nonZh: 'removed' });
+    expect(result4).to.be.equal('wǒ xǐ huān nǐ');
+  });
 });
