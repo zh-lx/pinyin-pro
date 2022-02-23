@@ -15,6 +15,7 @@ interface BasicOptions {
   multiple?: boolean;
   mode?: 'normal' | 'surname';
   removeNonZh?: boolean;
+  nonZh?: 'spaced' | 'consecutive' | 'removed';
 }
 
 interface OptionsReturnString extends BasicOptions {
@@ -35,6 +36,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
   multiple: false,
   mode: 'normal',
   removeNonZh: false,
+  nonZh: 'spaced',
 };
 
 /**
@@ -65,7 +67,7 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
     return word;
   }
   // 如果 removeNonZh 为 true，移除非中文字符串
-  if (options.removeNonZh) {
+  if (options.removeNonZh || options.nonZh === 'removed') {
     let str = '';
     for (let i = 0; i < word.length; i++) {
       const char = word[i];
@@ -84,6 +86,7 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   // 获取原始拼音
   let pinyin = getPinyin(word, word.length, {
     mode: options.mode || 'normal',
+    nonZh: options.nonZh || 'spaced',
     useCustomConfig: hasCustomConfig(),
   });
 

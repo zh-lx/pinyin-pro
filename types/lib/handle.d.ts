@@ -5,9 +5,10 @@
  * @param {string} mode
  * @return {string}
  */
-declare type GetPinYin = (word: string, length: number, params?: {
-    mode: 'normal' | 'surname';
+declare type GetPinYin = (word: string, length: number, params: {
+    mode?: 'normal' | 'surname';
     useCustomConfig?: boolean;
+    nonZh?: 'spaced' | 'consecutive' | 'removed';
 }) => string;
 declare const getPinyin: GetPinYin;
 /**
