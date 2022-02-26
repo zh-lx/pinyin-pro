@@ -1,3 +1,4 @@
+import { getStringLength } from './utils';
 let customDict: { [key: string]: string } = {};
 
 /**
@@ -7,7 +8,7 @@ let customDict: { [key: string]: string } = {};
 export function customPinyin(config: { [key: string]: string } = {}) {
   customDict = {};
   const keys = Object.keys(config).sort(
-    (key1, key2) => key2.length - key1.length
+    (key1, key2) => getStringLength(key2) - getStringLength(key1)
   );
   keys.forEach((key) => {
     customDict[key] = config[key];

@@ -7,6 +7,7 @@ import {
   getPinyinWithNum,
   getFirstLetter,
 } from './handle';
+import { getStringLength } from './utils';
 import { hasCustomConfig } from './custom';
 
 interface BasicOptions {
@@ -69,7 +70,7 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   // 如果 removeNonZh 为 true，移除非中文字符串
   if (options.removeNonZh || options.nonZh === 'removed') {
     let str = '';
-    for (let i = 0; i < word.length; i++) {
+    for (let i = 0; i < getStringLength(word); i++) {
       const char = word[i];
       let code = char.charCodeAt(0);
       if (code >= 19968 && code <= 40869) {
@@ -84,14 +85,14 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   }
 
   // 获取原始拼音
-  let pinyin = getPinyin(word, word.length, {
+  let pinyin = getPinyin(word, getStringLength(word), {
     mode: options.mode || 'normal',
     nonZh: options.nonZh || 'spaced',
     useCustomConfig: hasCustomConfig(),
   });
 
   // 对multiple进行处理
-  if (word.length === 1 && options.multiple) {
+  if (getStringLength(word) === 1 && options.multiple) {
     pinyin = getMultipleTone(word);
   }
 
