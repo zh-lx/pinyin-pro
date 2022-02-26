@@ -1,11 +1,12 @@
 import INITIAL_LIST from '../data/initial';
 import Surnames from '../data/surname';
-import { getCustomDict } from './custom';
 import DICT1 from '../data/dict1';
 import DICT2 from '../data/dict2';
 import DICT3 from '../data/dict3';
 import DICT4 from '../data/dict4';
 import DICT5 from '../data/dict5';
+import { getCustomDict } from './custom';
+import { getStringLength } from './utils';
 const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
 
 /**
@@ -59,7 +60,7 @@ const getPinyin: GetPinYin = (word, length, params) => {
 
   // 若length为1，则说明字符串中不包含2字以上的词库字词，在DICT1中查询每个字符的拼音拼接后返回
   if (length === 1) {
-    for (let i = 0; i < word.length; i++) {
+    for (let i = 0; i < getStringLength(word); i++) {
       const result = getSingleWordPinyin(word[i]);
       const curIsChinese = result !== word[i];
       pinyin +=
@@ -79,12 +80,12 @@ const getPinyin: GetPinYin = (word, length, params) => {
       // 取出该词后左边拼音
       const left_word = word.slice(0, index);
       const left_pinyin = left_word
-        ? `${getPinyin(left_word, left_word.length, { nonZh })} `
+        ? `${getPinyin(left_word, getStringLength(left_word), { nonZh })} `
         : '';
       // 取出该词后右边拼音
-      const right_word = word.slice(index + key.length);
+      const right_word = word.slice(index + getStringLength(key));
       const right_pinyin = right_word
-        ? ` ${getPinyin(right_word, right_word.length, { nonZh })}`
+        ? ` ${getPinyin(right_word, getStringLength(right_word), { nonZh })}`
         : '';
       // 取出的词的拼音
       const word_pinyin = dictArr[length][key];
@@ -117,15 +118,15 @@ const getSurnamePinyin: GetSurnamePinyin = (word, { nonZh }) => {
       const left_word = word.slice(0, index);
       // 取出该词后左边拼音
       const left_pinyin = left_word
-        ? `${getPinyin(left_word, left_word.length, {
+        ? `${getPinyin(left_word, getStringLength(left_word), {
             mode: 'surname',
             nonZh,
           })} `
         : '';
       // 取出该词后右边拼音
-      const right_word = word.slice(index + key.length);
+      const right_word = word.slice(index + getStringLength(key));
       const right_pinyin = right_word
-        ? ` ${getPinyin(right_word, right_word.length, {
+        ? ` ${getPinyin(right_word, getStringLength(right_word), {
             mode: 'surname',
             nonZh,
           })}`
@@ -136,7 +137,7 @@ const getSurnamePinyin: GetSurnamePinyin = (word, { nonZh }) => {
     }
   }
   // 若姓氏表中的词均为匹配成功，则使用常规匹配
-  return getPinyin(word, word.length, { nonZh });
+  return getPinyin(word, getStringLength(word), { nonZh });
 };
 
 /**
@@ -164,16 +165,16 @@ const getCustomPinyin: GetCustomPinyin = (word, { mode, nonZh }) => {
       const left_word = word.slice(0, index);
       // 取出该词后左边拼音
       const left_pinyin = left_word
-        ? `${getPinyin(left_word, left_word.length, {
+        ? `${getPinyin(left_word, getStringLength(left_word), {
             mode,
             useCustomConfig: true,
             nonZh,
           })} `
         : '';
       // 取出该词后右边拼音
-      const right_word = word.slice(index + key.length);
+      const right_word = word.slice(index + getStringLength(key));
       const right_pinyin = right_word
-        ? ` ${getPinyin(right_word, right_word.length, {
+        ? ` ${getPinyin(right_word, getStringLength(right_word), {
             mode,
             useCustomConfig: true,
             nonZh,
@@ -184,7 +185,7 @@ const getCustomPinyin: GetCustomPinyin = (word, { mode, nonZh }) => {
       return `${left_pinyin}${word_pinyin}${right_pinyin}`;
     }
   }
-  return getPinyin(word, word.length, { mode, nonZh });
+  return getPinyin(word, getStringLength(word), { mode, nonZh });
 };
 
 /**
@@ -232,7 +233,7 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
   for (let _pinyin of pinyin_arr) {
     for (let _initial of INITIAL_LIST) {
       if (_pinyin.startsWith(_initial)) {
-        const _final = _pinyin.slice(_initial.length);
+        const _final = _pinyin.slice(getStringLength(_initial));
         initial_arr.push(_initial);
         final_arr.push(_final);
         break;
