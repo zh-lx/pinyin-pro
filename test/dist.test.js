@@ -412,6 +412,11 @@ describe('match', () => {
     const result = match('汉语拼音', 'hyupy');
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
+
+  it('match9', () => {
+    const result = match('𧒽测试', 'cs');
+    expect(result).to.deep.equal([2, 3]);
+  });
 });
 
 describe('removeNonZh', () => {
@@ -508,5 +513,24 @@ describe('customConfig', () => {
 
     const result4 = pinyin('我very喜欢你', { nonZh: 'removed' });
     expect(result4).to.be.equal('wǒ xǐ huān nǐ');
+  });
+
+  it('double unicode', () => {
+    const result1 = pinyin('𧒽');
+    expect(result1).to.be.equal('𧒽');
+
+    const result2 = pinyin('𧒽测试');
+    expect(result2).to.be.equal('𧒽 cè shì');
+
+    const result3 = pinyin('𧒽测试𧒽测试', {});
+    expect(result3).to.be.equal('𧒽 cè shì 𧒽 cè shì');
+
+    const result4 = pinyin('𧒽测试', { nonZh: 'consecutive' });
+    expect(result4).to.be.equal('𧒽 cè shì');
+
+    const result6 = pinyin('测试a𧒽𧒽a测试a𧒽𧒽a测试', {
+      nonZh: 'consecutive',
+    });
+    expect(result6).to.be.equal('cè shì a𧒽𧒽a cè shì a𧒽𧒽a cè shì');
   });
 });

@@ -7,7 +7,7 @@ import {
   getPinyinWithNum,
   getFirstLetter,
 } from './handle';
-import { getStringLength } from './utils';
+import { getStringLength, isZhChar } from './utils';
 import { hasCustomConfig } from './custom';
 
 interface BasicOptions {
@@ -43,7 +43,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
- * @param {OptionsReturnString} options 配置项
+ * @param {OptionsReturnString=} options 配置项
  * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
  */
 function pinyin(word: string, options?: OptionsReturnString): string;
@@ -51,7 +51,7 @@ function pinyin(word: string, options?: OptionsReturnString): string;
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
- * @param {OptionsReturnArray} options 配置项
+ * @param {OptionsReturnArray=} options 配置项
  * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
  */
 function pinyin(word: string, options?: OptionsReturnArray): string[];
@@ -59,7 +59,7 @@ function pinyin(word: string, options?: OptionsReturnArray): string[];
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
- * @param {CompleteOptions} options 配置项
+ * @param {CompleteOptions=} options 配置项
  * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
  */
 function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
@@ -70,10 +70,9 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
   // 如果 removeNonZh 为 true，移除非中文字符串
   if (options.removeNonZh || options.nonZh === 'removed') {
     let str = '';
-    for (let i = 0; i < getStringLength(word); i++) {
+    for (let i = 0; i < word.length; i++) {
       const char = word[i];
-      let code = char.charCodeAt(0);
-      if (code >= 19968 && code <= 40869) {
+      if (isZhChar(char)) {
         str += char;
       }
     }
@@ -84,12 +83,84 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
     return options.type === 'array' ? [] : '';
   }
 
-  // 获取原始拼音
-  let pinyin = getPinyin(word, getStringLength(word), {
-    mode: options.mode || 'normal',
-    nonZh: options.nonZh || 'spaced',
-    useCustomConfig: hasCustomConfig(),
-  });
+  let pinyin = '';
+  if (options.removeNonZh || options.nonZh === 'removed') {
+    pinyin = getPinyin(word, getStringLength(word), {
+      mode: options.mode || 'normal',
+      nonZh: options.nonZh,
+      useCustomConfig: hasCustomConfig(),
+    });
+  } else {
+    // 针对双精度unicode编码字符处理
+    let i = 0;
+    let lastIndex = 0;
+    let items: {
+      val: string;
+      isDouble: boolean;
+      firstNonZh?: boolean;
+      lastNonZh?: boolean;
+    }[] = [];
+    while (i < word.length) {
+      const currentWord = word.substring(i, i + 2);
+      if (getStringLength(currentWord) !== currentWord.length) {
+        // 双精度unicode编码字符
+        if (lastIndex !== i) {
+          const leftWord = word.substring(lastIndex, i);
+          const leftPinyin = getPinyin(leftWord, getStringLength(leftWord), {
+            mode: options.mode || 'normal',
+            nonZh: options.nonZh || 'spaced',
+            useCustomConfig: hasCustomConfig(),
+          });
+          items.push({
+            val: leftPinyin,
+            isDouble: false,
+            firstNonZh: !isZhChar(leftWord[0]),
+            lastNonZh: !isZhChar(leftWord[leftWord.length - 1]),
+          });
+        }
+        items.push({ val: currentWord, isDouble: true });
+        lastIndex = i + 2;
+        i = i + 2;
+      } else {
+        i++;
+      }
+    }
+    if (lastIndex !== i) {
+      const remainedWord = word.substring(lastIndex, i);
+      const remainedPinyin = getPinyin(
+        remainedWord,
+        getStringLength(remainedWord),
+        {
+          mode: options.mode || 'normal',
+          nonZh: options.nonZh || 'spaced',
+          useCustomConfig: hasCustomConfig(),
+        }
+      );
+      items.push({
+        val: remainedPinyin,
+        isDouble: false,
+        firstNonZh: !isZhChar(remainedWord[0]),
+        lastNonZh: !isZhChar(remainedWord[remainedWord.length - 1]),
+      });
+    }
+
+    if (options.nonZh === 'consecutive') {
+      for (let i = 0; i < items.length; i++) {
+        if (i === 0) {
+          pinyin += items[0].val;
+        } else {
+          // 当前字符起始是否为非中文
+          const currentNonZh = items[i].isDouble || items[i].firstNonZh;
+          // 上一个字符结束是否为非中文
+          const preNonZh = items[i - 1].isDouble || items[i - 1].lastNonZh;
+          pinyin =
+            pinyin + (currentNonZh && preNonZh ? '' : ' ') + items[i].val;
+        }
+      }
+    } else {
+      pinyin = items.map((item) => item.val).join(' ');
+    }
+  }
 
   // 对multiple进行处理
   if (getStringLength(word) === 1 && options.multiple) {

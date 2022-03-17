@@ -1,5 +1,4 @@
 import { pinyin as _pinyin } from './pinyin';
-import { getStringLength } from './utils';
 
 /**
  * @description: 检测汉语字符串和拼音是否匹配
@@ -10,7 +9,7 @@ import { getStringLength } from './utils';
 export const match = (words: string, pinyin: string) => {
   const result = [];
   let currentPinyin = pinyin;
-  for (let i = 0; i < getStringLength(words); i++) {
+  for (let i = 0; i < words.length; i++) {
     // 当前字的多音字拼音
     const ps = _pinyin(words[i], {
       toneType: 'none',
@@ -38,7 +37,7 @@ export const match = (words: string, pinyin: string) => {
 // 检测两个拼音最大的匹配长度
 const getMatchLength = (pinyin1: string, pinyin2: string) => {
   let length = 0;
-  for (let i = 0; i < getStringLength(pinyin1); i++) {
+  for (let i = 0; i < pinyin1.length; i++) {
     if (pinyin1[i] === pinyin2[length]) {
       length++;
     }
