@@ -17,6 +17,7 @@ interface BasicOptions {
   mode?: 'normal' | 'surname';
   removeNonZh?: boolean;
   nonZh?: 'spaced' | 'consecutive' | 'removed';
+  v?: boolean;
 }
 
 interface OptionsReturnString extends BasicOptions {
@@ -38,6 +39,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
   mode: 'normal',
   removeNonZh: false,
   nonZh: 'spaced',
+  v: false,
 };
 
 /**
@@ -202,6 +204,11 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
     }
     default:
       break;
+  }
+
+  // v参数处理
+  if (options.v) {
+    pinyin = pinyin.replace(/ü/g, 'v');
   }
 
   return options.type === 'array' ? pinyin.split(' ') : pinyin;
