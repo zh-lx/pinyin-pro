@@ -5,6 +5,7 @@ interface BasicOptions {
     mode?: 'normal' | 'surname';
     removeNonZh?: boolean;
     nonZh?: 'spaced' | 'consecutive' | 'removed';
+    v?: boolean;
 }
 interface OptionsReturnString extends BasicOptions {
     type?: 'string';

@@ -533,4 +533,21 @@ describe('customConfig', () => {
     });
     expect(result6).to.be.equal('cè shì a𧒽𧒽a cè shì a𧒽𧒽a cè shì');
   });
+
+  it('v', () => {
+    const result1 = pinyin('吕布');
+    expect(result1).to.be.equal('lǚ bù');
+
+    const result2 = pinyin('吕布', { toneType: 'none' });
+    expect(result2).to.be.equal('lü bu');
+
+    const result3 = pinyin('吕布', { toneType: 'none', v: true });
+    expect(result3).to.be.equal('lv bu');
+
+    const result4 = pinyin('吕布', { v: true });
+    expect(result4).to.be.equal('lǚ bù');
+
+    // const result2 = pinyin('𧒽测试');
+    // expect(result2).to.be.equal('𧒽 cè shì');
+  });
 });
