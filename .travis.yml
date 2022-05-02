@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - stable
+  - 16.0.0
 script: npm run test
 after_script: npm run cover && cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
 env:
