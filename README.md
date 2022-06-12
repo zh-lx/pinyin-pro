@@ -23,9 +23,10 @@
 
 ## 版本更新
 
-当前版本： 3.9.0 -> 3.10.0
+当前版本： 3.10.0 -> 3.10.1
 
-- 优化包体积（约 30%）
+- 修正汉字拼音
+  - 哼：'hng' -> 'hēng hng'
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -204,7 +205,8 @@ pinyin('我叫曾小贤', { mode: 'surname' }); // 'wǒ jiào zēng xiǎo xián'
 
 ### <a id="removeNonZh">过滤非汉字字符</a>
 
-通过设置 `removeNonZh: true` ，可以过滤输入字符串中的非汉字字符</br>
+通过设置 `removeNonZh: true` ，可以过滤输入字符串中的非汉字字符
+
 <b>此参数已不推荐使用，建议使用</b> `nonZh: removed` <b>代替</b>
 
 ```javascript
