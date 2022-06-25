@@ -319,7 +319,7 @@ const DICT2: { [prop: string]: string } = {
   朝圣: 'cháo shèng',
   朝天: 'cháo tiān',
   朝廷: 'cháo tíng',
-  朝阳: 'zhāo cháo yáng',
+  朝阳: 'cháo yáng',
   朝向: 'cháo xiàng',
   朝野: 'cháo yě',
   朝政: 'cháo zhèng',
