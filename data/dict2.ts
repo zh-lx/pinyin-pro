@@ -684,6 +684,7 @@ const DICT2: { [prop: string]: string } = {
   发菜: 'fà cài',
   发还: 'fā huán',
   发髻: 'fà jì',
+  假发: 'jiǎ fà',
   发际: 'fà jì',
   发夹: 'fā jiā',
   发卡: 'fà qiǎ',
