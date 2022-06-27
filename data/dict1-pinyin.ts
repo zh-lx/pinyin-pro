@@ -383,7 +383,7 @@ export const DICT1: { [prop: string]: string } = {
   走: 'zǒu',
   装: 'zhuāng',
   众: 'zhòng',
-  责: 'zhài',
+  责: 'zé zhài',
   备: 'bèi',
   州: 'zhōu',
   供: 'gòng gōng',
