@@ -26,7 +26,7 @@ export const DICT1: { [prop: string]: string } = {
   产: 'chǎn',
   这: 'zhè zhèi',
   出: 'chū',
-  行: 'háng xíng',
+  行: 'xíng háng',
   作: 'zuò',
   生: 'shēng',
   家: 'jiā jia jie',
