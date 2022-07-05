@@ -137,6 +137,11 @@ describe('boundary', () => {
       'sì',
     ]);
   });
+
+  it('test行不行', () => {
+    const result = pinyin('行不行');
+    expect(result).to.be.equal('xíng bù xíng');
+  })
 });
 
 describe('multiple', () => {
@@ -242,6 +247,11 @@ describe('toneType', () => {
   it('first with num', () => {
     const result = pinyin('山西', { pattern: 'first', toneType: 'num' });
     expect(result).to.be.equal('s1 x1');
+  });
+
+  it('行不行 with none', () => {
+    const result = pinyin('行不行', { toneType: 'none' });
+    expect(result).to.be.equal('xing bu xing');
   });
 });
 

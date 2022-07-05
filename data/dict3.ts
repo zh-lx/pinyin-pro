@@ -340,6 +340,7 @@ const DICT3: { [prop: string]: string } = {
   信号弹: 'xìn hào dàn',
   信皮儿: 'xìn pí er',
   行不通: 'xíng bù tōng',
+  行不行: 'xíng bù xíng',
   行方便: 'xíng fāng biàn',
   羞答答: 'xiū dā dā',
   畜牧场: 'xù mù chǎng',
