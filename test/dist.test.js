@@ -142,6 +142,11 @@ describe('boundary', () => {
     const result = pinyin('行不行');
     expect(result).to.be.equal('xíng bù xíng');
   })
+
+  it('三人行 with none', () => {
+    const result = pinyin('三人行');
+    expect(result).to.be.equal('sān rén xíng');
+  });
 });
 
 describe('multiple', () => {
@@ -252,6 +257,10 @@ describe('toneType', () => {
   it('行不行 with none', () => {
     const result = pinyin('行不行', { toneType: 'none' });
     expect(result).to.be.equal('xing bu xing');
+  });
+  it('三人行 with none', () => {
+    const result = pinyin('三人行', { toneType: 'none' });
+    expect(result).to.be.equal('san ren xing');
   });
 });
 

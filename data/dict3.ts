@@ -277,6 +277,7 @@ const DICT3: { [prop: string]: string } = {
   三班倒: 'sān bān dǎo',
   三部曲: 'sān bù qǔ',
   三连冠: 'sān lián guàn',
+  三人行: 'sān rén xíng',
   散摊子: 'sàn tān zi',
   傻劲儿: 'shǎ jìn er',
   煞风景: 'shā fēng jǐng',
