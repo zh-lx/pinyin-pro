@@ -10,6 +10,12 @@ export const match = (words: string, pinyin: string) => {
   const result = [];
   let currentPinyin = pinyin;
   for (let i = 0; i < words.length; i++) {
+    // 是否为中文匹配
+    if (words[i] === currentPinyin[0]) {
+      currentPinyin = currentPinyin.slice(1);
+      result.push(i);
+      continue;
+    }
     // 当前字的多音字拼音
     const ps = _pinyin(words[i], {
       toneType: 'none',
