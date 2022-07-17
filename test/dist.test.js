@@ -427,6 +427,11 @@ describe('match', () => {
     const result = match('𧒽测试', 'cs');
     expect(result).to.deep.equal([2, 3]);
   });
+
+  it('match10', () => {
+    const result = match('欢迎使用汉语拼音', '欢yingshy拼');
+    expect(result).to.deep.equal([0, 1, 2, 3, 6]);
+  });
 });
 
 describe('removeNonZh', () => {
