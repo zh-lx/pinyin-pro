@@ -23,13 +23,11 @@
 
 ## 版本更新
 
-当前版本： 3.10.1 -> 3.10.2
+当前版本： 3.10.2 -> 3.11.0
 
-- 修正部分读音:
-  - 责: 'zhài' -> 'zé zhài'
-  - 朝阳: 'zhāo cháo yáng' -> 'cháo yáng'
-  - 假发: 'jiǎ fā' -> 'jiǎ fà'
-- 优化 typescript 的 `options` 中的配置项提示
+- 优化拼音词库，提升拼音识别准确率
+- 体积优化约 10%
+- 增强 match 方法，支持中文匹配，中文及拼音混合匹配
 
 点击查看 [版本更新文档](./CHANGELOG.md)
 
@@ -261,10 +259,11 @@ import { match } from 'pinyin-pro';
 const matches1 = match('汉语拼音', 'hanyupinyin'); // [0, 1, 2, 3] 拼音和文本匹配，返回匹配上的文本下标
 const matches2 = match('汉语拼音', 'hanpin'); // [0, 2] 拼音和文本匹配，返回匹配上的文本下标
 const matches3 = match('汉语拼音', 'hyupy'); // [0, 1, 2, 3] 支持各种格式的拼音缩写匹配
-const matches4 = match('汉语拼音', 'lsaf'); // null，未匹配成功返回 null
-const matches5 = match('汉语拼音', 'hanyupinle'); // null，最后的 le 和音不匹配，匹配不成功，返回 null
-const matches6 = match('会计', 'kuaiji'); // [0, 1]，匹配成功，返回匹配上的文本下标
-const matches7 = match('会计', 'huiji'); // [0, 1]，多音字只要其中一个读音匹配上即算匹配成功
+const matches4 = match('汉语拼音', 'hyu音'); // [0, 1, 3] 支持中文和拼音混合匹配
+const matches5 = match('汉语拼音', 'lsaf'); // null，未匹配成功返回 null
+const matches6 = match('汉语拼音', 'hanyupinle'); // null，最后的 le 和音不匹配，匹配不成功，返回 null
+const matches7 = match('会计', 'kuaiji'); // [0, 1]，匹配成功，返回匹配上的文本下标
+const matches8 = match('会计', 'huiji'); // [0, 1]，多音字只要其中一个读音匹配上即算匹配成功
 ```
 
 ### 将拼音 ü 替换为 v
