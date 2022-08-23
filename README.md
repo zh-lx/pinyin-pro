@@ -60,7 +60,7 @@ yarn add pinyin-pro
 </script>
 ```
 
-commonjs 浏览器引入：
+ESModule 浏览器引入：
 
 ```javascript
 import { pinyin } from 'pinyin-pro';
@@ -74,7 +74,7 @@ const { pinyin } = require('pinyin-pro');
 pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 ```
 
-esm 引入：
+动态导入：
 
 ```javascript
 import('pinyin-pro').then((exports) => {
