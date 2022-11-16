@@ -1,4 +1,9 @@
-import INITIAL_LIST from '../data/initial';
+import {
+  InitialList,
+  SpecialInitialList,
+  SpecialFinalMap,
+  SpecialFinalList,
+} from '../data/special';
 import Surnames from '../data/surname';
 import DICT1 from '../data/dict1';
 import DICT2 from '../data/dict2';
@@ -230,9 +235,15 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
   const initial_arr: string[] = [];
   const final_arr: string[] = [];
   for (let _pinyin of pinyin_arr) {
-    for (let _initial of INITIAL_LIST) {
+    for (let _initial of InitialList) {
       if (_pinyin.startsWith(_initial)) {
-        const _final = _pinyin.slice(_initial.length);
+        let _final = _pinyin.slice(_initial.length);
+        if (
+          SpecialInitialList.indexOf(_initial) !== -1 &&
+          SpecialFinalList.indexOf(_final) !== -1
+        ) {
+          _final = SpecialFinalMap[_final as keyof typeof SpecialFinalMap];
+        }
         initial_arr.push(_initial);
         final_arr.push(_final);
         break;

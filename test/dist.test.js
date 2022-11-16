@@ -1,4 +1,4 @@
-const { pinyin, customPinyin, match } = require('../dist/index.js');
+const { pinyin, customPinyin, match } = require('../');
 const expect = require('chai').expect;
 
 describe('aggregate', () => {
@@ -564,5 +564,17 @@ describe('customConfig', () => {
 
     // const result2 = pinyin('𧒽测试');
     // expect(result2).to.be.equal('𧒽 cè shì');
+  });
+
+  it('special final', () => {
+    const result = pinyin('群', {
+      pattern: 'final',
+    });
+    expect(result).to.deep.equal('ǘn');
+
+    const result1 = pinyin('局', {
+      pattern: 'final',
+    });
+    expect(result1).to.deep.equal('ǘ');
   });
 });
