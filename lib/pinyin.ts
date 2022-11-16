@@ -6,6 +6,7 @@ import {
   getNumOfTone,
   getPinyinWithNum,
   getFirstLetter,
+  getFinalParts,
 } from './handle';
 import { getStringLength, isZhChar } from './utils';
 import { hasCustomConfig } from './custom';
@@ -252,6 +253,15 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
       break;
     case 'first':
       pinyin = getFirstLetter(pinyin);
+      break;
+    case 'finalHead':
+      pinyin = getFinalParts(pinyin).head;
+      break;
+    case 'finalBody':
+      pinyin = getFinalParts(pinyin).body;
+      break;
+    case 'finalTail':
+      pinyin = getFinalParts(pinyin).tail;
       break;
     default:
       break;

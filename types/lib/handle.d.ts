@@ -36,6 +36,17 @@ declare type GetInitialAndFinal = (pinyin: string) => {
 };
 declare const getInitialAndFinal: GetInitialAndFinal;
 /**
+ * @description: 获取韵母的韵头、韵腹和韵尾
+ * @param {string} pinyin
+ * @return {*}
+ */
+declare type GetFinalParts = (pinyin: string) => {
+    head: string;
+    body: string;
+    tail: string;
+};
+declare const getFinalParts: GetFinalParts;
+/**
  * @description: 将带音调符号拼音转换为带音调数字
  * @param {string} pinyin
  * @return {string}
@@ -57,4 +68,4 @@ declare const getPinyinWithNum: GetPinyinWithNum;
  */
 declare type GetFirstLetter = (pinyin: string) => string;
 declare const getFirstLetter: GetFirstLetter;
-export { getPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, getFirstLetter, };
+export { getPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };

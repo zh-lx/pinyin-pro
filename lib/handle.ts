@@ -3,6 +3,7 @@ import {
   SpecialInitialList,
   SpecialFinalMap,
   SpecialFinalList,
+  doubleFinalList,
 } from '../data/special';
 import Surnames from '../data/surname';
 import DICT1 from '../data/dict1';
@@ -242,6 +243,7 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
           SpecialInitialList.indexOf(_initial) !== -1 &&
           SpecialFinalList.indexOf(_final) !== -1
         ) {
+          // 针对 jqx 的 u 特殊处理
           _final = SpecialFinalMap[_final as keyof typeof SpecialFinalMap];
         }
         initial_arr.push(_initial);
@@ -254,6 +256,32 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
     final: final_arr.join(' '), // 韵母
     initial: initial_arr.join(' '), // 声母
   };
+};
+
+/**
+ * @description: 获取韵母的韵头、韵腹和韵尾
+ * @param {string} pinyin
+ * @return {*}
+ */
+type GetFinalParts = (pinyin: string) => {
+  head: string;
+  body: string;
+  tail: string;
+};
+const getFinalParts: GetFinalParts = (pinyin) => {
+  const { final } = getInitialAndFinal(pinyin);
+  let head = '',
+    body = '',
+    tail = '';
+  if (doubleFinalList.indexOf(getPinyinWithoutTone(final)) !== -1) {
+    head = final[0];
+    body = final[1];
+    tail = final.slice(2);
+  } else {
+    body = final[0];
+    tail = final.slice(1);
+  }
+  return { head, body, tail };
 };
 
 /**
@@ -328,4 +356,5 @@ export {
   getNumOfTone,
   getPinyinWithNum,
   getFirstLetter,
+  getFinalParts,
 };

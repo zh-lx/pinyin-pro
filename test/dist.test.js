@@ -563,8 +563,8 @@ describe('customConfig', () => {
     const result4 = pinyin('吕布', { v: true });
     expect(result4).to.be.equal('lǚ bù');
 
-    // const result2 = pinyin('𧒽测试');
-    // expect(result2).to.be.equal('𧒽 cè shì');
+    const result5 = pinyin('𧒽测试');
+    expect(result5).to.be.equal('𧒽 cè shì');
   });
 
   it('special final', () => {
@@ -581,6 +581,43 @@ describe('customConfig', () => {
     const result2 = pinyin('选', {
       pattern: 'final',
     });
-    expect(result1).to.deep.equal('üǎn');
+    expect(result2).to.deep.equal('üǎn');
+
+    const result3 = pinyin('却', {
+      pattern: 'final',
+    });
+    expect(result3).to.deep.equal('üè');
+  });
+
+  it('final parts', () => {
+    const result = pinyin('广', {
+      pattern: 'finalHead',
+    });
+    expect(result).to.deep.equal('u');
+
+    const result1 = pinyin('广', {
+      pattern: 'finalBody',
+    });
+    expect(result1).to.deep.equal('ǎ');
+
+    const result2 = pinyin('广', {
+      pattern: 'finalTail',
+    });
+    expect(result2).to.deep.equal('ng');
+
+    const result4 = pinyin('敢', {
+      pattern: 'finalHead',
+    });
+    expect(result4).to.deep.equal('');
+
+    const result5 = pinyin('敢', {
+      pattern: 'finalBody',
+    });
+    expect(result5).to.deep.equal('ǎ');
+
+    const result6 = pinyin('敢', {
+      pattern: 'finalTail',
+    });
+    expect(result6).to.deep.equal('n');
   });
 });
