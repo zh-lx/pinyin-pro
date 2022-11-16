@@ -1,4 +1,4 @@
-const { pinyin, customPinyin, match } = require('../dist/index.cjs.js');
+const { pinyin, customPinyin, match } = require('../dist/index.js');
 const expect = require('chai').expect;
 
 describe('aggregate', () => {
