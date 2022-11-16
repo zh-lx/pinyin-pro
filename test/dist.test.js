@@ -293,6 +293,7 @@ describe('surname', () => {
 
 describe('pinyinFn', () => {
   it('not string type', () => {
+    // @ts-ignore
     const result = pinyin(2222);
     expect(result).to.be.equal(2222);
   });
@@ -576,5 +577,10 @@ describe('customConfig', () => {
       pattern: 'final',
     });
     expect(result1).to.deep.equal('ǘ');
+
+    const result2 = pinyin('选', {
+      pattern: 'final',
+    });
+    expect(result1).to.deep.equal('üǎn');
   });
 });

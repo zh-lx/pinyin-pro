@@ -25,8 +25,19 @@ interface BasicOptions {
    * @value final：返回韵母
    * @value num：返回音调对应的数字
    * @value first：返回首字母
+   * @value finalHead：返回韵头（介音）
+   * @value finalBody：返回韵腹
+   * @value finalTail：返回韵尾
    */
-  pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first';
+  pattern?:
+    | 'pinyin'
+    | 'initial'
+    | 'final'
+    | 'num'
+    | 'first'
+    | 'finalHead'
+    | 'finalBody'
+    | 'finalTail';
   /**
    * @description 是否返回单个汉字的所有多音，仅针对输入的 word 为单个汉字生效
    * @value false：返回最常用的一个拼音 （默认值）

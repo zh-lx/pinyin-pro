@@ -19,6 +19,10 @@
     "type": "git",
     "url": "git+https://github.com/zh-lx/pinyin-pro.git"
   },
+  "files": [
+    "dist",
+    "types"
+  ],
   "keywords": [
     "拼音",
     "pinyin",

@@ -27,6 +27,11 @@ export const InitialList = [
 
 export const SpecialInitialList = ['j', 'q', 'x'];
 export const SpecialFinalList = [
+  'uān',
+  'uán',
+  'uǎn',
+  'uàn',
+  'uan',
   'ūn',
   'ún',
   'ǔn',
@@ -40,6 +45,11 @@ export const SpecialFinalList = [
 ];
 
 export const SpecialFinalMap = {
+  uān: 'üān',
+  uán: 'üán',
+  uǎn: 'üǎn',
+  uàn: 'üàn',
+  uan: 'üan',
   ūn: 'ǖn',
   ún: 'ǘn',
   ǔn: 'ǚn',
@@ -51,3 +61,5 @@ export const SpecialFinalMap = {
   ù: 'ǜ',
   u: 'ü',
 };
+
+export const doubleFinal = [];
