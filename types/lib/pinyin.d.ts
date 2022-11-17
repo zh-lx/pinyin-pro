@@ -50,6 +50,18 @@ interface BasicOptions {
      */
     v?: boolean;
 }
+interface AllData {
+    origin: string;
+    pinyin: string;
+    initial: string;
+    final: string;
+    num: number;
+    first: string;
+    finalHead: string;
+    finalBody: string;
+    finalTail: string;
+    isZh: boolean;
+}
 interface OptionsReturnString extends BasicOptions {
     /**
      * @description 返回结果的格式
@@ -66,18 +78,28 @@ interface OptionsReturnArray extends BasicOptions {
      */
     type: 'array';
 }
+interface OptionsReturnAll extends BasicOptions {
+    type: 'all';
+}
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
  * @param {OptionsReturnString=} options 配置项
- * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
  */
 declare function pinyin(word: string, options?: OptionsReturnString): string;
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
  * @param {OptionsReturnArray=} options 配置项
- * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
  */
 declare function pinyin(word: string, options?: OptionsReturnArray): string[];
+/**
+ * @description: 获取汉语字符串的拼音
+ * @param {string} word 要转换的汉语字符串
+ * @param {OptionsReturnAll=} options 配置项
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
+ */
+declare function pinyin(word: string, options?: OptionsReturnAll): AllData[];
 export { pinyin };

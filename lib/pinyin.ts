@@ -8,7 +8,7 @@ import {
   getFirstLetter,
   getFinalParts,
 } from './handle';
-import { getStringLength, isZhChar } from './utils';
+import { getStringLength, isZhChar, getSplittedWord } from './utils';
 import { hasCustomConfig } from './custom';
 
 interface BasicOptions {
@@ -72,6 +72,19 @@ interface BasicOptions {
   v?: boolean;
 }
 
+interface AllData {
+  origin: string;
+  pinyin: string;
+  initial: string;
+  final: string;
+  num: number;
+  first: string;
+  finalHead: string;
+  finalBody: string;
+  finalTail: string;
+  isZh: boolean;
+}
+
 interface OptionsReturnString extends BasicOptions {
   /**
    * @description 返回结果的格式
@@ -89,13 +102,18 @@ interface OptionsReturnArray extends BasicOptions {
    */
   type: 'array';
 }
+
+interface OptionsReturnAll extends BasicOptions {
+  type: 'all';
+}
+
 interface CompleteOptions extends BasicOptions {
   /**
    * @description 返回结果的格式
    * @value string：以字符串格式返回，拼音之间用空格隔开 （默认值）
    * @value array：以数组格式返回
    */
-  type?: 'string' | 'array';
+  type?: 'string' | 'array' | 'all';
 }
 
 const DEFAULT_OPTIONS: CompleteOptions = {
@@ -113,7 +131,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
  * @param {OptionsReturnString=} options 配置项
- * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
  */
 function pinyin(word: string, options?: OptionsReturnString): string;
 
@@ -121,21 +139,43 @@ function pinyin(word: string, options?: OptionsReturnString): string;
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
  * @param {OptionsReturnArray=} options 配置项
- * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
  */
 function pinyin(word: string, options?: OptionsReturnArray): string[];
 
 /**
  * @description: 获取汉语字符串的拼音
  * @param {string} word 要转换的汉语字符串
- * @param {CompleteOptions=} options 配置项
- * @return {string | string[]} options 配置项中的 type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组
+ * @param {OptionsReturnAll=} options 配置项
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
  */
-function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
+function pinyin(word: string, options?: OptionsReturnAll): AllData[];
+
+/**
+ * @description: 获取汉语字符串的拼音
+ * @param {string} word 要转换的汉语字符串
+ * @param {CompleteOptions=} options 配置项
+ * @return {string | string[] | AllData[]} options.type 为 string 时，返回字符串，中间用空格隔开；为 array 时，返回拼音字符串数组；为 all 时返回全部信息的数组
+ */
+function pinyin(
+  word: string,
+  options = DEFAULT_OPTIONS
+): string | string[] | AllData[] {
   // word传入类型错误时
   if (typeof word !== 'string') {
     return word;
   }
+
+  let originNonZh = options.nonZh;
+  if (options.removeNonZh) {
+    originNonZh = 'removed';
+  }
+  // 针对 all 模式特殊处理
+  if (options.type === 'all') {
+    options.removeNonZh = false;
+    options.nonZh = 'spaced';
+  }
+
   // 如果 removeNonZh 为 true，移除非中文字符串
   if (options.removeNonZh || options.nonZh === 'removed') {
     let str = '';
@@ -147,9 +187,10 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
     }
     word = str;
   }
+
   // 传入空字符串
   if (word === '') {
-    return options.type === 'array' ? [] : '';
+    return options.type === 'array' || options.type === 'all' ? [] : '';
   }
 
   let pinyin = '';
@@ -267,7 +308,71 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
       break;
   }
 
+  if (options.type === 'all') {
+    const origins = getSplittedWord(word);
+    const list = pinyin.split(' ').map((p, index) => ({
+      origin: origins[index],
+      pinyin: p,
+      initial: allMiddleWare(
+        getInitialAndFinal(p).initial,
+        originPinyin,
+        options
+      ),
+      final: allMiddleWare(getInitialAndFinal(p).final, originPinyin, options),
+      first: allMiddleWare(getFirstLetter(p), originPinyin, options),
+      finalHead: allMiddleWare(getFinalParts(p).head, originPinyin, options),
+      finalBody: allMiddleWare(getFinalParts(p).body, originPinyin, options),
+      finalTail: allMiddleWare(getFinalParts(p).tail, originPinyin, options),
+      num: Number(getNumOfTone(p)),
+      isZh: p !== origins[index],
+    }));
+    if (originNonZh === 'removed') {
+      return list.filter((pinyin) => pinyin.isZh);
+    } else if (originNonZh === 'consecutive') {
+      const result = [];
+      for (let i = 0; i < list.length; i++) {
+        const pinyin = list[i];
+        if (pinyin.isZh) {
+          result.push(pinyin);
+        } else if (i > 0 && !list[i - 1].isZh) {
+          result[result.length - 1].origin += pinyin.origin;
+          result[result.length - 1].pinyin += pinyin.pinyin;
+        } else {
+          result.push({
+            origin: pinyin.origin,
+            pinyin: pinyin.pinyin,
+            initial: '',
+            final: '',
+            first: '',
+            finalHead: '',
+            finalBody: '',
+            finalTail: '',
+            num: 0,
+            isZh: false,
+          });
+        }
+      }
+      return result;
+    } else {
+      return list;
+    }
+  }
+
   // toneType参数处理
+  pinyin = toneTypeMiddleware(pinyin, originPinyin, options);
+
+  // v参数处理
+  pinyin = vMiddleWare(pinyin, options);
+
+  // type 参数处理
+  return options.type === 'array' ? pinyin.split(' ') : pinyin;
+}
+
+const toneTypeMiddleware = (
+  pinyin: string,
+  origin: string,
+  options: CompleteOptions
+): string => {
   switch (options.toneType) {
     case 'symbol':
       break;
@@ -275,19 +380,31 @@ function pinyin(word: string, options = DEFAULT_OPTIONS): string | string[] {
       pinyin = getPinyinWithoutTone(pinyin);
       break;
     case 'num': {
-      pinyin = getPinyinWithNum(pinyin, originPinyin);
+      pinyin = getPinyinWithNum(pinyin, origin);
       break;
     }
     default:
       break;
   }
+  return pinyin;
+};
 
-  // v参数处理
+const vMiddleWare = (pinyin: string, options: CompleteOptions) => {
   if (options.v) {
     pinyin = pinyin.replace(/ü/g, 'v');
   }
+  return pinyin;
+};
 
-  return options.type === 'array' ? pinyin.split(' ') : pinyin;
-}
+// all 格式处理
+const allMiddleWare = (
+  pinyin: string,
+  origin: string,
+  options: CompleteOptions
+): string => {
+  pinyin = toneTypeMiddleware(pinyin, origin, options);
+  pinyin = vMiddleWare(pinyin, options);
+  return pinyin;
+};
 
 export { pinyin };

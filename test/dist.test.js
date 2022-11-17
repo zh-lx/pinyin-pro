@@ -620,4 +620,60 @@ describe('customConfig', () => {
     });
     expect(result6).to.deep.equal('n');
   });
+
+  it('test all1', () => {
+    const result = pinyin('汉语拼音', {
+      type: 'all',
+    });
+    expect(result).to.deep.equal([
+      {
+        origin: '汉',
+        pinyin: 'hàn',
+        initial: 'h',
+        final: 'àn',
+        first: 'h',
+        finalHead: '',
+        finalBody: 'à',
+        finalTail: 'n',
+        num: 4,
+        isZh: true,
+      },
+      {
+        origin: '语',
+        pinyin: 'yǔ',
+        initial: 'y',
+        final: 'ǔ',
+        first: 'y',
+        finalHead: '',
+        finalBody: 'ǔ',
+        finalTail: '',
+        num: 3,
+        isZh: true,
+      },
+      {
+        origin: '拼',
+        pinyin: 'pīn',
+        initial: 'p',
+        final: 'īn',
+        first: 'p',
+        finalHead: '',
+        finalBody: 'ī',
+        finalTail: 'n',
+        num: 1,
+        isZh: true,
+      },
+      {
+        origin: '音',
+        pinyin: 'yīn',
+        initial: 'y',
+        final: 'īn',
+        first: 'y',
+        finalHead: '',
+        finalBody: 'ī',
+        finalTail: 'n',
+        num: 1,
+        isZh: true,
+      },
+    ]);
+  });
 });
