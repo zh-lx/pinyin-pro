@@ -310,22 +310,53 @@ function pinyin(
 
   if (options.type === 'all') {
     const origins = getSplittedWord(word);
-    const list = pinyin.split(' ').map((p, index) => ({
-      origin: origins[index],
-      pinyin: p,
-      initial: allMiddleWare(
-        getInitialAndFinal(p).initial,
-        originPinyin,
-        options
-      ),
-      final: allMiddleWare(getInitialAndFinal(p).final, originPinyin, options),
-      first: allMiddleWare(getFirstLetter(p), originPinyin, options),
-      finalHead: allMiddleWare(getFinalParts(p).head, originPinyin, options),
-      finalBody: allMiddleWare(getFinalParts(p).body, originPinyin, options),
-      finalTail: allMiddleWare(getFinalParts(p).tail, originPinyin, options),
-      num: Number(getNumOfTone(p)),
-      isZh: p !== origins[index],
-    }));
+    const list = pinyin.split(' ').map((p, index) =>
+      isZhChar(origins[index])
+        ? {
+            origin: origins[index],
+            pinyin: p,
+            initial: allMiddleWare(
+              getInitialAndFinal(p).initial,
+              originPinyin,
+              options
+            ),
+            final: allMiddleWare(
+              getInitialAndFinal(p).final,
+              originPinyin,
+              options
+            ),
+            first: allMiddleWare(getFirstLetter(p), originPinyin, options),
+            finalHead: allMiddleWare(
+              getFinalParts(p).head,
+              originPinyin,
+              options
+            ),
+            finalBody: allMiddleWare(
+              getFinalParts(p).body,
+              originPinyin,
+              options
+            ),
+            finalTail: allMiddleWare(
+              getFinalParts(p).tail,
+              originPinyin,
+              options
+            ),
+            num: Number(getNumOfTone(p)),
+            isZh: p !== origins[index],
+          }
+        : {
+            origin: origins[index],
+            pinyin: '',
+            initial: '',
+            final: '',
+            first: '',
+            finalHead: '',
+            finalBody: '',
+            finalTail: '',
+            num: 0,
+            isZh: false,
+          }
+    );
     if (originNonZh === 'removed') {
       return list.filter((pinyin) => pinyin.isZh);
     } else if (originNonZh === 'consecutive') {
@@ -336,20 +367,8 @@ function pinyin(
           result.push(pinyin);
         } else if (i > 0 && !list[i - 1].isZh) {
           result[result.length - 1].origin += pinyin.origin;
-          result[result.length - 1].pinyin += pinyin.pinyin;
         } else {
-          result.push({
-            origin: pinyin.origin,
-            pinyin: pinyin.pinyin,
-            initial: '',
-            final: '',
-            first: '',
-            finalHead: '',
-            finalBody: '',
-            finalTail: '',
-            num: 0,
-            isZh: false,
-          });
+          result.push(pinyin);
         }
       }
       return result;

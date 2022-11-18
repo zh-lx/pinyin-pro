@@ -1,13 +1,13 @@
 const { pinyin, customPinyin, match } = require('../');
 const expect = require('chai').expect;
 
-describe('aggregate', () => {
-  it('test1', () => {
+describe('pattern_toneType', () => {
+  it('num_num字符串', () => {
     const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'num' });
     expect(result).to.be.equal('4 3 1 1');
   });
 
-  it('test2', () => {
+  it('num_num数组', () => {
     const result = pinyin('汉语拼音', {
       pattern: 'num',
       toneType: 'num',
@@ -16,12 +16,12 @@ describe('aggregate', () => {
     expect(result).to.deep.equal(['4', '3', '1', '1']);
   });
 
-  it('test3', () => {
+  it('num_none字符串', () => {
     const result = pinyin('汉语拼音', { pattern: 'num', toneType: 'none' });
     expect(result).to.be.equal('4 3 1 1');
   });
 
-  it('test4', () => {
+  it('num_none数组', () => {
     const result = pinyin('汉语拼音', {
       pattern: 'num',
       toneType: 'none',
@@ -30,12 +30,12 @@ describe('aggregate', () => {
     expect(result).to.deep.equal(['4', '3', '1', '1']);
   });
 
-  it('test5', () => {
+  it('initial_num字符串', () => {
     const result = pinyin('汉语拼音', { pattern: 'initial', toneType: 'num' });
     expect(result).to.be.equal('h4 y3 p1 y1');
   });
 
-  it('test6', () => {
+  it('initial_num数组', () => {
     const result = pinyin('汉语拼音', {
       pattern: 'initial',
       toneType: 'num',
@@ -44,12 +44,12 @@ describe('aggregate', () => {
     expect(result).to.deep.equal(['h4', 'y3', 'p1', 'y1']);
   });
 
-  it('test7', () => {
+  it('final_num字符串', () => {
     const result = pinyin('汉语拼音', { pattern: 'final', toneType: 'num' });
     expect(result).to.be.equal('an4 u3 in1 in1');
   });
 
-  it('test8', () => {
+  it('final_num数组', () => {
     const result = pinyin('汉语拼音', {
       pattern: 'final',
       toneType: 'num',
@@ -58,7 +58,7 @@ describe('aggregate', () => {
     expect(result).to.deep.equal(['an4', 'u3', 'in1', 'in1']);
   });
 
-  it('test9', () => {
+  it('final_num多音字', () => {
     const result = pinyin('好', {
       pattern: 'final',
       toneType: 'num',
@@ -67,7 +67,7 @@ describe('aggregate', () => {
     expect(result).to.be.equal('ao3 ao4');
   });
 
-  it('test10', () => {
+  it('final_num多音字数组', () => {
     const result = pinyin('好', {
       pattern: 'final',
       toneType: 'num',
@@ -78,23 +78,23 @@ describe('aggregate', () => {
   });
 });
 
-describe('boundary', () => {
-  it('test1', () => {
+describe('basic', () => {
+  it('正常拼音字符串', () => {
     const result = pinyin('汉语拼音');
     expect(result).to.be.equal('hàn yǔ pīn yīn');
   });
 
-  it('test2', () => {
+  it('拼音+非汉字字符串', () => {
     const result = pinyin('汉语拼音xxx.,');
     expect(result).to.be.equal('hàn yǔ pīn yīn x x x . ,');
   });
 
-  it('test3', () => {
+  it('正常拼音数组', () => {
     const result = pinyin('汉语拼音', { type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
   });
 
-  it('test4', () => {
+  it('拼音+非汉字数组', () => {
     const result = pinyin('汉语拼音xxx.,', { type: 'array' });
     expect(result).to.deep.equal([
       'hàn',
@@ -109,22 +109,22 @@ describe('boundary', () => {
     ]);
   });
 
-  it('test5', () => {
+  it('空字符串', () => {
     const result = pinyin('');
     expect(result).to.be.equal('');
   });
 
-  it('test6', () => {
+  it('空数组', () => {
     const result = pinyin('', { type: 'array' });
     expect(result).to.deep.equal([]);
   });
 
-  it('test7', () => {
+  it('正常拼音1', () => {
     const result = pinyin('哈发生你看三零四');
     expect(result).to.be.equal('hā fā shēng nǐ kàn sān líng sì');
   });
 
-  it('test8', () => {
+  it('正常拼音数组1', () => {
     const result = pinyin('哈发生你看三零四', { type: 'array' });
     expect(result).to.deep.equal([
       'hā',
@@ -145,27 +145,27 @@ describe('boundary', () => {
 });
 
 describe('multiple', () => {
-  it('word', () => {
+  it('非单字', () => {
     const result = pinyin('汉语拼音', { multiple: true });
     expect(result).to.be.equal('hàn yǔ pīn yīn');
   });
 
-  it('single', () => {
+  it('单字', () => {
     const result = pinyin('好', { multiple: true });
     expect(result).to.be.equal('hǎo hào');
   });
 
-  it('word-array', () => {
+  it('非单字数组', () => {
     const result = pinyin('汉语拼音', { multiple: true, type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
   });
 
-  it('single-array', () => {
+  it('单字数组', () => {
     const result = pinyin('好', { multiple: true, type: 'array' });
     expect(result).to.deep.equal(['hǎo', 'hào']);
   });
 
-  it('none-find', () => {
+  it('非字符串', () => {
     const result = pinyin('a', { multiple: true, type: 'array' });
     expect(result).to.deep.equal(['a']);
   });
@@ -447,6 +447,153 @@ describe('removeNonZh', () => {
   });
 });
 
+describe('nonZh', () => {
+  it('nonZh init', () => {
+    const result1 = pinyin('我very喜欢你');
+    expect(result1).to.be.equal('wǒ v e r y xǐ huān nǐ');
+  });
+
+  it('nonZh spaced', () => {
+    const result2 = pinyin('我very喜欢你', { nonZh: 'spaced' });
+    expect(result2).to.be.equal('wǒ v e r y xǐ huān nǐ');
+  });
+
+  it('nonZh consecutive', () => {
+    const result3 = pinyin('我very喜欢你', { nonZh: 'consecutive' });
+    expect(result3).to.be.equal('wǒ very xǐ huān nǐ');
+  });
+
+  it('nonZh removed', () => {
+    const result4 = pinyin('我very喜欢你', { nonZh: 'removed' });
+    expect(result4).to.be.equal('wǒ xǐ huān nǐ');
+  });
+});
+
+describe('double unicode', () => {
+  it('double unicode', () => {
+    const result1 = pinyin('𧒽');
+    expect(result1).to.be.equal('𧒽');
+  });
+
+  it('double unicode with pinyin', () => {
+    const result2 = pinyin('𧒽测试');
+    expect(result2).to.be.equal('𧒽 cè shì');
+  });
+
+  it('dpdp', () => {
+    const result3 = pinyin('𧒽测试𧒽测试', {});
+    expect(result3).to.be.equal('𧒽 cè shì 𧒽 cè shì');
+  });
+
+  it('dp consecutive', () => {
+    const result4 = pinyin('𧒽测试', { nonZh: 'consecutive' });
+    expect(result4).to.be.equal('𧒽 cè shì');
+  });
+
+  it('dpdpdp consecutive', () => {
+    const result5 = pinyin('测试a𧒽𧒽a测试a𧒽𧒽a测试', {
+      nonZh: 'consecutive',
+    });
+    expect(result5).to.be.equal('cè shì a𧒽𧒽a cè shì a𧒽𧒽a cè shì');
+  });
+});
+
+describe('special final', () => {
+  it('un', () => {
+    const result = pinyin('群', {
+      pattern: 'final',
+    });
+    expect(result).to.deep.equal('ǘn');
+  });
+
+  it('u', () => {
+    const result1 = pinyin('局', {
+      pattern: 'final',
+    });
+    expect(result1).to.deep.equal('ǘ');
+  });
+
+  it('uan', () => {
+    const result2 = pinyin('选', {
+      pattern: 'final',
+    });
+    expect(result2).to.deep.equal('üǎn');
+  });
+
+  it('ue', () => {
+    const result3 = pinyin('却', {
+      pattern: 'final',
+    });
+    expect(result3).to.deep.equal('üè');
+  });
+});
+
+describe('final parts', () => {
+  it('head', () => {
+    const result = pinyin('广', {
+      pattern: 'finalHead',
+    });
+    expect(result).to.deep.equal('u');
+  });
+
+  it('body', () => {
+    const result1 = pinyin('广', {
+      pattern: 'finalBody',
+    });
+    expect(result1).to.deep.equal('ǎ');
+  });
+
+  it('tail', () => {
+    const result2 = pinyin('广', {
+      pattern: 'finalTail',
+    });
+    expect(result2).to.deep.equal('ng');
+  });
+
+  it('no head', () => {
+    const result4 = pinyin('敢', {
+      pattern: 'finalHead',
+    });
+    expect(result4).to.deep.equal('');
+  });
+
+  it('no head body', () => {
+    const result5 = pinyin('敢', {
+      pattern: 'finalBody',
+    });
+    expect(result5).to.deep.equal('ǎ');
+  });
+
+  it('no tail', () => {
+    const result6 = pinyin('哈', {
+      pattern: 'finalTail',
+    });
+    expect(result6).to.deep.equal('');
+  });
+});
+
+describe('v', () => {
+  it('no v', () => {
+    const result1 = pinyin('吕布');
+    expect(result1).to.be.equal('lǚ bù');
+  });
+
+  it('no v toneType none', () => {
+    const result2 = pinyin('吕布', { toneType: 'none' });
+    expect(result2).to.be.equal('lü bu');
+  });
+
+  it('v toneType none', () => {
+    const result3 = pinyin('吕布', { toneType: 'none', v: true });
+    expect(result3).to.be.equal('lv bu');
+  });
+
+  it('v', () => {
+    const result4 = pinyin('吕布', { v: true });
+    expect(result4).to.be.equal('lǚ bù');
+  });
+});
+
 describe('customConfig', () => {
   it('custom none', () => {
     customPinyin();
@@ -516,112 +663,10 @@ describe('customConfig', () => {
     const result = pinyin('好好');
     expect(result).to.be.equal('hào hǎo');
   });
+});
 
-  it('nonZh', () => {
-    const result1 = pinyin('我very喜欢你');
-    expect(result1).to.be.equal('wǒ v e r y xǐ huān nǐ');
-
-    const result2 = pinyin('我very喜欢你', { nonZh: 'spaced' });
-    expect(result2).to.be.equal('wǒ v e r y xǐ huān nǐ');
-
-    const result3 = pinyin('我very喜欢你', { nonZh: 'consecutive' });
-    expect(result3).to.be.equal('wǒ very xǐ huān nǐ');
-
-    const result4 = pinyin('我very喜欢你', { nonZh: 'removed' });
-    expect(result4).to.be.equal('wǒ xǐ huān nǐ');
-  });
-
-  it('double unicode', () => {
-    const result1 = pinyin('𧒽');
-    expect(result1).to.be.equal('𧒽');
-
-    const result2 = pinyin('𧒽测试');
-    expect(result2).to.be.equal('𧒽 cè shì');
-
-    const result3 = pinyin('𧒽测试𧒽测试', {});
-    expect(result3).to.be.equal('𧒽 cè shì 𧒽 cè shì');
-
-    const result4 = pinyin('𧒽测试', { nonZh: 'consecutive' });
-    expect(result4).to.be.equal('𧒽 cè shì');
-
-    const result6 = pinyin('测试a𧒽𧒽a测试a𧒽𧒽a测试', {
-      nonZh: 'consecutive',
-    });
-    expect(result6).to.be.equal('cè shì a𧒽𧒽a cè shì a𧒽𧒽a cè shì');
-  });
-
-  it('v', () => {
-    const result1 = pinyin('吕布');
-    expect(result1).to.be.equal('lǚ bù');
-
-    const result2 = pinyin('吕布', { toneType: 'none' });
-    expect(result2).to.be.equal('lü bu');
-
-    const result3 = pinyin('吕布', { toneType: 'none', v: true });
-    expect(result3).to.be.equal('lv bu');
-
-    const result4 = pinyin('吕布', { v: true });
-    expect(result4).to.be.equal('lǚ bù');
-
-    const result5 = pinyin('𧒽测试');
-    expect(result5).to.be.equal('𧒽 cè shì');
-  });
-
-  it('special final', () => {
-    const result = pinyin('群', {
-      pattern: 'final',
-    });
-    expect(result).to.deep.equal('ǘn');
-
-    const result1 = pinyin('局', {
-      pattern: 'final',
-    });
-    expect(result1).to.deep.equal('ǘ');
-
-    const result2 = pinyin('选', {
-      pattern: 'final',
-    });
-    expect(result2).to.deep.equal('üǎn');
-
-    const result3 = pinyin('却', {
-      pattern: 'final',
-    });
-    expect(result3).to.deep.equal('üè');
-  });
-
-  it('final parts', () => {
-    const result = pinyin('广', {
-      pattern: 'finalHead',
-    });
-    expect(result).to.deep.equal('u');
-
-    const result1 = pinyin('广', {
-      pattern: 'finalBody',
-    });
-    expect(result1).to.deep.equal('ǎ');
-
-    const result2 = pinyin('广', {
-      pattern: 'finalTail',
-    });
-    expect(result2).to.deep.equal('ng');
-
-    const result4 = pinyin('敢', {
-      pattern: 'finalHead',
-    });
-    expect(result4).to.deep.equal('');
-
-    const result5 = pinyin('敢', {
-      pattern: 'finalBody',
-    });
-    expect(result5).to.deep.equal('ǎ');
-
-    const result6 = pinyin('敢', {
-      pattern: 'finalTail',
-    });
-    expect(result6).to.deep.equal('n');
-  });
-
-  it('test all1', () => {
+describe('all', () => {
+  it('test all', () => {
     const result = pinyin('汉语拼音', {
       type: 'all',
     });
@@ -661,6 +706,140 @@ describe('customConfig', () => {
         finalTail: 'n',
         num: 1,
         isZh: true,
+      },
+      {
+        origin: '音',
+        pinyin: 'yīn',
+        initial: 'y',
+        final: 'īn',
+        first: 'y',
+        finalHead: '',
+        finalBody: 'ī',
+        finalTail: 'n',
+        num: 1,
+        isZh: true,
+      },
+    ]);
+  });
+
+  it('test all with nonZh', () => {
+    const result = pinyin('汉a𧒽音', {
+      type: 'all',
+    });
+    expect(result).to.deep.equal([
+      {
+        origin: '汉',
+        pinyin: 'hàn',
+        initial: 'h',
+        final: 'àn',
+        first: 'h',
+        finalHead: '',
+        finalBody: 'à',
+        finalTail: 'n',
+        num: 4,
+        isZh: true,
+      },
+      {
+        origin: 'a',
+        pinyin: '',
+        initial: '',
+        final: '',
+        first: '',
+        finalHead: '',
+        finalBody: '',
+        finalTail: '',
+        num: 0,
+        isZh: false,
+      },
+      {
+        origin: '𧒽',
+        pinyin: '',
+        initial: '',
+        final: '',
+        first: '',
+        finalHead: '',
+        finalBody: '',
+        finalTail: '',
+        num: 0,
+        isZh: false,
+      },
+      {
+        origin: '音',
+        pinyin: 'yīn',
+        initial: 'y',
+        final: 'īn',
+        first: 'y',
+        finalHead: '',
+        finalBody: 'ī',
+        finalTail: 'n',
+        num: 1,
+        isZh: true,
+      },
+    ]);
+  });
+
+  it('test all removeNonZh', () => {
+    const result = pinyin('汉a𧒽音', {
+      type: 'all',
+      nonZh: 'removed',
+    });
+    expect(result).to.deep.equal([
+      {
+        origin: '汉',
+        pinyin: 'hàn',
+        initial: 'h',
+        final: 'àn',
+        first: 'h',
+        finalHead: '',
+        finalBody: 'à',
+        finalTail: 'n',
+        num: 4,
+        isZh: true,
+      },
+      {
+        origin: '音',
+        pinyin: 'yīn',
+        initial: 'y',
+        final: 'īn',
+        first: 'y',
+        finalHead: '',
+        finalBody: 'ī',
+        finalTail: 'n',
+        num: 1,
+        isZh: true,
+      },
+    ]);
+  });
+
+  it('test all consecutive nonZh', () => {
+    const result = pinyin('汉a𧒽音', {
+      type: 'all',
+      nonZh: 'consecutive',
+    });
+    expect(result).to.deep.equal([
+      {
+        origin: '汉',
+        pinyin: 'hàn',
+        initial: 'h',
+        final: 'àn',
+        first: 'h',
+        finalHead: '',
+        finalBody: 'à',
+        finalTail: 'n',
+        num: 4,
+        isZh: true,
+      },
+      {
+        origin: 'a𧒽',
+        pinyin: '',
+        initial: '',
+        final: '',
+        first: '',
+        finalHead: '',
+        finalBody: '',
+        finalTail: '',
+        num: 0,
+        isZh: false,
       },
       {
         origin: '音',
