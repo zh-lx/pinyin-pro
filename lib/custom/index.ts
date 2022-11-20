@@ -1,4 +1,4 @@
-import { getStringLength } from './utils';
+import { getStringLength } from '../utils';
 let customDict: { [key: string]: string } = {};
 
 /**
@@ -20,8 +20,5 @@ export const getCustomDict = () => {
 };
 
 export function hasCustomConfig() {
-  for (let key in customDict) {
-    return true;
-  }
-  return false;
+  return !!Object.keys(customDict).length;
 }

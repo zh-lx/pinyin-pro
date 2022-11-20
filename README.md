@@ -10,7 +10,7 @@
 
 ### 介绍
 
-`pinyin-pro` 是一个专业的 js 汉字拼音转换库，具有功能丰富、准确率高、性能优异等特点。
+`pinyin-pro` 是一个专业的 js 汉字拼音转换库，功能丰富、准确率高、性能优异。
 
 [使用文档](https://pinyin-pro.cn) | [在线运行](https://pinyin-pro.cn/run/run)
 

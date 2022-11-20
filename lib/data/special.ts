@@ -89,4 +89,6 @@ export const doubleFinalList = [
   'uo',
   'üan',
   'üe',
+  'van',
+  've',
 ];

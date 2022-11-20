@@ -467,6 +467,16 @@ describe('nonZh', () => {
     const result4 = pinyin('我very喜欢你', { nonZh: 'removed' });
     expect(result4).to.be.equal('wǒ xǐ huān nǐ');
   });
+
+  it('nonZh has space', () => {
+    const result4 = pinyin('喜 欢');
+    expect(result4).to.be.equal('xǐ   huān');
+  });
+
+  it('nonZh has space', () => {
+    const result4 = pinyin('喜 欢', { type: 'array' });
+    expect(result4).to.deep.equal(['xǐ', ' ', 'huān']);
+  });
 });
 
 describe('double unicode', () => {
@@ -854,5 +864,12 @@ describe('all', () => {
         isZh: true,
       },
     ]);
+  });
+});
+
+describe('space', () => {
+  it('with space', () => {
+    const result = pinyin('测试..  ..', { type: 'array' });
+    expect(result).to.deep.equal(['cè', 'shì', '.', '.', ' ', ' ', '.', '.']);
   });
 });
