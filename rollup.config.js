@@ -24,20 +24,14 @@ module.exports = {
   output: [
     {
       exports: 'auto',
-      file: path.resolve(__dirname, './dist/pinyin-pro.js'),
+      file: path.resolve(__dirname, './dist/index.js'),
       format: 'umd',
       name: 'pinyinPro',
     },
     {
       exports: 'auto',
-      file: path.resolve(__dirname, './dist/index.cjs.js'),
-      format: 'cjs',
-      sourcemap: false,
-    },
-    {
-      exports: 'auto',
-      file: path.resolve(__dirname, './dist/index.esm.js'),
-      format: 'esm',
+      file: path.resolve(__dirname, './dist/index.es.js'),
+      format: 'es',
       sourcemap: false,
     },
   ],

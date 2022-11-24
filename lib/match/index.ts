@@ -1,4 +1,4 @@
-import { pinyin as _pinyin } from './pinyin';
+import { pinyin as _pinyin } from '../pinyin';
 
 /**
  * @description: 检测汉语字符串和拼音是否匹配

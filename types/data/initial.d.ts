@@ -1,2 +1,2 @@
-declare const INITIAL_LIST: string[];
-export default INITIAL_LIST;
+declare const InitialList: string[];
+export default InitialList;

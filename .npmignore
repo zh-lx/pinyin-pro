@@ -1,7 +1,9 @@
 rollup.config.js
 docs
 coverage
-dist/pinyin-pro.js
 .github
 .husky
 handle-data
+lib
+data
+test

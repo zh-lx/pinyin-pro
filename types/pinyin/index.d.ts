@@ -67,6 +67,7 @@ interface OptionsReturnString extends BasicOptions {
      * @description 返回结果的格式
      * @value string：以字符串格式返回，拼音之间用空格隔开 （默认值）
      * @value array：以数组格式返回
+     * @value array: 返回全部信息数组
      */
     type?: 'string';
 }
@@ -75,11 +76,27 @@ interface OptionsReturnArray extends BasicOptions {
      * @description 返回结果的格式
      * @value string：以字符串格式返回，拼音之间用空格隔开 （默认值）
      * @value array：以数组格式返回
+     * @value array: 返回全部信息数组
      */
     type: 'array';
 }
 interface OptionsReturnAll extends BasicOptions {
+    /**
+     * @description 返回结果的格式
+     * @value string：以字符串格式返回，拼音之间用空格隔开 （默认值）
+     * @value array：以数组格式返回
+     * @value array: 返回全部信息数组
+     */
     type: 'all';
+}
+export interface CompleteOptions extends BasicOptions {
+    /**
+     * @description 返回结果的格式
+     * @value string：以字符串格式返回，拼音之间用空格隔开 （默认值）
+     * @value array：以数组格式返回
+     * @value array: 返回全部信息数组
+     */
+    type?: 'string' | 'array' | 'all';
 }
 /**
  * @description: 获取汉语字符串的拼音

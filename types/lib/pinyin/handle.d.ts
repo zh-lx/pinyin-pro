@@ -1,16 +1,5 @@
-/**
- * @description: 获取字符串带符号音调的拼音
- * @param {string} word
- * @param {number} length
- * @param {string} mode
- * @return {string}
- */
-declare type GetPinYin = (word: string, length: number, params: {
-    mode?: 'normal' | 'surname';
-    useCustomConfig?: boolean;
-    nonZh?: 'spaced' | 'consecutive' | 'removed';
-}) => string;
-declare const getPinyin: GetPinYin;
+import { SingleWordResult } from '../type';
+declare const getPinyinArray: (word: string, mode: 'normal' | 'surname', custom: boolean) => SingleWordResult[];
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin
@@ -21,12 +10,12 @@ declare const getPinyinWithoutTone: GetPinyinWithoutTone;
 /**
  * @description: 获取单字符的多音拼音
  * @param {string} word
- * @return {string}
+ * @return {WordResult[]}
  */
-declare type GetMultipleTone = (word: string) => string;
-declare const getMultipleTone: GetMultipleTone;
+declare type GetMultiplePinyin = (word: string) => SingleWordResult[];
+declare const getMultiplePinyin: GetMultiplePinyin;
 /**
- * @description: 获取拼音的声明和韵母
+ * @description: 获取拼音的声母和韵母
  * @param {string} pinyin
  * @return {*}
  */
@@ -68,4 +57,4 @@ declare const getPinyinWithNum: GetPinyinWithNum;
  */
 declare type GetFirstLetter = (pinyin: string) => string;
 declare const getFirstLetter: GetFirstLetter;
-export { getPinyin, getPinyinWithoutTone, getInitialAndFinal, getMultipleTone, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };
+export { getPinyinArray, getPinyinWithoutTone, getInitialAndFinal, getMultiplePinyin, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };
