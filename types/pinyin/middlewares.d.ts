@@ -6,7 +6,7 @@ export declare const middlewareMultiple: (word: string, options: CompleteOptions
 export declare const middlewarePattern: (list: SingleWordResult[], options: CompleteOptions) => void;
 export declare const middlewareToneType: (list: SingleWordResult[], options: CompleteOptions) => void;
 export declare const middlewareV: (list: SingleWordResult[], options: CompleteOptions) => void;
-export declare const middlewareType: (list: SingleWordResult[], options: CompleteOptions) => string | string[] | {
+export declare const middlewareType: (list: SingleWordResult[], options: CompleteOptions, word: string) => string | string[] | {
     origin: string;
     pinyin: string;
     initial: string;

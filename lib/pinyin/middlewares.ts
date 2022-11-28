@@ -152,8 +152,17 @@ export const middlewareV = (
 // type 属性处理
 export const middlewareType = (
   list: SingleWordResult[],
-  options: CompleteOptions
+  options: CompleteOptions,
+  word: string
 ) => {
+  if (options.multiple && getStringLength(word) === 1) {
+    let last = '';
+    list = list.filter((item) => {
+      const res = item.result !== last;
+      last = item.result;
+      return res;
+    });
+  }
   if (options.type === 'array') {
     return list.map((item) => item.result);
   }

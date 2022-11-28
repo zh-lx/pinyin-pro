@@ -1,6 +1,6 @@
 {
   "name": "pinyin-pro",
-  "version": "3.12.0",
+  "version": "3.13.0",
   "description": "汉字转拼音库。获取中文拼音、韵母、声母、声调、首字母，支持拼音匹配",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
@@ -38,7 +38,7 @@
   "bugs": {
     "url": "https://github.com/zh-lx/pinyin-pro/issues"
   },
-  "homepage": "https://github.com/zh-lx/pinyin-pro#readme",
+  "homepage": "https://pinyin-pro.cn",
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
