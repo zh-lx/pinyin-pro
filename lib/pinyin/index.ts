@@ -214,7 +214,7 @@ function pinyin(
   middlewareV(list, options);
 
   // type 参数处理
-  return middlewareType(list, options);
+  return middlewareType(list, options, word);
 }
 
 export { pinyin };

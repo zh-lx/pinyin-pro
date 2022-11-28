@@ -155,6 +155,11 @@ describe('multiple', () => {
     expect(result).to.be.equal('hǎo hào');
   });
 
+  it('去 tone 同音', () => {
+    const result = pinyin('好', { multiple: true, toneType: 'none' });
+    expect(result).to.be.equal('hao');
+  });
+
   it('非单字数组', () => {
     const result = pinyin('汉语拼音', { multiple: true, type: 'array' });
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
