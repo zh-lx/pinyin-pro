@@ -6,3 +6,4 @@ export interface SingleWordResult {
     delete?: boolean;
 }
 export declare type ToneType = 'symbol' | 'num' | 'none';
+export declare type PinyinMode = 'normal' | 'surname';

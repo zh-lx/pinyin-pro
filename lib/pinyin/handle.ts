@@ -12,7 +12,7 @@ import DICT3 from '../data/dict3';
 import DICT4 from '../data/dict4';
 import DICT5 from '../data/dict5';
 import { getCustomDict } from '../custom';
-import { SingleWordResult } from '../type';
+import { SingleWordResult, PinyinMode } from '../type';
 const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
 
 // 最大长度词汇
@@ -176,11 +176,12 @@ const getPinyinInCustomMode = (
   index: number,
   mode: 'normal' | 'surname'
 ): void => {
-  for (let key in getCustomDict()) {
+  const customDict = getCustomDict();
+  for (let key in customDict) {
     let idx = word.indexOf(key);
     if (idx > -1) {
       // 处理该词拼音
-      const pinyin = getCustomDict()[key];
+      const pinyin = customDict[key];
       pinyin.split(' ').forEach((item, i) => {
         list[index + idx + i] = {
           origin: key[i],
@@ -237,10 +238,18 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
  * @param {string} word
  * @return {WordResult[]}
  */
-type GetMultiplePinyin = (word: string) => SingleWordResult[];
-const getMultiplePinyin: GetMultiplePinyin = (word) => {
+type GetMultiplePinyin = (
+  word: string,
+  mode?: PinyinMode
+) => SingleWordResult[];
+const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
   const wordCode = word.charCodeAt(0);
-  const pinyin = DICT1[wordCode];
+  const customDict = getCustomDict();
+  const pinyin =
+    customDict[word] ||
+    (mode === 'surname' ? Surnames[word] : '') ||
+    DICT1[wordCode] ||
+    '';
   if (pinyin) {
     return pinyin.split(' ').map((value) => ({
       origin: word,

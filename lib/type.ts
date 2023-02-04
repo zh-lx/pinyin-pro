@@ -9,3 +9,5 @@ export interface SingleWordResult {
 
 // toneType 属性可选参数
 export type ToneType = 'symbol' | 'num' | 'none';
+
+export type PinyinMode = 'normal' | 'surname';

@@ -9,7 +9,6 @@ import {
   middlewareV,
   middlewareType,
 } from './middlewares';
-import { ToneType } from '../type';
 import { SingleWordResult } from '../type';
 
 interface BasicOptions {
