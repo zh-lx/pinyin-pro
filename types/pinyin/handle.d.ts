@@ -1,4 +1,4 @@
-import { SingleWordResult } from '../type';
+import { SingleWordResult, PinyinMode } from '../type';
 declare const getPinyinArray: (word: string, mode: 'normal' | 'surname', custom: boolean) => SingleWordResult[];
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
@@ -12,7 +12,7 @@ declare const getPinyinWithoutTone: GetPinyinWithoutTone;
  * @param {string} word
  * @return {WordResult[]}
  */
-declare type GetMultiplePinyin = (word: string) => SingleWordResult[];
+declare type GetMultiplePinyin = (word: string, mode?: PinyinMode) => SingleWordResult[];
 declare const getMultiplePinyin: GetMultiplePinyin;
 /**
  * @description: 获取拼音的声母和韵母
