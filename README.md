@@ -61,12 +61,14 @@ pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "p
 pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
 ```
 
-### 贡献与反馈
-
-参与开源贡献请参照 [pinyin-pro 贡献](./docs/contribute.md)
+### 反馈
 
 使用遇到问题或者需要功能支持欢迎提 issue。
 
-技术交流欢迎加微信：
+技术交流欢迎加 pinyin-pro用户群 或者微信：
 
-<img src="https://image-1300099782.cos.ap-beijing.myqcloud.com/author.jpg" width="200" height="200" >
+<div style="display: flex;">
+  <img src="https://user-images.githubusercontent.com/73059627/226233976-5dbb9daa-6620-4d16-a2b0-359055dcafe1.png" width="200" >
+  <img src="https://user-images.githubusercontent.com/73059627/226233691-848b2a40-f1a9-414e-a80f-3fc6c6209eb1.png" width="200" >
+</div>
+
