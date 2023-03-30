@@ -31,4 +31,9 @@ describe('nonZh', () => {
     const result4 = pinyin('喜 欢', { type: 'array' });
     expect(result4).to.deep.equal(['xǐ', ' ', 'huān']);
   });
+
+  it('/', () => {
+    const result4 = pinyin('一丁点儿');
+    expect(result4).to.deep.equal('yī dīng diǎn er \n');
+  });
 });
