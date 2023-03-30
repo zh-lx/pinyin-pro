@@ -33,7 +33,7 @@ describe('nonZh', () => {
   });
 
   it('/', () => {
-    const result4 = pinyin('一丁点儿');
+    const result4 = pinyin('一丁点儿\n');
     expect(result4).to.deep.equal('yī dīng diǎn er \n');
   });
 });
