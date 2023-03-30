@@ -10,7 +10,7 @@ const Surnames: { [key: string]: string } = {
   闻人: 'wén rén',
   东方: 'dōng fāng',
   赫连: 'hè lián',
-  皇甫: 'huáng pǔ',
+  皇甫: 'huáng fǔ',
   尉迟: 'yù chí',
   公羊: 'gōng yáng',
   澹台: 'tán tái',

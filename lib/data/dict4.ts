@@ -270,7 +270,7 @@ const DICT4: { [prop: string]: string } = {
   有机玻璃: 'yǒu jī bō li',
   骨头架子: 'gú tou jià zi',
   义薄云天: 'yì bó yún tiān',
-  一丁点儿: 'yī dīng diǎnr',
+  一丁点儿: 'yī dīng diǎn er',
   时来运转: 'shí lái yùn zhuǎn',
   陈词滥调: 'chén cí làn diào',
   七十二行: 'qī shí èr háng',
