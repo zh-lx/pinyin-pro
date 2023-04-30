@@ -8,4 +8,3 @@ export declare function customPinyin(config?: {
 export declare const getCustomDict: () => {
     [key: string]: string;
 };
-export declare function hasCustomConfig(): boolean;

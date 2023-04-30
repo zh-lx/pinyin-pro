@@ -30,15 +30,10 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 
 const getPinyinArray = (
   word: string,
-  mode: 'normal' | 'surname',
-  custom: boolean
+  mode: 'normal' | 'surname'
 ): SingleWordResult[] => {
   let list: SingleWordResult[] = Array(word.length);
-  if (mode === 'surname') {
-    getPinyinInNormalMode(word, list, true);
-  } else {
-    getPinyinInNormalMode(word, list);
-  }
+  getPinyin(word, list, mode === 'surname');
   // 记录双 Unicode 编码字符，将第二个删除
   for (let i = list.length - 2; i >= 0; i--) {
     const cur = list[i];
@@ -60,7 +55,7 @@ const getPinyinArray = (
   return list;
 };
 
-const getPinyinInNormalMode = (
+const getPinyin = (
   word: string,
   list: SingleWordResult[],
   surname?: boolean
@@ -87,9 +82,9 @@ const getPinyinInNormalMode = (
         } else {
           list[i + j] = {
             origin: match.zh[j],
-            result: pinyins[pinyinIndex] || '',
+            result: pinyins[pinyinIndex],
             isZh: true,
-            originPinyin: pinyins[pinyinIndex] || '',
+            originPinyin: pinyins[pinyinIndex],
           };
           pinyinIndex++;
         }

@@ -108,7 +108,7 @@ export class AC {
         if (cur.isEnd) {
           result.push({
             ...(cur.pattern as Pattern),
-            index: i - (cur.pattern as Pattern)?.length + 1,
+            index: i - (cur.pattern as Pattern).length + 1,
           });
         }
         let failNode = cur.fail;

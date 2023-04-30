@@ -1,5 +1,4 @@
 import { getPinyinArray } from './handle';
-import { hasCustomConfig } from '../custom';
 import {
   validateType,
   middleWareNonZh,
@@ -193,7 +192,7 @@ function pinyin(
     options.nonZh = 'removed';
   }
 
-  let list = getPinyinArray(word, options.mode || 'normal', hasCustomConfig());
+  let list = getPinyinArray(word, options.mode || 'normal');
 
   // nonZh 参数及 removeNonZh 参数
   list = middleWareNonZh(list, options);
