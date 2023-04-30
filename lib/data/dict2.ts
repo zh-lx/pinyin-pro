@@ -1325,6 +1325,7 @@ const DICT2: { [prop: string]: string } = {
   中肯: 'zhòng kěn',
   文种: 'wén zhǒng',
   厦门: 'xià mén',
+  东莞: 'dōng guǎn',
   食量: 'shí liàng',
   宫调: 'gōng diào',
   间作: 'jiàn zuò',
