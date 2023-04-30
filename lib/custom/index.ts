@@ -1,3 +1,9 @@
+import {
+  ACNormal,
+  ACSurname,
+  PatternsNormal,
+  PatternsSurname,
+} from './../common/ac';
 import { getStringLength } from '../utils';
 let customDict: { [key: string]: string } = {};
 
@@ -13,6 +19,14 @@ export function customPinyin(config: { [key: string]: string } = {}) {
   keys.forEach((key) => {
     customDict[key] = config[key];
   });
+  const customPatterns = Object.keys(customDict).map((key) => ({
+    zh: key,
+    pinyin: customDict[key],
+    priority: 999 + getStringLength(key),
+    length: key.length,
+  }));
+  ACNormal.rebuildTrie([...customPatterns, ...PatternsNormal]);
+  ACSurname.rebuildTrie([...customPatterns, ...PatternsSurname]);
 }
 
 export const getCustomDict = () => {

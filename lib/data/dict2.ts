@@ -1,3 +1,4 @@
+import type { Pattern } from '../common/ac';
 const DICT2: { [prop: string]: string } = {
   一个: 'yí gè',
   这个: 'zhè ge',
@@ -2120,3 +2121,9 @@ const DICT2: { [prop: string]: string } = {
   重影: 'chóng yǐng',
 };
 export default DICT2;
+export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
+  zh: key,
+  pinyin: DICT2[key],
+  priority: 2,
+  length: 2,
+}));
