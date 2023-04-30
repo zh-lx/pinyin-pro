@@ -92,4 +92,13 @@ describe('customConfig', () => {
     expect(result).to.deep.equal(['en0']);
     customPinyin({});
   });
+
+  it('[custom] ac high level', () => {
+    customPinyin({
+      银行: 'yin hang',
+    });
+    const result = pinyin('银行');
+    expect(result).to.be.equal('yin hang');
+    customPinyin({});
+  });
 });

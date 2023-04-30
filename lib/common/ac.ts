@@ -43,7 +43,7 @@ export class AC {
   // 构建 trie 树
   buildTrie(patterns: Pattern[]) {
     for (let pattern of patterns) {
-      const { zh } = pattern;
+      const { zh, priority } = pattern;
       let cur = this.root;
       for (let i = 0; i < zh.length; i++) {
         let c = zh.charAt(i);
@@ -53,7 +53,9 @@ export class AC {
         cur = cur.children.get(c) as TrieNode;
       }
       cur.isEnd = true;
-      cur.pattern = pattern;
+      if (!cur.pattern || priority >= cur.pattern.priority) {
+        cur.pattern = pattern;
+      }
     }
     this.buildFailPointer();
   }
