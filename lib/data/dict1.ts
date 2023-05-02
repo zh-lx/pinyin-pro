@@ -5168,7 +5168,7 @@ const map: { [key: string]: number[] } = {
   'yú yù ǒu': [31162],
   'zǐ zì': [31172],
   'chá ná': [31173],
-  'zhòng zhǒng chóng': [31181],
+  'zhǒng zhòng chóng': [31181],
   'hào mào': [31183],
   'kù kū': [31193],
   zū: [31199, 33861],
