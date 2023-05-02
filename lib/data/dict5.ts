@@ -1,3 +1,4 @@
+import type { Pattern } from '../common/ac';
 const DICT5: { [prop: string]: string } = {
   巴尔干半岛: 'bā ěr gàn bàn dǎo',
   巴尔喀什湖: 'bā ěr kā shí hú',
@@ -19,3 +20,9 @@ const DICT5: { [prop: string]: string } = {
   竹筒倒豆子: 'zhú tǒng dǎo dòu zi',
 };
 export default DICT5;
+export const Pattern5: Pattern[] = Object.keys(DICT5).map((key) => ({
+  zh: key,
+  pinyin: DICT5[key],
+  priority: 5,
+  length: 5,
+}));

@@ -1,5 +1,5 @@
 import { SingleWordResult, PinyinMode } from '../type';
-declare const getPinyinArray: (word: string, mode: 'normal' | 'surname', custom: boolean) => SingleWordResult[];
+declare const getPinyinArray: (word: string, mode: 'normal' | 'surname') => SingleWordResult[];
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin

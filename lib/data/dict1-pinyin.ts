@@ -113,7 +113,7 @@ export const DICT1: { [prop: string]: string } = {
   文: 'wén',
   事: 'shì',
   可: 'kě kè',
-  种: 'zhòng zhǒng chóng',
+  种: 'zhǒng zhòng chóng',
   总: 'zǒng',
   改: 'gǎi',
   三: 'sān',

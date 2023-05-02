@@ -61,14 +61,24 @@ pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "p
 pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
 ```
 
+### 性能及准确率
+
+以下是 `pinyin-pro` 及 `pinyin` 包对于汉字转换的速度及准确率对比，更多细节可以参考
+
+| 对比项              | pinyin           | pinyin-pro |
+| ------------------- | ---------------- | ---------- |
+| 准确率              | 95.894%          | 99.744%    |
+| 5k 字转换所需时间   | 190.192ms        | 7.199ms    |
+| 1w 字转换所需时间   | 内存溢出转换失败 | 13.199ms   |
+| 100w 字转换所需时间 | 内存溢出转换失败 | 646.973ms  |
+
 ### 反馈
 
 使用遇到问题或者需要功能支持欢迎提 issue。
 
-技术交流欢迎加 pinyin-pro用户群 或者微信：
+技术交流欢迎加 pinyin-pro 用户群 或者微信：
 
 <div style="display: flex;">
   <img src="https://user-images.githubusercontent.com/73059627/226233976-5dbb9daa-6620-4d16-a2b0-359055dcafe1.png" width="200" >
   <img src="https://user-images.githubusercontent.com/73059627/226233691-848b2a40-f1a9-414e-a80f-3fc6c6209eb1.png" width="200" >
 </div>
-

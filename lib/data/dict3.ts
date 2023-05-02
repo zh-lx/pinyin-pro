@@ -1,3 +1,4 @@
+import type { Pattern } from '../common/ac';
 const DICT3: { [prop: string]: string } = {
   为什么: 'wèi shén me',
   实际上: 'shí jì shang',
@@ -388,3 +389,9 @@ const DICT3: { [prop: string]: string } = {
   功劳簿: 'gōng láo bù',
 };
 export default DICT3;
+export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({
+  zh: key,
+  pinyin: DICT3[key],
+  priority: 3,
+  length: 3,
+}));

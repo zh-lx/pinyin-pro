@@ -7,16 +7,13 @@ import {
 } from '../data/special';
 import Surnames from '../data/surname';
 import DICT1 from '../data/dict1';
-import DICT2 from '../data/dict2';
-import DICT3 from '../data/dict3';
-import DICT4 from '../data/dict4';
-import DICT5 from '../data/dict5';
 import { getCustomDict } from '../custom';
 import { SingleWordResult, PinyinMode } from '../type';
-const dictArr = [{}, {}, DICT2, DICT3, DICT4, DICT5];
-
-// 最大长度词汇
-const LongestWordLength = 5;
+import { ACNormal, ACSurname } from '../common/ac';
+import {
+  DoubleUnicodePrefixReg,
+  DoubleUnicodeSuffixReg,
+} from '../common/constant';
 
 /**
  * @description: 获取单个字符的拼音
@@ -33,29 +30,22 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
 
 const getPinyinArray = (
   word: string,
-  mode: 'normal' | 'surname',
-  custom: boolean
+  mode: 'normal' | 'surname'
 ): SingleWordResult[] => {
   let list: SingleWordResult[] = Array(word.length);
-  if (custom) {
-    getPinyinInCustomMode(word, word.length, list, 0, mode);
-  } else if (mode === 'surname') {
-    getPinyinInSurnameMode(word, word.length, list, 0);
-  } else {
-    getPinyinInNormalMode(word, word.length, list, 0);
-  }
+  getPinyin(word, list, mode === 'surname');
   // 记录双 Unicode 编码字符，将第二个删除
   for (let i = list.length - 2; i >= 0; i--) {
     const cur = list[i];
-    const pre = list[i + 1];
+    const next = list[i + 1];
     if (
-      /[\uD800-\uDBFF]/.test(cur.result) &&
-      /[\uDC00-\uDFFF]/.test(pre.result)
+      DoubleUnicodePrefixReg.test(cur.origin) &&
+      DoubleUnicodeSuffixReg.test(next.origin)
     ) {
-      cur.origin += pre.origin;
-      cur.result += pre.result;
+      cur.origin += next.origin;
+      cur.result += next.result;
       cur.originPinyin = cur.result;
-      pre.delete = true;
+      next.delete = true;
       i--;
     }
   }
@@ -65,154 +55,53 @@ const getPinyinArray = (
   return list;
 };
 
-const getPinyinInNormalMode = (
+const getPinyin = (
   word: string,
-  length: number,
   list: SingleWordResult[],
-  index: number
+  surname?: boolean
 ): void => {
-  // word 长度大于 5 时，直接从长度为 5 的 word 开始匹配
-  if (length > LongestWordLength) {
-    getPinyinInNormalMode(word, LongestWordLength, list, index);
-    return;
-  }
-
-  // 若length为1，则说明字符串中不包含2字以上的词库字词，在DICT1中查询每个字符的拼音拼接后返回
-  if (length <= 1) {
-    for (let i = 0; i < word.length; i++) {
+  const ac = surname ? ACSurname : ACNormal; // 选择不同的 AC 自动机
+  const matches = ac.search(word);
+  let matchIndex = 0;
+  for (let i = 0; i < word.length; ) {
+    const match = matches[matchIndex];
+    if (match && i === match.index) {
+      const pinyins = match.pinyin.split(' ');
+      let pinyinIndex = 0;
+      for (let j = 0; j < match.length; j++) {
+        if (
+          DoubleUnicodePrefixReg.test(match.zh[j - 1]) &&
+          DoubleUnicodeSuffixReg.test(match.zh[j])
+        ) {
+          list[i + j] = {
+            origin: match.zh[j],
+            result: '',
+            isZh: true,
+            originPinyin: '',
+          };
+        } else {
+          list[i + j] = {
+            origin: match.zh[j],
+            result: pinyins[pinyinIndex],
+            isZh: true,
+            originPinyin: pinyins[pinyinIndex],
+          };
+          pinyinIndex++;
+        }
+      }
+      i += match.length;
+      matchIndex++;
+    } else {
       const char = word[i];
       const pinyin = getSingleWordPinyin(char);
-      list[index + i] = {
+      list[i] = {
         origin: char,
         result: pinyin,
         isZh: pinyin !== char,
         originPinyin: pinyin,
       };
+      i++;
     }
-    return;
-  }
-
-  // 其他情况下，分治递归处理
-  for (let key in dictArr[length]) {
-    const idx = word.indexOf(key);
-    // 若word中包含当前词典中某个词，则取出该词拼音，对word取出后的左右继续遍历
-    if (idx > -1) {
-      // 处理该词拼音
-      const pinyin = dictArr[length][key];
-      pinyin.split(' ').forEach((item, i) => {
-        list[index + idx + i] = {
-          origin: key[i],
-          result: item,
-          isZh: true,
-          originPinyin: item,
-        };
-      });
-
-      // 处理该词后左边拼音
-      const left = word.slice(0, idx);
-      getPinyinInNormalMode(left, left.length, list, index);
-
-      // 处理该词后右边拼音
-      const right = word.slice(idx + key.length);
-      getPinyinInNormalMode(
-        right,
-        right.length,
-        list,
-        index + idx + key.length
-      );
-      return;
-    }
-  }
-
-  // 若当前 dict 没包含对应词，返回下一级词
-  getPinyinInNormalMode(word, length - 1, list, index);
-};
-
-const getPinyinInSurnameMode = (
-  word: string,
-  length: number,
-  list: SingleWordResult[],
-  index: number
-): void => {
-  for (let key in Surnames) {
-    let idx = word.indexOf(key);
-    if (idx > -1) {
-      // 处理该词拼音
-      const pinyin = Surnames[key];
-      pinyin.split(' ').forEach((item, i) => {
-        list[index + idx + i] = {
-          origin: key[i],
-          result: item,
-          isZh: true,
-          originPinyin: item,
-        };
-      });
-
-      // 处理左边拼音
-      const left = word.slice(0, idx);
-      getPinyinInSurnameMode(left, left.length, list, index);
-
-      // 处理右边拼音
-      const right = word.slice(idx + key.length);
-      getPinyinInSurnameMode(
-        right,
-        right.length,
-        list,
-        index + idx + key.length
-      );
-
-      return;
-    }
-  }
-
-  // 若姓氏表中的词均未匹配成功，则使用常规匹配
-  getPinyinInNormalMode(word, length, list, index);
-};
-
-const getPinyinInCustomMode = (
-  word: string,
-  length: number,
-  list: SingleWordResult[],
-  index: number,
-  mode: 'normal' | 'surname'
-): void => {
-  const customDict = getCustomDict();
-  for (let key in customDict) {
-    let idx = word.indexOf(key);
-    if (idx > -1) {
-      // 处理该词拼音
-      const pinyin = customDict[key];
-      pinyin.split(' ').forEach((item, i) => {
-        list[index + idx + i] = {
-          origin: key[i],
-          result: item,
-          isZh: true,
-          originPinyin: item,
-        };
-      });
-
-      // 处理左边拼音
-      const left = word.slice(0, idx);
-      getPinyinInCustomMode(left, left.length, list, index, mode);
-
-      // 处理右边拼音
-      const right = word.slice(idx + key.length);
-      getPinyinInCustomMode(
-        right,
-        right.length,
-        list,
-        index + idx + key.length,
-        mode
-      );
-
-      return;
-    }
-  }
-
-  if (mode === 'surname') {
-    getPinyinInSurnameMode(word, length, list, index);
-  } else {
-    getPinyinInNormalMode(word, length, list, index);
   }
 };
 

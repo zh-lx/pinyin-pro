@@ -92,4 +92,31 @@ describe('customConfig', () => {
     expect(result).to.deep.equal(['en0']);
     customPinyin({});
   });
+
+  it('[custom] ac high level', () => {
+    customPinyin({
+      银行: 'yin hang',
+    });
+    const result = pinyin('银行');
+    expect(result).to.be.equal('yin hang');
+    customPinyin({});
+  });
+
+  it('[custom] double unicode', () => {
+    customPinyin({
+      𧒽: 'lei',
+    });
+    const result = pinyin('𧒽沙发𧒽𧒽𧒽算法是');
+    expect(result).to.be.equal('lei shā fā lei lei lei suàn fǎ shì');
+    customPinyin({});
+  });
+
+  it('[custom] double unicode', () => {
+    customPinyin({
+      𧒽𧒽: 'lei ke',
+    });
+    const result = pinyin('𧒽沙发𧒽𧒽𧒽算法是');
+    expect(result).to.be.equal('𧒽 shā fā lei ke 𧒽 suàn fǎ shì');
+    customPinyin({});
+  });
 });
