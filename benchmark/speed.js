@@ -1,6 +1,6 @@
 const { pinyin: pinyinPro } = require('../dist');
 const { pinyin } = require('pinyin');
-const { pinyin: nApiPinyin, PINYIN_STYLE } = require('@napi-rs/pinyin');
+const { pinyin: nApiPinyin } = require('@napi-rs/pinyin');
 
 
 const text = `
@@ -9543,10 +9543,10 @@ console.timeEnd(pinyinProLabel);
 
 const pinyinLabel = `pinyin 转换 ${text.length} 字数时间`;
 console.time(pinyinLabel);
-pinyin(text);
+pinyin(text, { segment: true });
 console.timeEnd(pinyinLabel);
 
 const nApiPinyinLabel = `@napi-rs/pinyin 转换 ${text.length} 字数时间`;
 console.time(nApiPinyinLabel);
-nApiPinyin(text);
+nApiPinyin(text, { segment: true });
 console.timeEnd(nApiPinyinLabel);
