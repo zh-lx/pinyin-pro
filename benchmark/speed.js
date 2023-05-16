@@ -1,4 +1,7 @@
-const { pinyin } = require('../dist');
+const { pinyin: pinyinPro } = require('../dist');
+const { pinyin } = require('pinyin');
+const { pinyin: nApiPinyin, PINYIN_STYLE } = require('@napi-rs/pinyin');
+
 
 const text = `
 序
@@ -9533,7 +9536,17 @@ const text = `
    上面没有名字。但是多年前，有只手用铅笔在上面写了四行诗，在雨露和尘土的洗刷下已渐渐地模糊了，如今可能已经没有了：他安息了。尽管命运多舛，他仍偷生。失去了他的天使他便丧生；事情是自然而然地发生，正如夜幕降临，太阳西沉。 
                `.slice(0, 5000);
 
-const label = `pinyin-pro 转换 ${text.length} 字数时间`;
-console.time(label);
+const pinyinProLabel = `pinyin-pro 转换 ${text.length} 字数时间`;
+console.time(pinyinProLabel);
+pinyinPro(text);
+console.timeEnd(pinyinProLabel);
+
+const pinyinLabel = `pinyin 转换 ${text.length} 字数时间`;
+console.time(pinyinLabel);
 pinyin(text);
-console.timeEnd(label);
+console.timeEnd(pinyinLabel);
+
+const nApiPinyinLabel = `@napi-rs/pinyin 转换 ${text.length} 字数时间`;
+console.time(nApiPinyinLabel);
+nApiPinyin(text);
+console.timeEnd(nApiPinyinLabel);
