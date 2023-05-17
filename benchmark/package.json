@@ -1,0 +1,15 @@
+{
+  "name": "benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@napi-rs/pinyin": "^1.7.1",
+    "pinyin": "^3.0.0-alpha.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
