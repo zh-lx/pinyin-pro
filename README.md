@@ -73,50 +73,50 @@ pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
     </tr>
     <tr>
         <td rowspan="2" colspan="2">准确率</td>
-        <td>😕Node 版: 97.844%</td>
-        <td rowspan="2">😕97.433%</td>
-        <td rowspan="2">🤩99.744%</td>
+        <td>😕 Node 版: 97.844%</td>
+        <td rowspan="2">😕 97.433%</td>
+        <td rowspan="2">🤩 99.744%</td>
     </tr>
     <tr>
-        <td>😕Web 版: 94.507%	</td>
+        <td>😕 Web 版: 94.507%	</td>
     </tr>
     <tr>
         <td rowspan="3">性能</td>
         <td>5k字转换耗时</td>
-        <td>🐢489.252ms</td>
-        <td>🚲115.723ms</td>
-        <td>🚀5.909ms</td>
+        <td>🐢 489.252ms</td>
+        <td>🚲 115.723ms</td>
+        <td>🚀 5.909ms</td>
     </tr>
     <tr>
         <td>1w字转换耗时</td>
-        <td>🐢511.573ms</td>
-        <td>🚲115.887ms</td>
-        <td>🚀15.260ms</td>
+        <td>🐢 511.573ms</td>
+        <td>🚲 115.887ms</td>
+        <td>🚀 15.260ms</td>
     </tr>
     <tr>
         <td>100w字转换耗时</td>
-        <td>⛔内存溢出转换失败</td>
-        <td>🚀570.994ms</td>
-        <td>🚀565.131ms</td>
+        <td>⛔ 内存溢出转换失败</td>
+        <td>🚀 570.994ms</td>
+        <td>🚀 565.131ms</td>
     </tr>
     <tr>
         <td rowspan="3">兼容性</td>
         <td>Web 环境</td>
-        <td>✔️支持</td>
-        <td>❌不支持</td>
-        <td>✔️支持</td>
+        <td>✔️ 支持</td>
+        <td>❌ 不支持</td>
+        <td>✔️ 支持</td>
     </tr>
     <tr>
         <td>Node 环境</td>
-        <td>✔️支持</td>
-        <td>✔️支持</td>
-        <td>✔️支持</td>
+        <td>✔️ 支持</td>
+        <td>✔️ 支持</td>
+        <td>✔️ 支持</td>
     </tr>
     <tr>
         <td>ESM</td>
-        <td>❌不支持</td>
-        <td>❌不支持</td>
-        <td>✔️支持</td>
+        <td>❌ 不支持</td>
+        <td>❌ 不支持</td>
+        <td>✔️ 支持</td>
     </tr>
 </table>
 
