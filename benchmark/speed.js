@@ -2,7 +2,6 @@ const { pinyin: pinyinPro } = require('../dist');
 const { pinyin } = require('pinyin');
 const { pinyin: nApiPinyin } = require('@napi-rs/pinyin');
 
-
 const text = `
 序
 　　流亡在大西洋上的盖纳西岛，一八六一年六月三十日上午八时半，维克多·雨果，法兰西一代文豪，完成了他的长篇小说《悲惨世界》。
@@ -9534,19 +9533,19 @@ const text = `
    在拉雪兹神甫公墓里，靠近普通墓穴的旁边，远离这墓园中幽雅的地区，远离那些希奇古怪的在永恒面前还要展示死后的时兴式样的丑墓，就在一个荒僻的角落，挨着一堵旧墙，在一棵爬着牵牛花的大水杉棚之下，在茅草和青苔当中，有一块石板，这块石板和别的石板一样，日子一久也蚀化得斑斑点点，发了霉，长着苔藓，堆着鸟粪。雨水使它发绿，空气使它变黑。它不在任何路旁，人们不爱到这边来，因为野草太高，会使脚立刻浸湿。当少许太阳露面时，壁虎就会出现，四周还有野燕麦环绕着沙沙作响，春天红雀在树上欢唱。
    这块石板是光秃秃的，凿石的人只想到这是筑墓石所需，除了使它够长够宽能盖住一个人之外，就没再考虑过其他方面。
    上面没有名字。但是多年前，有只手用铅笔在上面写了四行诗，在雨露和尘土的洗刷下已渐渐地模糊了，如今可能已经没有了：他安息了。尽管命运多舛，他仍偷生。失去了他的天使他便丧生；事情是自然而然地发生，正如夜幕降临，太阳西沉。 
-               `.slice(0, 5000);
+               `.slice(0, 1000000);
 
 const pinyinProLabel = `pinyin-pro 转换 ${text.length} 字数时间`;
 console.time(pinyinProLabel);
 pinyinPro(text);
 console.timeEnd(pinyinProLabel);
 
-const pinyinLabel = `pinyin 转换 ${text.length} 字数时间`;
-console.time(pinyinLabel);
-pinyin(text, { segment: true });
-console.timeEnd(pinyinLabel);
-
 const nApiPinyinLabel = `@napi-rs/pinyin 转换 ${text.length} 字数时间`;
 console.time(nApiPinyinLabel);
 nApiPinyin(text, { segment: true });
 console.timeEnd(nApiPinyinLabel);
+
+const pinyinLabel = `pinyin 转换 ${text.length} 字数时间`;
+console.time(pinyinLabel);
+pinyin(text, { segment: true });
+console.timeEnd(pinyinLabel);
