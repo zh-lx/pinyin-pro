@@ -1,7 +1,7 @@
-import { CompleteOptions } from './index';
-import { getStringLength } from '../utils';
+import { getStringLength } from '@/common/utils';
+import { SingleWordResult } from '@/common/type';
 import { getMultiplePinyin } from './handle';
-import { SingleWordResult } from '../type';
+import { CompleteOptions } from './index';
 import {
   getNumOfTone,
   getInitialAndFinal,

@@ -1,3 +1,4 @@
+import { SingleWordResult } from '@/common/type';
 import { getPinyinArray } from './handle';
 import {
   validateType,
@@ -8,7 +9,6 @@ import {
   middlewareV,
   middlewareType,
 } from './middlewares';
-import { SingleWordResult } from '../type';
 
 interface BasicOptions {
   /**

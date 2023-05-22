@@ -1,4 +1,4 @@
-import type { Pattern } from '../common/ac';
+import type { Pattern } from '@/common/ac';
 declare const DICT5: {
     [prop: string]: string;
 };

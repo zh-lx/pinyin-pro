@@ -1,4 +1,4 @@
-import { SingleWordResult } from '@/type';
+import { SingleWordResult } from '@/common/type';
 import { CompleteOptions } from './index';
 export declare const validateType: (word: unknown) => boolean;
 export declare const middleWareNonZh: (list: SingleWordResult[], options: CompleteOptions) => SingleWordResult[];

@@ -1,4 +1,4 @@
-import type { Pattern } from '../common/ac';
+import type { Pattern } from '@/common/ac';
 const DICT2: { [prop: string]: string } = {
   一个: 'yí gè',
   这个: 'zhè ge',

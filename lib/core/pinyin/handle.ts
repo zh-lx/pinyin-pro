@@ -4,16 +4,16 @@ import {
   SpecialFinalMap,
   SpecialFinalList,
   doubleFinalList,
-} from '../data/special';
-import Surnames from '../data/surname';
-import DICT1 from '../data/dict1';
-import { getCustomDict } from '../custom';
-import { SingleWordResult, PinyinMode } from '../type';
-import { ACNormal, ACSurname } from '../common/ac';
+} from '@/data/special';
+import Surnames from '@/data/surname';
+import DICT1 from '@/data/dict1';
+import { getCustomDict } from '@/core/custom';
+import { SingleWordResult, PinyinMode } from '@/common/type';
+import { ACNormal, ACSurname } from '@/common/ac';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
-} from '../common/constant';
+} from '@/common/constant';
 
 /**
  * @description: 获取单个字符的拼音
