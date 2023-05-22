@@ -63,7 +63,9 @@ pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
 
 ### 🏆 竞品对比
 
-以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，更多细节可以参考 [性能准确率说明](https://pinyin-pro.cn/guide/compare.html)
+以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，可以看到 `pinyin-pro` 在各方面都全面领先。
+- 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/benchmark/accuracy.js)
+- 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/benchmark/speed.js)
 <table>
     <tr>
         <th colspan="2">对比项</th>
@@ -83,21 +85,21 @@ pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
     <tr>
         <td rowspan="3">性能</td>
         <td>5k字转换耗时</td>
-        <td>🐢 489.252ms</td>
-        <td>🚲 115.723ms</td>
-        <td>🚀 5.909ms</td>
+        <td>🐢 749.111ms</td>
+        <td>🚲 200.877ms</td>
+        <td>🚀 5.958ms</td>
     </tr>
     <tr>
         <td>1w字转换耗时</td>
-        <td>🐢 511.573ms</td>
-        <td>🚲 115.887ms</td>
+        <td>🐢 795.904s</td>
+        <td>🚲 206.5ms</td>
         <td>🚀 15.260ms</td>
     </tr>
     <tr>
         <td>100w字转换耗时</td>
         <td>⛔ 内存溢出转换失败</td>
-        <td>🚀 570.994ms</td>
-        <td>🚀 565.131ms</td>
+        <td>🚀 638.888ms</td>
+        <td>🚀 607.131ms</td>
     </tr>
     <tr>
         <td rowspan="3">兼容性</td>
