@@ -119,7 +119,8 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
     .replace(/(ī|í|ǐ|ì)/g, 'i')
     .replace(/(ū|ú|ǔ|ù)/g, 'u')
     .replace(/(ǖ|ǘ|ǚ|ǜ)/g, 'ü')
-    .replace(/(ń|ň|ǹ)/g, 'n');
+    .replace(/(ń|ň|ǹ)/g, 'n')
+    .replace(/ḿ|m̀/g, 'm');
 };
 
 /**
@@ -228,9 +229,9 @@ const getFinalParts: GetFinalParts = (pinyin) => {
 type GetNumOfTone = (pinyin: string) => string;
 const getNumOfTone: GetNumOfTone = (pinyin) => {
   const reg_tone1 = /(ā|ō|ē|ī|ū|ǖ)/;
-  const reg_tone2 = /(á|ó|é|í|ú|ǘ|ń)/;
+  const reg_tone2 = /(á|ó|é|í|ú|ǘ|ń|ḿ)/;
   const reg_tone3 = /(ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň)/;
-  const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ)/;
+  const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ|m̀)/;
   const reg_tone0 = /(a|o|e|i|u|ü|n)/;
   const tone_num_arr: string[] = [];
   const pinyin_arr = pinyin.split(' ');
