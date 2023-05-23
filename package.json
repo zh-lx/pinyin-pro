@@ -4,7 +4,7 @@
   "description": "准确率和性能最优异的汉字转拼音库。获取中文拼音、韵母、声母、声调、首字母，支持拼音匹配",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
-  "typings": "./types/lib/index.d.ts",
+  "typings": "./types/index.d.ts",
   "scripts": {
     "test": "mocha",
     "build": "rollup -c",
