@@ -30,6 +30,29 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 1]);
   });
 
+  it('[match]any&empty', () => {
+    const result = match('开会', '', { precision: 'any' });
+    expect(result).to.deep.equal(null);
+  });
+
+  it('[match]any&continuous', () => {
+    const result = match('开个大会', 'kaiui', {
+      precision: 'any',
+      continuous: true,
+    });
+    expect(result).to.deep.equal(null);
+  });
+
+  it('[match]any&nonZh', () => {
+    const result = match('开会', 'kaiuiaaaa', { precision: 'any' });
+    expect(result).to.deep.equal(null);
+  });
+
+  it('[match]any&space', () => {
+    const result = match('开      会s  啊', 'kaiuisa', { precision: 'any' });
+    expect(result).to.deep.equal([0, 7, 8, 11]);
+  });
+
   it('[match]match fail', () => {
     const result = match('开会', 'kaig');
     expect(result).to.deep.equal(null);
@@ -62,8 +85,13 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 1, 2, 4, 5]);
   });
 
-  it('[match]first2', () => {
+  it('[match]first&space', () => {
     const result = match('𧒽测 试', 'c s');
     expect(result).to.deep.equal([2, 4]);
+  });
+
+  it('[match]nonZh match', () => {
+    const result = match('测uuuuuuuuuu试', 'cuuuuuu');
+    expect(result).to.deep.equal([0, 1, 2, 3, 4, 5, 6]);
   });
 });
