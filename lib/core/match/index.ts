@@ -1,13 +1,10 @@
 import { pinyin as _pinyin } from '@/core/pinyin';
 
-type MatchPrecision = 'first' | 'start' | 'every' | 'any';
-type SpaceOption = 'ignore' | 'preserve';
-
 interface MatchOptions {
-  precision?: MatchPrecision;
+  precision?: 'first' | 'start' | 'every' | 'any';
   continuous?: boolean;
-  space?: SpaceOption;
-  lastPrecision?: MatchPrecision;
+  space?: 'ignore' | 'preserve';
+  lastPrecision?: 'first' | 'start' | 'every' | 'any';
 }
 
 const DefaultMatchOptions: MatchOptions = {
@@ -21,7 +18,8 @@ const DefaultMatchOptions: MatchOptions = {
  * @description: 检测汉语字符串和拼音是否匹配
  * @param {string} text 汉语字符串
  * @param {string} pinyin 拼音，支持各种缩写形式
- * @return {Array | null} 若匹配成功，返回拼音在汉字中的下标数组；若匹配失败，返回 null
+ * @param {MatchOptions=} options 配置项
+ * @return {Array | null} 若匹配成功，返回 text 中匹配成功的下标数组；若匹配失败，返回 null
  */
 export const match = (text: string, pinyin: string, options?: MatchOptions) => {
   if (options?.precision === 'any') {
@@ -32,7 +30,7 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
     ...(options || {}),
   } as Required<MatchOptions>;
   // 移除空格
-  if (completeOptions?.space === 'ignore') {
+  if (completeOptions.space === 'ignore') {
     pinyin = pinyin.replace(/\s/g, '');
   }
   const result =
@@ -99,10 +97,10 @@ const matchAny = (
   // 是否连续
   if (options.continuous) {
     const _result = result;
-    const isContinuous = result.some(
+    const isNotContinuous = result.some(
       (val, index) => index > 0 && val !== _result[index - 1] + 1
     );
-    if (!isContinuous) {
+    if (isNotContinuous) {
       return null;
     }
   }
@@ -155,7 +153,7 @@ const matchAboveStart = (
         });
 
         const precision =
-          i === dp.length ? options.lastPrecision : options.precision;
+          i === dp.length - 1 ? options.lastPrecision : options.precision;
 
         // 非中文匹配
         if (text[i - 1] === pinyin[j - 1]) {
