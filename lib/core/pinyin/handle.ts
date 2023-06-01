@@ -28,13 +28,10 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
   return pinyin ? pinyin.split(' ')[0] : word;
 };
 
-const getPinyinArray = (
-  word: string,
-  mode: 'normal' | 'surname'
+// 处理双 Unicode 编码字符，将第二个删除
+const handleUnicodeCharacters = (
+  list: SingleWordResult[]
 ): SingleWordResult[] => {
-  let list: SingleWordResult[] = Array(word.length);
-  getPinyin(word, list, mode === 'surname');
-  // 记录双 Unicode 编码字符，将第二个删除
   for (let i = list.length - 2; i >= 0; i--) {
     const cur = list[i];
     const next = list[i + 1];
@@ -55,12 +52,12 @@ const getPinyinArray = (
   return list;
 };
 
-const getPinyin = (
+export const getPinyin = (
   word: string,
   list: SingleWordResult[],
-  surname?: boolean
-): void => {
-  const ac = surname ? ACSurname : ACNormal; // 选择不同的 AC 自动机
+  mode: 'normal' | 'surname'
+): SingleWordResult[] => {
+  const ac = mode === 'surname' ? ACSurname : ACNormal; // 选择不同的 AC 自动机
   const matches = ac.search(word);
   let matchIndex = 0;
   for (let i = 0; i < word.length; ) {
@@ -103,6 +100,7 @@ const getPinyin = (
       i++;
     }
   }
+  return list;
 };
 
 /**
@@ -286,7 +284,6 @@ const getFirstLetter: GetFirstLetter = (pinyin) => {
 };
 
 export {
-  getPinyinArray,
   getPinyinWithoutTone,
   getInitialAndFinal,
   getMultiplePinyin,

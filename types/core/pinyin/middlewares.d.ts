@@ -18,3 +18,4 @@ export declare const middlewareType: (list: SingleWordResult[], options: Complet
     num: number;
     isZh: boolean;
 }[];
+export declare const middlewareDoubleUnicode: (list: SingleWordResult[]) => SingleWordResult[];

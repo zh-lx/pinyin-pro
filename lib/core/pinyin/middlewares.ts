@@ -1,5 +1,9 @@
 import { getStringLength } from '@/common/utils';
 import { SingleWordResult } from '@/common/type';
+import {
+  DoubleUnicodePrefixReg,
+  DoubleUnicodeSuffixReg,
+} from '@/common/constant';
 import { getMultiplePinyin } from './handle';
 import { CompleteOptions } from './index';
 import {
@@ -186,4 +190,28 @@ export const middlewareType = (
     });
   }
   return list.map((item) => item.result).join(' ');
+};
+
+// 处理双 Unicode 编码字符，将第二个删除
+export const middlewareDoubleUnicode = (
+  list: SingleWordResult[]
+): SingleWordResult[] => {
+  for (let i = list.length - 2; i >= 0; i--) {
+    const cur = list[i];
+    const next = list[i + 1];
+    if (
+      DoubleUnicodePrefixReg.test(cur.origin) &&
+      DoubleUnicodeSuffixReg.test(next.origin)
+    ) {
+      cur.origin += next.origin;
+      cur.result += next.result;
+      cur.originPinyin = cur.result;
+      next.delete = true;
+      i--;
+    }
+  }
+  list = list.filter((item) => {
+    return !item.delete;
+  });
+  return list;
 };

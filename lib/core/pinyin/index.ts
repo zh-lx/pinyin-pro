@@ -1,5 +1,5 @@
 import { SingleWordResult } from '@/common/type';
-import { getPinyinArray } from './handle';
+import { getPinyin } from './handle';
 import {
   validateType,
   middleWareNonZh,
@@ -8,6 +8,7 @@ import {
   middlewareToneType,
   middlewareV,
   middlewareType,
+  middlewareDoubleUnicode,
 } from './middlewares';
 
 interface BasicOptions {
@@ -192,7 +193,12 @@ function pinyin(
     options.nonZh = 'removed';
   }
 
-  let list = getPinyinArray(word, options.mode || 'normal');
+  let list: SingleWordResult[] = Array(word.length);
+
+  list = getPinyin(word, list, options.mode || 'normal');
+
+  // 双 unicode 编码字符处理
+  list = middlewareDoubleUnicode(list)
 
   // nonZh 参数及 removeNonZh 参数
   list = middleWareNonZh(list, options);
