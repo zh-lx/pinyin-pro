@@ -8,7 +8,7 @@ describe('match', () => {
   });
 
   it('[match]start and continuous', () => {
-    const result = match('欢迎使用汉语拼音', 'yingshy', {
+    const result = match('欢迎使用汉语拼音', 'yingshyon', {
       precision: 'start',
       continuous: true,
     });
@@ -93,5 +93,10 @@ describe('match', () => {
   it('[match]nonZh match', () => {
     const result = match('测uuuuuuuuuu试', 'cuuuuuu');
     expect(result).to.deep.equal([0, 1, 2, 3, 4, 5, 6]);
+  });
+
+  it('[match]lastPrecision', () => {
+    const result = match('汉语拼音', 'hanyupiny', { lastPrecision: 'every' });
+    expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 });

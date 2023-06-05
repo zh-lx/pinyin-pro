@@ -152,9 +152,6 @@ const matchAboveStart = (
           multiple: true,
         });
 
-        const precision =
-          i === dp.length - 1 ? options.lastPrecision : options.precision;
-
         // 非中文匹配
         if (text[i - 1] === pinyin[j - 1]) {
           const matches = [...dp[i - 1][j - 1], i - 1];
@@ -167,6 +164,22 @@ const matchAboveStart = (
             result = dp[i][j];
           }
         }
+
+        // lastPrecision 参数处理
+        const last = muls.some((py) =>
+          options?.lastPrecision === 'any'
+            ? py.includes(pinyin.slice(j - 1, pinyin.length))
+            : py.startsWith(pinyin.slice(j - 1, pinyin.length))
+        );
+        if (last) {
+          const matches = [...dp[i - 1][j - 1], i - 1];
+          if (matches.length > result.length) {
+            dp[i][j] = matches;
+          }
+          return matches;
+        }
+
+        const precision = options.precision;
 
         // precision 为 start 时，匹配开头
         if (precision === 'start') {
