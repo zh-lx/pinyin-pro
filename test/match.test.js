@@ -53,12 +53,12 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 7, 8, 11]);
   });
 
-  it('[match]match fail', () => {
+  it('[match]fail with sucess', () => {
     const result = match('开会', 'kaig');
     expect(result).to.deep.equal(null);
   });
 
-  it('[match]match fail', () => {
+  it('[match]fail', () => {
     const result = match('开会', 'l');
     expect(result).to.deep.equal(null);
   });
@@ -68,21 +68,21 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 2]);
   });
 
-  it('[match]first1', () => {
+  it('[match]basic', () => {
     const result = match('汉语拼音', 'hyupy');
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 
-  it('[match]first2', () => {
+  it('[match]first & double unicode', () => {
     const result = match('𧒽测试', 'cs');
     expect(result).to.deep.equal([2, 3]);
   });
 
-  it('[match]match11', () => {
+  it('[match]start', () => {
     const result = match('欢迎使用汉语拼音', '欢yingshy', {
       precision: 'start',
     });
-    expect(result).to.deep.equal([0, 1, 2, 4, 5]);
+    expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 
   it('[match]first&space', () => {
@@ -95,8 +95,28 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 1, 2, 3, 4, 5, 6]);
   });
 
-  it('[match]lastPrecision', () => {
-    const result = match('汉语拼音', 'hanyupiny', { lastPrecision: 'every' });
+  it('[match]lastPrecision every fail', () => {
+    const result = match('汉语拼音', 'hanyupinyi', {lastPrecision: 'every'});
+    expect(result).to.deep.equal(null);
+  });
+
+  it('[match]lastPrecision every success', () => {
+    const result = match('汉语拼音', 'hanyupinyin', {lastPrecision: 'every'});
+    expect(result).to.deep.equal([0, 1, 2, 3]);
+  });
+
+  it('[match]lastPrecision first fail', () => {
+    const result = match('汉语拼音', 'hanyupinyi', {lastPrecision: 'first'});
+    expect(result).to.deep.equal(null);
+  });
+
+  it('[match]lastPrecision first success', () => {
+    const result = match('汉语拼音', 'hanyupiny', {lastPrecision: 'first'});
+    expect(result).to.deep.equal([0, 1, 2, 3]);
+  });
+
+  it('[match]lastPrecision any', () => {
+    const result = match('汉语拼音', 'hanyupini', {lastPrecision: 'any'});
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 });
