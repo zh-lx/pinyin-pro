@@ -14,6 +14,8 @@ const DefaultMatchOptions: MatchOptions = {
   lastPrecision: 'start',
 };
 
+const MAX_PINYIN_LENGTH = 6;
+
 /**
  * @description: 检测汉语字符串和拼音是否匹配
  * @param {string} text 汉语字符串
@@ -115,7 +117,6 @@ const matchAboveStart = (
   pinyin: string,
   options: Required<MatchOptions>
 ) => {
-  let result = []; // 当前匹配的结果
   const words = text.split('');
 
   // 二维数组 dp[i][j]，i 表示遍历到的 text 索引+1, j 表示遍历到的 pinyin 的索引+1
@@ -145,6 +146,9 @@ const matchAboveStart = (
       if (!dp[i - 1][j - 1]) {
         // 第 i - 1 已经匹配失败，停止向后匹配
         continue;
+      } else if (j !== 1 && !dp[i - 1][j - 1].length) {
+        // 非开头且前面的字符未匹配完成，停止向后匹配
+        continue;
       } else {
         const muls = _pinyin(text[i - 1], {
           type: 'array',
@@ -160,23 +164,32 @@ const matchAboveStart = (
             dp[i][j] = matches;
           }
           // pinyin 参数完全匹配完成，记录结果
-          if (j === pinyin.length && dp[i][j].length > result.length) {
-            result = dp[i][j];
+          if (j === pinyin.length) {
+            return dp[i][j];
           }
         }
 
-        // lastPrecision 参数处理
-        const last = muls.some((py) =>
-          options?.lastPrecision === 'any'
-            ? py.includes(pinyin.slice(j - 1, pinyin.length))
-            : py.startsWith(pinyin.slice(j - 1, pinyin.length))
-        );
-        if (last) {
-          const matches = [...dp[i - 1][j - 1], i - 1];
-          if (matches.length > result.length) {
-            dp[i][j] = matches;
+        // 剩余长度小于等于 MAX_PINYIN_LENGTH(6) 时，有可能是最后一个拼音了
+        if (pinyin.length - j <= MAX_PINYIN_LENGTH) {
+          // lastPrecision 参数处理
+          const last = muls.some((py) => {
+            if (options.lastPrecision === 'any') {
+              return py.includes(pinyin.slice(j - 1, pinyin.length));
+            }
+            if (options.lastPrecision === 'start') {
+              return py.startsWith(pinyin.slice(j - 1, pinyin.length));
+            }
+            if (options.lastPrecision === 'first') {
+              return py[0] === pinyin.slice(j - 1, pinyin.length);
+            }
+            if (options.lastPrecision === 'every') {
+              return py === pinyin.slice(j - 1, pinyin.length);
+            }
+            return false;
+          });
+          if (last) {
+            return [...dp[i - 1][j - 1], i - 1];
           }
-          return matches;
         }
 
         const precision = options.precision;
@@ -193,10 +206,6 @@ const matchAboveStart = (
               if (!dp[i][end] || matches.length > dp[i][end].length) {
                 dp[i][end] = matches;
               }
-              // pinyin 参数完全匹配完成，记录结果
-              if (end === pinyin.length && dp[i][end].length > result.length) {
-                result = dp[i][end];
-              }
               end++;
             }
           });
@@ -209,10 +218,6 @@ const matchAboveStart = (
             // 记录最长的可匹配下标数组
             if (!dp[i][j] || matches.length > dp[i][j].length) {
               dp[i][j] = matches;
-            }
-            // pinyin 参数完全匹配完成，记录结果
-            if (j === pinyin.length && dp[i][j].length > result.length) {
-              result = dp[i][j];
             }
           }
         }
@@ -228,16 +233,9 @@ const matchAboveStart = (
           if (!dp[i][endIndex] || matches.length > dp[i][endIndex].length) {
             dp[i][endIndex] = matches;
           }
-          // pinyin 参数完全匹配完成，记录结果
-          if (
-            endIndex === pinyin.length &&
-            dp[i][endIndex].length > result.length
-          ) {
-            result = dp[i][endIndex];
-          }
         }
       }
     }
   }
-  return result.length ? result : null;
+  return null;
 };
