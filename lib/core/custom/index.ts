@@ -3,8 +3,8 @@ import {
   ACSurname,
   PatternsNormal,
   PatternsSurname,
-} from './../common/ac';
-import { getStringLength } from '../utils';
+} from '@/common/ac';
+import { getStringLength } from '@/common/utils';
 let customDict: { [key: string]: string } = {};
 
 /**

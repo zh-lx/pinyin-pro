@@ -12,20 +12,17 @@
 
 `pinyin-pro` 是一个专业的 js 汉字拼音转换库，功能丰富、准确率高、性能优异。
 
-[使用文档](https://pinyin-pro.cn) | [在线运行](https://pinyin-pro.cn/run/run)
+[中文文档](https://pinyin-pro.cn) | [English Docs](https://pinyin-pro.cn/en) | [在线运行](https://pinyin-pro.cn/run/run)
 
 ### 🎨 特色功能
 
-- 获取汉字、词语、句子等多种格式的拼音
-- 获取声母
-- 获取韵母、韵头、韵腹、韵尾
-- 获取拼音首字母
-- 获取音调
-- 获取多音字的多种拼音
+- 支持拼音/声母/韵母/首字母/音调/全部信息
 - 支持人名姓氏模式
+- 支持文本和拼音匹配
 - 支持自定义拼音
-- 支持字符串和数组两种输出形式
-- 支持拼音文本匹配功能
+- 支持获取带拼音汉字的 HTML 字符串
+- 支持获取汉字的所有拼音
+- 极致的性能和极高的拼音识别准确率
 
 ### 🔨 安装
 
@@ -43,27 +40,96 @@ npm install pinyin-pro
 
 ### 💡 使用示例
 
-更多功能的使用说明文档请查看[使用示例](https://pinyin-pro.cn/use/pinyin)
+全部功能的使用说明文档请查看[在线文档](https://pinyin-pro.cn/use/pinyin)
 
-```js
-import { pinyin } from 'pinyin-pro';
+- 获取拼音，更多功能请查看[pinyin API](https://pinyin-pro.cn/use/pinyin)
 
-// 获取带音调拼音
-pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
+  ```js
+  import { pinyin } from 'pinyin-pro';
 
-// 获取数组形式带音调拼音
-pinyin('汉语拼音', { type: 'array' }); // ["hàn", "yǔ", "pīn", "yīn"]
+  // 获取字符串格式拼音
+  pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
 
-// 获取数组形式不带声调的拼音
-pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "pin", "yin"]
+  // 获取数组格式拼音
+  pinyin('汉语拼音', { type: 'array' }); // ["hàn", "yǔ", "pīn", "yīn"]
 
-// 获取带音调韵母
-pinyin('汉语拼音', { pattern: 'final' }); // 'àn ǔ īn īn'
-```
+  // 获取不带音调数组格式拼音
+  pinyin('汉语拼音', { toneType: 'none' }); // "han yu pin yin"
+
+  // 获取不带音调数组格式拼音
+  pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "pin", "yin"]
+
+  // 音调以数组形式显示
+  pinyin('汉语拼音', { toneType: 'num' }); // "han4 yu3 pin1 yin1"
+
+  // 自动识别多音字
+  pinyin('睡着了'); // "shuì zháo le"
+  ```
+
+- 文本和拼音匹配，更多匹配规则请查看[match API](https://pinyin-pro.cn/use/match)
+
+  ```js
+  import { match } from 'pinyin-pro';
+
+  // 支持首字母匹配
+  match('中文拼音', 'zwp'); // [0, 1, 2]
+
+  // 支持全拼匹配
+  match('中文拼音', 'zhongwenpin'); // [0, 1, 2]
+
+  // 支持混合匹配
+  match('中文拼音', 'zhongwp'); // [0, 1, 2]
+  ```
+
+- 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html)
+
+  ```js
+  import { html } from 'pinyin-pro';
+
+  // 带拼音汉字的 HTML 字符串
+  html('汉语拼音');
+  /*
+  <span class="py-result-item">
+  <ruby>
+      <span class="py-chinese-item">汉</span>
+      <rp>(</rp>
+      <rt class="py-pinyin-item">hàn</rt>
+      <rp>)</rp>
+  </ruby>
+  </span>
+  <span class="py-result-item">
+  <ruby>
+      <span class="py-chinese-item">语</span>
+      <rp>(</rp>
+      <rt class="py-pinyin-item">yǔ</rt>
+      <rp>)</rp>
+  </ruby>
+  </span>
+  */
+  ```
+
+  上述结果浏览器中预览效果如下：
+  <span class="py-result-item">
+  <ruby>
+  <span class="py-chinese-item">汉</span>
+  <rp>(</rp>
+  <rt class="py-pinyin-item">hàn</rt>
+  <rp>)</rp>
+  </ruby>
+  </span>
+  <span class="py-result-item">
+  <ruby>
+  <span class="py-chinese-item">语</span>
+  <rp>(</rp>
+  <rt class="py-pinyin-item">yǔ</rt>
+  <rp>)</rp>
+  </ruby>
+  </span>
 
 ### 🏆 竞品对比
 
 以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，可以看到 `pinyin-pro` 在各方面都全面领先。
+
 - 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/benchmark/accuracy.js)
 - 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/benchmark/speed.js)
 <table>

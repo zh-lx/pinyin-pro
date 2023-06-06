@@ -1,5 +1,5 @@
+import { SingleWordResult } from '@/common/type';
 import { CompleteOptions } from './index';
-import { SingleWordResult } from '../type';
 export declare const validateType: (word: unknown) => boolean;
 export declare const middleWareNonZh: (list: SingleWordResult[], options: CompleteOptions) => SingleWordResult[];
 export declare const middlewareMultiple: (word: string, options: CompleteOptions) => SingleWordResult[] | false;
@@ -18,3 +18,4 @@ export declare const middlewareType: (list: SingleWordResult[], options: Complet
     num: number;
     isZh: boolean;
 }[];
+export declare const middlewareDoubleUnicode: (list: SingleWordResult[]) => SingleWordResult[];

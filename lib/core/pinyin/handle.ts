@@ -4,16 +4,16 @@ import {
   SpecialFinalMap,
   SpecialFinalList,
   doubleFinalList,
-} from '../data/special';
-import Surnames from '../data/surname';
-import DICT1 from '../data/dict1';
-import { getCustomDict } from '../custom';
-import { SingleWordResult, PinyinMode } from '../type';
-import { ACNormal, ACSurname } from '../common/ac';
+} from '@/data/special';
+import Surnames from '@/data/surname';
+import DICT1 from '@/data/dict1';
+import { getCustomDict } from '@/core/custom';
+import { SingleWordResult, PinyinMode } from '@/common/type';
+import { ACNormal, ACSurname } from '@/common/ac';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
-} from '../common/constant';
+} from '@/common/constant';
 
 /**
  * @description: 获取单个字符的拼音
@@ -28,13 +28,10 @@ const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
   return pinyin ? pinyin.split(' ')[0] : word;
 };
 
-const getPinyinArray = (
-  word: string,
-  mode: 'normal' | 'surname'
+// 处理双 Unicode 编码字符，将第二个删除
+const handleUnicodeCharacters = (
+  list: SingleWordResult[]
 ): SingleWordResult[] => {
-  let list: SingleWordResult[] = Array(word.length);
-  getPinyin(word, list, mode === 'surname');
-  // 记录双 Unicode 编码字符，将第二个删除
   for (let i = list.length - 2; i >= 0; i--) {
     const cur = list[i];
     const next = list[i + 1];
@@ -55,12 +52,12 @@ const getPinyinArray = (
   return list;
 };
 
-const getPinyin = (
+export const getPinyin = (
   word: string,
   list: SingleWordResult[],
-  surname?: boolean
-): void => {
-  const ac = surname ? ACSurname : ACNormal; // 选择不同的 AC 自动机
+  mode: 'normal' | 'surname'
+): SingleWordResult[] => {
+  const ac = mode === 'surname' ? ACSurname : ACNormal; // 选择不同的 AC 自动机
   const matches = ac.search(word);
   let matchIndex = 0;
   for (let i = 0; i < word.length; ) {
@@ -103,6 +100,7 @@ const getPinyin = (
       i++;
     }
   }
+  return list;
 };
 
 /**
@@ -119,7 +117,8 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
     .replace(/(ī|í|ǐ|ì)/g, 'i')
     .replace(/(ū|ú|ǔ|ù)/g, 'u')
     .replace(/(ǖ|ǘ|ǚ|ǜ)/g, 'ü')
-    .replace(/(ń|ň|ǹ)/g, 'n');
+    .replace(/(ń|ň|ǹ)/g, 'n')
+    .replace(/ḿ|m̀/g, 'm');
 };
 
 /**
@@ -228,9 +227,9 @@ const getFinalParts: GetFinalParts = (pinyin) => {
 type GetNumOfTone = (pinyin: string) => string;
 const getNumOfTone: GetNumOfTone = (pinyin) => {
   const reg_tone1 = /(ā|ō|ē|ī|ū|ǖ)/;
-  const reg_tone2 = /(á|ó|é|í|ú|ǘ|ń)/;
+  const reg_tone2 = /(á|ó|é|í|ú|ǘ|ń|ḿ)/;
   const reg_tone3 = /(ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň)/;
-  const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ)/;
+  const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ|m̀)/;
   const reg_tone0 = /(a|o|e|i|u|ü|n)/;
   const tone_num_arr: string[] = [];
   const pinyin_arr = pinyin.split(' ');
@@ -285,7 +284,6 @@ const getFirstLetter: GetFirstLetter = (pinyin) => {
 };
 
 export {
-  getPinyinArray,
   getPinyinWithoutTone,
   getInitialAndFinal,
   getMultiplePinyin,

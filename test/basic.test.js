@@ -17,6 +17,11 @@ describe('basic', () => {
     expect(result).to.deep.equal(['hàn', 'yǔ', 'pīn', 'yīn']);
   });
 
+  it('[basic]好好', () => {
+    const result = pinyin('好好学习');
+    expect(result).to.be.equal('hǎo hǎo xué xí');
+  });
+
   it('[basic]拼音+非汉字数组', () => {
     const result = pinyin('汉语拼音xxx.,', { type: 'array' });
     expect(result).to.deep.equal([

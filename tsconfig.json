@@ -12,7 +12,11 @@
     "isolatedModules": false,
     "sourceMap": false,
     "declaration": true,
-    "declarationDir": "types"
+    "declarationDir": "types",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["lib/*"]
+    }
   },
   "exclude": ["node_modules", "types"]
 }

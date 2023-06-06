@@ -1,5 +1,5 @@
-import { SingleWordResult, PinyinMode } from '../type';
-declare const getPinyinArray: (word: string, mode: 'normal' | 'surname') => SingleWordResult[];
+import { SingleWordResult, PinyinMode } from '@/common/type';
+export declare const getPinyin: (word: string, list: SingleWordResult[], mode: 'normal' | 'surname') => SingleWordResult[];
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin
@@ -57,4 +57,4 @@ declare const getPinyinWithNum: GetPinyinWithNum;
  */
 declare type GetFirstLetter = (pinyin: string) => string;
 declare const getFirstLetter: GetFirstLetter;
-export { getPinyinArray, getPinyinWithoutTone, getInitialAndFinal, getMultiplePinyin, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };
+export { getPinyinWithoutTone, getInitialAndFinal, getMultiplePinyin, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };
