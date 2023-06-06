@@ -1797,7 +1797,7 @@ export const DICT1: { [prop: string]: string } = {
   斜: 'xié',
   丧: 'sàng sāng',
   烂: 'làn',
-  屏: 'bīng píng bǐng',
+  屏: 'píng bǐng bīng',
   砖: 'zhuān',
   墓: 'mù',
   详: 'xiáng yáng',
