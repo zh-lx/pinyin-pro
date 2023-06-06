@@ -21,6 +21,10 @@ interface HtmlOptions {
    * @description html 非汉字字符外层 span 标签的类名，仅当 wrapNonChinese 为 true 时生效。默认为 py-non-chinese-item
    */
   nonChineseClass?: string;
+  /**
+   * @description 拼音上是否标注音调
+   */
+  toneType?: 'symbol' | 'num' | 'none';
 }
 
 const DefaultHtmlOptions: HtmlOptions = {
@@ -29,6 +33,7 @@ const DefaultHtmlOptions: HtmlOptions = {
   pinyinClass: 'py-pinyin-item',
   nonChineseClass: 'py-non-chinese-item',
   wrapNonChinese: false,
+  toneType: 'symbol',
 };
 
 /**
@@ -38,11 +43,14 @@ const DefaultHtmlOptions: HtmlOptions = {
  * @return {string} 带汉字的拼音字符串
  */
 export const html = (text: string, options?: HtmlOptions) => {
-  const pinyinArray = pinyin(text, { type: 'all' });
   const completeOptions = {
     ...DefaultHtmlOptions,
     ...(options || {}),
   } as Required<HtmlOptions>;
+  const pinyinArray = pinyin(text, {
+    type: 'all',
+    toneType: completeOptions.toneType,
+  });
   const result = pinyinArray.map((item) => {
     if (item.isZh) {
       // 汉字字符处理

@@ -19,6 +19,10 @@ interface HtmlOptions {
      * @description html 非汉字字符外层 span 标签的类名，仅当 wrapNonChinese 为 true 时生效。默认为 py-non-chinese-item
      */
     nonChineseClass?: string;
+    /**
+     * @description 拼音上是否标注音调
+     */
+    toneType?: 'symbol' | 'num' | 'none';
 }
 /**
  * @description: 获取带拼音汉字的 html 字符串

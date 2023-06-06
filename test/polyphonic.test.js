@@ -227,4 +227,9 @@ describe('polyphonic', () => {
     const result = polyphonic('好好学习', { toneType: 'none' });
     expect(result).to.deep.equal(['hao', 'hao', 'xue', 'xi']);
   });
+
+  it('[polyphonic]toneType&num', () => {
+    const result = polyphonic('好好学习', { toneType: 'num' });
+    expect(result).to.deep.equal(['hao3 hao4', 'hao3 hao4', 'xue2', 'xi2']);
+  });
 });

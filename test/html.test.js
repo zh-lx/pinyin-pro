@@ -9,6 +9,13 @@ describe('html', () => {
     );
   });
 
+  it('[html]不带音调', () => {
+    const result = html('汉语拼音', { toneType: 'none' });
+    expect(result).to.be.equal(
+      '<span class="py-result-item"><ruby><span class="py-chinese-item">汉</span><rp>(</rp><rt class="py-pinyin-item">han</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">语</span><rp>(</rp><rt class="py-pinyin-item">yu</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">拼</span><rp>(</rp><rt class="py-pinyin-item">pin</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">音</span><rp>(</rp><rt class="py-pinyin-item">yin</rt><rp>)</rp></ruby></span>'
+    );
+  });
+
   it('[html-non-chinese]带标点', () => {
     const result = html('汉语，拼音');
     expect(result).to.be.equal(
