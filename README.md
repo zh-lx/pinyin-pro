@@ -16,13 +16,13 @@
 
 ### 🎨 特色功能
 
-- [功能丰富: 支持拼音/声母/韵母/首字母/音调/全部信息](https://pinyin-pro.cn/use/pinyin.html)
-- [支持人名姓氏模式](https://pinyin-pro.cn/use/pinyin.html#%E5%A7%93%E6%B0%8F%E6%A8%A1%E5%BC%8F)
-- [支持文本和拼音匹配](https://pinyin-pro.cn/use/match.html)
-- [支持自定义拼音](https://pinyin-pro.cn/use/customPinyin.html)
-- [支持获取带拼音汉字的 HTML 字符串](https://pinyin-pro.cn/use/html.html)
-- [支持获取汉字的所有拼音](https://pinyin-pro.cn/use/polyphonic.html)
-- [极致的性能和极高的拼音识别准确率](https://pinyin-pro.cn/guide/compare.html#%E5%AF%B9%E6%AF%94%E7%BB%93%E6%9E%9C)
+- 支持拼音/声母/韵母/首字母/音调/全部信息
+- 支持人名姓氏模式
+- 支持文本和拼音匹配
+- 支持自定义拼音
+- 支持获取带拼音汉字的 HTML 字符串
+- 支持获取汉字的所有拼音
+- 极致的性能和极高的拼音识别准确率
 
 ### 🔨 安装
 
@@ -73,8 +73,10 @@ npm install pinyin-pro
 
   // 支持首字母匹配
   match('中文拼音', 'zwp'); // [0, 1, 2]
+
   // 支持全拼匹配
   match('中文拼音', 'zhongwenpin'); // [0, 1, 2]
+
   // 支持混合匹配
   match('中文拼音', 'zhongwp'); // [0, 1, 2]
   ```
