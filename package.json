@@ -42,11 +42,11 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./types/lib/index.d.ts",
+        "types": "./types/index.d.ts",
         "default": "./dist/index.es.js"
       },
       "require": {
-        "types": "./types/lib/index.d.ts",
+        "types": "./types/index.d.ts",
         "default": "./dist/index.js"
       }
     }

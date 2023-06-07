@@ -1,7 +1,19 @@
 interface MatchOptions {
+    /**
+     * @description 每个汉字和拼音需要遵从的匹配精度
+     */
     precision?: 'first' | 'start' | 'every' | 'any';
+    /**
+     * @description 匹配的汉字下标是否为连续的才算匹配成功
+     */
     continuous?: boolean;
+    /**
+     * @description 匹配时对于空格的处理
+     */
     space?: 'ignore' | 'preserve';
+    /**
+     * @description 最后一个字的匹配精度
+     */
     lastPrecision?: 'first' | 'start' | 'every' | 'any';
 }
 /**
