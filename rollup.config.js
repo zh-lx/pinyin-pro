@@ -34,7 +34,7 @@ module.exports = {
     },
     {
       exports: 'auto',
-      file: path.resolve(__dirname, './dist/index.es.js'),
+      file: path.resolve(__dirname, './dist/index.mjs'),
       format: 'es',
       sourcemap: false,
     },
