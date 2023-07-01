@@ -1,4 +1,4 @@
-import { SingleWordResult } from '@/common/type';
+import type { SingleWordResult } from '../../common/type';
 interface BasicOptions {
     /**
      * @description 返回的拼音音调类型

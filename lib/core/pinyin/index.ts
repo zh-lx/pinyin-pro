@@ -1,4 +1,4 @@
-import { SingleWordResult } from '@/common/type';
+import type { SingleWordResult } from '../../common/type';
 import { getPinyin } from './handle';
 import {
   validateType,
@@ -198,7 +198,7 @@ function pinyin(
   list = getPinyin(word, list, options.mode || 'normal');
 
   // 双 unicode 编码字符处理
-  list = middlewareDoubleUnicode(list)
+  list = middlewareDoubleUnicode(list);
 
   // nonZh 参数及 removeNonZh 参数
   list = middleWareNonZh(list, options);

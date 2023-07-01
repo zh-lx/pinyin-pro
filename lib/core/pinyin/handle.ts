@@ -8,7 +8,7 @@ import {
 import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
 import { getCustomDict } from '@/core/custom';
-import { SingleWordResult, PinyinMode } from '@/common/type';
+import type { SingleWordResult, PinyinMode } from '../../common/type';
 import { ACNormal, ACSurname } from '@/common/ac';
 import {
   DoubleUnicodePrefixReg,
