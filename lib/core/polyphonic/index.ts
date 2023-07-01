@@ -1,4 +1,4 @@
-import { SingleWordResult } from '@/common/type';
+import type { SingleWordResult } from '../../common/type';
 import {
   validateType,
   middleWareNonZh,
