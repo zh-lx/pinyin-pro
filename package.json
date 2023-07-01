@@ -1,13 +1,13 @@
 {
   "name": "pinyin-pro",
-  "version": "3.15.3",
+  "version": "3.15.4",
   "description": "准确率和性能最优异的汉字转拼音库。获取中文拼音、韵母、声母、声调、首字母，支持拼音匹配",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "typings": "./types/index.d.ts",
   "scripts": {
     "test": "mocha",
-    "build": "rollup -c",
+    "build": "rollup -c && rollup -c rollup.esm.config.js",
     "commit": "git-cz",
     "coverage": "istanbul cover _mocha -- -R spec --timeout 15000 --recursive",
     "coverage:check": "istanbul check-coverage",
