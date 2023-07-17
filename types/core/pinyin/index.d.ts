@@ -70,6 +70,10 @@ interface OptionsReturnString extends BasicOptions {
      * @value array: 返回全部信息数组
      */
     type?: 'string';
+    /**
+     * @description 拼音之间的分隔符，默认为空格，仅在 type 为 'string' 时生效
+     */
+    separator?: string;
 }
 interface OptionsReturnArray extends BasicOptions {
     /**
@@ -97,6 +101,10 @@ export interface CompleteOptions extends BasicOptions {
      * @value array: 返回全部信息数组
      */
     type?: 'string' | 'array' | 'all';
+    /**
+     * @description 拼音之间的分隔符，默认为空格，仅在 type 为 'string' 时生效
+     */
+    separator?: string;
 }
 /**
  * @description: 获取汉语字符串的拼音

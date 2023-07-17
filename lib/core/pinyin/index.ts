@@ -93,6 +93,10 @@ interface OptionsReturnString extends BasicOptions {
    * @value array: 返回全部信息数组
    */
   type?: 'string';
+  /**
+   * @description 拼音之间的分隔符，默认为空格，仅在 type 为 'string' 时生效
+   */
+  separator?: string;
 }
 
 interface OptionsReturnArray extends BasicOptions {
@@ -123,6 +127,10 @@ export interface CompleteOptions extends BasicOptions {
    * @value array: 返回全部信息数组
    */
   type?: 'string' | 'array' | 'all';
+  /**
+   * @description 拼音之间的分隔符，默认为空格，仅在 type 为 'string' 时生效
+   */
+  separator?: string;
 }
 
 const DEFAULT_OPTIONS: CompleteOptions = {
@@ -134,6 +142,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
   removeNonZh: false,
   nonZh: 'spaced',
   v: false,
+  separator: ' ',
 };
 
 /**

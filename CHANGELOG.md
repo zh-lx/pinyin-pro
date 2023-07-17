@@ -1,6 +1,23 @@
 # 更新日志
 
+## 3.16.0
+
+- 【feature】`pinyin` api 新增 `separator` 参数，用于支持拼音之间自定义分隔符（仅当 `type: 'string'` 时生效）
+
+## 3.15.4
+
+- 【optimize】 `esm` eliminates compression confusion and solves the issue of ineffective use of tree shading
+
+## 3.15.3
+
+- 【fix】 Resolve the issue of retaining alias path in `.d.ts` file
+
+## 3.15.2
+
+- 【fix】 Optimize the `esm` build format to solve the issue of referencing errors in some node environments
+
 ## 3.15.1
+
 - 【fix】修复 `package.json` 文件中类型指向错误问题
 
 ## 3.15.0
