@@ -180,7 +180,7 @@ const DICT2: { [prop: string]: string } = {
   晓得: 'xiǎo de',
   变更: 'biàn gēng',
   认得: 'rèn de',
-  苹果: 'pín guǒ',
+  苹果: 'píng guǒ',
   念头: 'niàn tou',
   挣扎: 'zhēng zhá',
   三藏: 'sān zàng',
