@@ -22,10 +22,11 @@ export declare class AC {
     root: TrieNode;
     constructor();
     buildTrie(patterns: Pattern[]): void;
-    buildInitTrie(): void;
+    reset(): void;
     buildFailPointer(): void;
     search(text: string, isSurname?: boolean): MatchPattern[];
     filter(patterns: MatchPattern[], isSurname?: boolean): MatchPattern[];
 }
+export declare const PatternsNormal: Pattern[];
 export declare const ACNormal: AC;
 export {};

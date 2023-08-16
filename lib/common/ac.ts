@@ -61,13 +61,8 @@ export class AC {
   }
 
   // 重新构建树
-  buildInitTrie() {
+  reset() {
     this.root = new TrieNode();
-    this.buildTrie(PatternSurname);
-    this.buildTrie(Pattern5);
-    this.buildTrie(Pattern4);
-    this.buildTrie(Pattern3);
-    this.buildTrie(Pattern2);
   }
 
   // 构建失败指针
@@ -150,6 +145,13 @@ export class AC {
 }
 
 // 常规匹配
+export const PatternsNormal = [
+  ...Pattern5,
+  ...Pattern4,
+  ...Pattern3,
+  ...Pattern2,
+  ...PatternSurname,
+];
 export const ACNormal = new AC();
-ACNormal.buildInitTrie();
+ACNormal.buildTrie(PatternsNormal);
 ACNormal.buildFailPointer();

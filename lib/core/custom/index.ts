@@ -1,4 +1,4 @@
-import { ACNormal } from '@/common/ac';
+import { ACNormal, PatternsNormal } from '@/common/ac';
 import { getStringLength } from '@/common/utils';
 let customDict: { [key: string]: string } = {};
 
@@ -20,8 +20,8 @@ export function customPinyin(config: { [key: string]: string } = {}) {
     priority: 999 + getStringLength(key),
     length: key.length,
   }));
-  ACNormal.buildInitTrie();
-  ACNormal.buildTrie(customPatterns);
+  ACNormal.reset();
+  ACNormal.buildTrie([...PatternsNormal, ...customPatterns]);
   ACNormal.buildFailPointer();
 }
 
