@@ -6,6 +6,7 @@ export interface Pattern {
     pinyin: string;
     priority: number;
     length: number;
+    isSurname?: boolean;
 }
 interface MatchPattern extends Pattern {
     index: number;
@@ -21,13 +22,10 @@ export declare class AC {
     root: TrieNode;
     constructor();
     buildTrie(patterns: Pattern[]): void;
-    rebuildTrie(patterns: Pattern[]): void;
+    buildInitTrie(): void;
     buildFailPointer(): void;
-    search(text: string): MatchPattern[];
-    filter(patterns: MatchPattern[]): MatchPattern[];
+    search(text: string, isSurname?: boolean): MatchPattern[];
+    filter(patterns: MatchPattern[], isSurname?: boolean): MatchPattern[];
 }
-export declare const PatternsNormal: Pattern[];
-export declare const PatternsSurname: Pattern[];
 export declare const ACNormal: AC;
-export declare const ACSurname: AC;
 export {};

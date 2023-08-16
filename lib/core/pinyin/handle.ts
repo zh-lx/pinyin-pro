@@ -9,7 +9,7 @@ import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
 import { getCustomDict } from '@/core/custom';
 import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { ACNormal, ACSurname } from '@/common/ac';
+import { ACNormal } from '@/common/ac';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
@@ -57,8 +57,7 @@ export const getPinyin = (
   list: SingleWordResult[],
   mode: 'normal' | 'surname'
 ): SingleWordResult[] => {
-  const ac = mode === 'surname' ? ACSurname : ACNormal; // 选择不同的 AC 自动机
-  const matches = ac.search(word);
+  const matches = ACNormal.search(word, mode === 'surname');
   let matchIndex = 0;
   for (let i = 0; i < word.length; ) {
     const match = matches[matchIndex];

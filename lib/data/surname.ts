@@ -481,4 +481,5 @@ export const PatternSurname: Pattern[] = Object.keys(Surnames).map((key) => ({
   pinyin: Surnames[key],
   priority: 99 + key.length,
   length: key.length,
+  isSurname: true,
 }));
