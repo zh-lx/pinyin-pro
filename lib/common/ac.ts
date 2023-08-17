@@ -13,6 +13,7 @@ export interface Pattern {
   pinyin: string;
   priority: number;
   length: number;
+  isSurname?: boolean;
 }
 
 interface MatchPattern extends Pattern {
@@ -57,14 +58,11 @@ export class AC {
         cur.pattern = pattern;
       }
     }
-    this.buildFailPointer();
   }
 
   // 重新构建树
-  rebuildTrie(patterns: Pattern[]) {
+  reset() {
     this.root = new TrieNode();
-    this.buildTrie(patterns);
-    this.buildFailPointer();
   }
 
   // 构建失败指针
@@ -93,7 +91,7 @@ export class AC {
   }
 
   // 搜索字符串返回匹配的模式串
-  search(text: string) {
+  search(text: string, isSurname = false) {
     let cur = this.root;
     let result: MatchPattern[] = [];
     for (let i = 0; i < text.length; i++) {
@@ -121,11 +119,14 @@ export class AC {
         }
       }
     }
-    return this.filter(result);
+    return this.filter(result, isSurname);
   }
 
   // 去除搜索的重叠字符串，按照优先级保留
-  filter(patterns: MatchPattern[]) {
+  filter(patterns: MatchPattern[], isSurname = false) {
+    if (!isSurname) {
+      patterns = patterns.filter((pattern) => !pattern.isSurname);
+    }
     const filteredArr = [];
     let prevEndIndex = 0;
     // 按照优先级去除重叠词
@@ -143,18 +144,14 @@ export class AC {
   }
 }
 
+// 常规匹配
 export const PatternsNormal = [
   ...Pattern5,
   ...Pattern4,
   ...Pattern3,
   ...Pattern2,
+  ...PatternSurname,
 ];
-export const PatternsSurname = [...PatternSurname, ...PatternsNormal];
-
-// 常规匹配
 export const ACNormal = new AC();
 ACNormal.buildTrie(PatternsNormal);
-
-// 姓氏模式匹配
-export const ACSurname = new AC();
-ACSurname.buildTrie(PatternsSurname);
+ACNormal.buildFailPointer();
