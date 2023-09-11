@@ -4,7 +4,6 @@ const DICT5: { [prop: string]: string } = {
   巴尔喀什湖: 'bā ěr kā shí hú',
   不幸而言中: 'bù xìng ér yán zhòng',
   布尔什维克: 'bù ěr shí wéi kè',
-  赶鸭子上架: 'gǎn yā zī shàng jià',
   何乐而不为: 'hé lè ér bù wéi',
   苛政猛于虎: 'kē zhè měng yú hǔ',
   蒙得维的亚: 'méng de wéi de yà',
@@ -16,7 +15,6 @@ const DICT5: { [prop: string]: string } = {
   行行出状元: 'háng háng chū zhuàng yuán',
   亚得里亚海: 'yà de lǐ yà hǎi',
   眼不见为净: 'yǎn bù jiàn wéi jìng',
-  有鼻子有眼: 'yǒu bí zi yǒu yǎn',
   竹筒倒豆子: 'zhú tǒng dǎo dòu zi',
 };
 export default DICT5;
