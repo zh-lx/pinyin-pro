@@ -349,6 +349,7 @@ const DICT3: { [prop: string]: string } = {
   死劲儿: 'sǐ jìng er',
   骨朵儿: 'gū duǒ er',
   功劳簿: 'gōng láo bù',
+  都江堰: 'dū jiāng yàn',
 };
 export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({
