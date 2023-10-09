@@ -22,6 +22,7 @@
 - 支持自定义拼音
 - 支持获取带拼音汉字的 HTML 字符串
 - 支持获取汉字的所有拼音
+- 支持拼音输入转换
 - 极致的性能和极高的拼音识别准确率
 
 ### 🔨 安装
@@ -79,6 +80,21 @@ npm install pinyin-pro
 
   // 支持混合匹配
   match('中文拼音', 'zhongwp'); // [0, 1, 2]
+  ```
+
+- 拼音格式转换，更多功能请查看[convert API](https://pinyin-pro.cn/use/convert)
+
+  ```js
+  import { convert } from 'pinyin-pro';
+
+  // 数组转符号
+  convert('pin1 yin1'); // 'pīn yīn'
+
+  // 符号转数字
+  convert('pīn yīn', { format: 'symbolToNum' }); // 'pin1 yin1'
+
+  // 消除符号
+  convert('pīn yīn', { format: 'toneNone' }); // 'pin yin'
   ```
 
 - 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html)

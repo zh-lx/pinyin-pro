@@ -177,8 +177,9 @@ function pinyin(word: string, options?: OptionsReturnAll): AllData[];
  */
 function pinyin(
   word: string,
-  options = DEFAULT_OPTIONS
+  options?: CompleteOptions
 ): string | string[] | AllData[] {
+  options = { ...DEFAULT_OPTIONS, ...(options || {}) };
   // 校验 word 类型是否正确
   const legal = validateType(word);
   if (!legal) {
