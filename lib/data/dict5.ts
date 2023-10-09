@@ -1,4 +1,4 @@
-import type { Pattern } from '@/common/ac';
+import type { Pattern } from '../../lib/common/ac';
 const DICT5: { [prop: string]: string } = {
   巴尔干半岛: 'bā ěr gàn bàn dǎo',
   巴尔喀什湖: 'bā ěr kā shí hú',

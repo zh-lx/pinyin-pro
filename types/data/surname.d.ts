@@ -1,4 +1,4 @@
-import type { Pattern } from '@/common/ac';
+import type { Pattern } from '../../lib/common/ac';
 declare const Surnames: {
     [key: string]: string;
 };
