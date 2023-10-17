@@ -473,6 +473,9 @@ const Surnames: { [key: string]: string } = {
   言: 'yán',
   福: 'fú',
   肖: 'xiāo',
+  区: 'ōu',
+  覃: 'qín',
+  朴: 'piáo',
 };
 
 export default Surnames;
