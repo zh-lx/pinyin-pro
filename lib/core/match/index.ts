@@ -17,6 +17,10 @@ interface MatchOptions {
    * @description 最后一个字的匹配精度
    */
   lastPrecision?: 'first' | 'start' | 'every' | 'any';
+  /**
+   * @description 是否大小写不敏感
+   */
+  insensitive?: boolean;
 }
 
 const DefaultMatchOptions: MatchOptions = {
@@ -24,6 +28,7 @@ const DefaultMatchOptions: MatchOptions = {
   continuous: false,
   space: 'ignore',
   lastPrecision: 'start',
+  insensitive: true,
 };
 
 const MAX_PINYIN_LENGTH = 6;
@@ -43,6 +48,11 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
     ...DefaultMatchOptions,
     ...(options || {}),
   } as Required<MatchOptions>;
+  // 是否大小写不敏感
+  if (completeOptions.insensitive !== false) {
+    text = text.toLowerCase();
+    pinyin = pinyin.toLowerCase();
+  }
   // 移除空格
   if (completeOptions.space === 'ignore') {
     pinyin = pinyin.replace(/\s/g, '');

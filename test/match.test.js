@@ -96,27 +96,37 @@ describe('match', () => {
   });
 
   it('[match]lastPrecision every fail', () => {
-    const result = match('汉语拼音', 'hanyupinyi', {lastPrecision: 'every'});
+    const result = match('汉语拼音', 'hanyupinyi', { lastPrecision: 'every' });
     expect(result).to.deep.equal(null);
   });
 
   it('[match]lastPrecision every success', () => {
-    const result = match('汉语拼音', 'hanyupinyin', {lastPrecision: 'every'});
+    const result = match('汉语拼音', 'hanyupinyin', { lastPrecision: 'every' });
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 
   it('[match]lastPrecision first fail', () => {
-    const result = match('汉语拼音', 'hanyupinyi', {lastPrecision: 'first'});
+    const result = match('汉语拼音', 'hanyupinyi', { lastPrecision: 'first' });
     expect(result).to.deep.equal(null);
   });
 
   it('[match]lastPrecision first success', () => {
-    const result = match('汉语拼音', 'hanyupiny', {lastPrecision: 'first'});
+    const result = match('汉语拼音', 'hanyupiny', { lastPrecision: 'first' });
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 
   it('[match]lastPrecision any', () => {
-    const result = match('汉语拼音', 'hanyupini', {lastPrecision: 'any'});
+    const result = match('汉语拼音', 'hanyupini', { lastPrecision: 'any' });
     expect(result).to.deep.equal([0, 1, 2, 3]);
+  });
+
+  it('[match]insensitive', () => {
+    const result = match('汉语KK拼音', 'hanyukkpinyin');
+    expect(result).to.deep.equal([0, 1, 2, 3, 4, 5]);
+
+    const result1 = match('汉语KK拼音', 'hanyukkpinyin', {
+      insensitive: false,
+    });
+    expect(result1).to.deep.equal(null);
   });
 });
