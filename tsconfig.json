@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "es6",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -10,16 +10,13 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": false,
-    "downlevelIteration": true,
     "sourceMap": false,
     "declaration": true,
     "declarationDir": "types",
-    "emitDeclarationOnly": true,
     "baseUrl": "./",
     "paths": {
       "@/*": ["lib/*"]
     }
   },
-  "include": ["lib/**/*.ts"],
   "exclude": ["node_modules", "types"]
 }
