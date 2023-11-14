@@ -15,6 +15,10 @@ interface MatchOptions {
      * @description 最后一个字的匹配精度
      */
     lastPrecision?: 'first' | 'start' | 'every' | 'any';
+    /**
+     * @description 是否大小写不敏感
+     */
+    insensitive?: boolean;
 }
 /**
  * @description: 检测汉语字符串和拼音是否匹配
