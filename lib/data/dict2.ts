@@ -2129,7 +2129,7 @@ const DICT2: { [prop: string]: string } = {
   柿子: 'shì zi',
   钳子: 'qián zi',
   虱子: 'shī zi',
-  瓶子: 'shàn zi',
+  瓶子: 'píng zi',
   豹子: 'bào zi',
   筷子: 'kuài zi',
   篮子: 'lán zi',
@@ -2160,6 +2160,9 @@ const DICT2: { [prop: string]: string } = {
   灯笼: 'dēng long',
   庄稼: 'zhuāng jia',
   聪明: 'cōng ming',
+  镜子: 'jìng zi',
+  银子: 'yín zi',
+  盘子: 'pán zi',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({

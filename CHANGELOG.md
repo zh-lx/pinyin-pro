@@ -1,5 +1,17 @@
 # 更新日志
 
+## 3.18.2
+
+- 【patch】词库修正及添加以下词语：
+  - 瓶子: `shàn zi` -> `píng zi`
+  - 镜子: `jìng zi`
+  - 银子: `yín zi`
+  - 盘子: `pán zi`
+
+## 3.18.1
+
+- 【fix】修复打包与部分 `vue-cli` 项目不兼容问题
+
 ## 3.18.0
 
 - 【feat】<b>match</b>：`options` 参数新增 `insensitive` 选项用于指定匹配时是否大小写不敏感，默认为 `true`
