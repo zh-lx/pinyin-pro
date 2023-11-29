@@ -910,7 +910,7 @@ const DICT4: { [prop: string]: string } = {
   埙篪相和: 'xūn chí xiāng hè',
   血债累累: 'xuè zhài lěi lěi',
   雪鸿指爪: 'xuě hóng zhǐ zhǎo',
-  衒玉贾石: 'zuì yù jiǎ shí',
+  衒玉贾石: 'zuì yù gǔ shí',
   炫玉贾石: 'xuàn yù gǔ shí',
   炫石为玉: 'xuàn shí wéi yù',
   旋干转坤: 'xuán qián zhuǎn kūn',
