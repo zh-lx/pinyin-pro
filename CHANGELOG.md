@@ -1,5 +1,24 @@
 # 更新日志
 
+## 3.18.4
+
+- 【patch】词库修正以下词语
+
+  ```diff
+  - 只争朝夕: 'zhǐ zhēng zhāo xī',
+  - 娉婷婀娜: 'pīng tíng ē nà',
+  - 鸣凤朝阳: 'míng fèng zhāo yáng',
+  - 凤鸣朝阳: 'fèng míng zhāo yáng',
+  - 朝阳鸣凤: 'zhāo yáng míng fèng',
+  - 朝成暮徧: 'cháo chéng mù shí',
+  + 朝霞: 'zhāo xiá',
+  + 朝夕: 'zhāo xī',
+  + 朝气: 'zhāo qì',
+  + 翅膀: 'chì bǎng',
+  + 省长: 'shěng zhǎng',
+  + 一担水: 'yī dàn shuǐ',
+  ```
+
 ## 3.18.3
 
 - 【patch】词库修正及添加以下词语
