@@ -351,6 +351,8 @@ const DICT3: { [prop: string]: string } = {
   功劳簿: 'gōng láo bù',
   都江堰: 'dū jiāng yàn',
   一担水: 'yī dàn shuǐ',
+  否极泰: 'pǐ jí tài',
+  泰来否: 'tài lái pǐ',
 };
 export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({
