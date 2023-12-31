@@ -1,5 +1,9 @@
 # 更新日志
 
+## 3.18.6
+
+- 【patch】词库修正以下词语，详见 [#148](https://github.com/zh-lx/pinyin-pro/pull/148)
+
 ## 3.18.5
 
 - 【patch】词库修正以下词语
