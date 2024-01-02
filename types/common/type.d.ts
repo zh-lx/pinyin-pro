@@ -5,5 +5,5 @@ export interface SingleWordResult {
     isZh: boolean;
     delete?: boolean;
 }
-export declare type ToneType = 'symbol' | 'num' | 'none';
-export declare type PinyinMode = 'normal' | 'surname';
+export type ToneType = 'symbol' | 'num' | 'none';
+export type PinyinMode = 'normal' | 'surname';

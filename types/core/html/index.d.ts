@@ -30,5 +30,5 @@ interface HtmlOptions {
  * @param {HtmlOptions=} options html 中标签类名相关配置
  * @return {string} 带汉字的拼音字符串
  */
-export declare const html: (text: string, options?: HtmlOptions | undefined) => string;
+export declare const html: (text: string, options?: HtmlOptions) => string;
 export {};

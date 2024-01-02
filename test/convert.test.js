@@ -41,4 +41,9 @@ describe('convert', () => {
     const result = convert('pin1 a   yin1');
     expect(result).to.be.equal('pīn a   yīn');
   });
+
+  it('[convert]v', () => {
+    const result = convert('lv4 se4');
+    expect(result).to.be.equal('lǜ sè');
+  });
 });

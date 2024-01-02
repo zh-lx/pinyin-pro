@@ -3,6 +3,7 @@
 ## 3.18.6
 
 - 【patch】词库修正以下词语，详见 [#148](https://github.com/zh-lx/pinyin-pro/pull/148)
+- 【fix】<b>convert</b>：支持 `v` 输入转换，例如：`lv4 se4` -> `lǜ sè`
 
 ## 3.18.5
 
