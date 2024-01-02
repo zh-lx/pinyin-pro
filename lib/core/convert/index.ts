@@ -9,8 +9,8 @@ interface ConvertOptions {
   separator?: string;
   /**
    * @description 转换的格式， 默认为 numToSymbol
-   * @example numToSymbol: pin yin -> pīn yīn
-   * @example symbolToNum: pīn yīn -> pin yin
+   * @example numToSymbol: pin1 yin1 -> pīn yīn
+   * @example symbolToNum: pīn yīn -> pin1 yin1
    * @example toneNone: pīn yīn -> pin yin
    */
   format?: ConvertFormat;
@@ -26,6 +26,7 @@ const toneMap = {
   o: ['o', 'ō', 'ó', 'ǒ', 'ò'],
   e: ['e', 'ē', 'é', 'ě', 'è'],
   ü: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ'],
+  v: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ'],
   ui: ['ui', 'uī', 'uí', 'uǐ', 'uì'],
   iu: ['iu', 'īu', 'íu', 'ǐu', 'ìu'],
   i: ['i', 'ī', 'í', 'ǐ', 'ì'],
@@ -35,7 +36,7 @@ const toneMap = {
 };
 
 /**
- * @description: 拼音格式转换。pin yin -> pīn yīn 或 pīn yīn -> pin yin 或 pīn yīn -> pin yin
+ * @description: 拼音格式转换。pin1 yin1 -> pīn yīn 或 pīn yīn -> pin1 yin1 或 pīn yīn -> pin yin
  * @param {string} pinyin 要转换的拼音字符串或者拼音字符串数组
  * @param {ConvertOptions=} options 配置项
  * @return {string} 转换后的拼音字符串或者拼音字符串数组
@@ -43,7 +44,7 @@ const toneMap = {
 function convert(pinyin: string, options?: ConvertOptions): string;
 
 /**
- * @description: 拼音格式转换。pin yin -> pīn yīn 或 pīn yīn -> pin yin 或 pīn yīn -> pin yin
+ * @description: 拼音格式转换。pin1 yin1 -> pīn yīn 或 pīn yīn -> pin1 yin1 或 pīn yīn -> pin yin
  * @param {string[]} pinyin 要转换的拼音字符串或者拼音字符串数组
  * @param {ConvertOptions=} options 配置项
  * @return {string[]} 转换后的拼音字符串或者拼音字符串数组
@@ -51,7 +52,7 @@ function convert(pinyin: string, options?: ConvertOptions): string;
 function convert(pinyin: string[], options?: ConvertOptions): string[];
 
 /**
- * @description: 拼音格式转换。pin yin -> pīn yīn 或 pīn yīn -> pin yin 或 pīn yīn -> pin yin
+ * @description: 拼音格式转换。pin1 yin1 -> pīn yīn 或 pīn yīn -> pin1 yin1 或 pīn yīn -> pin yin
  * @param {string | string[]} pinyin 要转换的拼音字符串或者拼音字符串数组
  * @param {ConvertOptions=} options 配置项
  * @return {string | string[]} 转换后的拼音字符串或者拼音字符串数组
