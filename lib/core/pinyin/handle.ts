@@ -7,7 +7,7 @@ import {
 } from '@/data/special';
 import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
-import { getCustomDict } from '@/core/custom';
+import { getCustomMultpileDict } from '@/core/custom';
 import type { SingleWordResult, PinyinMode } from '../../common/type';
 import { ACNormal } from '@/common/ac';
 import {
@@ -131,9 +131,9 @@ type GetMultiplePinyin = (
 ) => SingleWordResult[];
 const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
   const wordCode = word.charCodeAt(0);
-  const customDict = getCustomDict();
+  const customMultpileDict = getCustomMultpileDict();
   const pinyin =
-    customDict[word] ||
+    customMultpileDict[wordCode] ||
     (mode === 'surname' ? Surnames[word] : '') ||
     DICT1[wordCode] ||
     '';

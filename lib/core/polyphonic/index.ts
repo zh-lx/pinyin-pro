@@ -14,6 +14,7 @@ import {
   getFirstLetter,
   getFinalParts,
 } from '@/core/pinyin/handle';
+import { getCustomPolyphonicDict } from '../custom';
 
 interface BasicOptions {
   /**
@@ -205,7 +206,8 @@ function polyphonic(
 const getPolyphonicList = (text: string): SingleWordResult[] => {
   return text.split('').map((word) => {
     const wordCode = word.charCodeAt(0);
-    const pinyin = DICT1[wordCode] || '';
+    const customPolyphonicDict = getCustomPolyphonicDict();
+    const pinyin = customPolyphonicDict[wordCode] || DICT1[wordCode] || '';
     return {
       origin: word,
       result: pinyin,
