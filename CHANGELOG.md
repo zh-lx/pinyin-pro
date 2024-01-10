@@ -1,5 +1,9 @@
 # 更新日志
 
+## 3.19.0
+
+- 【feat】`customPinyin`: `customPinyin` 支持对 `multiple` 和 `polyphonic` 生效
+
 ## 3.18.6
 
 - 【patch】词库修正以下词语，详见 [#148](https://github.com/zh-lx/pinyin-pro/pull/148)
