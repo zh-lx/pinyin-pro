@@ -1,4 +1,4 @@
-type ConvertFormat = 'numToSymbol' | 'symbolToNum' | 'toneNone';
+declare type ConvertFormat = 'numToSymbol' | 'symbolToNum' | 'toneNone';
 interface ConvertOptions {
     /**
      * @description 拼音之间的分隔符，默认为空格，convert方法会以该分隔符分割拼音进行转换

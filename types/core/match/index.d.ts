@@ -27,5 +27,5 @@ interface MatchOptions {
  * @param {MatchOptions=} options 配置项
  * @return {Array | null} 若匹配成功，返回 text 中匹配成功的下标数组；若匹配失败，返回 null
  */
-export declare const match: (text: string, pinyin: string, options?: MatchOptions) => any;
+export declare const match: (text: string, pinyin: string, options?: MatchOptions | undefined) => any;
 export {};

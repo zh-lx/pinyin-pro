@@ -1,5 +1,43 @@
 # 更新日志
 
+## 3.19.1
+
+- 【patch】词库修正以下词语
+
+```diff
+- 那些: 'nèi xiē',
+- 皇上: 'huáng shang',
+- 太监: 'tài jiàn',
+- 审查: 'shěn zhā',
+- 只得: 'zhǐ de',
+- 哪些: 'něi xiē',
+- 一处: 'yī chǔ',
+- 大夫: 'dài fū',
+- 便宜: 'pián yí',
+- 哪个: 'něi gè',
+- 肚子: 'dǔ zi',
+- 难得: 'nán de',
+- 晓得: 'xiǎo de',
+- 寻思: 'xín sī',
+- 夺得: 'duó de',
+- 巴结: 'bā jì',
+- 了得: 'liǎo de',
+- 行家: 'háng jia',
+- 当夜: 'dàng yè',
++ 皇上: 'huáng shàng',
++ 太监: 'tài jian',
++ 审查: 'shěn chá',
++ 大夫: 'dài fu',
++ 便宜: 'pián yi',
++ 难得: 'nán dé',
++ 晓得: 'xiǎo dé',
++ 寻思: 'xún si ',
++ 夺得: 'duó dé',
++ 巴结: 'bā jié',
++ 了得: 'liǎo dé',
++ 行家: 'háng jiā',
+```
+
 ## 3.19.0
 
 - 【feat】`customPinyin`: `customPinyin` 支持对 `multiple` 和 `polyphonic` 生效
