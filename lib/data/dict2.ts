@@ -1,7 +1,7 @@
 import type { Pattern } from '../../lib/common/ac';
 const DICT2: { [prop: string]: string } = {
   一个: 'yí gè',
-  这个: 'zhè gè',
+  这个: 'zhè ge',
   不是: 'bú shì',
   成为: 'chéng wéi',
   认为: 'rèn wéi',
@@ -13,8 +13,8 @@ const DICT2: { [prop: string]: string } = {
   不会: 'bú huì',
   提供: 'tí gōng',
   觉得: 'jué de',
-  任务: 'rèn wù',
-  那个: 'nà gè',
+  任务: 'rèn wu',
+  那个: 'nà ge',
   称为: 'chēng wéi',
   为主: 'wéi zhǔ',
   了解: 'liǎo jiě',
@@ -148,11 +148,11 @@ const DICT2: { [prop: string]: string } = {
   区长: 'qū zhǎng',
   难得: 'nán dé',
   丫头: 'yā tou',
-  打听: 'dǎ tīng',
+  打听: 'dǎ ting',
   会长: 'huì zhǎng',
   弟弟: 'dì di',
   王爷: 'wáng ye',
-  当天: 'dāng tiān',
+  当天: 'dàng tiān',
   重量: 'zhòng liàng',
   誉为: 'yù wéi',
   家伙: 'jiā huo',
@@ -2173,6 +2173,7 @@ const DICT2: { [prop: string]: string } = {
   省长: 'shěng zhǎng',
   臧否: 'zāng pǐ',
   否泰: 'pǐ tài',
+  变得: 'biàn de',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
