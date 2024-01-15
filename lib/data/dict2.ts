@@ -1051,6 +1051,7 @@ const DICT2: { [prop: string]: string } = {
   征调: 'zhēng diào',
   夹道: 'jiā dào',
   干咳: 'gān ké',
+  止咳: 'zhǐ ké',
   乐工: 'yuè gōng',
   商行: 'shāng háng',
   划过: 'huá guò',
