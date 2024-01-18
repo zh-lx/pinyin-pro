@@ -157,12 +157,12 @@ npm install pinyin-pro
     </tr>
     <tr>
         <td rowspan="2" colspan="2">准确率</td>
-        <td>😕 Node 版: 97.844%</td>
-        <td rowspan="2">😕 97.433%</td>
+        <td>😕 Node 版: 97.331%</td>
+        <td rowspan="2">😕 97.279%</td>
         <td rowspan="2">🤩 99.795%</td>
     </tr>
     <tr>
-        <td>😕 Web 版: 94.507%	</td>
+        <td>😕 Web 版: 94.353%	</td>
     </tr>
     <tr>
         <td rowspan="3">性能</td>
