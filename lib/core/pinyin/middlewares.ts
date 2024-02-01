@@ -76,37 +76,37 @@ export const middlewarePattern = (
       break;
     case 'num':
       list.forEach((item) => {
-        item.result = getNumOfTone(item.result);
+        item.result = item.isZh ? getNumOfTone(item.result) : '';
       });
       break;
     case 'initial':
       list.forEach((item) => {
-        item.result = getInitialAndFinal(item.result).initial;
+        item.result = item.isZh ? getInitialAndFinal(item.result).initial : '';
       });
       break;
     case 'final':
       list.forEach((item) => {
-        item.result = getInitialAndFinal(item.result).final;
+        item.result = item.isZh ? getInitialAndFinal(item.result).final : '';
       });
       break;
     case 'first':
       list.forEach((item) => {
-        item.result = getFirstLetter(item.result);
+        item.result = item.isZh ? getFirstLetter(item.result) : '';
       });
       break;
     case 'finalHead':
       list.forEach((item) => {
-        item.result = getFinalParts(item.result).head;
+        item.result = item.isZh ? getFinalParts(item.result).head : '';
       });
       break;
     case 'finalBody':
       list.forEach((item) => {
-        item.result = getFinalParts(item.result).body;
+        item.result = item.isZh ? getFinalParts(item.result).body : '';
       });
       break;
     case 'finalTail':
       list.forEach((item) => {
-        item.result = getFinalParts(item.result).tail;
+        item.result = item.isZh ? getFinalParts(item.result).tail : '';
       });
       break;
     default:
@@ -124,15 +124,19 @@ export const middlewareToneType = (
       break;
     case 'none':
       list.forEach((item) => {
-        item.result = getPinyinWithoutTone(item.result);
+        if (item.isZh) {
+          item.result = getPinyinWithoutTone(item.result);
+        }
       });
       break;
     case 'num': {
       list.forEach((item) => {
-        item.result = getPinyinWithNum(
-          item.result,
-          item.originPinyin as string
-        );
+        if (item.isZh) {
+          item.result = getPinyinWithNum(
+            item.result,
+            item.originPinyin as string
+          );
+        }
       });
       break;
     }
@@ -148,7 +152,9 @@ export const middlewareV = (
 ) => {
   if (options.v) {
     list.forEach((item) => {
-      item.result = item.result.replace(/ü/g, 'v');
+      if (item.isZh) {
+        item.result = item.result.replace(/ü/g, 'v');
+      }
     });
   }
 };

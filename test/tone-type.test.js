@@ -86,4 +86,14 @@ describe('pattern with toneType', () => {
     const resultNum = pinyin('赵钱孙李吧', { toneType: 'num' });
     expect(resultNum).to.be.equal('zhao4 qian2 sun1 li3 ba0');
   });
+
+  it('[tone-type]nonZh', () => {
+    const resultNum = pinyin('ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz', { toneType: 'num', nonZh: 'consecutive' });
+    expect(resultNum).to.be.equal('ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz');
+  });
+
+  it('[tone-type]nonZh with consecutive', () => {
+    const resultNum = pinyin('How are you? ', { toneType: 'num', nonZh: 'consecutive' });
+    expect(resultNum).to.be.equal('How are you? ');
+  });
 });
