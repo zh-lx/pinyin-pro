@@ -1,5 +1,9 @@
 # 更新日志
 
+## 3.19.5
+
+- 【fix】修复非中文字符 `pattern: 'first` 模式下首字母获取失败的情况
+
 ## 3.19.4
 
 - 【fix】修复非中文字符在 `toneType: none` 参数下转换错误的问题 [#156](https://github.com/zh-lx/pinyin-pro/issues/156)
