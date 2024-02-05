@@ -91,7 +91,8 @@ export const middlewarePattern = (
       break;
     case 'first':
       list.forEach((item) => {
-        item.result = item.isZh ? getFirstLetter(item.result) : '';
+        // todo: first 暂时不作为拼音一部分，不进行 isZh 识别
+        item.result = getFirstLetter(item.result);
       });
       break;
     case 'finalHead':

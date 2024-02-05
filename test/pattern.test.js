@@ -63,7 +63,11 @@ describe('pattern', () => {
     const resultFirst = pinyin('赵钱孙李额', {
       pattern: 'first',
     });
+    const resultFirst1 = pinyin('赵钱孙李very', {
+      pattern: 'first',
+    });
     expect(resultFirst).to.be.equal('z q s l é');
+    expect(resultFirst1).to.be.equal('z q s l v e r y');
   });
 
   it('[pattern]first-all-none', () => {
