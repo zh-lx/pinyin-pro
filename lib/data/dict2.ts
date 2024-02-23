@@ -130,7 +130,7 @@ const DICT2: { [prop: string]: string } = {
   石头: 'shí tou',
   州长: 'zhōu zhǎng',
   为止: 'wéi zhǐ',
-  漂亮: 'piào liàng',
+  漂亮: 'piào liang',
   炮弹: 'pào dàn',
   藏族: 'zàng zú',
   角色: 'jué sè',
