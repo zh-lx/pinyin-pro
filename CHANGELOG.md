@@ -1,5 +1,9 @@
 # 更新日志
 
+## 3.19.6
+
+- 【patch】更新部分词库，详见：[2c2f57ad](https://github.com/zh-lx/pinyin-pro/commit/2c2f57ad039bf80de93e1156edaaa030a1d370a6)、[cd8bdba5](https://github.com/zh-lx/pinyin-pro/commit/cd8bdba5e6d918e68facec835be396e2c4608d61)、[e7a46dda](https://github.com/zh-lx/pinyin-pro/commit/e7a46dda4135da8b373aa72154c373951266e959)
+
 ## 3.19.5
 
 - 【fix】修复非中文字符 `pattern: 'first` 模式下首字母获取失败的情况
