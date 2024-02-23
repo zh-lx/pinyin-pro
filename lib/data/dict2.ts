@@ -2179,6 +2179,8 @@ const DICT2: { [prop: string]: string } = {
   丈夫: 'zhàng fu',
   豆腐: 'dòu fu',
   不再: 'bú zài',
+  笔杆: 'bǐ gǎn',
+  枞阳: 'zōng yáng',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
