@@ -2427,7 +2427,7 @@ export const DICT1: { [prop: string]: string } = {
   彪: 'biāo',
   躺: 'tǎng',
   摔: 'shuāi',
-  膀: 'páng bǎng pāng',
+  膀: 'bǎng páng pāng',
   甫: 'fǔ',
   逊: 'xùn',
   凑: 'còu',
