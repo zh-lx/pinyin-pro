@@ -1,4 +1,5 @@
 import { ACNormal, PatternsNormal } from '@/common/ac';
+import { Priority } from '@/common/constant';
 import { getStringLength } from '@/common/utils';
 import DICT1 from '@/data/dict1';
 let customDict: { [key: string]: string } = {};
@@ -38,7 +39,7 @@ export function customPinyin(
   const customPatterns = Object.keys(customDict).map((key) => ({
     zh: key,
     pinyin: customDict[key],
-    priority: 999 + getStringLength(key),
+    priority: Priority.Custom + getStringLength(key),
     length: key.length,
   }));
   ACNormal.buildTrie(customPatterns);

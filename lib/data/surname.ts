@@ -1,3 +1,4 @@
+import { Priority } from '@/common/constant';
 import type { Pattern } from '../../lib/common/ac';
 const Surnames: { [key: string]: string } = {
   南宫: 'nán gōng',
@@ -482,7 +483,7 @@ export default Surnames;
 export const PatternSurname: Pattern[] = Object.keys(Surnames).map((key) => ({
   zh: key,
   pinyin: Surnames[key],
-  priority: 99 + key.length,
+  priority: Priority.Surname + key.length,
   length: key.length,
   isSurname: true,
 }));

@@ -1,3 +1,4 @@
+import { Priority } from '@/common/constant';
 import type { Pattern } from '../../lib/common/ac';
 const DICT2: { [prop: string]: string } = {
   一个: 'yí gè',
@@ -143,6 +144,7 @@ const DICT2: { [prop: string]: string } = {
   弟兄: 'dì xiong',
   大将: 'dà jiàng',
   睡觉: 'shuì jiào',
+  一觉: 'yí jiào',
   团长: 'tuán zhǎng',
   队长: 'duì zhǎng',
   区长: 'qū zhǎng',
@@ -333,7 +335,6 @@ const DICT2: { [prop: string]: string } = {
   当晚: 'dàng wǎn',
   重阳: 'chóng yáng',
   化为: 'huà wéi',
-  双重: 'shuāng chóng',
   吐蕃: 'tǔ bō',
   钻进: 'zuān jìn',
   乐队: 'yuè duì',
@@ -353,7 +354,6 @@ const DICT2: { [prop: string]: string } = {
   查处: 'chá chǔ',
   量子: 'liàng zǐ',
   里头: 'lǐ tou',
-  两行: 'liǎng háng',
   调研: 'diào yán',
   伺候: 'cì hou',
   重申: 'chóng shēn',
@@ -660,7 +660,6 @@ const DICT2: { [prop: string]: string } = {
   列传: 'liè zhuàn',
   劲敌: 'jìng dí',
   蛤蟆: 'há má',
-  三重: 'sān chóng',
   请假: 'qǐng jià',
   钉子: 'dīng zi',
   沉没: 'chén mò',
@@ -1023,7 +1022,6 @@ const DICT2: { [prop: string]: string } = {
   哗啦: 'huā lā',
   散漫: 'sǎn màn',
   脱发: 'tuō fà',
-  两重: 'liǎng chóng',
   送还: 'sòng huán',
   埋没: 'mái mò',
   累及: 'lěi jí',
@@ -1156,7 +1154,6 @@ const DICT2: { [prop: string]: string } = {
   一沓: 'yī dá',
   还俗: 'huán sú',
   强横: 'qiáng hèng',
-  四行: 'sì háng',
   着数: 'zhāo shù',
   国难: 'guó nàn',
   降顺: 'xiáng shùn',
@@ -1370,7 +1367,6 @@ const DICT2: { [prop: string]: string } = {
   褪去: 'tùn qù',
   霰弹: 'xiàn dàn',
   柚木: 'yóu mù',
-  二重: 'èr chóng',
   痕量: 'hén liàng',
   雅乐: 'yǎ yuè',
   号哭: 'háo kū',
@@ -1916,7 +1912,6 @@ const DICT2: { [prop: string]: string } = {
   想头: 'xiǎng tou',
   削价: 'xuē jià',
   校阅: 'jiào yuè',
-  八行: 'bā háng',
   雅量: 'yǎ liàng',
   别传: 'bié zhuàn',
   薄酒: 'bó jiǔ',
@@ -2181,11 +2176,12 @@ const DICT2: { [prop: string]: string } = {
   不再: 'bú zài',
   笔杆: 'bǐ gǎn',
   枞阳: 'zōng yáng',
+  行人: 'xíng rén',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
   zh: key,
   pinyin: DICT2[key],
-  priority: 2,
+  priority: Priority.DICT2,
   length: 2,
 }));
