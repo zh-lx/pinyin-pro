@@ -20853,4 +20853,7 @@ export const DICT1: { [prop: string]: string } = {
   鷟: 'zhuó',
   蠿: 'zhuó',
   籱: 'zhuó',
+  䖯: 'kuí wā',
+  㵘: 'màn',
+  䶮: 'yǎn',
 };
