@@ -809,6 +809,7 @@ const DICT2: { [prop: string]: string } = {
   游说: 'yóu shuì',
   巷子: 'xiàng zi',
   臂膀: 'bì bǎng',
+  肩膀: 'jiān bǎng',
   切勿: 'qiē wù',
   看管: 'kān guǎn',
   风头: 'fēng tou',
