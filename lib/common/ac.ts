@@ -1,3 +1,4 @@
+import { PatternNumberDict } from '@/data/dict-number';
 import { Pattern2 } from '@/data/dict2';
 import { Pattern3 } from '@/data/dict3';
 import { Pattern4 } from '@/data/dict4';
@@ -150,6 +151,7 @@ export const PatternsNormal = [
   ...Pattern4,
   ...Pattern3,
   ...Pattern2,
+  ...PatternNumberDict,
   ...PatternSurname,
 ];
 export const ACNormal = new AC();

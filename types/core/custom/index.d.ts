@@ -1,5 +1,5 @@
-declare type CustomHandleType = 'add' | 'replace';
-declare type CustomDictType = 'pinyin' | 'multiple' | 'polyphonic';
+type CustomHandleType = 'add' | 'replace';
+type CustomDictType = 'pinyin' | 'multiple' | 'polyphonic';
 interface CustomPinyinOptions {
     /**
      * @description: multiple 对于 customPinyin 补充词汇的处理

@@ -1,3 +1,4 @@
+import { Priority } from '@/common/constant';
 import type { Pattern } from '../../lib/common/ac';
 const DICT5: { [prop: string]: string } = {
   巴尔干半岛: 'bā ěr gàn bàn dǎo',
@@ -21,6 +22,6 @@ export default DICT5;
 export const Pattern5: Pattern[] = Object.keys(DICT5).map((key) => ({
   zh: key,
   pinyin: DICT5[key],
-  priority: 5,
+  priority: Priority.DICT5,
   length: 5,
 }));
