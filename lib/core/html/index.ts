@@ -25,6 +25,12 @@ interface HtmlOptions {
    * @description 拼音上是否标注音调
    */
   toneType?: 'symbol' | 'num' | 'none';
+  /**
+   * @description 对于指定的汉字及字符，在 result 上额外补充的拼音
+   */
+  customClassMap?: {
+    [classname: string]: string[];
+  };
 }
 
 const DefaultHtmlOptions: HtmlOptions = {
@@ -34,6 +40,7 @@ const DefaultHtmlOptions: HtmlOptions = {
   nonChineseClass: 'py-non-chinese-item',
   wrapNonChinese: false,
   toneType: 'symbol',
+  customClassMap: {},
 };
 
 /**
@@ -52,17 +59,24 @@ export const html = (text: string, options?: HtmlOptions) => {
     toneType: completeOptions.toneType,
   });
   const result = pinyinArray.map((item) => {
+    let additionalClass = '';
+    for (const classname in completeOptions.customClassMap) {
+      const dict = completeOptions.customClassMap[classname];
+      if (dict.indexOf(item.origin) !== -1) {
+        additionalClass += ` ${classname}`;
+      }
+    }
     if (item.isZh) {
       // 汉字字符处理
       const resultClass = completeOptions.resultClass;
       const chineseClass = completeOptions.chineseClass;
       const pinyinClass = completeOptions.pinyinClass;
-      return `<span class="${resultClass}"><ruby><span class="${chineseClass}">${item.origin}</span><rp>(</rp><rt class="${pinyinClass}">${item.pinyin}</rt><rp>)</rp></ruby></span>`;
+      return `<span class="${resultClass}${additionalClass}"><ruby><span class="${chineseClass}">${item.origin}</span><rp>(</rp><rt class="${pinyinClass}">${item.pinyin}</rt><rp>)</rp></ruby></span>`;
     } else {
       // 非汉字字符处理
       if (completeOptions.wrapNonChinese) {
         const nonChineseClass = completeOptions.nonChineseClass;
-        return `<span class="${nonChineseClass}">${item.origin}</span>`;
+        return `<span class="${nonChineseClass}${additionalClass}">${item.origin}</span>`;
       } else {
         return item.origin;
       }
