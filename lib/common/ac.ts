@@ -3,6 +3,7 @@ import { Pattern2 } from '@/data/dict2';
 import { Pattern3 } from '@/data/dict3';
 import { Pattern4 } from '@/data/dict4';
 import { Pattern5 } from '@/data/dict5';
+import { PatternPlaceNameDict } from '@/data/dict-placename';
 import { PatternSurname } from '@/data/surname';
 
 /**
@@ -147,6 +148,7 @@ export class AC {
 
 // 常规匹配
 export const PatternsNormal = [
+  ...PatternPlaceNameDict,
   ...Pattern5,
   ...Pattern4,
   ...Pattern3,

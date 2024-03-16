@@ -6,6 +6,7 @@ export enum Priority {
   DICT3 = 30,
   DICT4 = 40,
   DICT5 = 50,
+  PLACENAME = 60,
   Surname = 99,
   Custom = 999,
 }
