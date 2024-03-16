@@ -21,6 +21,7 @@ const Numbers = {
   多: 'duō',
   十一: 'shí yī',
   零一: 'líng yī',
+  几: 'jǐ',
 };
 
 const NumberWordMap = {
