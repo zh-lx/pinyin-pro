@@ -68,6 +68,6 @@ describe('basic', () => {
 
   it('[basic]test行不行', () => {
     const result = pinyin('行不行');
-    expect(result).to.be.equal('xíng bu xíng');
+    expect(result).to.be.equal('xíng bù xíng');
   });
 });
