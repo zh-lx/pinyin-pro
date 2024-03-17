@@ -1,4 +1,4 @@
-import { PatternNumberDict } from '@/data/dict-number';
+import { PatternNumberDict } from '@/data/special';
 import { Pattern2 } from '@/data/dict2';
 import { Pattern3 } from '@/data/dict3';
 import { Pattern4 } from '@/data/dict4';

@@ -4,6 +4,7 @@ import {
   SpecialFinalMap,
   SpecialFinalList,
   doubleFinalList,
+  getSepecialChangeTone,
 } from '@/data/special';
 import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
@@ -21,7 +22,7 @@ import {
  * @return {string}
  */
 type GetSingleWordPinyin = (word: string) => string;
-const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
+export const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
   const wordCode = word.charCodeAt(0);
   const pinyin = DICT1[wordCode];
   // 若查到, 则返回第一个拼音; 若未查到, 返回原字符
@@ -89,7 +90,12 @@ export const getPinyin = (
       matchIndex++;
     } else {
       const char = word[i];
-      const pinyin = getSingleWordPinyin(char);
+      let pinyin: string = '';
+      if (!match || match.index > i + 1) {
+        pinyin = getSepecialChangeTone(char, word[i - 1], word[i + 1]);
+      } else {
+        pinyin = getSingleWordPinyin(char);
+      }
       list[i] = {
         origin: char,
         result: pinyin,
