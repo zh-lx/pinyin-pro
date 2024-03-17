@@ -1,5 +1,17 @@
 import type { SingleWordResult, PinyinMode } from '../../common/type';
+/**
+ * @description: 获取单个字符的拼音
+ * @param {string} word
+ * @return {string}
+ */
+type GetSingleWordPinyin = (word: string) => string;
+export declare const getSingleWordPinyin: GetSingleWordPinyin;
 export declare const getPinyin: (word: string, list: SingleWordResult[], mode: 'normal' | 'surname') => SingleWordResult[];
+/**
+ * @description: 是否命中变调字规则
+ * @param {string} pinyin
+ * @return {string}
+ */
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin

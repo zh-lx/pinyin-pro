@@ -1,3 +1,4 @@
+import type { Pattern } from "../common/ac";
 export declare const InitialList: string[];
 export declare const SpecialInitialList: string[];
 export declare const SpecialFinalList: string[];
@@ -24,3 +25,6 @@ export declare const SpecialFinalMap: {
     u: string;
 };
 export declare const doubleFinalList: string[];
+export declare const PatternNumberDict: Pattern[];
+export declare const SpecialChangeToneList: string[];
+export declare function getSepecialChangeTone(cur: string, pre: string, next: string): string;
