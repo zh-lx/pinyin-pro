@@ -1,6 +1,7 @@
 import { Priority } from '@/common/constant';
 import type { Pattern } from '../../lib/common/ac';
 const Surnames: { [key: string]: string } = {
+  // TODO: 姓氏里有很多不是多音字或者是默认读音，可以从字典中去掉
   南宫: 'nán gōng',
   第五: 'dì wǔ',
   万俟: 'mò qí',
@@ -12,30 +13,29 @@ const Surnames: { [key: string]: string } = {
   闻人: 'wén rén',
   东方: 'dōng fāng',
   赫连: 'hè lián',
-  皇甫: 'huáng fǔ',
+  皇甫: 'huáng fǔ', // 如晚唐诗人皇甫松
   尉迟: 'yù chí',
   公羊: 'gōng yáng',
-  澹台: 'tán tái',
+  澹台: 'tán tái', // 如孔子弟子澹台灭明
   公冶: 'gōng yě',
   宗政: 'zōng zhèng',
   濮阳: 'pú yáng',
   淳于: 'chún yú',
-  单于: 'chán yú',
   太叔: 'tài shū',
   申屠: 'shēn tú',
   公孙: 'gōng sūn',
   仲孙: 'zhòng sūn',
   轩辕: 'xuān yuán',
-  令狐: 'líng hú',
+  令狐: 'líng hú', // 不读 lìng hú，如令狐冲
   钟离: 'zhōng lí',
   宇文: 'yǔ wén',
-  长孙: 'zhǎng sūn',
+  长孙: 'zhǎng sūn', // 如唐代的长孙无忌
   慕容: 'mù róng',
   鲜于: 'xiān yú',
   闾丘: 'lǘ qiū',
   司徒: 'sī tú',
   司空: 'sī kōng',
-  亓官: 'qí guān',
+  亓官: 'qí guān', // 如孔子的妻子亓官氏
   司寇: 'sī kòu',
   仉督: 'zhǎng dū',
   子车: 'zǐ jū',
@@ -49,7 +49,7 @@ const Surnames: { [key: string]: string } = {
   公良: 'gōng liáng',
   拓跋: 'tuò bá',
   夹谷: 'jiá gǔ',
-  宰父: 'zǎi fǔ',
+  宰父: 'zǎi fǔ', // 如孔子弟子宰父黑
   榖梁: 'gǔ liáng',
   段干: 'duàn gān',
   百里: 'bǎi lǐ',
@@ -88,7 +88,7 @@ const Surnames: { [key: string]: string } = {
   孔: 'kǒng',
   曹: 'cáo',
   严: 'yán',
-  华: 'huà',
+  华: 'huà', // 如数学家华罗庚
   金: 'jīn',
   魏: 'wèi',
   陶: 'táo',
@@ -118,7 +118,7 @@ const Surnames: { [key: string]: string } = {
   花: 'huā',
   方: 'fāng',
   俞: 'yú',
-  任: 'rèn',
+  任: 'rèn', // 如任正非、任贤齐
   袁: 'yuán',
   柳: 'liǔ',
   酆: 'fēng',
@@ -141,7 +141,7 @@ const Surnames: { [key: string]: string } = {
   邬: 'wū',
   安: 'ān',
   常: 'cháng',
-  乐: 'yuè',
+  乐: 'yuè lè', // 乐有两个读音【Yuè】和【Lè】。乐（Yuè）姓的名人有古代的军事家乐毅，而乐（Lè）姓如主持人乐嘉
   于: 'yú',
   时: 'shí',
   傅: 'fù',
@@ -182,7 +182,7 @@ const Surnames: { [key: string]: string } = {
   茅: 'máo',
   庞: 'páng',
   熊: 'xióng',
-  纪: 'jì',
+  纪: 'jǐ', // 如清代名臣纪晓岚
   舒: 'shū',
   屈: 'qū',
   项: 'xiàng',
@@ -225,7 +225,7 @@ const Surnames: { [key: string]: string } = {
   万: 'wàn',
   支: 'zhī',
   柯: 'kē',
-  昝: 'zǎn',
+  昝: 'zǎn', // 如清代书画家昝茹颖
   管: 'guǎn',
   卢: 'lú',
   莫: 'mò',
@@ -234,7 +234,7 @@ const Surnames: { [key: string]: string } = {
   裘: 'qiú',
   缪: 'miào',
   干: 'gān',
-  解: 'xiè',
+  解: 'xiè', // 明代：解缙
   应: 'yīng',
   宗: 'zōng',
   丁: 'dīng',
@@ -242,7 +242,7 @@ const Surnames: { [key: string]: string } = {
   贲: 'bēn',
   邓: 'dèng',
   郁: 'yù',
-  单: 'shàn',
+  单: 'shàn', // 单雄信
   杭: 'háng',
   洪: 'hóng',
   包: 'bāo',
@@ -266,7 +266,7 @@ const Surnames: { [key: string]: string } = {
   於: 'yū',
   惠: 'huì',
   甄: 'zhēn',
-  曲: 'qū',
+  曲: 'qū', // 如唐代司空曲环
   家: 'jiā',
   封: 'fēng',
   芮: 'ruì',
@@ -286,7 +286,7 @@ const Surnames: { [key: string]: string } = {
   巴: 'bā',
   弓: 'gōng',
   牧: 'mù',
-  隗: 'kuí',
+  隗: 'kuí, wěi', // 一读【kuí】，一读【wěi】
   山: 'shān',
   谷: 'gǔ',
   车: 'chē',
@@ -346,7 +346,7 @@ const Surnames: { [key: string]: string } = {
   阴: 'yīn',
   鬱: 'yù',
   胥: 'xū',
-  能: 'nài',
+  能: 'nài', // 如宋代名医能自宣
   苍: 'cāng',
   双: 'shuāng',
   闻: 'wén',
@@ -363,7 +363,7 @@ const Surnames: { [key: string]: string } = {
   堵: 'dǔ',
   冉: 'rǎn',
   宰: 'zǎi',
-  郦: 'lì',
+  郦: 'lì', // 如汉初名臣郦食其（lì yì jī）
   雍: 'yōng',
   郤: 'xì',
   璩: 'qú',
@@ -386,7 +386,7 @@ const Surnames: { [key: string]: string } = {
   庄: 'zhuāng',
   晏: 'yàn',
   柴: 'chái',
-  瞿: 'qú',
+  瞿: 'qú', // 如瞿秋白
   阎: 'yán',
   充: 'chōng',
   慕: 'mù',
@@ -409,7 +409,7 @@ const Surnames: { [key: string]: string } = {
   居: 'jū',
   衡: 'héng',
   步: 'bù',
-  都: 'dū',
+  都: 'dū', // 如明代进士都穆
   耿: 'gěng',
   满: 'mǎn',
   弘: 'hóng',
@@ -438,17 +438,17 @@ const Surnames: { [key: string]: string } = {
   敖: 'áo',
   融: 'róng',
   冷: 'lěng',
-  訾: 'zǐ',
+  訾: 'zī', // https://baike.baidu.com/item/%E8%A8%BE%E5%A7%93/6524516
   辛: 'xīn',
-  阚: 'kàn',
+  阚: 'kàn', // 如三国时吴国学者阚泽
   那: 'nā',
   简: 'jiǎn',
   饶: 'ráo',
   空: 'kōng',
-  曾: 'zēng',
+  曾: 'zēng', // 如宋代作家曾巩、清代名臣曾国藩，影视明星曾志伟
   母: 'mǔ',
   沙: 'shā',
-  乜: 'niè',
+  乜: 'niè', // 如民国时国军少将乜子彬
   养: 'yǎng',
   鞠: 'jū',
   须: 'xū',
@@ -456,27 +456,46 @@ const Surnames: { [key: string]: string } = {
   巢: 'cháo',
   关: 'guān',
   蒯: 'kuǎi',
-  相: 'xiàng',
-  查: 'zhā',
+  相: 'xiàng xiāng',
+  查: 'zhā', // 如金庸原名查良镛，也有读 chá 一说
   后: 'hòu',
   荆: 'jīng',
   红: 'hóng',
   游: 'yóu',
   竺: 'zhú',
   权: 'quán',
-  逯: 'lù',
-  盖: 'gài',
+  逯: 'lù', // 如汉代大臣逯普
+  盖: 'gě gài guō guó', // 一读【gě】，一读【gài】。一般念【gě】，如现代京剧表演艺术家盖叫天。姓氏中也有读 guō、guó 一说，出自：https://weibo.com/7211561239/JdpQAzFoh?type=repost
   益: 'yì',
   桓: 'huán',
   公: 'gōng',
   牟: 'móu',
-  哈: 'hǎ',
+  哈: 'hǎ', // 如央视春晚总导演哈文，读音详见视频：https://tv.cctv.com/2012/01/24/VIDE1400207230170769.shtml
   言: 'yán',
   福: 'fú',
   肖: 'xiāo',
-  区: 'ōu',
-  覃: 'qín',
+  区: 'ōu', // 如柳宗元《童区寄传》中的区寄
+  覃: 'qín tán', // 一读【tán】，一读【qín】；一般读【qín】
   朴: 'piáo',
+
+  // 增补 1
+  // 来自：《别再叫错人啦！这些易读错的姓氏需要好好学习一下！》
+  // http://m.xinhuanet.com/ah/2018-04/19/c_1122709044.htm
+  繁: 'pó', // 如写《定情诗》的汉末诗人繁钦
+  员: 'yùn', // 如唐代诗人员半千
+  句: 'gōu', // 如宋代进士句克俭
+  句龙: 'gōu lóng', // 如宋有句龙如渊，https://baike.baidu.com/item/%E5%8F%A5%E9%BE%99/1160043
+  要: 'yāo', // https://baike.baidu.com/item/%E8%A6%81%E5%A7%93/9252763
+  过: 'guō', // 如明代围棋国手过百龄，清代文人过春山。https://baike.baidu.com/item/%E8%BF%87%E5%A7%93/9822922
+  钻: 'zuān',
+  谌: 'shèn', // 如羽毛球运动员谌龙
+  折: 'shé zhé',
+  召: 'shào zhào', // 一读【shào】，得姓始祖为周武王之弟召公姬奭（shì）。一读【zhào】，为傣族姓。
+  毌丘: 'guàn qiū', // 不要读作 wú qiū 或 mǔ qiū，也不要写作“毋丘”或“母丘”。
+  郄: 'qiè',
+
+  // 增补 2
+  撒: 'sǎ', // 如主持人撒贝宁（原名撒播），他本人在念自己名字的时候通常读作四声「sà」，但在这个视频 30 秒开始明确的说：「我这个姓念 sǎ」：https://v.cctv.com/2020/02/23/VIDEhOnwKFS2lsri9QL4I7xX200223.shtml
 };
 
 export default Surnames;
