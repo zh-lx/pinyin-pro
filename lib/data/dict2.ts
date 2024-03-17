@@ -250,7 +250,9 @@ const DICT2: { [prop: string]: string } = {
   与会: 'yù huì',
   都督: 'dū du',
   成都: 'chéng dū',
-  六安: 'lù ān',
+  五藏: 'wǔ zàng', // 五藏六府
+  地藏: 'dì zàng', // 地藏菩萨
+  汉藏: 'hàn zàng', // 汉藏语系
   都城: 'dū chéng',
   宰相: 'zǎi xiàng',
   较量: 'jiào liàng',
@@ -2132,7 +2134,6 @@ const DICT2: { [prop: string]: string } = {
   嘴巴: 'zuǐ ba',
   耳朵: 'ěr duo',
   茄子: 'qié zi',
-  蚌埠: 'bèng bù',
   崆峒: 'kōng tóng',
   琵琶: 'pí pa',
   蘑菇: 'mó gu',
