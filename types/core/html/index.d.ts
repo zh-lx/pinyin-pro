@@ -23,6 +23,12 @@ interface HtmlOptions {
      * @description 拼音上是否标注音调
      */
     toneType?: 'symbol' | 'num' | 'none';
+    /**
+     * @description 对于指定的汉字及字符，在 result 上额外补充的拼音
+     */
+    customClassMap?: {
+        [classname: string]: string[];
+    };
 }
 /**
  * @description: 获取带拼音汉字的 html 字符串
