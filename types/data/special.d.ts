@@ -1,4 +1,4 @@
-import type { Pattern } from "../common/ac";
+import type { Pattern } from '../common/ac';
 export declare const InitialList: string[];
 export declare const SpecialInitialList: string[];
 export declare const SpecialFinalList: string[];
@@ -26,5 +26,7 @@ export declare const SpecialFinalMap: {
 };
 export declare const doubleFinalList: string[];
 export declare const PatternNumberDict: Pattern[];
-export declare const SpecialChangeToneList: string[];
-export declare function getSepecialChangeTone(cur: string, pre: string, next: string): string;
+export declare const inflectionList: string[];
+export declare function processInflection(cur: string, pre: string, next: string): string | undefined;
+export declare function processInflectionLiao(cur: string, pre: string): "liǎo" | undefined;
+export declare function processSepecialPinyin(cur: string, pre: string, next: string): string;

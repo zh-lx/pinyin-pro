@@ -316,6 +316,7 @@ const DICT3: { [prop: string]: string } = {
   咳特灵: 'ké tè líng',
   开户行: 'kāi hù háng',
   郦食其: 'lì yì jī',
+  花事了: 'huā shì liǎo',
 };
 export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({
