@@ -1,5 +1,13 @@
 # 更新日志
 
+## 3.20.0
+
+- 【feat】增加 `一` 和 `不` 的变调智能识别，可通过 `toneSandhi` 参数控制开启和关闭,参考: [维基百科](https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83)
+- 【feat】增加 `行`、`斗`、`重` 前面跟数量词时的发音智能识别
+- 【feat】增加 `了` 在起始的发音智能识别
+- 【feat】html api 增加 `customClassMap` 选项用于对指定字增加自定义类名
+- 【patch】校正部分词语的拼音
+
 ## 3.19.6
 
 - 【patch】更新部分词库，详见：[2c2f57ad](https://github.com/zh-lx/pinyin-pro/commit/2c2f57ad039bf80de93e1156edaaa030a1d370a6)、[cd8bdba5](https://github.com/zh-lx/pinyin-pro/commit/cd8bdba5e6d918e68facec835be396e2c4608d61)、[e7a46dda](https://github.com/zh-lx/pinyin-pro/commit/e7a46dda4135da8b373aa72154c373951266e959)
