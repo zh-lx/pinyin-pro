@@ -162,9 +162,9 @@ export const PatternNumberDict: Pattern[] = Object.keys(NumberDict).map(
 );
 
 /**
- * @description: 特殊变调处理：https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83
+ * @description: 连续变调处理：https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83
  */
-const inflectionMap = {
+const toneSandhiMap = {
   // 说不说，说一说，叠词之间发音为轻声
   不: {
     bú: [4], // "不" 后面跟 4 声时，变调为 2 声
@@ -174,24 +174,24 @@ const inflectionMap = {
     yì: [1, 2, 3],
   },
 };
-const inflectionIgnoreSuffix = ['的', '地', '而', '之', '后', '也', '还'];
-export const inflectionList = Object.keys(inflectionMap);
+const toneSandhiIgnoreSuffix = ['的', '地', '而', '之', '后', '也', '还'];
+export const toneSandhiList = Object.keys(toneSandhiMap);
 
-// 处理 一、不 的变调
-export function processInflection(cur: string, pre: string, next: string) {
-  if (inflectionList.indexOf(cur) === -1) {
+// 处理「一」和 「不」字的变调
+export function processToneSandhi(cur: string, pre: string, next: string) {
+  if (toneSandhiList.indexOf(cur) === -1) {
     return getSingleWordPinyin(cur);
   }
-  // 说不说，说一说，叠词之间发音为轻声
+  // 轻声变调：说不说，说一说，叠词之间发音为轻声
   if (pre === next && getSingleWordPinyin(pre) !== pre) {
     return getPinyinWithoutTone(getSingleWordPinyin(cur));
   }
-  // 一、不的变调处理
-  if (next && !inflectionIgnoreSuffix.includes(next)) {
+  // 「一」和 「不」字变调处理
+  if (next && !toneSandhiIgnoreSuffix.includes(next)) {
     const nextPinyin = getSingleWordPinyin(next);
     if (nextPinyin !== next) {
       const nextTone = getNumOfTone(nextPinyin);
-      const pinyinMap = inflectionMap[cur as keyof typeof inflectionMap];
+      const pinyinMap = toneSandhiMap[cur as keyof typeof toneSandhiMap];
       for (let pinyin in pinyinMap) {
         const tones = pinyinMap[pinyin as keyof typeof pinyinMap] as number[];
         if (tones.indexOf(Number(nextTone)) !== -1) {
@@ -202,8 +202,8 @@ export function processInflection(cur: string, pre: string, next: string) {
   }
 }
 
-// 处理 了
-export function processInflectionLiao(cur: string, pre: string) {
+// 处理「了」字的变调
+export function processToneSandhiLiao(cur: string, pre: string) {
   if (cur === '了' && !isZhChar(pre)) {
     return 'liǎo';
   }
@@ -211,8 +211,8 @@ export function processInflectionLiao(cur: string, pre: string) {
 
 export function processSepecialPinyin(cur: string, pre: string, next: string) {
   return (
-    processInflectionLiao(cur, pre) ||
-    processInflection(cur, pre, next) ||
+    processToneSandhiLiao(cur, pre) ||
+    processToneSandhi(cur, pre, next) ||
     getSingleWordPinyin(cur)
   );
 }

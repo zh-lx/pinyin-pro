@@ -26,7 +26,7 @@ export declare const SpecialFinalMap: {
 };
 export declare const doubleFinalList: string[];
 export declare const PatternNumberDict: Pattern[];
-export declare const inflectionList: string[];
-export declare function processInflection(cur: string, pre: string, next: string): string | undefined;
-export declare function processInflectionLiao(cur: string, pre: string): "liǎo" | undefined;
+export declare const toneSandhiList: string[];
+export declare function processToneSandhi(cur: string, pre: string, next: string): string | undefined;
+export declare function processToneSandhiLiao(cur: string, pre: string): "liǎo" | undefined;
 export declare function processSepecialPinyin(cur: string, pre: string, next: string): string;

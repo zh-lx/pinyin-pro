@@ -19,4 +19,4 @@ export declare const middlewareType: (list: SingleWordResult[], options: Complet
     isZh: boolean;
 }[];
 export declare const middlewareDoubleUnicode: (list: SingleWordResult[]) => SingleWordResult[];
-export declare const middlewareInflection: (list: SingleWordResult[], inflection: boolean) => SingleWordResult[];
+export declare const middlewareToneSandhi: (list: SingleWordResult[], toneSandhi: boolean) => SingleWordResult[];
