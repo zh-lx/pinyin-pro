@@ -2115,7 +2115,7 @@ const DICT2: { [prop: string]: string } = {
   刺猬: 'cì wei',
   麦子: 'mài zi',
   队伍: 'duì wu',
-  知了: 'zhī liao',
+  知了: 'zhī liǎo',
   鱼儿: 'yú er',
   馄饨: 'hún tun',
   灯笼: 'dēng long',

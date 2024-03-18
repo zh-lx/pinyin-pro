@@ -4,7 +4,7 @@ import {
   SpecialFinalMap,
   SpecialFinalList,
   doubleFinalList,
-  getSepecialChangeTone,
+  processSepecialPinyin,
 } from '@/data/special';
 import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
@@ -91,7 +91,7 @@ export const getPinyin = (
     } else {
       const char = word[i];
       let pinyin: string = '';
-      pinyin = getSepecialChangeTone(char, word[i - 1], word[i + 1]);
+      pinyin = processSepecialPinyin(char, word[i - 1], word[i + 1]);
       list[i] = {
         origin: char,
         result: pinyin,
