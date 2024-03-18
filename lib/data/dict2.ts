@@ -2148,6 +2148,7 @@ const DICT2: { [prop: string]: string } = {
   统一: 'tǒng yī',
   如一: 'rú yī',
   初一: 'chū yī',
+  一月: 'yī yuè',
   高一: 'gāo yī',
   了了: 'liǎo liǎo',
   公了: 'gōng liǎo',

@@ -127,6 +127,13 @@ describe('tone sandhi for “一”', () => {
   // 作为时间（日期）时不变调
   it('[special tone sandhi]五月一号', () => {
     const result = pinyin('五月一号', { toneSandhi: true });
+    expect(result).to.be.equal('wǔ yuè yī hào');
+  });
+
+  // 当月和前面的连成一个词时就产生了歧义
+  it.skip('[special tone sandhi]小月一口吃完了', () => {
+    const result = pinyin('小月一口吃完了', { toneSandhi: true });
+    expect(result).to.be.equal('xiǎo yuè yì kǒu chī wán le');
   });
 
   // 作为序数时不变调
