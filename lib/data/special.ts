@@ -174,7 +174,7 @@ const toneSandhiMap = {
     yì: [1, 2, 3],
   },
 };
-const toneSandhiIgnoreSuffix = ['的', '地', '而', '之', '后', '也', '还'];
+const toneSandhiIgnoreSuffix = ['的', '而', '之', '后', '也', '还'];
 export const toneSandhiList = Object.keys(toneSandhiMap);
 
 // 处理「一」和 「不」字的变调
