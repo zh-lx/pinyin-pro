@@ -134,11 +134,41 @@ const NumberWordMap = {
   行: 'háng',
   斗: 'dǒu',
 };
+
+// 与以下词组合时，不变调
 function genNumberDict() {
   const dict: { [key: string]: string } = {
-    十一: 'shí yī',
-    零一: 'líng yī',
+    // 表示量词
     第一: 'dì yī',
+    一号: 'yī hào', // 如：一号球鞋，但暂不支持如：他忽然一号(yì háo)。
+    
+    // 表示日期
+    月一: 'yuè yī', // 如：五月一号
+
+    // 表示数字
+    零一: 'líng yī', // 如：二零零一、二百零一行
+    二一: 'èr yī', // 如：二一添作五
+    三一: 'sān yī',
+    四一: 'sì yī',
+    五一: 'wǔ yī',
+    六一: 'liù yī', // 如：六一儿童节
+    七一: 'qī yī',
+    八一: 'bā yī', // 如：八一建军节
+    九一: 'jiǔ yī',
+    十一: 'shí yī', // 如：十一国庆节
+    一二: 'yī èr', // 如：乘法口诀表，一二得二
+    一三: 'yī sān',
+    一四: 'yī sì',
+    一五: 'yī wǔ', // 如：一五一十
+    一六: 'yī liù',
+    一七: 'yī qī',
+    一八: 'yī bā',
+    一九: 'yī jiǔ', // 如：一九天很冷
+    一十: 'yī shí',
+    一又: 'yī yòu', // 如小数：一又二分之一
+
+    // 其他
+    归一: 'guī yī', // 如：归一化、九九归一
   };
   for (let number in Numbers) {
     for (let key in NumberWordMap) {
@@ -174,6 +204,7 @@ const toneSandhiMap = {
     yì: [1, 2, 3],
   },
 };
+
 const toneSandhiIgnoreSuffix = ['的', '而', '之', '后', '也', '还'];
 export const toneSandhiList = Object.keys(toneSandhiMap);
 
