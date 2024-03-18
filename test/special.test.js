@@ -30,6 +30,16 @@ describe('number', () => {
 
 // 连续变调
 describe('tone sandhi for “一”', () => {
+  it.skip('[special tone sandhi]一', () => {
+    const result = pinyin('一');
+    expect(result).to.be.equal('yī');
+  });
+
+  it.skip('[special tone sandhi]不', () => {
+    const result = pinyin('不');
+    expect(result).to.be.equal('bù');
+  });
+
   it('[special tone sandhi]一面', () => {
     const result = pinyin('一面');
     expect(result).to.be.equal('yí miàn');
@@ -117,6 +127,13 @@ describe('tone sandhi for “一”', () => {
   // 作为时间（日期）时不变调
   it('[special tone sandhi]五月一号', () => {
     const result = pinyin('五月一号', { toneSandhi: true });
+    expect(result).to.be.equal('wǔ yuè yī hào');
+  });
+
+  // 当月和前面的连成一个词时就产生了歧义
+  it.skip('[special tone sandhi]小月一口吃完了', () => {
+    const result = pinyin('小月一口吃完了', { toneSandhi: true });
+    expect(result).to.be.equal('xiǎo yuè yì kǒu chī wán le');
   });
 
   // 作为序数时不变调
@@ -168,6 +185,12 @@ describe('tone sandhi for “一”', () => {
   it('[special tone sandhi]有一说一', () => {
     const result = pinyin('有一说一', { toneSandhi: true });
     expect(result).to.be.equal('yǒu yī shuō yī');
+  });
+
+// 测试「之一」与「得之一寸光中」的「一寸」冲突时的处理
+  it('[special tone sandhi]得之一寸光', () => {
+    const result = pinyin('得之一寸光', { toneSandhi: true });
+    expect(result).to.be.equal('dé zhī yí cùn guāng');
   });
 });
 

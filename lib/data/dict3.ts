@@ -324,6 +324,7 @@ const DICT3: { [prop: string]: string } = {
   一路巴: 'yī lù bā', // 一路巴士
   一字马: 'yī zì mǎ',
   一是一: 'yī shì yī',
+  一月一: 'yī yuè yī', // 一月一日，一月一号等
   一阳指: 'yī yáng zhǐ',
   一字决: 'yī zì jué',
 };
