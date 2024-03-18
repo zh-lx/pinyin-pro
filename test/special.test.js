@@ -19,7 +19,7 @@ describe('number', () => {
 
   it('[number]数字发音 一行人', () => {
     const result = pinyin('一行人');
-    expect(result).to.be.equal('yī xíng rén');
+    expect(result).to.be.equal('yì xíng rén');
   });
 
   it('[number]数字发音 二百零一行', () => {
@@ -63,5 +63,10 @@ describe('special change tone', () => {
   it('[special change tone]一会儿', () => {
     const result = pinyin('一会儿');
     expect(result).to.be.equal('yí huì er');
+  });
+
+  it('[special change tone]一会儿', () => {
+    const result = pinyin('一会儿', { inflection: false });
+    expect(result).to.be.equal('yī huì er');
   });
 });

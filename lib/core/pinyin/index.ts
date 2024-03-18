@@ -9,6 +9,7 @@ import {
   middlewareV,
   middlewareType,
   middlewareDoubleUnicode,
+  middlewareInflection,
 } from './middlewares';
 
 interface BasicOptions {
@@ -70,6 +71,12 @@ interface BasicOptions {
    * @value true：返回值中 ü 转换成 v
    */
   v?: boolean;
+  /**
+   * @description 是否对"一"和"不"开启变调。默认开启。参考：https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83
+   * @value true：开启
+   * @value false：不开启
+   */
+  inflection?: boolean;
 }
 
 interface AllData {
@@ -143,6 +150,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
   nonZh: 'spaced',
   v: false,
   separator: ' ',
+  inflection: true,
 };
 
 /**
@@ -206,6 +214,9 @@ function pinyin(
   let list: SingleWordResult[] = Array(word.length);
 
   list = getPinyin(word, list, options.mode || 'normal');
+
+  // 一和不变调处理
+  list = middlewareInflection(list, options.inflection as boolean);
 
   // 双 unicode 编码字符处理
   list = middlewareDoubleUnicode(list);
