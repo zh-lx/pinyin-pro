@@ -66,7 +66,7 @@ describe('special change tone', () => {
   });
 
   it('[special change tone]一会儿', () => {
-    const result = pinyin('一会儿', { inflection: false });
+    const result = pinyin('一会儿', { toneSandhi: false });
     expect(result).to.be.equal('yī huì er');
   });
 });

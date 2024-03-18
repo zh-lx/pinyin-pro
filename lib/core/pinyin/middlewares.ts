@@ -224,11 +224,11 @@ export const middlewareDoubleUnicode = (
 };
 
 // 是否开启变调
-export const middlewareInflection = (
+export const middlewareToneSandhi = (
   list: SingleWordResult[],
-  inflection: boolean,
+  toneSandhi: boolean,
 ): SingleWordResult[] => {
-  if (inflection === false) {
+  if (toneSandhi === false) {
     list.forEach(item => {
       if (item.origin === '一') {
         item.result = item.originPinyin = 'yī';
