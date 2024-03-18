@@ -322,7 +322,7 @@ const DICT3: { [prop: string]: string } = {
   一路公: 'yī lù gōng', // 一路公交
   一路汽: 'yī lù qì', // 一路汽车
   一路巴: 'yī lù bā', // 一路巴士
-  一字马: 'yī zì mā',
+  一字马: 'yī zì mǎ',
   一是一: 'yī shì yī',
   一阳指: 'yī yáng zhǐ',
   一字决: 'yī zì jué',

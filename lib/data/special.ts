@@ -133,6 +133,7 @@ const NumberWordMap = {
   重: 'chóng',
   行: 'háng',
   斗: 'dǒu',
+  更: 'gēng',
 };
 
 // 与以下词组合时，不变调
@@ -169,16 +170,30 @@ function genNumberDict() {
 
     // 其他
     归一: 'guī yī', // 如：归一化、九九归一
+
+    风一更: 'fēng yì gēng', // 风一更，雪一更
+    雪一更: 'xuě yì gēng',
+    一更更: 'yì gēng gēng', // 一声声，一更更。
   };
+
+  // 特殊词语根据上下文变调
+  const contextualSandhiDict: { [key: string]: string } = {
+    一更: 'yī gēng', // 如：「一更天」时读 yī，「风一更」时读 yì
+  };
+
   for (let number in Numbers) {
     for (let key in NumberWordMap) {
       const word = `${number}${key}`;
-      const pinyin = `${Numbers[number as keyof typeof Numbers]} ${
-        NumberWordMap[key as keyof typeof NumberWordMap]
-      }`;
+      let pinyin = contextualSandhiDict[word] ?
+        contextualSandhiDict[word] :
+        `${Numbers[number as keyof typeof Numbers]} ${
+          NumberWordMap[key as keyof typeof NumberWordMap]
+        }`;
+
       dict[word] = pinyin;
     }
   }
+
   return dict;
 }
 const NumberDict = genNumberDict();
@@ -209,7 +224,7 @@ const toneSandhiIgnoreSuffix = ['的', '而', '之', '后', '也', '还'];
 export const toneSandhiList = Object.keys(toneSandhiMap);
 
 // 处理「一」和 「不」字的变调
-export function processToneSandhi(cur: string, pre: string, next: string) {
+export function processToneSandhi(cur: string, pre: string, next: string) {  
   if (toneSandhiList.indexOf(cur) === -1) {
     return getSingleWordPinyin(cur);
   }

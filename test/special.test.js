@@ -61,8 +61,8 @@ describe('tone sandhi for “一”', () => {
   });
 
   it('[special tone sandhi]一地', () => {
-    const result = pinyin('一地', { toneSandhi: true });
-    expect(result).to.be.equal('yí dì');
+    const result = pinyin('一地', { toneSandhi: false });
+    expect(result).to.be.equal('yī dì');
   });
 
   // 连读数字（只有开头的「一」变调）
@@ -129,6 +129,39 @@ describe('tone sandhi for “一”', () => {
   it('[special tone sandhi]一路顺风', () => {
     const result = pinyin('一路顺风', { toneSandhi: true });
     expect(result).to.be.equal('yí lù shùn fēng');
+  });
+
+  // 通过选项关闭变调
+  it('[special tone sandhi]一路', () => {
+    const result = pinyin('一路', { toneSandhi: false });
+    expect(result).to.be.equal('yī lù');
+  });
+
+  // 「一、更」连用时根据上下文变调
+  it('[special tone sandhi]一更天', () => {
+    const result = pinyin('一更天', { toneSandhi: true });
+    expect(result).to.be.equal('yī gēng tiān');
+  });
+
+  it('[special tone sandhi]一声声一更更', () => {
+    const result = pinyin('一声声一更更', { toneSandhi: true });
+    expect(result).to.be.equal('yì shēng shēng yì gēng gēng');
+  });
+
+  it('[special tone sandhi]风一更雪一更', () => {
+    const result = pinyin('风一更雪一更', { toneSandhi: true });
+    expect(result).to.be.equal('fēng yì gēng xuě yì gēng');
+  });
+
+  // 通过选项关闭变调
+  it('[special tone sandhi]一更', () => {
+    const result = pinyin('一更', { toneSandhi: false });
+    expect(result).to.be.equal('yī gēng');
+  });
+
+  it('[special tone sandhi]风一更一声声', () => {
+    const result = pinyin('风一更一声声', { toneSandhi: false });
+    expect(result).to.be.equal('fēng yī gēng yī shēng shēng');
   });
 
   // 成语中的序数也不变调
