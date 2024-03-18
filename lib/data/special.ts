@@ -184,7 +184,7 @@ function genNumberDict() {
   for (let number in Numbers) {
     for (let key in NumberWordMap) {
       const word = `${number}${key}`;
-      let pinyin = contextualSandhiDict[word] ?
+      const pinyin = contextualSandhiDict[word] ?
         contextualSandhiDict[word] :
         `${Numbers[number as keyof typeof Numbers]} ${
           NumberWordMap[key as keyof typeof NumberWordMap]
