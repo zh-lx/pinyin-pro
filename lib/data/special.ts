@@ -128,6 +128,7 @@ const Numbers = {
   十一: 'shí yī',
   零一: 'líng yī',
   第一: 'dì yī',
+  一十: 'yī shí',
 };
 const NumberWordMap = {
   重: 'chóng',
@@ -139,57 +140,18 @@ const NumberWordMap = {
 // 与以下词组合时，不变调
 function genNumberDict() {
   const dict: { [key: string]: string } = {
-    // 表示量词
-    第一: 'dì yī',
-    一号: 'yī hào', // 如：一号球鞋，但暂不支持如：他忽然一号(yì háo)。
-    
-    // 表示日期
-    月一: 'yuè yī', // 如：五月一号
-
-    // 表示数字
     零一: 'líng yī', // 如：二零零一、二百零一行
-    二一: 'èr yī', // 如：二一添作五
-    三一: 'sān yī',
-    四一: 'sì yī',
-    五一: 'wǔ yī',
-    六一: 'liù yī', // 如：六一儿童节
-    七一: 'qī yī',
-    八一: 'bā yī', // 如：八一建军节
-    九一: 'jiǔ yī',
     十一: 'shí yī', // 如：十一国庆节
-    一二: 'yī èr', // 如：乘法口诀表，一二得二
-    一三: 'yī sān',
-    一四: 'yī sì',
-    一五: 'yī wǔ', // 如：一五一十
-    一六: 'yī liù',
-    一七: 'yī qī',
-    一八: 'yī bā',
-    一九: 'yī jiǔ', // 如：一九天很冷
     一十: 'yī shí',
-    一又: 'yī yòu', // 如小数：一又二分之一
-
-    // 其他
-    归一: 'guī yī', // 如：归一化、九九归一
-
-    风一更: 'fēng yì gēng', // 风一更，雪一更
-    雪一更: 'xuě yì gēng',
-    一更更: 'yì gēng gēng', // 一声声，一更更。
-  };
-
-  // 特殊词语根据上下文变调
-  const contextualSandhiDict: { [key: string]: string } = {
-    一更: 'yī gēng', // 如：「一更天」时读 yī，「风一更」时读 yì
+    第一: 'dì yī',
   };
 
   for (let number in Numbers) {
     for (let key in NumberWordMap) {
       const word = `${number}${key}`;
-      const pinyin = contextualSandhiDict[word] ?
-        contextualSandhiDict[word] :
-        `${Numbers[number as keyof typeof Numbers]} ${
-          NumberWordMap[key as keyof typeof NumberWordMap]
-        }`;
-
+      const pinyin = `${Numbers[number as keyof typeof Numbers]} ${
+        NumberWordMap[key as keyof typeof NumberWordMap]
+      }`;
       dict[word] = pinyin;
     }
   }
@@ -220,20 +182,28 @@ const toneSandhiMap = {
   },
 };
 
-const toneSandhiIgnoreSuffix = ['的', '而', '之', '后', '也', '还'];
+const toneSandhiIgnoreSuffix = {
+  不: ['的', '而', '之', '后', '也', '还', '地'],
+  一: ['的', '而', '之', '后', '也', '还', '是'],
+};
 export const toneSandhiList = Object.keys(toneSandhiMap);
 
 // 处理「一」和 「不」字的变调
-export function processToneSandhi(cur: string, pre: string, next: string) {  
+export function processToneSandhi(cur: string, pre: string, next: string) {
   if (toneSandhiList.indexOf(cur) === -1) {
     return getSingleWordPinyin(cur);
   }
   // 轻声变调：说不说，说一说，叠词之间发音为轻声
-  if (pre === next && getSingleWordPinyin(pre) !== pre) {
+  if (pre === next && pre && getSingleWordPinyin(pre) !== pre) {
     return getPinyinWithoutTone(getSingleWordPinyin(cur));
   }
   // 「一」和 「不」字变调处理
-  if (next && !toneSandhiIgnoreSuffix.includes(next)) {
+  if (
+    next &&
+    !toneSandhiIgnoreSuffix[
+      cur as keyof typeof toneSandhiIgnoreSuffix
+    ].includes(next)
+  ) {
     const nextPinyin = getSingleWordPinyin(next);
     if (nextPinyin !== next) {
       const nextTone = getNumOfTone(nextPinyin);

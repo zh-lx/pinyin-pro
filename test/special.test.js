@@ -30,12 +30,12 @@ describe('number', () => {
 
 // 连续变调
 describe('tone sandhi for “一”', () => {
-  it.skip('[special tone sandhi]一', () => {
+  it('[special tone sandhi]一', () => {
     const result = pinyin('一');
     expect(result).to.be.equal('yī');
   });
 
-  it.skip('[special tone sandhi]不', () => {
+  it('[special tone sandhi]不', () => {
     const result = pinyin('不');
     expect(result).to.be.equal('bù');
   });
@@ -92,7 +92,7 @@ describe('tone sandhi for “一”', () => {
     expect(result).to.be.equal('shān yì chóng shuǐ yì chóng');
   });
 
-  it.skip('[special tone sandhi]一重山水', () => {
+  it('[special tone sandhi]一重山水', () => {
     const result = pinyin('一重山水', { toneSandhi: true });
     expect(result).to.be.equal('yì chóng shān shuǐ');
   });

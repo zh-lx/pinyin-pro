@@ -1571,7 +1571,6 @@ const DICT4: { [prop: string]: string } = {
   博闻强识: "bó wén qiáng zhì",
   避难就易: "bì nán jiù yì",
   了无生机: 'liǎo wú shēng jī',
-
   // 一字不变调的词语，如果词语仅有单个一且一字在结尾的无需添加（需要增补更多）
   有一说一: 'yǒu yī shuō yī',
   举一反三: 'jǔ yī fǎn sān',
@@ -1596,6 +1595,9 @@ const DICT4: { [prop: string]: string } = {
   以一奉百: 'yǐ yī fèng bǎi',
   以一持万: 'yǐ yī chí wàn',
   以一知万: 'yǐ yī zhī wàn',
+  一路公交: 'yī lù gōng jiāo',
+  一路汽车: 'yī lù qì chē',
+  一路巴士: 'yī lù bā shì',
 }
 export default DICT4;
 export const Pattern4: Pattern[] = Object.keys(DICT4).map((key) => ({
