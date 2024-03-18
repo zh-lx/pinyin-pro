@@ -91,11 +91,7 @@ export const getPinyin = (
     } else {
       const char = word[i];
       let pinyin: string = '';
-      if (!match || match.index > i + 1) {
-        pinyin = getSepecialChangeTone(char, word[i - 1], word[i + 1]);
-      } else {
-        pinyin = getSingleWordPinyin(char);
-      }
+      pinyin = getSepecialChangeTone(char, word[i - 1], word[i + 1]);
       list[i] = {
         origin: char,
         result: pinyin,

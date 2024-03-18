@@ -59,4 +59,9 @@ describe('special change tone', () => {
     const result = pinyin('说不说');
     expect(result).to.be.equal('shuō bu shuō');
   });
+
+  it('[special change tone]一会儿', () => {
+    const result = pinyin('一会儿');
+    expect(result).to.be.equal('yí huì er');
+  });
 });
