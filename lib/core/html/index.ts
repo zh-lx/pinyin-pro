@@ -31,6 +31,12 @@ interface HtmlOptions {
   customClassMap?: {
     [classname: string]: string[];
   };
+  /**
+   * @description 是否对"一"和"不"开启变调。默认开启。参考：https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83
+   * @value true：开启
+   * @value false：不开启
+   */
+  inflection?: boolean;
 }
 
 const DefaultHtmlOptions: HtmlOptions = {
@@ -41,6 +47,7 @@ const DefaultHtmlOptions: HtmlOptions = {
   wrapNonChinese: false,
   toneType: 'symbol',
   customClassMap: {},
+  inflection: true,
 };
 
 /**
@@ -57,6 +64,7 @@ export const html = (text: string, options?: HtmlOptions) => {
   const pinyinArray = pinyin(text, {
     type: 'all',
     toneType: completeOptions.toneType,
+    inflection: options?.inflection,
   });
   const result = pinyinArray.map((item) => {
     let additionalClass = '';

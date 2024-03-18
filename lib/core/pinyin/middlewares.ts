@@ -222,3 +222,20 @@ export const middlewareDoubleUnicode = (
   });
   return list;
 };
+
+// 是否开启变调
+export const middlewareInflection = (
+  list: SingleWordResult[],
+  inflection: boolean,
+): SingleWordResult[] => {
+  if (inflection === false) {
+    list.forEach(item => {
+      if (item.origin === '一') {
+        item.result = item.originPinyin = 'yī';
+      } else if (item.origin === '不') {
+        item.result = item.originPinyin = 'bù';
+      }
+    })
+  }
+  return list;
+};
