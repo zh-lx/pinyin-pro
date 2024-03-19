@@ -317,6 +317,16 @@ const DICT3: { [prop: string]: string } = {
   开户行: 'kāi hù háng',
   郦食其: 'lì yì jī',
   花事了: 'huā shì liǎo',
+  // 一字不变调的词语（需要增补更多）
+  一字马: 'yī zì mǎ',
+  一是一: 'yī shì yī',
+  一月一: 'yī yuè yī', // 一月一日，一月一号等
+  一阳指: 'yī yáng zhǐ',
+  一字决: 'yī zì jué',
+  风一更: 'fēng yì gēng', // 风一更，雪一更
+  雪一更: 'xuě yì gēng',
+  一更更: 'yì gēng gēng', // 一声声，一更更。
+  一重山: 'yì chóng shān',
 };
 export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({

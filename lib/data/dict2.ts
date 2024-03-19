@@ -169,6 +169,7 @@ const DICT2: { [prop: string]: string } = {
   中毒: 'zhòng dú',
   晓得: 'xiǎo dé',
   变更: 'biàn gēng',
+  打更: 'dǎ gēng',
   认得: 'rèn de',
   苹果: 'píng guǒ',
   念头: 'niàn tou',
@@ -460,7 +461,6 @@ const DICT2: { [prop: string]: string } = {
   铺设: 'pū shè',
   干事: 'gàn shì',
   杆菌: 'gǎn jūn',
-  五更: 'wǔ gēng',
   定量: 'dìng liàng',
   运载: 'yùn zài',
   会儿: 'huì er',
@@ -1316,7 +1316,6 @@ const DICT2: { [prop: string]: string } = {
   笔调: 'bǐ diào',
   衣被: 'yì bèi',
   畜产: 'xù chǎn',
-  打更: 'dǎ gēng',
   调阅: 'diào yuè',
   蛮干: 'mán gàn',
   曾祖: 'zēng zǔ',
@@ -2145,14 +2144,39 @@ const DICT2: { [prop: string]: string } = {
   第一: 'dì yī',
   万一: 'wàn yī',
   之一: 'zhī yī',
+  得之: 'dé zhī', // 避免「之一」与「得之一寸光中」的「一寸」冲突
   统一: 'tǒng yī',
   如一: 'rú yī',
   初一: 'chū yī',
-  一一: 'yī yī',
+  一月: 'yī yuè',
   高一: 'gāo yī',
   了了: 'liǎo liǎo',
   公了: 'gōng liǎo',
   私了: 'sī liǎo',
+  // 一 发音
+  一号: 'yī hào',
+  月一: 'yuè yī',
+  一一: 'yī yī',
+  二一: 'èr yī', // 如：二一添作五
+  三一: 'sān yī',
+  四一: 'sì yī',
+  五一: 'wǔ yī',
+  六一: 'liù yī', // 如：六一儿童节
+  七一: 'qī yī',
+  八一: 'bā yī', // 如：八一建军节
+  九一: 'jiǔ yī',
+  一零: 'yī líng', // 如：二零零一、二百零一行
+  一二: 'yī èr', // 如：乘法口诀表，一二得二
+  一三: 'yī sān',
+  一四: 'yī sì',
+  一五: 'yī wǔ', // 如：一五一十
+  一六: 'yī liù',
+  一七: 'yī qī',
+  一八: 'yī bā',
+  一九: 'yī jiǔ', // 如：一九天很冷
+  一又: 'yī yòu', // 如小数：一又二分之一
+  归一: 'guī yī', // 如：归一化、九九归一
+  一更: 'yī gēng',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({

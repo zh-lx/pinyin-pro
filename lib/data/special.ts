@@ -128,18 +128,24 @@ const Numbers = {
   十一: 'shí yī',
   零一: 'líng yī',
   第一: 'dì yī',
+  一十: 'yī shí',
 };
 const NumberWordMap = {
   重: 'chóng',
   行: 'háng',
   斗: 'dǒu',
+  更: 'gēng',
 };
+
+// 与以下词组合时，不变调
 function genNumberDict() {
   const dict: { [key: string]: string } = {
-    十一: 'shí yī',
-    零一: 'líng yī',
+    零一: 'líng yī', // 如：二零零一、二百零一行
+    十一: 'shí yī', // 如：十一国庆节
+    一十: 'yī shí',
     第一: 'dì yī',
   };
+
   for (let number in Numbers) {
     for (let key in NumberWordMap) {
       const word = `${number}${key}`;
@@ -149,6 +155,7 @@ function genNumberDict() {
       dict[word] = pinyin;
     }
   }
+
   return dict;
 }
 const NumberDict = genNumberDict();
@@ -174,7 +181,11 @@ const toneSandhiMap = {
     yì: [1, 2, 3],
   },
 };
-const toneSandhiIgnoreSuffix = ['的', '而', '之', '后', '也', '还'];
+
+const toneSandhiIgnoreSuffix = {
+  不: ['的', '而', '之', '后', '也', '还', '地'],
+  一: ['的', '而', '之', '后', '也', '还', '是'],
+};
 export const toneSandhiList = Object.keys(toneSandhiMap);
 
 // 处理「一」和 「不」字的变调
@@ -183,11 +194,16 @@ export function processToneSandhi(cur: string, pre: string, next: string) {
     return getSingleWordPinyin(cur);
   }
   // 轻声变调：说不说，说一说，叠词之间发音为轻声
-  if (pre === next && getSingleWordPinyin(pre) !== pre) {
+  if (pre === next && pre && getSingleWordPinyin(pre) !== pre) {
     return getPinyinWithoutTone(getSingleWordPinyin(cur));
   }
   // 「一」和 「不」字变调处理
-  if (next && !toneSandhiIgnoreSuffix.includes(next)) {
+  if (
+    next &&
+    !toneSandhiIgnoreSuffix[
+      cur as keyof typeof toneSandhiIgnoreSuffix
+    ].includes(next)
+  ) {
     const nextPinyin = getSingleWordPinyin(next);
     if (nextPinyin !== next) {
       const nextTone = getNumOfTone(nextPinyin);
