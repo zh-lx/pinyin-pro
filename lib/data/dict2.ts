@@ -2209,6 +2209,7 @@ const DICT2: { [prop: string]: string } = {
   排难: 'pái nàn',
   攻难: 'gōng nàn',
   木难: 'mù nà',
+  难然: 'nuó rán', // https://baike.baidu.com/item/%E9%9A%BE/3516671
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
