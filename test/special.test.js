@@ -223,3 +223,25 @@ describe('tone sandhi for “不”', () => {
     expect(result).to.be.equal('shuō bu shuō');
   });
 });
+
+describe('交叉词语测试', () => {
+  it('[special tone sandhi]难为', () => {
+    const result = pinyin('难为');
+    expect(result).to.be.equal('nán wéi');
+  });
+
+  it('[special tone sandhi]曾经沧海难为水', () => {
+    const result = pinyin('曾经沧海难为水');
+    expect(result).to.be.equal('céng jīng cāng hǎi nán wéi shuǐ');
+  });
+
+  it('[special tone sandhi]以那次空难为例', () => {
+    const result = pinyin('以那次空难为例');
+    expect(result).to.be.equal('yǐ nà cì kōng nàn wéi lì');
+  });
+
+  it('[special tone sandhi]空难为何发生', () => {
+    const result = pinyin('空难为何发生');
+    expect(result).to.be.equal('kōng nàn wèi hé fā shēng');
+  });
+});

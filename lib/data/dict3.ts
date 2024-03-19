@@ -328,6 +328,8 @@ const DICT3: { [prop: string]: string } = {
   一更更: 'yì gēng gēng', // 一声声，一更更。
   一重山: 'yì chóng shān',
   屈戌儿: 'qū qu ér', // https://www.zhihu.com/question/51441924/answer/125861101
+  难为水: 'nán wéi shuǐ',
+  难为情: 'nán wéi qíng',
 };
 export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({
