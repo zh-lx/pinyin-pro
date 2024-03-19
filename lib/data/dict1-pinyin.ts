@@ -235,7 +235,6 @@ export const DICT1: { [prop: string]: string } = {
   义: 'yì',
   山: 'shān',
   先: 'xiān',
-  车: 'chē jū',
   然: 'rán',
   价: 'jià jiè jie',
   放: 'fàng',
@@ -3625,7 +3624,7 @@ export const DICT1: { [prop: string]: string } = {
   菁: 'jīng',
   撬: 'qiào',
   裳: 'shang cháng',
-  戌: 'qu xū',
+  戌: 'xū qu', // 戊戌变法
   缨: 'yīng',
   蝗: 'huáng',
   撇: 'piě piē',
@@ -8062,7 +8061,8 @@ export const DICT1: { [prop: string]: string } = {
   仯: 'chào miǎo',
   觘: 'chào',
   伡: 'chē jū',
-  車: 'chē jū',
+  车: 'chē jū', // 出车 chē，如问司机：「你今天出车了吗？」
+  車: 'jū chē', // 常用于象棋中：出車 jū
   俥: 'chē jū',
   唓: 'chē',
   莗: 'chē',
