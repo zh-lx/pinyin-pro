@@ -4,6 +4,7 @@ export interface SingleWordResult {
   originPinyin: string;
   result: string;
   isZh: boolean;
+  hasPinyin: boolean;
   delete?: boolean;
 }
 

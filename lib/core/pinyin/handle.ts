@@ -16,6 +16,8 @@ import {
   DoubleUnicodeSuffixReg,
 } from '@/common/constant';
 
+import { isZhChar } from '@/common/utils';
+
 /**
  * @description: 获取单个字符的拼音
  * @param {string} word
@@ -74,6 +76,7 @@ export const getPinyin = (
             origin: match.zh[j],
             result: '',
             isZh: true,
+            hasPinyin: true,
             originPinyin: '',
           };
         } else {
@@ -81,6 +84,7 @@ export const getPinyin = (
             origin: match.zh[j],
             result: pinyins[pinyinIndex],
             isZh: true,
+            hasPinyin: true,
             originPinyin: pinyins[pinyinIndex],
           };
           pinyinIndex++;
@@ -95,7 +99,8 @@ export const getPinyin = (
       list[i] = {
         origin: char,
         result: pinyin,
-        isZh: pinyin !== char,
+        isZh: isZhChar(char),
+        hasPinyin: pinyin !== char,
         originPinyin: pinyin,
       };
       i++;
@@ -144,6 +149,7 @@ const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
       origin: word,
       result: value,
       isZh: true,
+      hasPinyin: true,
       originPinyin: value,
     }));
   } else {
@@ -152,6 +158,7 @@ const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
         origin: word,
         result: word,
         isZh: false,
+        hasPinyin: false,
         originPinyin: word,
       },
     ];

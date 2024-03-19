@@ -179,7 +179,7 @@ export const middlewareType = (
   }
   if (options.type === 'all') {
     return list.map((item) => {
-      const pinyin = item.isZh ? item.result : '';
+      const pinyin = item.hasPinyin ? item.result : '';
       const { initial, final } = getInitialAndFinal(pinyin);
       const { head, body, tail } = getFinalParts(pinyin);
       return {
@@ -187,7 +187,7 @@ export const middlewareType = (
         pinyin,
         initial,
         final,
-        first: item.isZh ? getFirstLetter(item.result) : '',
+        first: item.hasPinyin ? getFirstLetter(item.result) : '',
         finalHead: head,
         finalBody: body,
         finalTail: tail,
