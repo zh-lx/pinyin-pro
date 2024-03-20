@@ -19,7 +19,6 @@ const DICT4: { [prop: string]: string } = {
   不为人知: "bù wéi rén zhī",
   结结巴巴: "jiē jiē bā bā",
   前仆后继: "qián pū hòu jì",
-  各行各业: "gè háng gè yè",
   铺天盖地: "pū tiān gài dì",
   直截了当: "zhí jié liǎo dàng",
   供不应求: "gōng bú yìng qiú",
@@ -1634,6 +1633,8 @@ const DICT4: { [prop: string]: string } = {
   一路公交: 'yī lù gōng jiāo',
   一路汽车: 'yī lù qì chē',
   一路巴士: 'yī lù bā shì',
+  不行一行: 'bù xíng yì háng', // 绕口令
+  朝朝朝落: 'zhāo cháo zhāo luò',
 }
 export default DICT4;
 export const Pattern4: Pattern[] = Object.keys(DICT4).map((key) => ({

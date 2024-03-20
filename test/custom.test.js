@@ -9,7 +9,7 @@ describe('customConfig', () => {
   it('[custom]custom none', () => {
     customPinyin();
     const result = pinyin('干一行行一行');
-    expect(result).to.be.equal('gān yì háng xíng yì háng');
+    expect(result).to.be.equal('gàn yì háng xíng yì háng');
     clearAllCustomDicts();
   });
 
