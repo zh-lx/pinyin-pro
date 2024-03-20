@@ -139,10 +139,12 @@ const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
     pinyin = customMultpileDict[wordCode];
   } else if (mode === 'surname') {
     const surnamePinyin = Surnames[word];
-    pinyin = [
-      surnamePinyin,
-      pinyin.split(' ').filter(py => py !== surnamePinyin),
-    ].join(' ');
+    if (surnamePinyin) {
+      pinyin = [
+        surnamePinyin,
+        pinyin.split(' ').filter(py => py !== surnamePinyin),
+      ].join(' ');
+    }
   }
   
   if (pinyin) {
