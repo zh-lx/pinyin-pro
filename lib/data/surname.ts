@@ -61,7 +61,7 @@ const Surnames: { [key: string]: string } = {
   东门: 'dōng mén',
   西门: 'xī mén',
   句龙: 'gōu lóng', // 如宋有句龙如渊，https://baike.baidu.com/item/%E5%8F%A5%E9%BE%99/1160043
-  毌丘: 'guàn qiū',
+  毌丘: 'guàn qiū', // 如：三国时期曹魏名将毌丘俭；注意也是一个古地名，在山东省曹县南；要与「毋 wú」姓区分。
   赵: 'zhào',
   钱: 'qián',
   孙: 'sūn',
@@ -475,7 +475,7 @@ const Surnames: { [key: string]: string } = {
   言: 'yán',
   福: 'fú',
   肖: 'xiāo',
-  区: 'ōu',
+  区: 'ōu', // https://baike.baidu.com/item/%E5%8C%BA%E5%A7%93/200840
   覃: 'qín',
   朴: 'piáo',
   繁: 'pó', // 如写《定情诗》的汉末诗人繁钦
@@ -489,6 +489,9 @@ const Surnames: { [key: string]: string } = {
   召: 'shào',
   郄: 'qiè',
   撒: 'sǎ',
+  甯: 'nìng', // 如：周代有甯越，现在用作人名时也读四声，比如：张钧甯
+  六: 'lù', // https://baike.baidu.com/item/%E5%85%AD%E5%A7%93/9394114
+  啜: 'chuài', // https://baike.baidu.com/item/%E5%95%9C%E5%A7%93/9563772
 };
 
 export default Surnames;
