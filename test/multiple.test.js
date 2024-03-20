@@ -34,7 +34,7 @@ describe('multiple', () => {
 
   it('[multiple]multiple+surname同时使用', () => {
     const result = pinyin('能', { mode: 'surname', multiple: true });
-    expect(result).to.be.equal('nài');
+    expect(result).to.be.equal('nài néng');
   });
 
   it('[multiple]base', () => {
