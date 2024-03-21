@@ -46,4 +46,9 @@ describe('multiple', () => {
     const result = pinyin('好', { multiple: true });
     expect(result).to.be.equal('hǎo hào');
   });
+
+  it('[multiple]multiple+surname同时使用,多音字优先使用姓氏读音', () => {
+    const result = pinyin('数学家华罗庚', { mode: 'surname', multiple: true });
+    expect(result).to.be.equal('shù xué jiā huà luó gēng');
+  });
 });
