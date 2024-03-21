@@ -134,11 +134,19 @@ type GetMultiplePinyin = (
 const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
   const wordCode = word.charCodeAt(0);
   const customMultpileDict = getCustomMultpileDict();
-  const pinyin =
-    customMultpileDict[wordCode] ||
-    (mode === 'surname' ? Surnames[word] : '') ||
-    DICT1[wordCode] ||
-    '';
+  let pinyin = DICT1[wordCode] || '';
+  if (customMultpileDict[wordCode]) {
+    pinyin = customMultpileDict[wordCode];
+  } else if (mode === 'surname') {
+    const surnamePinyin = Surnames[word];
+    if (surnamePinyin) {
+      pinyin = [
+        surnamePinyin,
+        pinyin.split(' ').filter(py => py !== surnamePinyin),
+      ].join(' ');
+    }
+  }
+  
   if (pinyin) {
     return pinyin.split(' ').map((value) => ({
       origin: word,
