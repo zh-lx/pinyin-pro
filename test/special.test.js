@@ -26,6 +26,26 @@ describe('number', () => {
     const result = pinyin('二百零一行');
     expect(result).to.be.equal('èr bǎi líng yī háng');
   });
+
+  it('[number]数字发音（年份） 一九一零年', () => {
+    const result = pinyin('一九一零年');
+    expect(result).to.be.equal('yī jiǔ yī líng nián');
+  });
+
+  it('[number]数字发音（年份） 一九一〇年', () => {
+    const result = pinyin('一九一〇年');
+    expect(result).to.be.equal('yī jiǔ yī líng nián');
+  });
+
+  it('[number]数字发音（年份） 二〇一〇年', () => {
+    const result = pinyin('二〇一〇年');
+    expect(result).to.be.equal('èr líng yī líng nián');
+  });
+
+  it('[number]数字发音（年份） 二〇〇一年', () => {
+    const result = pinyin('二〇〇一年');
+    expect(result).to.be.equal('èr líng líng yī nián');
+  });
 });
 
 // 连续变调
