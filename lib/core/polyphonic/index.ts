@@ -212,6 +212,7 @@ const getPolyphonicList = (text: string): SingleWordResult[] => {
       origin: word,
       result: pinyin,
       isZh: !!pinyin,
+      hasPinyin: !!pinyin,
       originPinyin: pinyin,
     };
   });
@@ -227,6 +228,7 @@ const getSplittedPolyphonicList = (
           origin: item.origin,
           result: pinyin,
           isZh: true,
+          hasPinyin: true,
           originPinyin: pinyin,
         }))
       : [item];

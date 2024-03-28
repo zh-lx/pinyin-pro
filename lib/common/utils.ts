@@ -22,10 +22,15 @@ export function getSplittedWord(string: string) {
   return arr;
 }
 
+// 根据 Unicode 的定义判断是否为中文（表意文字）
 export function isZhChar(char: string) {
   if (typeof char !== 'string') {
     return false;
   }
-  let code = char.charCodeAt(0);
-  return code >= 19968 && code <= 40869;
+
+  // 通过 Unicode property escapes，方便扩展支持其他文字
+  // 文章：https://zhuanlan.zhihu.com/p/33335629
+  // Spec: https://github.com/tc39/proposal-regexp-unicode-property-escapes
+  // 可以测试生僻字 鿏
+  return /^[\p{Unified_Ideograph}]+$/ui.test(char)
 }
