@@ -332,7 +332,6 @@ const DICT3: { [prop: string]: string } = {
   一月一: 'yī yuè yī', // 一月一日，一月一号等
   一字马: 'yī zì mǎ',
   一是一: 'yī shì yī',
-  一二一: 'yī èr yī', // 口号
   一次方: 'yī cì fāng',
   一阳指: 'yī yáng zhǐ',
   一字决: 'yī zì jué',
