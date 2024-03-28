@@ -184,7 +184,7 @@ const toneSandhiMap = {
 
 const toneSandhiIgnoreSuffix = {
   不: ['的', '而', '之', '后', '也', '还', '地'],
-  一: ['的', '而', '之', '后', '也', '还', '是', '楼'],
+  一: ['的', '而', '之', '后', '也', '还', '是'],
 };
 export const toneSandhiList = Object.keys(toneSandhiMap);
 

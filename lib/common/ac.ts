@@ -69,13 +69,14 @@ export class AC {
   // 构建失败指针
   buildFailPointer() {
     let queue = [];
+    let queueIndex = 0;
     for (let [key, value] of this.root.children) {
       value.fail = this.root;
       queue.push(value);
     }
 
-    while (queue.length > 0) {
-      let node = queue.shift() as TrieNode;
+    while (queue.length > queueIndex) {
+      let node = queue[queueIndex++] as TrieNode;
       for (let [key, child] of node.children) {
         let failNode = node.fail;
         while (failNode !== null && !failNode.children.has(key)) {
