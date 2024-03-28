@@ -265,3 +265,21 @@ describe('交叉词语测试', () => {
     expect(result).to.be.equal('kōng nàn wèi hé fā shēng');
   });
 });
+
+
+describe('[special tone sandhi]绕口令', () => {
+  it('[special tone sandhi]绕口令1', () => {
+    const result = pinyin('校服上除了校徽别别别的，让你们别别别的别别别的你非得别别的');
+    expect(result).to.be.equal('xiào fú shàng chú le xiào huī bié biè bié de ， ràng nǐ men bié biè bié de bié biè bié de nǐ fēi děi biè bié de');
+  });
+
+  it('[special tone sandhi]绕口令2', () => {
+    const result = pinyin('人要是行干一行行一行，一行行行行行，行行行干哪行都行');
+    expect(result).to.be.equal('rén yào shi xíng gàn yì háng xíng yì háng ， yì háng xíng háng háng xíng ， háng háng xíng gàn nǎ háng dōu xíng');
+  });
+
+  it('[special tone sandhi]绕口令3', () => {
+    const result = pinyin('要是不行，干一行不行一行，一行不行行行不行，行行不行，干哪行都不行');
+    expect(result).to.be.equal('yào shi bù xíng ， gàn yì háng bù xíng yì háng ， yì háng bù xíng háng háng bù xíng ， háng háng bù xíng ， gàn nǎ háng dōu bù xíng');
+  });
+});

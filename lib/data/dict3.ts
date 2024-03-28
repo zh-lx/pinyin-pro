@@ -332,7 +332,6 @@ const DICT3: { [prop: string]: string } = {
   一月一: 'yī yuè yī', // 一月一日，一月一号等
   一字马: 'yī zì mǎ',
   一是一: 'yī shì yī',
-  一二一: 'yī èr yī', // 口号
   一次方: 'yī cì fāng',
   一阳指: 'yī yáng zhǐ',
   一字决: 'yī zì jué',
@@ -342,6 +341,11 @@ const DICT3: { [prop: string]: string } = {
   屈戌儿: 'qū qu ér', // https://www.zhihu.com/question/51441924/answer/125861101
   难为水: 'nán wéi shuǐ',
   难为情: 'nán wéi qíng',
+
+  行一行: 'xíng yì háng', // 绕口令，详见测试用例
+  别别的: 'biè bié de', // 校长说校服上除了校徽别别别的，让你们别别别的别别别的你非得别别的
+  干哪行: 'gàn nǎ háng',
+  干一行: 'gàn yì háng',
 };
 export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({

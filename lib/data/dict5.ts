@@ -16,6 +16,7 @@ const DICT5: { [prop: string]: string } = {
   亚得里亚海: 'yà dé lǐ yà hǎi',
   眼不见为净: 'yǎn bú jiàn wéi jìng',
   竹筒倒豆子: 'zhú tǒng dào dòu zi',
+  一行行行行: 'yì háng xíng háng háng',
 };
 export default DICT5;
 export const Pattern5: Pattern[] = Object.keys(DICT5).map((key) => ({
