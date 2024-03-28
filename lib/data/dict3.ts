@@ -344,7 +344,6 @@ const DICT3: { [prop: string]: string } = {
 
   行一行: 'xíng yì háng', // 绕口令，详见测试用例
   别别的: 'biè bié de', // 校长说校服上除了校徽别别别的，让你们别别别的别别别的你非得别别的
-  一行行: 'yì háng xíng',
   干哪行: 'gàn nǎ háng',
   干一行: 'gàn yì háng',
 };
