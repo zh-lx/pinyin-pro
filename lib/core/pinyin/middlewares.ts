@@ -1,10 +1,10 @@
-import { getStringLength } from '@/common/utils';
+import { getStringLength, isZhChar } from '@/common/utils';
 import type { SingleWordResult } from '../../common/type';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
 } from '@/common/constant';
-import { getMultiplePinyin } from './handle';
+import { getAllPinyin, getMultiplePinyin } from './handle';
 import { CompleteOptions } from './index';
 import {
   getNumOfTone,
@@ -182,6 +182,14 @@ export const middlewareType = (
       const pinyin = item.isZh ? item.result : '';
       const { initial, final } = getInitialAndFinal(pinyin);
       const { head, body, tail } = getFinalParts(pinyin);
+      let polyphonic: string[] = [];
+      if (pinyin !== '') {
+        polyphonic = [pinyin].concat(
+          getAllPinyin(item.origin, options.mode).filter(
+            (item) => item !== pinyin
+          )
+        );
+      }
       return {
         origin: item.origin,
         pinyin,
@@ -193,6 +201,8 @@ export const middlewareType = (
         finalTail: tail,
         num: Number(getNumOfTone(item.originPinyin)),
         isZh: item.isZh,
+        polyphonic,
+        inZhRange: isZhChar(item.origin),
       };
     });
   }
