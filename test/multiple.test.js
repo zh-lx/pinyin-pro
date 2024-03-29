@@ -29,7 +29,7 @@ describe('multiple', () => {
 
   it('[multiple]非字符串', () => {
     const result = pinyin('a', { multiple: true, type: 'array' });
-    expect(result).to.deep.equal(['a']);
+    expect(result).to.deep.equal([]);
   });
 
   it('[multiple]multiple+surname同时使用', () => {

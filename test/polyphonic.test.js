@@ -32,6 +32,7 @@ describe('polyphonic', () => {
           num: 3,
           origin: '好',
           pinyin: 'hǎo',
+          inZhRange: true,
         },
         {
           final: 'ào',
@@ -44,6 +45,7 @@ describe('polyphonic', () => {
           num: 4,
           origin: '好',
           pinyin: 'hào',
+          inZhRange: true,
         },
       ],
       [
@@ -58,6 +60,7 @@ describe('polyphonic', () => {
           num: 3,
           origin: '好',
           pinyin: 'hǎo',
+          inZhRange: true,
         },
         {
           final: 'ào',
@@ -70,6 +73,7 @@ describe('polyphonic', () => {
           num: 4,
           origin: '好',
           pinyin: 'hào',
+          inZhRange: true,
         },
       ],
       [
@@ -84,6 +88,7 @@ describe('polyphonic', () => {
           num: 2,
           origin: '学',
           pinyin: 'xué',
+          inZhRange: true,
         },
       ],
       [
@@ -98,6 +103,7 @@ describe('polyphonic', () => {
           num: 2,
           origin: '习',
           pinyin: 'xí',
+          inZhRange: true,
         },
       ],
     ]);
@@ -133,6 +139,7 @@ describe('polyphonic', () => {
           num: 3,
           origin: '好',
           pinyin: 'hǎo',
+          inZhRange: true,
         },
         {
           final: 'ào',
@@ -145,6 +152,7 @@ describe('polyphonic', () => {
           num: 4,
           origin: '好',
           pinyin: 'hào',
+          inZhRange: true,
         },
       ],
       [
@@ -159,6 +167,7 @@ describe('polyphonic', () => {
           num: 3,
           origin: '好',
           pinyin: 'hǎo',
+          inZhRange: true,
         },
         {
           final: 'ào',
@@ -171,6 +180,7 @@ describe('polyphonic', () => {
           num: 4,
           origin: '好',
           pinyin: 'hào',
+          inZhRange: true,
         },
       ],
       [
@@ -185,6 +195,7 @@ describe('polyphonic', () => {
           num: 2,
           origin: '学',
           pinyin: 'xué',
+          inZhRange: true,
         },
       ],
       [
@@ -199,6 +210,7 @@ describe('polyphonic', () => {
           num: 2,
           origin: '习',
           pinyin: 'xí',
+          inZhRange: true,
         },
       ],
       [
@@ -213,6 +225,7 @@ describe('polyphonic', () => {
           num: 0,
           origin: 's',
           pinyin: '',
+          inZhRange: false,
         },
       ],
     ]);

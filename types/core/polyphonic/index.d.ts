@@ -44,6 +44,7 @@ interface AllData {
     finalBody: string;
     finalTail: string;
     isZh: boolean;
+    inZhRange: boolean;
 }
 interface OptionsReturnString extends BasicOptions {
     /**
@@ -113,5 +114,6 @@ export declare const handleType: (list: SingleWordResult[], options: CompleteOpt
     finalTail: string;
     num: number;
     isZh: boolean;
+    inZhRange: boolean;
 }[];
 export { polyphonic };

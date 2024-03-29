@@ -15,6 +15,7 @@ import {
   getFinalParts,
 } from '@/core/pinyin/handle';
 import { getCustomPolyphonicDict } from '../custom';
+import { isZhChar } from '@/common/utils';
 
 interface BasicOptions {
   /**
@@ -70,6 +71,7 @@ interface AllData {
   finalBody: string;
   finalTail: string;
   isZh: boolean;
+  inZhRange: boolean;
 }
 
 interface OptionsReturnString extends BasicOptions {
@@ -257,6 +259,7 @@ export const handleType = (
         finalTail: tail,
         num: Number(getNumOfTone(item.originPinyin)),
         isZh: item.isZh,
+        inZhRange: isZhChar(item.origin),
       };
     });
   }

@@ -90,6 +90,8 @@ interface AllData {
   finalBody: string;
   finalTail: string;
   isZh: boolean;
+  polyphonic: string[];
+  inZhRange: boolean;
 }
 
 interface OptionsReturnString extends BasicOptions {

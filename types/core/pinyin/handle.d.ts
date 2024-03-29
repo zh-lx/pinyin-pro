@@ -19,6 +19,13 @@ declare const getPinyinWithoutTone: GetPinyinWithoutTone;
  * @param {string} word
  * @return {WordResult[]}
  */
+type GetAllPinyin = (word: string, mode?: PinyinMode) => string[];
+export declare const getAllPinyin: GetAllPinyin;
+/**
+ * @description: 获取单字符的多音拼音
+ * @param {string} word
+ * @return {WordResult[]}
+ */
 type GetMultiplePinyin = (word: string, mode?: PinyinMode) => SingleWordResult[];
 declare const getMultiplePinyin: GetMultiplePinyin;
 /**
