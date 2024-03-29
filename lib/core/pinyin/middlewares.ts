@@ -183,7 +183,7 @@ export const middlewareType = (
       const { initial, final } = getInitialAndFinal(pinyin);
       const { head, body, tail } = getFinalParts(pinyin);
       let polyphonic: string[] = [];
-      if (pinyin) {
+      if (pinyin !== '') {
         polyphonic = [pinyin].concat(
           getAllPinyin(item.origin, options.mode).filter(
             (item) => item !== pinyin
