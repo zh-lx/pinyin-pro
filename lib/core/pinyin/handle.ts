@@ -10,7 +10,7 @@ import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
 import { getCustomMultpileDict } from '@/core/custom';
 import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { ACNormal } from '@/common/ac';
+import { acTree, Priority, TokenizationAlgorithm } from '@/common/segmentit';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
@@ -56,13 +56,28 @@ const handleUnicodeCharacters = (
 export const getPinyin = (
   word: string,
   list: SingleWordResult[],
-  mode: 'normal' | 'surname'
+  mode: 'normal' | 'surname',
+  segmentit: TokenizationAlgorithm,
 ): SingleWordResult[] => {
-  const matches = ACNormal.search(word, mode === 'surname');
+  const matches = acTree.search(word, mode === 'surname', segmentit);
   let matchIndex = 0;
   for (let i = 0; i < word.length; ) {
     const match = matches[matchIndex];
     if (match && i === match.index) {
+      if (match.length === 1 && match.priority <= Priority.Normal) {
+        const char = word[i];
+        let pinyin: string = '';
+        pinyin = processSepecialPinyin(char, word[i - 1], word[i + 1]);
+        list[i] = {
+          origin: char,
+          result: pinyin,
+          isZh: pinyin !== char,
+          originPinyin: pinyin,
+        };
+        i++;
+        matchIndex++;
+        continue;
+      }
       const pinyins = match.pinyin.split(' ');
       let pinyinIndex = 0;
       for (let j = 0; j < match.length; j++) {

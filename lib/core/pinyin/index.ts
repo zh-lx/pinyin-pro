@@ -1,3 +1,4 @@
+import { TokenizationAlgorithm } from '@/common/segmentit';
 import type { SingleWordResult } from '../../common/type';
 import { getPinyin } from './handle';
 import {
@@ -77,6 +78,13 @@ interface BasicOptions {
    * @value false：不开启
    */
   toneSandhi?: boolean;
+  /**
+   * @description 要使用的分词算法。默认为逆向最大匹配分词
+   * @value 1：逆向最大匹配分词(速度最快，准确率适中)
+   * @value 2：最大概率分词(速度适中，准确率高)
+   * @value 2：最少分词数分词(速度适中，准确率高)
+   */
+  segmentit?: TokenizationAlgorithm;
 }
 
 interface AllData {
@@ -151,6 +159,7 @@ const DEFAULT_OPTIONS: CompleteOptions = {
   v: false,
   separator: ' ',
   toneSandhi: true,
+  segmentit: TokenizationAlgorithm.MaxProbability,
 };
 
 /**
@@ -213,7 +222,7 @@ function pinyin(
 
   let list: SingleWordResult[] = Array(word.length);
 
-  list = getPinyin(word, list, options.mode || 'normal');
+  list = getPinyin(word, list, options.mode || 'normal', options.segmentit as TokenizationAlgorithm);
 
   // 一和不变调处理
   list = middlewareToneSandhi(list, options.toneSandhi as boolean);

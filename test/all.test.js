@@ -1,5 +1,9 @@
-const { pinyin } = require('../');
+const { pinyin, addDict } = require('../');
 const expect = require('chai').expect;
+
+const internalDict = require("../dist/dict.json");
+
+addDict(internalDict);
 
 describe('all', () => {
   it('[all]test all', () => {

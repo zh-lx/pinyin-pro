@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": false,
     "sourceMap": false,
+    "preserveConstEnums": true,
     "declaration": true,
     "declarationDir": "types",
     "baseUrl": "./",

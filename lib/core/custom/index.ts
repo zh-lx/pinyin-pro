@@ -1,5 +1,5 @@
-import { ACNormal, PatternsNormal } from '@/common/ac';
-import { Priority } from '@/common/constant';
+import { acTree, PatternsNormal, Priority } from '@/common/segmentit';
+import { Probability } from '@/common/constant';
 import { getStringLength } from '@/common/utils';
 import DICT1 from '@/data/dict1';
 let customDict: { [key: string]: string } = {};
@@ -21,6 +21,8 @@ interface CustomPinyinOptions {
   polyphonic?: CustomHandleType;
 }
 
+const CustomDictName = Symbol('custom');
+
 /**
  * @description: 用户自定义拼音
  * @param {{ [key: string]: string }} config 用户自定义的拼音映射（支持汉字、词语、句子的映射），若匹配到该映射，优先将汉字转换为该映射
@@ -39,11 +41,13 @@ export function customPinyin(
   const customPatterns = Object.keys(customDict).map((key) => ({
     zh: key,
     pinyin: customDict[key],
-    priority: Priority.Custom + getStringLength(key),
+    probability: Probability.Custom + getStringLength(key),
     length: key.length,
+    priority: Priority.Custom,
+    dict: CustomDictName,
   }));
-  ACNormal.buildTrie(customPatterns);
-  ACNormal.buildFailPointer();
+  acTree.buildTrie(customPatterns);
+  acTree.buildFailPointer();
   // add words for multiple and polyphonic
   if (options?.multiple) {
     addCustomConfigToDict(config, customMultipleDict, options.multiple);
@@ -99,9 +103,7 @@ export function clearCustomDict(dict: CustomDictType | CustomDictType[]) {
     Object.keys(customDict).forEach(function (key) {
       delete customDict[key];
     });
-    ACNormal.reset();
-    ACNormal.buildTrie([...PatternsNormal]);
-    ACNormal.buildFailPointer();
+    acTree.removeDict(CustomDictName);
   }
   if (dict === 'multiple' || dict.indexOf?.('multiple') !== -1) {
     customMultipleDict.length = 0;

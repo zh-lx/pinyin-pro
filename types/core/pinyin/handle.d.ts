@@ -1,4 +1,5 @@
 import type { SingleWordResult, PinyinMode } from '../../common/type';
+import { TokenizationAlgorithm } from '@/common/segmentit';
 /**
  * @description: 获取单个字符的拼音
  * @param {string} word
@@ -6,7 +7,7 @@ import type { SingleWordResult, PinyinMode } from '../../common/type';
  */
 type GetSingleWordPinyin = (word: string) => string;
 export declare const getSingleWordPinyin: GetSingleWordPinyin;
-export declare const getPinyin: (word: string, list: SingleWordResult[], mode: 'normal' | 'surname') => SingleWordResult[];
+export declare const getPinyin: (word: string, list: SingleWordResult[], mode: 'normal' | 'surname', segmentit: TokenizationAlgorithm) => SingleWordResult[];
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin
