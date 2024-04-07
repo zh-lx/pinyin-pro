@@ -1,5 +1,5 @@
-import { Priority } from '@/common/constant';
-import type { Pattern } from '../../lib/common/ac';
+import { Probability } from '@/common/constant';
+import { Priority, type Pattern } from '../common/segmentit';
 const DICT3: { [prop: string]: string } = {
   为什么: 'wèi shén me',
   实际上: 'shí jì shang',
@@ -351,6 +351,8 @@ export default DICT3;
 export const Pattern3: Pattern[] = Object.keys(DICT3).map((key) => ({
   zh: key,
   pinyin: DICT3[key],
-  priority: Priority.DICT3,
+  probability: Probability.DICT,
   length: 3,
+  priority: Priority.Normal,
+  dict: Symbol('dict3'),
 }));

@@ -1,5 +1,5 @@
-import { Priority } from '@/common/constant';
-import type { Pattern } from '../../lib/common/ac';
+import { Probability } from '@/common/constant';
+import { Priority, type Pattern } from '../common/segmentit';
 const DICT4: { [prop: string]: string } = {
   成吉思汗: "chéng jí sī hán",
   四通八达: "sì tōng bā dá",
@@ -1640,6 +1640,8 @@ export default DICT4;
 export const Pattern4: Pattern[] = Object.keys(DICT4).map((key) => ({
   zh: key,
   pinyin: DICT4[key],
-  priority: Priority.DICT4,
+  probability: Probability.DICT,
   length: 4,
+  priority: Priority.Normal,
+  dict: Symbol('dict4'),
 }));

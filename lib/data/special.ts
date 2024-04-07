@@ -1,5 +1,5 @@
-import type { Pattern } from '../common/ac';
-import { Priority } from '@/common/constant';
+import { Priority, type Pattern } from '../common/segmentit';
+import { Probability } from '@/common/constant';
 import {
   getSingleWordPinyin,
   getNumOfTone,
@@ -129,6 +129,7 @@ const Numbers = {
   零一: 'líng yī',
   第一: 'dì yī',
   一十: 'yī shí',
+  一十一: 'yī shí yī',
 };
 const NumberWordMap = {
   重: 'chóng',
@@ -145,6 +146,7 @@ function genNumberDict() {
     十一: 'shí yī', // 如：十一国庆节
     一十: 'yī shí',
     第一: 'dì yī',
+    一十一: 'yī shí yī',
   };
 
   for (let number in Numbers) {
@@ -164,8 +166,10 @@ export const PatternNumberDict: Pattern[] = Object.keys(NumberDict).map(
   (key) => ({
     zh: key,
     pinyin: NumberDict[key],
-    priority: Priority.DictNumber + key.length,
+    probability: Probability.Rule,
     length: key.length,
+    priority: Priority.Normal,
+    dict: Symbol('rule'),
   })
 );
 

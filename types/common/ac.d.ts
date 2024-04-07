@@ -4,7 +4,7 @@
 export interface Pattern {
     zh: string;
     pinyin: string;
-    priority: number;
+    probability: number;
     length: number;
     isSurname?: boolean;
 }
@@ -14,19 +14,21 @@ interface MatchPattern extends Pattern {
 declare class TrieNode {
     children: Map<string, TrieNode>;
     fail: TrieNode | null;
-    isEnd: boolean;
-    pattern: Pattern | null;
+    patterns: Pattern[];
     constructor();
 }
 export declare class AC {
     root: TrieNode;
     constructor();
-    buildTrie(patterns: Pattern[]): void;
+    buildTrie(patternList: Pattern[]): void;
+    insertPattern(patterns: Pattern[], pattern: Pattern): void;
     reset(): void;
     buildFailPointer(): void;
     search(text: string, isSurname?: boolean): MatchPattern[];
+    filterWithReverseMaxMatch(patterns: MatchPattern[]): MatchPattern[];
+    filterWithMaxProbability(patterns: MatchPattern[], isSurname?: boolean): MatchPattern[];
     filter(patterns: MatchPattern[], isSurname?: boolean): MatchPattern[];
 }
 export declare const PatternsNormal: Pattern[];
-export declare const ACNormal: AC;
+export declare const acTree: AC;
 export {};

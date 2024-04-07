@@ -1,4 +1,4 @@
-import type { Pattern } from '../../lib/common/ac';
+import { type Pattern } from '../common/segmentit';
 declare const DICT5: {
     [prop: string]: string;
 };

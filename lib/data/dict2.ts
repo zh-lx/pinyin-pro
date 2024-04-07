@@ -1,5 +1,5 @@
-import { Priority } from '@/common/constant';
-import type { Pattern } from '../../lib/common/ac';
+import { Probability } from '@/common/constant';
+import { Priority, type Pattern } from '../common/segmentit';
 const DICT2: { [prop: string]: string } = {
   这个: 'zhè ge',
   成为: 'chéng wéi',
@@ -2145,6 +2145,7 @@ const DICT2: { [prop: string]: string } = {
   一八: 'yī bā',
   一九: 'yī jiǔ', // 如：一九天很冷
   一又: 'yī yòu', // 如小数：一又二分之一
+  // TODO:  添加更多为(二声)的词
   一更: 'yī gēng', // 古代时间
   一饼: 'yī bǐng', // 麻将牌
   一楼: 'yī lóu',
@@ -2173,7 +2174,7 @@ const DICT2: { [prop: string]: string } = {
   厄难: 'è nàn',
   徇难: 'xùn nàn',
   空难: 'kōng nàn',
-
+  喜欢: 'xǐ huan', // 现代汉语词典(第7版)P1405
   朝朝: 'zhāo zhāo',
   行行: 'háng háng',
   哪行: 'nǎ háng',
@@ -2183,6 +2184,8 @@ export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
   zh: key,
   pinyin: DICT2[key],
-  priority: Priority.DICT2,
+  probability: Probability.DICT,
   length: 2,
+  priority: Priority.Normal,
+  dict: Symbol('dict2'),
 }));

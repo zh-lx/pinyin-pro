@@ -1,3 +1,4 @@
+import { TokenizationAlgorithm } from '@/common/segmentit';
 interface BasicOptions {
     /**
      * @description 返回的拼音音调类型
@@ -55,6 +56,13 @@ interface BasicOptions {
      * @value false：不开启
      */
     toneSandhi?: boolean;
+    /**
+     * @description 要使用的分词算法。默认为逆向最大匹配分词
+     * @value 1：逆向最大匹配分词(速度最快，准确率适中)
+     * @value 2：最大概率分词(速度适中，准确率高)
+     * @value 2：最少分词数分词(速度适中，准确率高)
+     */
+    segmentit?: TokenizationAlgorithm;
 }
 interface AllData {
     origin: string;
