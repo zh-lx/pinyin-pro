@@ -141,7 +141,8 @@ const NumberWordMap = {
 // 与以下词组合时，不变调
 function genNumberDict() {
   const dict: { [key: string]: string } = {
-    零一: 'líng yī', // 如：二零零一、二百零一行
+    零一: 'líng yī', // 如：二零零一年、二百零一行
+    〇一: 'líng yī', // 如：二〇〇一年、二〇一〇年
     十一: 'shí yī', // 如：十一国庆节
     一十: 'yī shí',
     第一: 'dì yī',

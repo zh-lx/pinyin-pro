@@ -142,28 +142,43 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
  * @param {string} word
  * @return {WordResult[]}
  */
+type GetAllPinyin = (
+  word: string,
+  mode?: PinyinMode
+) => string[];
+export const getAllPinyin: GetAllPinyin = (word, mode = "normal") => {
+  const wordCode = word.charCodeAt(0);
+  const customMultpileDict = getCustomMultpileDict();
+  let pinyin = DICT1[wordCode] ? DICT1[wordCode].split(" ") : [];
+  if (customMultpileDict[wordCode]) {
+    pinyin = customMultpileDict[wordCode]
+      ? customMultpileDict[wordCode].split(" ")
+      : [];
+  } else if (mode === "surname") {
+    const surnamePinyin = Surnames[word];
+    if (surnamePinyin) {
+      pinyin = [surnamePinyin].concat(
+        pinyin.filter((py) => py !== surnamePinyin)
+      );
+    }
+  }
+  return pinyin;
+};
+
+/**
+ * @description: 获取单字符的多音拼音
+ * @param {string} word
+ * @return {WordResult[]}
+ */
 type GetMultiplePinyin = (
   word: string,
   mode?: PinyinMode
 ) => SingleWordResult[];
 const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
-  const wordCode = word.charCodeAt(0);
-  const customMultpileDict = getCustomMultpileDict();
-  let pinyin = DICT1[wordCode] || '';
-  if (customMultpileDict[wordCode]) {
-    pinyin = customMultpileDict[wordCode];
-  } else if (mode === 'surname') {
-    const surnamePinyin = Surnames[word];
-    if (surnamePinyin) {
-      pinyin = [
-        surnamePinyin,
-        pinyin.split(' ').filter(py => py !== surnamePinyin),
-      ].join(' ');
-    }
-  }
+  let pinyin = getAllPinyin(word, mode);
   
   if (pinyin) {
-    return pinyin.split(' ').map((value) => ({
+    return pinyin.map((value) => ({
       origin: word,
       result: value,
       isZh: true,
