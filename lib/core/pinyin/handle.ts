@@ -176,8 +176,7 @@ type GetMultiplePinyin = (
 ) => SingleWordResult[];
 const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
   let pinyin = getAllPinyin(word, mode);
-  
-  if (pinyin) {
+  if (pinyin.length > 0) {
     return pinyin.map((value) => ({
       origin: word,
       result: value,

@@ -221,4 +221,29 @@ describe('all', () => {
       },
     ]);
   });
+
+  // 非汉字，越南喃字
+  it('[all]非中文：字母', () => {
+    const result = pinyin('a', {
+      type: 'all',
+      multiple: true,
+    });
+
+    expect(result.length).to.be.equal(1)
+    expect(result[0]?.pinyin).to.be.equal('')
+    expect(result[0]?.origin).to.be.equal('a')
+    expect(result[0]?.inZhRange).to.be.equal(false)
+  });
+
+  it('[all]非中文和中文混合', () => {
+    const result = pinyin('a好', {
+      type: 'all',
+      multiple: true,
+    });
+
+    expect(result.length).to.be.equal(2)
+    expect(result[1]?.pinyin).to.be.equal('hǎo')
+    expect(result[1]?.origin).to.be.equal('好')
+    expect(result[1]?.polyphonic.toString()).to.be.equal('hǎo,hào')
+  });
 });
