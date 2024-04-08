@@ -25,7 +25,6 @@ const DICT3: { [prop: string]: string } = {
   发脾气: 'fā pí qi',
   士大夫: 'shì dà fū',
   三部曲: 'sān bù qǔ',
-  仡佬族: 'gē lǎo zú',
   交响曲: 'jiāo xiǎng qǔ',
   鸭绿江: 'yā lù jiāng',
   协奏曲: 'xié zòu qǔ',
@@ -186,6 +185,8 @@ const DICT3: { [prop: string]: string } = {
   飞将军: 'fēi jiāng jūn',
   挑大梁: 'tiǎo dà liáng',
   哈巴狗: 'hǎ ba gǒu',
+  哈什蚂: 'hà shí mǎ',
+  哈士蟆: 'hà shi má', // 新华字典第 12 版第 175 页
   过家家: 'guò jiā jiā',
   催泪弹: 'cuī lèi dàn',
   雨夹雪: 'yǔ jiā xuě',

@@ -2179,6 +2179,7 @@ const DICT2: { [prop: string]: string } = {
   行行: 'háng háng',
   哪行: 'nǎ háng',
   不行: 'bù xíng',
+  仡佬: 'gē lǎo',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({

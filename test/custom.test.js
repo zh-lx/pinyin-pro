@@ -33,10 +33,10 @@ describe('customConfig', () => {
 
   it('[custom]custom3', () => {
     customPinyin({
-      哈什玛: 'hà shén mǎ',
+      呵呀: 'ā ya', // 武松见了，叫声：“呵呀！” ——部编版五年级(下) 景阳冈
     });
-    const result = pinyin('哈什玛');
-    expect(result).to.be.equal('hà shén mǎ');
+    const result = pinyin('呵呀');
+    expect(result).to.be.equal('ā ya');
     clearAllCustomDicts();
   });
 
