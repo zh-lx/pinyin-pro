@@ -27,9 +27,39 @@ describe('multiple', () => {
     expect(result).to.deep.equal(['hǎo', 'hào']);
   });
 
-  it('[multiple]非字符串', () => {
+  it('[multiple]非汉字：字母', () => {
     const result = pinyin('a', { multiple: true, type: 'array' });
-    expect(result).to.deep.equal([]);
+    expect(result).to.deep.equal(['a']);
+  });
+
+  it('[multiple]非字符串：multiple: false', () => {
+    const result = pinyin('a', { multiple: false, type: 'array' });
+    expect(result).to.deep.equal(['a']);
+  });
+
+  it('[multiple]汉字和非汉字混合：multiple: false', () => {
+    const result = pinyin('Bar好', { multiple: false, type: 'array' });
+    expect(result).to.deep.equal(['B', 'a', 'r', 'hǎo']);
+  });
+
+  it('[multiple]非汉字：多个字母', () => {
+    const result = pinyin('Bar', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['B', 'a', 'r']);
+  });
+
+  it('[multiple]非中国汉字：越南喃字', () => {
+    const result = pinyin('𠄼', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['𠄼']);
+  });
+
+  it('[multiple]非中国汉字：多个越南喃字', () => {
+    const result = pinyin('𠄼𦒹', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['𠄼', '𦒹']);
+  });
+
+  it('[multiple]非中国汉字和汉字混合（多音字仅单字生效）', () => {
+    const result = pinyin('好𠄼𦒹。', { multiple: true, type: 'array' });
+    expect(result).to.deep.equal(['hǎo', '𠄼', '𦒹', '。']);
   });
 
   it('[multiple]multiple+surname同时使用', () => {
