@@ -46,64 +46,93 @@ npm install pinyin-pro
 - 获取拼音，更多功能请查看[pinyin API](https://pinyin-pro.cn/use/pinyin)
 
   ```js
-  import { pinyin } from 'pinyin-pro';
+  import { pinyin } from "pinyin-pro";
 
   // 获取字符串格式拼音
-  pinyin('汉语拼音'); // 'hàn yǔ pīn yīn'
+  pinyin("汉语拼音"); // 'hàn yǔ pīn yīn'
 
   // 获取数组格式拼音
-  pinyin('汉语拼音', { type: 'array' }); // ["hàn", "yǔ", "pīn", "yīn"]
+  pinyin("汉语拼音", { type: "array" }); // ["hàn", "yǔ", "pīn", "yīn"]
 
   // 获取不带音调数组格式拼音
-  pinyin('汉语拼音', { toneType: 'none' }); // "han yu pin yin"
+  pinyin("汉语拼音", { toneType: "none" }); // "han yu pin yin"
 
   // 获取不带音调数组格式拼音
-  pinyin('汉语拼音', { toneType: 'none', type: 'array' }); // ["han", "yu", "pin", "yin"]
+  pinyin("汉语拼音", { toneType: "none", type: "array" }); // ["han", "yu", "pin", "yin"]
 
   // 音调以数组形式显示
-  pinyin('汉语拼音', { toneType: 'num' }); // "han4 yu3 pin1 yin1"
+  pinyin("汉语拼音", { toneType: "num" }); // "han4 yu3 pin1 yin1"
 
   // 自动识别多音字
-  pinyin('睡着了'); // "shuì zháo le"
+  pinyin("睡着了"); // "shuì zháo le"
+  ```
+
+- 使用词典，获取更准确的拼音。( `pinyin-pro` 内置了一些高频常用词的词典，想要保证高准确率，需要应用更完备的词典)
+
+  ```js
+  import { pinyin, addDict } from "pinyin-pro";
+  // 引入前需要先通过 `npm install @pinyin-pro/data` 进行安装
+  import ModernChineseDict from "@pinyin-pro/data/modern.json";
+  import CompleteDict from "@pinyin-pro/data/complete.json";
+
+  // 默认使用内置的简单词典
+  const result1 = pinyin(
+    "小明硕士毕业于中国科学院计算所，后在日本京都大学深造"
+  );
+  // 结果: xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dōu dà xué shēn zào
+
+  // 使用现代汉语词典数据(gzip压缩后大概0.6MB，根据自己的需求决定是否使用)
+  addDict(ModernChineseDict);
+  const result2 = pinyin(
+    "小明硕士毕业于中国科学院计算所，后在日本京都大学深造"
+  );
+  // 结果: xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào
+
+  // 使用完备词典数据(词汇量更全，拼音转换率更加准确，gzip压缩后大概3.99MB，根据自己的需求决定是否使用)
+  addDict(CompleteDict);
+  const result3 = pinyin(
+    "小明硕士毕业于中国科学院计算所，后在日本京都大学深造"
+  );
+  // 结果: xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào
   ```
 
 - 文本和拼音匹配，更多匹配规则请查看[match API](https://pinyin-pro.cn/use/match)
 
   ```js
-  import { match } from 'pinyin-pro';
+  import { match } from "pinyin-pro";
 
   // 支持首字母匹配
-  match('中文拼音', 'zwp'); // [0, 1, 2]
+  match("中文拼音", "zwp"); // [0, 1, 2]
 
   // 支持全拼匹配
-  match('中文拼音', 'zhongwenpin'); // [0, 1, 2]
+  match("中文拼音", "zhongwenpin"); // [0, 1, 2]
 
   // 支持混合匹配
-  match('中文拼音', 'zhongwp'); // [0, 1, 2]
+  match("中文拼音", "zhongwp"); // [0, 1, 2]
   ```
 
 - 拼音格式转换，更多功能请查看[convert API](https://pinyin-pro.cn/use/convert)
 
   ```js
-  import { convert } from 'pinyin-pro';
+  import { convert } from "pinyin-pro";
 
   // 数组转符号
-  convert('pin1 yin1'); // 'pīn yīn'
+  convert("pin1 yin1"); // 'pīn yīn'
 
   // 符号转数字
-  convert('pīn yīn', { format: 'symbolToNum' }); // 'pin1 yin1'
+  convert("pīn yīn", { format: "symbolToNum" }); // 'pin1 yin1'
 
   // 消除符号
-  convert('pīn yīn', { format: 'toneNone' }); // 'pin yin'
+  convert("pīn yīn", { format: "toneNone" }); // 'pin yin'
   ```
 
 - 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html)
 
   ```js
-  import { html } from 'pinyin-pro';
+  import { html } from "pinyin-pro";
 
   // 带拼音汉字的 HTML 字符串
-  html('汉语拼音');
+  html("汉语拼音");
   /*
   <span class="py-result-item">
   <ruby>
@@ -157,12 +186,12 @@ npm install pinyin-pro
     </tr>
     <tr>
         <td rowspan="2" colspan="2">准确率</td>
-        <td>😕 Node 版: 95.277%</td>
-        <td rowspan="2">😕 95.123%</td>
+        <td>😕 Node 版: 94.097%</td>
+        <td rowspan="2">😕 94.097%</td>
         <td rowspan="2">🤩 99.846%</td>
     </tr>
     <tr>
-        <td>😕 Web 版: 92.197%	</td>
+        <td>😕 Web 版: 91.170%	</td>
     </tr>
     <tr>
         <td rowspan="3">性能</td>
@@ -181,7 +210,7 @@ npm install pinyin-pro
         <td>100w字转换耗时</td>
         <td>⛔ 内存溢出转换失败</td>
         <td>🚀 638.888ms</td>
-        <td>🚀 607.131ms</td>
+        <td>🚀 820.131ms</td>
     </tr>
     <tr>
         <td rowspan="2">兼容性</td>

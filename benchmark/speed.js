@@ -9537,7 +9537,7 @@ const text = `
 
 const pinyinProLabel = `pinyin-pro 转换 ${text.length} 字数时间`;
 console.time(pinyinProLabel);
-pinyinPro(text);
+pinyinPro(text, { segmentit: 1 });
 console.timeEnd(pinyinProLabel);
 
 const nApiPinyinLabel = `@napi-rs/pinyin 转换 ${text.length} 字数时间`;

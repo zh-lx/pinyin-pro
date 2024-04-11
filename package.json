@@ -7,7 +7,7 @@
   "typings": "./types/index.d.ts",
   "scripts": {
     "test": "mocha",
-    "build": "rollup -c && rollup -c rollup.esm.config.js && cpx ./lib/data/dict.json ./dist",
+    "build": "rollup -c && rollup -c rollup.esm.config.js",
     "commit": "git-cz",
     "coverage": "istanbul cover _mocha -- -R spec --timeout 15000 --recursive",
     "coverage:check": "istanbul check-coverage",
@@ -56,6 +56,7 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@pinyin-pro/data": "^1.0.2",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
