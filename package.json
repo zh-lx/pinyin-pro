@@ -50,6 +50,7 @@
         "default": "./dist/index.js"
       }
     },
+    "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
   "devDependencies": {
