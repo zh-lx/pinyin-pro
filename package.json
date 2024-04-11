@@ -49,7 +49,9 @@
         "types": "./types/index.d.ts",
         "default": "./dist/index.js"
       }
-    }
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
