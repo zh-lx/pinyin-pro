@@ -2,10 +2,16 @@
 
 ## 3.20.0
 
+- 【feat】支持通过 `addDict` api 自定义词典
 - 【feat】增加 `一` 和 `不` 的变调智能识别，可通过 `toneSandhi` 参数控制开启和关闭,参考: [维基百科](https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83)
 - 【feat】增加 `行`、`斗`、`重` 前面跟数量词时的发音智能识别
 - 【feat】增加 `了` 在起始的发音智能识别
 - 【feat】html api 增加 `customClassMap` 选项用于对指定字增加自定义类名
+- 【feat】应用了新的分词算法，支持传入词典，分词更加准确
+- 【feat】`all` 模式新增 `polyphonic` 和 `inZhRange` 属性
+- 【fix】修复了使用 `customPinyin` api 时的效率低下的问题
+- 【fix】修复 `multiple` 和 `surname` 一同使用的部分问题
+- 【fix】修复 `multiple` 模式只有一个非中文时丢失该字符的问题
 - 【patch】校正部分词语的拼音
 
 ## 3.19.6

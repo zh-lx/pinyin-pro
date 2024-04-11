@@ -17,7 +17,7 @@ export function addDict(dict: DICT | {}, name?: string) {
       patterns.push({
         zh: key,
         pinyin: value,
-        probability: Probability.DICT,
+        probability: Probability.DICT * key.length * key.length,
         length: key.length,
         priority: Priority.Normal,
         dict: name || Symbol(""),
@@ -26,7 +26,7 @@ export function addDict(dict: DICT | {}, name?: string) {
       patterns.push({
         zh: key,
         pinyin: value[0],
-        probability: typeof value[1] === "number" ? value[1] : Probability.DICT,
+        probability: typeof value[1] === "number" ? value[1] : Probability.DICT * key.length * key.length,
         length: key.length,
         priority: Priority.Normal,
         dict: name || Symbol(""),
