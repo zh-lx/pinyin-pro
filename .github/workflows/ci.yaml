@@ -9,7 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -18,4 +23,10 @@ jobs:
         run: npm run build
 
       - name: Run tests with coverage
-        run: export CODECOV_TOKEN="${{ secrets.CODECOV_TOKEN }}" && npm run cover
+        run: npm run test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # 添加你的 Codecov token
+          slug: zh-lx/pinyin-pro
