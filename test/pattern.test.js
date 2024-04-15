@@ -77,4 +77,27 @@ describe('pattern', () => {
     });
     expect(resultFirstNone).to.be.equal('z q s l e');
   });
+
+  it('[pattern]nonZh', () => {
+    const resultNonZhInitial = pinyin('a', {
+      pattern: 'initial',
+    });
+    const resultNonZhFinal = pinyin('a', {
+      pattern: 'final',
+    });
+    const resultNonZhFinalHead = pinyin('a', {
+      pattern: 'finalHead',
+    });
+    const resultNonZhFinalBody = pinyin('a', {
+      pattern: 'finalBody',
+    });
+    const resultNonZhFinalTail = pinyin('a', {
+      pattern: 'finalTail',
+    });
+    expect(resultNonZhInitial).to.deep.equal('');
+    expect(resultNonZhFinal).to.deep.equal('');
+    expect(resultNonZhFinalHead).to.deep.equal('');
+    expect(resultNonZhFinalBody).to.deep.equal('');
+    expect(resultNonZhFinalTail).to.deep.equal('');
+  });
 });

@@ -46,4 +46,15 @@ describe('convert', () => {
     const result = convert('lv4 se4');
     expect(result).to.be.equal('lǜ sè');
   });
+
+  it('[convert]format noen', () => {
+    // @ts-ignore
+    const result = convert('lv4 se4', { format: 'none' });
+    expect(result).to.be.equal('lv4 se4');
+  });
+
+  it('[convert]numToSymbol abnormal', () => {
+    const result = convert('l2', { format: 'numToSymbol' });
+    expect(result).to.be.equal('l2');
+  });
 });

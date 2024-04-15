@@ -120,6 +120,37 @@ describe('match', () => {
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
 
+  it('[match]lastPrecision ignore space', () => {
+    const result = match('汉语 拼音', 'hanyu pini', { lastPrecision: 'any', space: 'ignore' });
+    expect(result).to.deep.equal([0, 1, 3, 4]);
+  });
+
+  it('[match]lastPrecision preserve space', () => {
+    const result = match('汉语 拼音', 'hanyu pini', { lastPrecision: 'any', space: 'preserve' });
+    expect(result).to.deep.equal([0, 1, 2, 3, 4]);
+  });
+
+  it('[match]precision preserve space', () => {
+    const result = match('汉语 拼音', 'hanyu pini', { precision: 'any', space: 'preserve' });
+    expect(result).to.deep.equal([0, 1, 2, 3, 4]);
+  });
+
+  it('[match]precision not continuous', () => {
+    const result = match('汉语 拼音', 'hanyu yin', { precision: 'any', space: 'preserve', continuous: true });
+    expect(result).to.deep.equal(null);
+  });
+
+  it('[match]precision continuous', () => {
+    const result = match('汉语 拼音', 'hanyu pinyin', { precision: 'any', space: 'preserve', continuous: true });
+    expect(result).to.deep.equal([0, 1, 2, 3, 4]);
+  });
+
+  it('[match]lastPrecision none', () => {
+    // @ts-ignore
+    const result = match('汉语拼音', 'hanyupini', { lastPrecision: 'none' });
+    expect(result).to.deep.equal(null);
+  });
+
   it('[match]insensitive', () => {
     const result = match('汉语KK拼音', 'hanyukkpinyin');
     expect(result).to.deep.equal([0, 1, 2, 3, 4, 5]);

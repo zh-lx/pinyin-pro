@@ -151,9 +151,7 @@ export const getAllPinyin: GetAllPinyin = (word, mode = "normal") => {
   const customMultpileDict = getCustomMultpileDict();
   let pinyin = DICT1[wordCode] ? DICT1[wordCode].split(" ") : [];
   if (customMultpileDict[wordCode]) {
-    pinyin = customMultpileDict[wordCode]
-      ? customMultpileDict[wordCode].split(" ")
-      : [];
+    pinyin = customMultpileDict[wordCode].split(" ");
   } else if (mode === "surname") {
     const surnamePinyin = Surnames[word];
     if (surnamePinyin) {

@@ -44,7 +44,6 @@ export declare class AC {
     addPatternToDictMap(pattern: Pattern): void;
     addNodeToQueues(trieNode: TrieNode): void;
     insertPattern(patterns: Pattern[], pattern: Pattern): void;
-    reset(): void;
     removeDict(dictName: string | symbol): void;
     match(text: string, isSurname?: boolean): MatchPattern[];
     search(text: string, isSurname?: boolean, algorithm?: TokenizationAlgorithm): MatchPattern[];

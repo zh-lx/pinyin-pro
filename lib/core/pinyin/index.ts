@@ -224,7 +224,7 @@ function pinyin(
 
   let list: SingleWordResult[] = Array(word.length);
 
-  list = getPinyin(word, list, options.mode || 'normal', options.segmentit as TokenizationAlgorithm);
+  list = getPinyin(word, list, options.mode as 'normal', options.segmentit as TokenizationAlgorithm);
 
   // 一和不变调处理
   list = middlewareToneSandhi(list, options.toneSandhi as boolean);

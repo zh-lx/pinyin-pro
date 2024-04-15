@@ -95,21 +95,19 @@ export class AC {
     let queue: TrieNode[] = [];
     let queueIndex = 0;
     this.queues.forEach(_queue => {
-      if (_queue) {
-        queue = queue.concat(_queue);
-      }
+      queue = queue.concat(_queue);
     })
     this.queues = [];
 
     while (queue.length > queueIndex) {
       let node = queue[queueIndex++] as TrieNode;
-      let failNode = node?.parent?.fail as TrieNode | null;
+      let failNode = node && node.parent && node.parent.fail as TrieNode | null;
       let key = node.key;
 
-      while (failNode !== null && !failNode.children.has(key)) {
+      while (failNode && !failNode.children.has(key)) {
         failNode = failNode.fail;
       }
-      if (failNode === null) {
+      if (!failNode) {
         node.fail = this.root;
       } else {
         node.fail = failNode.children.get(key) as TrieNode;
@@ -122,7 +120,7 @@ export class AC {
     if (!this.dictMap.has(pattern.dict)) {
       this.dictMap.set(pattern.dict, new Set());
     }
-    this.dictMap.get(pattern.dict)?.add(pattern);
+    (this.dictMap.get(pattern.dict) as Set<Pattern>).add(pattern);
   }
 
   addNodeToQueues(trieNode: TrieNode) {
@@ -151,15 +149,10 @@ export class AC {
     patterns[0] = pattern;
   }
 
-  // 重新构建树
-  reset() {
-    this.root = new TrieNode(null);
-  }
-
   removeDict(dictName: string | symbol) {
     if (this.dictMap.has(dictName)) {
-      const set = this.dictMap.get(dictName);
-      set?.forEach((pattern) => {
+      const set = this.dictMap.get(dictName) as Set<Pattern>;
+      set.forEach((pattern) => {
         (pattern.node as TrieNode).patterns = (
           pattern.node as TrieNode
         ).patterns.filter((_pattern) => _pattern !== pattern);
