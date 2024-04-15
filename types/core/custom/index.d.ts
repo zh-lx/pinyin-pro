@@ -18,11 +18,7 @@ interface CustomPinyinOptions {
 export declare function customPinyin(config?: {
     [key: string]: string;
 }, options?: CustomPinyinOptions): void;
-export declare const getCustomDict: () => {
-    [key: string]: string;
-};
 export declare const getCustomMultpileDict: () => string[];
 export declare const getCustomPolyphonicDict: () => string[];
 export declare function clearCustomDict(dict: CustomDictType | CustomDictType[]): void;
-export declare function hasCustomConfig(): boolean;
 export {};
