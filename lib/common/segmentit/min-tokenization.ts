@@ -1,4 +1,5 @@
-import { MatchPattern, Priority } from ".";
+import { MatchPattern } from ".";
+import { Priority } from "../constant";
 
 type Tokenization = {
   count: number;

@@ -1,5 +1,5 @@
-import { Priority, type Pattern } from '../common/segmentit';
-import { Probability } from '@/common/constant';
+import { Probability, Priority } from '@/common/constant';
+import type { Pattern } from  '../common/segmentit';
 import {
   getSingleWordPinyin,
   getNumOfTone,

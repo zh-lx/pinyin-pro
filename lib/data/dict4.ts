@@ -1,5 +1,5 @@
-import { Probability } from '@/common/constant';
-import { Priority, type Pattern } from '../common/segmentit';
+import { Probability, Priority } from '@/common/constant';
+import type { Pattern } from  '../common/segmentit';
 const DICT4: { [prop: string]: string } = {
   成吉思汗: "chéng jí sī hán",
   四通八达: "sì tōng bā dá",

@@ -1,5 +1,5 @@
-const { pinyin } = require('../');
-const expect = require('chai').expect;
+import { pinyin } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe('[get-num-of-tone]getNumOfTone', () => {
   it('no tone', () => {

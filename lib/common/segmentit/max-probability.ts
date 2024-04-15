@@ -1,5 +1,5 @@
-import { MatchPattern, Priority } from ".";
-import { Probability } from "../constant";
+import { MatchPattern } from ".";
+import { Probability, Priority } from "../constant";
 
 type ProbabilityItem = {
   probability: number;

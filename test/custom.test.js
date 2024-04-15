@@ -1,5 +1,9 @@
-const { pinyin, customPinyin, clearCustomDict, polyphonic } = require('../');
-const expect = require('chai').expect;
+import { pinyin, addDict, customPinyin, clearCustomDict, polyphonic } from '../lib/index';
+import { expect, describe, it } from 'vitest';
+
+const completeDict = require("@pinyin-pro/data/complete.json");
+
+addDict(completeDict);
 
 function clearAllCustomDicts() {
   clearCustomDict('pinyin');

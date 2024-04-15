@@ -8,3 +8,8 @@ export const enum Probability {
   Surname = 1,
   Custom = 1,
 }
+export const Priority = {
+  Normal: 1,
+  Surname: 10,
+  Custom: 100,
+}

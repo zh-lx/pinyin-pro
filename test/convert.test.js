@@ -1,5 +1,5 @@
-const { convert } = require('../');
-const expect = require('chai').expect;
+import { convert } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe('convert', () => {
   it('[convert]default', () => {

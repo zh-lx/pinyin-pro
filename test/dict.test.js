@@ -1,5 +1,5 @@
-const { pinyin, addDict, removeDict } = require("../");
-const expect = require("chai").expect;
+import { pinyin, addDict, removeDict } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe("addDict", () => {
   it("[addDict]string dict", () => {

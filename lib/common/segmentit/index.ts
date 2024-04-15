@@ -7,17 +7,12 @@ import { PatternSurname } from "@/data/surname";
 import { maxProbability } from "./max-probability";
 import { minTokenization } from "./min-tokenization";
 import { reverseMaxMatch } from "./reverse-max-match";
+import { Priority } from '@/common/constant';
 
 export const enum TokenizationAlgorithm {
   ReverseMaxMatch = 1,
   MaxProbability = 2,
   MinTokenization = 3,
-}
-
-export const enum Priority {
-  Normal = 1,
-  Surname = 10,
-  Custom = 100,
 }
 
 /**

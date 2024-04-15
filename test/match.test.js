@@ -1,5 +1,5 @@
-const { match } = require('../');
-const expect = require('chai').expect;
+import { match } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe('match', () => {
   it('[match]default', () => {
