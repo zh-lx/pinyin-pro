@@ -19,9 +19,6 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run cover
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # 添加你的 Codecov token
           slug: zh-lx/pinyin-pro
