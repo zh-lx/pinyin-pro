@@ -96,7 +96,7 @@ export class AC {
 
     while (queue.length > queueIndex) {
       let node = queue[queueIndex++] as TrieNode;
-      let failNode = node && node.parent && node.parent.fail as TrieNode | null;
+      let failNode = node.parent && node.parent.fail as TrieNode | null;
       let key = node.key;
 
       while (failNode && !failNode.children.has(key)) {

@@ -1,4 +1,4 @@
-import { DoubleUnicodePrefixReg, DoubleUnicodeSuffixReg, DoubleUnicodeReg } from './constant';
+import { DoubleUnicodeReg } from './constant';
 
 export function getStringLength(string: string) {
   return string.replace(DoubleUnicodeReg, '_').length;
