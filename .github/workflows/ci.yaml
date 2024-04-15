@@ -18,7 +18,4 @@ jobs:
         run: npm run build
 
       - name: Run tests with coverage
-        run: npm run cover
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # 添加你的 Codecov token
-          slug: zh-lx/pinyin-pro
+        run: npm run cover --token=${{ secrets.CODECOV_TOKEN }}
