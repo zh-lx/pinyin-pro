@@ -13,16 +13,7 @@ export function addDict(dict: DICT | {}, name?: string) {
   const patterns: Pattern[] = [];
   for (let key in dict as DICT) {
     const value = (dict as DICT)[key];
-    if (typeof value === "string") {
-      patterns.push({
-        zh: key,
-        pinyin: value,
-        probability: Probability.DICT * key.length * key.length,
-        length: key.length,
-        priority: Priority.Normal,
-        dict: name || Symbol(""),
-      });
-    } else if (Array.isArray(value)) {
+    if (Array.isArray(value)) {
       patterns.push({
         zh: key,
         pinyin: value[0],
@@ -31,6 +22,15 @@ export function addDict(dict: DICT | {}, name?: string) {
         priority: Priority.Normal,
         dict: name || Symbol(""),
         pos: typeof value[2] === "string" ? value[2] : "",
+      });
+    } else {
+      patterns.push({
+        zh: key,
+        pinyin: value,
+        probability: Probability.DICT * key.length * key.length,
+        length: key.length,
+        priority: Priority.Normal,
+        dict: name || Symbol(""),
       });
     }
   }

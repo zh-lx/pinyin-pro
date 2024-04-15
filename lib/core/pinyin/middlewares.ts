@@ -206,7 +206,7 @@ export const middlewareType = (
       };
     });
   }
-  return list.map((item) => item.result).join(options.separator ?? ' ');
+  return list.map((item) => item.result).join(options.separator);
 };
 
 // 处理双 Unicode 编码字符，将第二个删除

@@ -46,8 +46,7 @@ export function customPinyin(
     priority: Priority.Custom,
     dict: CustomDictName,
   }));
-  acTree.buildTrie(customPatterns);
-  acTree.buildFailPointer();
+  acTree.build(customPatterns);
   // add words for multiple and polyphonic
   if (options?.multiple) {
     addCustomConfigToDict(config, customMultipleDict, options.multiple);
@@ -65,12 +64,12 @@ function addCustomConfigToDict(
   for (let key in config) {
     const pinyins = config[key];
     key.split('').forEach((word, index) => {
-      const pinyin = pinyins.split(' ')?.[index] || '';
+      const pinyin = pinyins.split(' ')[index] || '';
       const wordCode = word.charCodeAt(0);
       if (handleType === 'replace') {
         // 直接覆盖原词典
         dict[wordCode] = pinyin;
-      } else if (handleType === 'add') {
+      } else {
         // 补充至原词典
         dict[wordCode] = dict[wordCode] || DICT1[wordCode];
         if (!dict[wordCode].split(' ').includes(pinyin)) {
@@ -95,20 +94,16 @@ export const getCustomPolyphonicDict = () => {
 };
 
 export function clearCustomDict(dict: CustomDictType | CustomDictType[]) {
-  if (!dict) {
-    console.error('The parameter of clearCustomDict is not correct.');
-    return;
-  }
-  if (dict === 'pinyin' || dict.indexOf?.('pinyin') !== -1) {
+  if (dict === 'pinyin' || dict.indexOf('pinyin') !== -1) {
     Object.keys(customDict).forEach(function (key) {
       delete customDict[key];
     });
     acTree.removeDict(CustomDictName);
   }
-  if (dict === 'multiple' || dict.indexOf?.('multiple') !== -1) {
+  if (dict === 'multiple' || dict.indexOf('multiple') !== -1) {
     customMultipleDict.length = 0;
   }
-  if (dict === 'polyphonic' || dict.indexOf?.('polyphonic') !== -1) {
+  if (dict === 'polyphonic' || dict.indexOf('polyphonic') !== -1) {
     customPolyphonicDict.length = 0;
   }
 }

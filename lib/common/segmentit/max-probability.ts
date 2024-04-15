@@ -9,12 +9,9 @@ type ProbabilityItem = {
 };
 
 // 根据 probability 和 decimal 获取两个概率中最大的
-function getMaxProbability(a: ProbabilityItem, b: ProbabilityItem, pattern?: MatchPattern) {
+function getMaxProbability(a: ProbabilityItem, b: ProbabilityItem) {
   if (!a) {
     return b;
-  }
-  if (!b) {
-    return a;
   }
   if (a.decimal < b.decimal) {
     return a;

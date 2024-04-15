@@ -11,9 +11,6 @@ function getMinCount(a: Tokenization, b: Tokenization) {
   if (!a) {
     return b;
   }
-  if (!b) {
-    return a;
-  }
   return a.count <= b.count ? a : b;
 }
 

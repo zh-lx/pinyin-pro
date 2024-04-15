@@ -62,11 +62,11 @@ function convert(pinyin: string | string[], options?: ConvertOptions) {
   const originType = typeof pinyin;
 
   if (typeof pinyin === 'string') {
-    pinyin = pinyin.split(options.separator || ' ');
+    pinyin = pinyin.split(options.separator as string);
   }
 
   pinyin = pinyin.map((item) => {
-    const format = options?.format;
+    const format = (options as ConvertOptions).format as ConvertFormat;
     if (format === 'numToSymbol') {
       return formatNumToSymbol(item);
     } else if (format === 'symbolToNum') {
