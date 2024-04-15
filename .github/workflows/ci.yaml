@@ -18,4 +18,4 @@ jobs:
         run: npm run build
 
       - name: Run tests with coverage
-        run: npm run cover --token=${{ secrets.CODECOV_TOKEN }}
+        run: export CODECOV_TOKEN="${{ secrets.CODECOV_TOKEN }}" && npm run cover
