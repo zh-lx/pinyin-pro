@@ -18,7 +18,7 @@ jobs:
         run: npm run build
 
       - name: Run tests with coverage
-        run: npm run cover && cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
+        run: npm run coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
