@@ -7,17 +7,12 @@ import { PatternSurname } from "@/data/surname";
 import { maxProbability } from "./max-probability";
 import { minTokenization } from "./min-tokenization";
 import { reverseMaxMatch } from "./reverse-max-match";
+import { Priority } from '@/common/constant';
 
 export const enum TokenizationAlgorithm {
   ReverseMaxMatch = 1,
   MaxProbability = 2,
   MinTokenization = 3,
-}
-
-export const enum Priority {
-  Normal = 1,
-  Surname = 10,
-  Custom = 100,
 }
 
 /**
@@ -101,7 +96,7 @@ export class AC {
 
     while (queue.length > queueIndex) {
       let node = queue[queueIndex++] as TrieNode;
-      let failNode = node && node.parent && node.parent.fail as TrieNode | null;
+      let failNode = node.parent && node.parent.fail as TrieNode | null;
       let key = node.key;
 
       while (failNode && !failNode.children.has(key)) {

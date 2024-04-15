@@ -1,5 +1,5 @@
-const { polyphonic } = require('../');
-const expect = require('chai').expect;
+import { polyphonic } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe('polyphonic', () => {
   it('[polyphonic]normal', () => {
@@ -110,6 +110,7 @@ describe('polyphonic', () => {
   });
 
   it('[polyphonic]type error', () => {
+    // @ts-ignore
     const result = polyphonic(11);
     expect(result).to.deep.equal([]);
   });

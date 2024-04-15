@@ -1,5 +1,5 @@
-import { Probability } from '@/common/constant';
-import { Priority, type Pattern } from '../common/segmentit';
+import { Probability, Priority } from '@/common/constant';
+import type { Pattern } from  '../common/segmentit';
 const DICT3: { [prop: string]: string } = {
   为什么: 'wèi shén me',
   实际上: 'shí jì shang',

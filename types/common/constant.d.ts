@@ -8,3 +8,8 @@ export declare const enum Probability {
     Surname = 1,
     Custom = 1
 }
+export declare const Priority: {
+    Normal: number;
+    Surname: number;
+    Custom: number;
+};

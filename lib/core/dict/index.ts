@@ -1,5 +1,5 @@
-import { Probability } from "@/common/constant";
-import { Pattern, Priority, acTree } from "@/common/segmentit";
+import { Priority, Probability } from "@/common/constant";
+import { Pattern, acTree } from "@/common/segmentit";
 
 type DICT = {
   [key: string]:

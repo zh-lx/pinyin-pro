@@ -3,11 +3,6 @@ export declare const enum TokenizationAlgorithm {
     MaxProbability = 2,
     MinTokenization = 3
 }
-export declare const enum Priority {
-    Normal = 1,
-    Surname = 10,
-    Custom = 100
-}
 /**
  * @description: AC 自动机
  */

@@ -1,4 +1,4 @@
-import { type Pattern } from '../common/segmentit';
+import type { Pattern } from '../common/segmentit';
 export declare const InitialList: string[];
 export declare const SpecialInitialList: string[];
 export declare const SpecialFinalList: string[];

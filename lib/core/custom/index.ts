@@ -1,5 +1,5 @@
-import { acTree, PatternsNormal, Priority } from '@/common/segmentit';
-import { Probability } from '@/common/constant';
+import { acTree } from '@/common/segmentit';
+import { Probability, Priority } from '@/common/constant';
 import { getStringLength } from '@/common/utils';
 import DICT1 from '@/data/dict1';
 let customDict: { [key: string]: string } = {};
@@ -81,10 +81,6 @@ function addCustomConfigToDict(
   }
 }
 
-export const getCustomDict = () => {
-  return customDict;
-};
-
 export const getCustomMultpileDict = () => {
   return customMultipleDict;
 };
@@ -106,8 +102,4 @@ export function clearCustomDict(dict: CustomDictType | CustomDictType[]) {
   if (dict === 'polyphonic' || dict.indexOf('polyphonic') !== -1) {
     customPolyphonicDict.length = 0;
   }
-}
-
-export function hasCustomConfig() {
-  return !!Object.keys(customDict).length;
 }

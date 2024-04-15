@@ -1,4 +1,4 @@
-import { type Pattern } from '../common/segmentit';
+import type { Pattern } from '../common/segmentit';
 declare const DICT4: {
     [prop: string]: string;
 };

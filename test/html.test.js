@@ -1,5 +1,5 @@
-const { html } = require('../');
-const expect = require('chai').expect;
+import { html } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe('html', () => {
   it('[html]正常拼音', () => {

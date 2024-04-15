@@ -1,5 +1,5 @@
-const { pinyin } = require('../');
-const expect = require('chai').expect;
+import { pinyin } from '../lib/index';
+import { expect, describe, it } from 'vitest';
 
 describe('final', () => {
   it('[final]head', () => {

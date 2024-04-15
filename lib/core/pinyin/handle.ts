@@ -10,10 +10,11 @@ import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
 import { getCustomMultpileDict } from '@/core/custom';
 import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { acTree, Priority, TokenizationAlgorithm } from '@/common/segmentit';
+import { acTree, TokenizationAlgorithm } from '@/common/segmentit';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
+  Priority,
 } from '@/common/constant';
 
 /**
@@ -27,30 +28,6 @@ export const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
   const pinyin = DICT1[wordCode];
   // 若查到, 则返回第一个拼音; 若未查到, 返回原字符
   return pinyin ? pinyin.split(' ')[0] : word;
-};
-
-// 处理双 Unicode 编码字符，将第二个删除
-const handleUnicodeCharacters = (
-  list: SingleWordResult[]
-): SingleWordResult[] => {
-  for (let i = list.length - 2; i >= 0; i--) {
-    const cur = list[i];
-    const next = list[i + 1];
-    if (
-      DoubleUnicodePrefixReg.test(cur.origin) &&
-      DoubleUnicodeSuffixReg.test(next.origin)
-    ) {
-      cur.origin += next.origin;
-      cur.result += next.result;
-      cur.originPinyin = cur.result;
-      next.delete = true;
-      i--;
-    }
-  }
-  list = list.filter((item) => {
-    return !item.delete;
-  });
-  return list;
 };
 
 export const getPinyin = (
