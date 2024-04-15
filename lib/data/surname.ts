@@ -1,5 +1,5 @@
-import { Probability } from '@/common/constant';
-import { Priority, type Pattern } from '../common/segmentit';
+import { Probability, Priority } from '@/common/constant';
+import type { Pattern } from  '../common/segmentit';
 const Surnames: { [key: string]: string } = {
   南宫: 'nán gōng',
   第五: 'dì wǔ',

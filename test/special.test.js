@@ -1,5 +1,9 @@
-const { pinyin } = require("../");
-const expect = require("chai").expect;
+import { pinyin, addDict } from '../lib/index';
+import { expect, describe, it } from 'vitest';
+
+const completeDict = require("@pinyin-pro/data/complete.json");
+
+addDict(completeDict);
 
 describe("number", () => {
   it("[number]数字发音 一行", () => {
