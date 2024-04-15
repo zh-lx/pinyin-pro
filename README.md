@@ -2,9 +2,10 @@
 
 [![NPM version](https://img.shields.io/npm/v/pinyin-pro.svg)](https://www.npmjs.com/package/pinyin-pro)
 [![GITHUB star](https://img.shields.io/github/stars/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
-[![travis-build](https://travis-ci.com/zh-lx/pinyin-pro.svg?branch=main)](https://travis-ci.com/github/zh-lx/pinyin-pro)
+[![build-passing](https://img.shields.io/github/actions/workflow/status/zh-lx/pinyin-pro/ci.yaml)](https://github.com/zh-lx/pinyin-pro/actions)
 [![NPM Downloads](https://img.shields.io/npm/dm/pinyin-pro.svg)](https://npmcharts.com/compare/pinyin-pro?minimal=true)
-[![Coverage Status](https://coveralls.io/repos/github/zh-lx/pinyin-pro/badge.svg?branch=main)](https://coveralls.io/github/zh-lx/pinyin-pro?branch=main)
+[![Coverage Status](https://img.shields.io/codecov/c/github/zh-lx/pinyin-pro)](https://app.codecov.io/gh/zh-lx/pinyin-pro)
+[![DeepScan grade](https://deepscan.io/api/teams/20303/projects/26161/branches/829070/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=20303&pid=26161&bid=829070)
 [![MIT-license](https://img.shields.io/npm/l/pinyin-pro.svg)](https://opensource.org/licenses/MIT)
 [![GITHUB-language](https://img.shields.io/github/languages/top/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
 
