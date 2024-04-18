@@ -209,11 +209,11 @@ const getPolyphonicList = (text: string): SingleWordResult[] => {
   return text.split('').map((word) => {
     const wordCode = word.charCodeAt(0);
     const customPolyphonicDict = getCustomPolyphonicDict();
-    const pinyin = customPolyphonicDict[wordCode] || DICT1[wordCode] || '';
+    const pinyin = customPolyphonicDict[wordCode] || DICT1[wordCode] || word;
     return {
       origin: word,
       result: pinyin,
-      isZh: !!pinyin,
+      isZh: pinyin !== word,
       originPinyin: pinyin,
     };
   });
