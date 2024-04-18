@@ -122,7 +122,7 @@ describe('polyphonic', () => {
 
   it('[polyphonic]nonzh', () => {
     const result = polyphonic('好好学习s');
-    expect(result).to.deep.equal(['hǎo hào', 'hǎo hào', 'xué', 'xí', '']);
+    expect(result).to.deep.equal(['hǎo hào', 'hǎo hào', 'xué', 'xí', 's']);
   });
 
   it('[polyphonic]all&nonZh', () => {
