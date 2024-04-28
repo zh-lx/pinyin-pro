@@ -57,4 +57,9 @@ describe('convert', () => {
     const result = convert('l2', { format: 'numToSymbol' });
     expect(result).to.be.equal('l2');
   });
+
+  it('[convert]numToSymbol iu', () => {
+    const result = convert('liu2', { format: 'numToSymbol' });
+    expect(result).to.be.equal('liú');
+  });
 });
