@@ -1785,7 +1785,7 @@ const DICT2: { [prop: string]: string } = {
   哨卡: 'shào qiǎ',
   烫发: 'tàng fà',
   体量: 'tǐ liàng',
-  挺括: 'tǐng guā',
+  挺括: 'tǐng kuò',
   系带: 'jì dài',
   相士: 'xiàng shì',
   羊圈: 'yáng juàn',
@@ -2179,6 +2179,7 @@ const DICT2: { [prop: string]: string } = {
   行行: 'háng háng',
   哪行: 'nǎ háng',
   不行: 'bù xíng',
+  轧轧: 'yà yà',
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
