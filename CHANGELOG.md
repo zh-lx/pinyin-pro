@@ -1,5 +1,10 @@
 # 更新日志
 
+## 3.20.3
+
+- 【fix】修复 `convert` api 对于 `iu` 韵母声调转换不正确的问题
+- 【patch】修复部分字词读音，详见 [#232](https://github.com/zh-lx/pinyin-pro/pull/232)
+
 ## 3.20.2
 
 - 【fix】修复 `polyphonic` 和 `pinyin` 对非中文字符转换表现不一致的问题
