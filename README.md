@@ -1,4 +1,4 @@
-[![pinyin-pro Logo](https://github.com/zh-lx/pinyin-pro/assets/73059627/79ffc02d-d223-40f9-a223-ddd2a9c9534b)](https://github.com/zh-lx/pinyin-pro)
+<a href="https://github.com/zh-lx/pinyin-pro"><img src="https://cdn.jsdelivr.net/gh/zh-lx/static-img/pinyin-pro/logo.svg" alt="logo" width="500" /></a>
 
 [![NPM version](https://img.shields.io/npm/v/pinyin-pro.svg)](https://www.npmjs.com/package/pinyin-pro)
 [![GITHUB star](https://img.shields.io/github/stars/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
