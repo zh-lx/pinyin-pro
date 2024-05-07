@@ -10,7 +10,7 @@ import Surnames from '@/data/surname';
 import DICT1 from '@/data/dict1';
 import { getCustomMultpileDict } from '@/core/custom';
 import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { acTree, TokenizationAlgorithm } from '@/common/segmentit';
+import { acTree, TokenizationAlgorithm } from '../../common/segmentit';
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,

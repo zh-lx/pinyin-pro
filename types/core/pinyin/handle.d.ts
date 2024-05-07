@@ -1,5 +1,5 @@
 import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { TokenizationAlgorithm } from '@/common/segmentit';
+import { TokenizationAlgorithm } from '../../common/segmentit';
 /**
  * @description: 获取单个字符的拼音
  * @param {string} word

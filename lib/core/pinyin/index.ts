@@ -1,4 +1,4 @@
-import { TokenizationAlgorithm } from '@/common/segmentit';
+import { TokenizationAlgorithm } from '../../common/segmentit';
 import type { SingleWordResult } from '../../common/type';
 import { getPinyin } from './handle';
 import {
