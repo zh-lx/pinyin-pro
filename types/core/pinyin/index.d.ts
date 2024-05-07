@@ -1,4 +1,4 @@
-import { TokenizationAlgorithm } from '@/common/segmentit';
+import { TokenizationAlgorithm } from '../../common/segmentit';
 interface BasicOptions {
     /**
      * @description 返回的拼音音调类型
