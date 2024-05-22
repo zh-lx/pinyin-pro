@@ -1,5 +1,6 @@
-import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { TokenizationAlgorithm } from '../../common/segmentit';
+import { SingleWordResult } from "../../common/type";
+import type { SurnameMode } from "../../common/type";
+import { TokenizationAlgorithm } from "../../common/segmentit";
 /**
  * @description: 获取单个字符的拼音
  * @param {string} word
@@ -7,7 +8,7 @@ import { TokenizationAlgorithm } from '../../common/segmentit';
  */
 type GetSingleWordPinyin = (word: string) => string;
 export declare const getSingleWordPinyin: GetSingleWordPinyin;
-export declare const getPinyin: (word: string, list: SingleWordResult[], mode: 'normal' | 'surname', segmentit: TokenizationAlgorithm) => SingleWordResult[];
+export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm) => SingleWordResult[];
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin
@@ -20,14 +21,14 @@ declare const getPinyinWithoutTone: GetPinyinWithoutTone;
  * @param {string} word
  * @return {WordResult[]}
  */
-type GetAllPinyin = (word: string, mode?: PinyinMode) => string[];
+type GetAllPinyin = (word: string, surname?: SurnameMode) => string[];
 export declare const getAllPinyin: GetAllPinyin;
 /**
  * @description: 获取单字符的多音拼音
  * @param {string} word
  * @return {WordResult[]}
  */
-type GetMultiplePinyin = (word: string, mode?: PinyinMode) => SingleWordResult[];
+type GetMultiplePinyin = (word: string, surname?: SurnameMode) => SingleWordResult[];
 declare const getMultiplePinyin: GetMultiplePinyin;
 /**
  * @description: 获取拼音的声母和韵母
