@@ -5,17 +5,18 @@ import {
   SpecialFinalList,
   doubleFinalList,
   processSepecialPinyin,
-} from '@/data/special';
-import Surnames from '@/data/surname';
-import DICT1 from '@/data/dict1';
-import { getCustomMultpileDict } from '@/core/custom';
-import type { SingleWordResult, PinyinMode } from '../../common/type';
-import { acTree, TokenizationAlgorithm } from '../../common/segmentit';
+} from "@/data/special";
+import Surnames from "@/data/surname";
+import DICT1 from "@/data/dict1";
+import { getCustomMultpileDict } from "@/core/custom";
+import { SingleWordResult } from "../../common/type";
+import type { SurnameMode } from "../../common/type";
+import { acTree, TokenizationAlgorithm } from "../../common/segmentit";
 import {
   DoubleUnicodePrefixReg,
   DoubleUnicodeSuffixReg,
   Priority,
-} from '@/common/constant';
+} from "@/common/constant";
 
 /**
  * @description: 获取单个字符的拼音
@@ -27,23 +28,23 @@ export const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
   const wordCode = word.charCodeAt(0);
   const pinyin = DICT1[wordCode];
   // 若查到, 则返回第一个拼音; 若未查到, 返回原字符
-  return pinyin ? pinyin.split(' ')[0] : word;
+  return pinyin ? pinyin.split(" ")[0] : word;
 };
 
 export const getPinyin = (
   word: string,
   list: SingleWordResult[],
-  mode: 'normal' | 'surname',
-  segmentit: TokenizationAlgorithm,
+  surname: SurnameMode,
+  segmentit: TokenizationAlgorithm
 ): SingleWordResult[] => {
-  const matches = acTree.search(word, mode === 'surname', segmentit);
+  const matches = acTree.search(word, surname, segmentit);
   let matchIndex = 0;
   for (let i = 0; i < word.length; ) {
     const match = matches[matchIndex];
     if (match && i === match.index) {
       if (match.length === 1 && match.priority <= Priority.Normal) {
         const char = word[i];
-        let pinyin: string = '';
+        let pinyin: string = "";
         pinyin = processSepecialPinyin(char, word[i - 1], word[i + 1]);
         list[i] = {
           origin: char,
@@ -55,7 +56,7 @@ export const getPinyin = (
         matchIndex++;
         continue;
       }
-      const pinyins = match.pinyin.split(' ');
+      const pinyins = match.pinyin.split(" ");
       let pinyinIndex = 0;
       for (let j = 0; j < match.length; j++) {
         if (
@@ -64,9 +65,9 @@ export const getPinyin = (
         ) {
           list[i + j] = {
             origin: match.zh[j],
-            result: '',
+            result: "",
             isZh: true,
-            originPinyin: '',
+            originPinyin: "",
           };
         } else {
           list[i + j] = {
@@ -82,7 +83,7 @@ export const getPinyin = (
       matchIndex++;
     } else {
       const char = word[i];
-      let pinyin: string = '';
+      let pinyin: string = "";
       pinyin = processSepecialPinyin(char, word[i - 1], word[i + 1]);
       list[i] = {
         origin: char,
@@ -104,14 +105,14 @@ export const getPinyin = (
 type GetPinyinWithoutTone = (pinyin: string) => string;
 const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
   return pinyin
-    .replace(/(ā|á|ǎ|à)/g, 'a')
-    .replace(/(ō|ó|ǒ|ò)/g, 'o')
-    .replace(/(ē|é|ě|è)/g, 'e')
-    .replace(/(ī|í|ǐ|ì)/g, 'i')
-    .replace(/(ū|ú|ǔ|ù)/g, 'u')
-    .replace(/(ǖ|ǘ|ǚ|ǜ)/g, 'ü')
-    .replace(/(ń|ň|ǹ)/g, 'n')
-    .replace(/ḿ|m̀/g, 'm');
+    .replace(/(ā|á|ǎ|à)/g, "a")
+    .replace(/(ō|ó|ǒ|ò)/g, "o")
+    .replace(/(ē|é|ě|è)/g, "e")
+    .replace(/(ī|í|ǐ|ì)/g, "i")
+    .replace(/(ū|ú|ǔ|ù)/g, "u")
+    .replace(/(ǖ|ǘ|ǚ|ǜ)/g, "ü")
+    .replace(/(ń|ň|ǹ)/g, "n")
+    .replace(/ḿ|m̀/g, "m");
 };
 
 /**
@@ -119,17 +120,14 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
  * @param {string} word
  * @return {WordResult[]}
  */
-type GetAllPinyin = (
-  word: string,
-  mode?: PinyinMode
-) => string[];
-export const getAllPinyin: GetAllPinyin = (word, mode = "normal") => {
+type GetAllPinyin = (word: string, surname?: SurnameMode) => string[];
+export const getAllPinyin: GetAllPinyin = (word, surname = "off") => {
   const wordCode = word.charCodeAt(0);
   const customMultpileDict = getCustomMultpileDict();
   let pinyin = DICT1[wordCode] ? DICT1[wordCode].split(" ") : [];
   if (customMultpileDict[wordCode]) {
     pinyin = customMultpileDict[wordCode].split(" ");
-  } else if (mode === "surname") {
+  } else if (surname !== "off") {
     const surnamePinyin = Surnames[word];
     if (surnamePinyin) {
       pinyin = [surnamePinyin].concat(
@@ -147,10 +145,10 @@ export const getAllPinyin: GetAllPinyin = (word, mode = "normal") => {
  */
 type GetMultiplePinyin = (
   word: string,
-  mode?: PinyinMode
+  surname?: SurnameMode
 ) => SingleWordResult[];
-const getMultiplePinyin: GetMultiplePinyin = (word, mode = 'normal') => {
-  let pinyin = getAllPinyin(word, mode);
+const getMultiplePinyin: GetMultiplePinyin = (word, surname = "off") => {
+  let pinyin = getAllPinyin(word, surname);
   if (pinyin.length > 0) {
     return pinyin.map((value) => ({
       origin: word,
@@ -180,7 +178,7 @@ type GetInitialAndFinal = (pinyin: string) => {
   initial: string;
 };
 const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
-  const pinyin_arr = pinyin.split(' ');
+  const pinyin_arr = pinyin.split(" ");
   const initial_arr: string[] = [];
   const final_arr: string[] = [];
   for (let _pinyin of pinyin_arr) {
@@ -201,8 +199,8 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
     }
   }
   return {
-    final: final_arr.join(' '), // 韵母
-    initial: initial_arr.join(' '), // 声母
+    final: final_arr.join(" "), // 韵母
+    initial: initial_arr.join(" "), // 声母
   };
 };
 
@@ -218,16 +216,16 @@ type GetFinalParts = (pinyin: string) => {
 };
 const getFinalParts: GetFinalParts = (pinyin) => {
   const { final } = getInitialAndFinal(pinyin);
-  let head = '',
-    body = '',
-    tail = '';
+  let head = "",
+    body = "",
+    tail = "";
   if (doubleFinalList.indexOf(getPinyinWithoutTone(final)) !== -1) {
     head = final[0];
     body = final[1];
     tail = final.slice(2);
   } else {
-    body = final[0] || '';
-    tail = final.slice(1) || '';
+    body = final[0] || "";
+    tail = final.slice(1) || "";
   }
   return { head, body, tail };
 };
@@ -245,23 +243,23 @@ const getNumOfTone: GetNumOfTone = (pinyin) => {
   const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ|m̀)/;
   const reg_tone0 = /(a|o|e|i|u|ü|n)/;
   const tone_num_arr: string[] = [];
-  const pinyin_arr = pinyin.split(' ');
+  const pinyin_arr = pinyin.split(" ");
   pinyin_arr.forEach((_pinyin) => {
     if (reg_tone1.test(_pinyin)) {
-      tone_num_arr.push('1');
+      tone_num_arr.push("1");
     } else if (reg_tone2.test(_pinyin)) {
-      tone_num_arr.push('2');
+      tone_num_arr.push("2");
     } else if (reg_tone3.test(_pinyin)) {
-      tone_num_arr.push('3');
+      tone_num_arr.push("3");
     } else if (reg_tone4.test(_pinyin)) {
-      tone_num_arr.push('4');
+      tone_num_arr.push("4");
     } else if (reg_tone0.test(_pinyin)) {
-      tone_num_arr.push('0');
+      tone_num_arr.push("0");
     } else {
-      tone_num_arr.push('');
+      tone_num_arr.push("");
     }
   });
-  return tone_num_arr.join(' ');
+  return tone_num_arr.join(" ");
 };
 
 /**
@@ -272,13 +270,13 @@ const getNumOfTone: GetNumOfTone = (pinyin) => {
  */
 type GetPinyinWithNum = (pinyin: string, originPinyin: string) => string;
 const getPinyinWithNum: GetPinyinWithNum = (pinyin, originPinyin) => {
-  const pinyin_arr = getPinyinWithoutTone(pinyin).split(' ');
-  const tone_num_arr = getNumOfTone(originPinyin).split(' ');
+  const pinyin_arr = getPinyinWithoutTone(pinyin).split(" ");
+  const tone_num_arr = getNumOfTone(originPinyin).split(" ");
   const res_arr: string[] = [];
   pinyin_arr.forEach((item, index) => {
     res_arr.push(`${item}${tone_num_arr[index]}`);
   });
-  return res_arr.join(' ');
+  return res_arr.join(" ");
 };
 
 /**
@@ -289,11 +287,11 @@ const getPinyinWithNum: GetPinyinWithNum = (pinyin, originPinyin) => {
 type GetFirstLetter = (pinyin: string) => string;
 const getFirstLetter: GetFirstLetter = (pinyin) => {
   const first_letter_arr: string[] = [];
-  const pinyin_arr = pinyin.split(' ');
+  const pinyin_arr = pinyin.split(" ");
   pinyin_arr.forEach((pinyin) => {
     first_letter_arr.push(pinyin[0]);
   });
-  return first_letter_arr.join(' ');
+  return first_letter_arr.join(" ");
 };
 
 export {

@@ -1,3 +1,4 @@
+import type { SurnameMode } from "../type";
 export declare const enum TokenizationAlgorithm {
     ReverseMaxMatch = 1,
     MaxProbability = 2,
@@ -40,8 +41,8 @@ export declare class AC {
     addNodeToQueues(trieNode: TrieNode): void;
     insertPattern(patterns: Pattern[], pattern: Pattern): void;
     removeDict(dictName: string | symbol): void;
-    match(text: string, isSurname?: boolean): MatchPattern[];
-    search(text: string, isSurname?: boolean, algorithm?: TokenizationAlgorithm): MatchPattern[];
+    match(text: string, surname: SurnameMode): MatchPattern[];
+    search(text: string, surname: SurnameMode, algorithm?: TokenizationAlgorithm): MatchPattern[];
 }
 export declare const PatternsNormal: Pattern[];
 export declare const acTree: AC;

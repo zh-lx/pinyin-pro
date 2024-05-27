@@ -1,4 +1,5 @@
-import { TokenizationAlgorithm } from '../../common/segmentit';
+import { TokenizationAlgorithm } from "../../common/segmentit";
+import type { PinyinMode, SurnameMode } from "../../common/type";
 interface BasicOptions {
     /**
      * @description 返回的拼音音调类型
@@ -6,7 +7,7 @@ interface BasicOptions {
      * @value num：以数字格式展示音调，并跟在拼音后面
      * @value none：不展示音调
      */
-    toneType?: 'symbol' | 'num' | 'none';
+    toneType?: "symbol" | "num" | "none";
     /**
      * @description 返回的拼音格式类型
      * @value pinyin：返回完整拼音 （默认值）
@@ -18,7 +19,7 @@ interface BasicOptions {
      * @value finalBody：返回韵腹
      * @value finalTail：返回韵尾
      */
-    pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first' | 'finalHead' | 'finalBody' | 'finalTail';
+    pattern?: "pinyin" | "initial" | "final" | "num" | "first" | "finalHead" | "finalBody" | "finalTail";
     /**
      * @description 是否返回单个汉字的所有多音，仅针对输入的 word 为单个汉字生效
      * @value false：返回最常用的一个拼音 （默认值）
@@ -30,7 +31,14 @@ interface BasicOptions {
      * @value normal：正常匹配模式 （默认值）
      * @value surname：姓氏模式，遇到姓氏表中的汉字时，优先匹配姓氏读音
      */
-    mode?: 'normal' | 'surname';
+    mode?: PinyinMode;
+    /**
+     * @description surname 模式作用的范围
+     * @value off：不启用 surname 模式（默认值为 off）
+     * @value all：作用于整个汉语字符串（当设置了 `mode: surname` 时，默认值为 all）
+     * @value head：作用于汉语字符串开头
+     */
+    surname?: SurnameMode;
     /**
      * @description 是否移除非汉字字符（推荐使用 removeNonZh: removed 代替）
      * @value false：返回结果保留非汉字字符 （默认值）
@@ -43,7 +51,7 @@ interface BasicOptions {
      * @value consecutive：连续非汉字字符无间距
      * @value removed：返回结果移除非汉字字符
      */
-    nonZh?: 'spaced' | 'consecutive' | 'removed';
+    nonZh?: "spaced" | "consecutive" | "removed";
     /**
      * @description 对于 ü 的返回是否转换成 v（仅在 toneType: none 启用时生效）
      * @value false：返回值中保留 ü （默认值）
@@ -85,7 +93,7 @@ interface OptionsReturnString extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type?: 'string';
+    type?: "string";
     /**
      * @description 拼音之间的分隔符，默认为空格，仅在 type 为 'string' 时生效
      */
@@ -98,7 +106,7 @@ interface OptionsReturnArray extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type: 'array';
+    type: "array";
 }
 interface OptionsReturnAll extends BasicOptions {
     /**
@@ -107,7 +115,7 @@ interface OptionsReturnAll extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type: 'all';
+    type: "all";
 }
 export interface CompleteOptions extends BasicOptions {
     /**
@@ -116,7 +124,7 @@ export interface CompleteOptions extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type?: 'string' | 'array' | 'all';
+    type?: "string" | "array" | "all";
     /**
      * @description 拼音之间的分隔符，默认为空格，仅在 type 为 'string' 时生效
      */
