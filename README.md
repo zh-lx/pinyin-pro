@@ -68,35 +68,6 @@ npm install pinyin-pro
   pinyin("睡着了"); // "shuì zháo le"
   ```
 
-- 使用词典，获取更准确的拼音。( `pinyin-pro` 内置了一些高频常用词的词典，想要保证高准确率，需要应用更完备的词典)
-
-  ```js
-  import { pinyin, addDict } from "pinyin-pro";
-  // 引入前需要先通过 `npm install @pinyin-pro/data` 进行安装
-  import ModernChineseDict from "@pinyin-pro/data/modern.json";
-  import CompleteDict from "@pinyin-pro/data/complete.json";
-
-  // 默认使用内置的简单词典
-  const result1 = pinyin(
-    "小明硕士毕业于中国科学院计算所，后在日本京都大学深造"
-  );
-  // 结果: xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dōu dà xué shēn zào
-
-  // 使用现代汉语词典数据(gzip压缩后大概0.6MB，根据自己的需求决定是否使用)
-  addDict(ModernChineseDict);
-  const result2 = pinyin(
-    "小明硕士毕业于中国科学院计算所，后在日本京都大学深造"
-  );
-  // 结果: xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào
-
-  // 使用完备词典数据(词汇量更全，拼音转换率更加准确，gzip压缩后大概3.99MB，根据自己的需求决定是否使用)
-  addDict(CompleteDict);
-  const result3 = pinyin(
-    "小明硕士毕业于中国科学院计算所，后在日本京都大学深造"
-  );
-  // 结果: xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào
-  ```
-
 - 文本和拼音匹配，更多匹配规则请查看[match API](https://pinyin-pro.cn/use/match)
 
   ```js
