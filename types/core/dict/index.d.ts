@@ -1,6 +1,10 @@
 type DICT = {
     [key: string]: string | [string] | [string, number] | [string, number, string];
 };
-export declare function addDict(dict: DICT | {}, name?: string): void;
-export declare function removeDict(dictName: string): void;
+type DictOptions = {
+    name?: string;
+    dict1?: "add" | "replace" | "ignore";
+};
+export declare function addDict(dict: DICT | {}, options?: string | DictOptions): void;
+export declare function removeDict(dictName?: string): void;
 export {};
