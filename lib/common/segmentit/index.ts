@@ -176,7 +176,7 @@ export class AC {
           if (surname === "off") {
             return item.priority !== Priority.Surname;
           } else if (surname === "head") {
-            return i === 0;
+            return item.length - 1 - i === 0;
           } else {
             return true;
           }
@@ -193,7 +193,7 @@ export class AC {
             if (surname === "off") {
               return item.priority !== Priority.Surname;
             } else if (surname === "head") {
-              return i === 0;
+              return item.length - 1 - i === 0;
             } else {
               return true;
             }

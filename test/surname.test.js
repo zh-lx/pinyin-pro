@@ -46,4 +46,12 @@ describe("surname", () => {
       "zēng jīng cāng hǎi nán wèi shuǐ hǎo hǎo xué xí lè"
     );
   });
+
+  it("[surname]surname head double", () => {
+    const result = pinyin("令狐冲", { surname: "head" });
+    expect(result).to.be.equal("líng hú chōng");
+
+    const result1 = pinyin("万俟英", { surname: "head" });
+    expect(result1).to.be.equal("mò qí yīng");
+  });
 });
