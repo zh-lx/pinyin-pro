@@ -15,7 +15,7 @@ import {
   getFinalParts,
 } from '@/core/pinyin/handle';
 import { getCustomPolyphonicDict } from '../custom';
-import { isZhChar } from '@/common/utils';
+import { isZhChar, splitString } from '@/common/utils';
 
 interface BasicOptions {
   /**
@@ -206,7 +206,7 @@ function polyphonic(
 
 // 获取每个字多音字的数组
 const getPolyphonicList = (text: string): SingleWordResult[] => {
-  return text.split('').map((word) => {
+  return splitString(text).map((word) => {
     const wordCode = word.charCodeAt(0);
     const customPolyphonicDict = getCustomPolyphonicDict();
     const pinyin = customPolyphonicDict[wordCode] || DICT1[wordCode] || word;

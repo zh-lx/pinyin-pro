@@ -1,6 +1,6 @@
 import { Priority, Probability } from "@/common/constant";
 import { Pattern, acTree } from "@/common/segmentit";
-import { getStringLength } from "@/common/utils";
+import { stringLength } from "@/common/utils";
 import DICT1 from "@/data/dict1";
 
 const DefaultName = Symbol("default");
@@ -29,7 +29,7 @@ export function addDict(dict: DICT | {}, options?: string | DictOptions) {
   for (let key in dict as DICT) {
     const value = (dict as DICT)[key];
     const pinyin = Array.isArray(value) ? value[0] : value;
-    if (getStringLength(key) === 1) {
+    if (stringLength(key) === 1) {
       addToOriginDict(
         dictName,
         key,

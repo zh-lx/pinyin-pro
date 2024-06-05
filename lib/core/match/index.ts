@@ -1,10 +1,11 @@
-import { pinyin as _pinyin } from '@/core/pinyin';
+import { splitString } from "@/common/utils";
+import { pinyin as _pinyin } from "@/core/pinyin";
 
 interface MatchOptions {
   /**
    * @description 每个汉字和拼音需要遵从的匹配精度
    */
-  precision?: 'first' | 'start' | 'every' | 'any';
+  precision?: "first" | "start" | "every" | "any";
   /**
    * @description 匹配的汉字下标是否为连续的才算匹配成功
    */
@@ -12,11 +13,11 @@ interface MatchOptions {
   /**
    * @description 匹配时对于空格的处理
    */
-  space?: 'ignore' | 'preserve';
+  space?: "ignore" | "preserve";
   /**
    * @description 最后一个字的匹配精度
    */
-  lastPrecision?: 'first' | 'start' | 'every' | 'any';
+  lastPrecision?: "first" | "start" | "every" | "any";
   /**
    * @description 是否大小写不敏感
    */
@@ -24,10 +25,10 @@ interface MatchOptions {
 }
 
 const DefaultMatchOptions: MatchOptions = {
-  precision: 'first',
+  precision: "first",
   continuous: false,
-  space: 'ignore',
-  lastPrecision: 'start',
+  space: "ignore",
+  lastPrecision: "start",
   insensitive: true,
 };
 
@@ -41,8 +42,8 @@ const MAX_PINYIN_LENGTH = 6;
  * @return {Array | null} 若匹配成功，返回 text 中匹配成功的下标数组；若匹配失败，返回 null
  */
 export const match = (text: string, pinyin: string, options?: MatchOptions) => {
-  if (options?.precision === 'any') {
-    options.lastPrecision = 'any';
+  if (options?.precision === "any") {
+    options.lastPrecision = "any";
   }
   const completeOptions = {
     ...DefaultMatchOptions,
@@ -54,14 +55,14 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
     pinyin = pinyin.toLowerCase();
   }
   // 移除空格
-  if (completeOptions.space === 'ignore') {
-    pinyin = pinyin.replace(/\s/g, '');
+  if (completeOptions.space === "ignore") {
+    pinyin = pinyin.replace(/\s/g, "");
   }
   const result =
-    options?.precision === 'any'
+    options?.precision === "any"
       ? matchAny(text, pinyin, completeOptions)
       : matchAboveStart(text, pinyin, completeOptions);
-  return result;
+  return processDoubleUnicodeIndex(text, result);
 };
 
 // 检测两个拼音最大的匹配长度
@@ -81,23 +82,24 @@ const matchAny = (
   options: Required<MatchOptions>
 ) => {
   let result = [];
-  for (let i = 0; i < text.length; i++) {
+  const words = splitString(text);
+  for (let i = 0; i < words.length; i++) {
     // 空格字符
-    if (options.space === 'ignore' && text[i] === ' ') {
+    if (options.space === "ignore" && words[i] === " ") {
       result.push(i);
       continue;
     }
     // 是否为中文匹配
-    if (text[i] === pinyin[0]) {
+    if (words[i] === pinyin[0]) {
       pinyin = pinyin.slice(1);
       result.push(i);
       continue;
     }
     // 当前字的多音字拼音
-    const ps = _pinyin(text[i], {
-      toneType: 'none',
+    const ps = _pinyin(words[i], {
+      toneType: "none",
       multiple: true,
-      type: 'array',
+      type: "array",
     });
     let currentLength = 0;
     ps.forEach((p) => {
@@ -128,8 +130,8 @@ const matchAny = (
       return null;
     }
   }
-  if (options.space === 'ignore') {
-    result = result.filter((i) => text[i] !== ' ');
+  if (options.space === "ignore") {
+    result = result.filter((i) => words[i] !== " ");
   }
   return result.length ? result : null;
 };
@@ -139,7 +141,7 @@ const matchAboveStart = (
   pinyin: string,
   options: Required<MatchOptions>
 ) => {
-  const words = text.split('');
+  const words = splitString(text);
 
   // 二维数组 dp[i][j]，i 表示遍历到的 text 索引+1, j 表示遍历到的 pinyin 的索引+1
   const dp = Array(words.length + 1);
@@ -157,7 +159,7 @@ const matchAboveStart = (
     // options.continuous 为 false 或 options.space 为 ignore 且当前为空格时，第 i 个字可以不参与匹配
     if (
       !options.continuous ||
-      (options.space == 'ignore' && text[i - 1] === ' ')
+      (options.space == "ignore" && words[i - 1] === " ")
     ) {
       for (let j = 1; j <= pinyin.length; j++) {
         dp[i][j - 1] = dp[i - 1][j - 1];
@@ -172,14 +174,14 @@ const matchAboveStart = (
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
-        const muls = _pinyin(text[i - 1], {
-          type: 'array',
-          toneType: 'none',
+        const muls = _pinyin(words[i - 1], {
+          type: "array",
+          toneType: "none",
           multiple: true,
         });
 
         // 非中文匹配
-        if (text[i - 1] === pinyin[j - 1]) {
+        if (words[i - 1] === pinyin[j - 1]) {
           const matches = [...dp[i - 1][j - 1], i - 1];
           // 记录最长的可匹配下标数组
           if (!dp[i][j] || matches.length > dp[i][j].length) {
@@ -195,16 +197,16 @@ const matchAboveStart = (
         if (pinyin.length - j <= MAX_PINYIN_LENGTH) {
           // lastPrecision 参数处理
           const last = muls.some((py) => {
-            if (options.lastPrecision === 'any') {
+            if (options.lastPrecision === "any") {
               return py.includes(pinyin.slice(j - 1, pinyin.length));
             }
-            if (options.lastPrecision === 'start') {
+            if (options.lastPrecision === "start") {
               return py.startsWith(pinyin.slice(j - 1, pinyin.length));
             }
-            if (options.lastPrecision === 'first') {
+            if (options.lastPrecision === "first") {
               return py[0] === pinyin.slice(j - 1, pinyin.length);
             }
-            if (options.lastPrecision === 'every') {
+            if (options.lastPrecision === "every") {
               return py === pinyin.slice(j - 1, pinyin.length);
             }
             return false;
@@ -217,7 +219,7 @@ const matchAboveStart = (
         const precision = options.precision;
 
         // precision 为 start 时，匹配开头
-        if (precision === 'start') {
+        if (precision === "start") {
           muls.forEach((py) => {
             let end = j;
             const matches = [...dp[i - 1][j - 1], i - 1];
@@ -234,7 +236,7 @@ const matchAboveStart = (
         }
 
         // precision 为 first 时，匹配首字母
-        if (precision === 'first') {
+        if (precision === "first") {
           if (muls.some((py) => py[0] === pinyin[j - 1])) {
             const matches = [...dp[i - 1][j - 1], i - 1];
             // 记录最长的可匹配下标数组
@@ -261,3 +263,33 @@ const matchAboveStart = (
   }
   return null;
 };
+
+// 对于双字节的字符，需要将 index 顺延 +1
+function processDoubleUnicodeIndex(
+  text: string,
+  indexArray: number[] | null
+): number[] | null {
+  if (!indexArray) {
+    return null;
+  }
+  const result = [];
+  let doubleUnicodeCount = 0;
+  const words = splitString(text);
+  let i = 0;
+  for (let j = 0; j < indexArray.length; j++) {
+    const curIndex = indexArray[j];
+    while (i <= curIndex) {
+      if (words[i].length === 2) {
+        doubleUnicodeCount++;
+      }
+      i++;
+    }
+    const realIndex = curIndex + doubleUnicodeCount;
+    if (words[curIndex].length === 2) {
+      result.push(realIndex - 1, realIndex);
+    } else {
+      result.push(realIndex);
+    }
+  }
+  return result;
+}

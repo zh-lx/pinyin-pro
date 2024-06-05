@@ -2,7 +2,7 @@ interface MatchOptions {
     /**
      * @description 每个汉字和拼音需要遵从的匹配精度
      */
-    precision?: 'first' | 'start' | 'every' | 'any';
+    precision?: "first" | "start" | "every" | "any";
     /**
      * @description 匹配的汉字下标是否为连续的才算匹配成功
      */
@@ -10,11 +10,11 @@ interface MatchOptions {
     /**
      * @description 匹配时对于空格的处理
      */
-    space?: 'ignore' | 'preserve';
+    space?: "ignore" | "preserve";
     /**
      * @description 最后一个字的匹配精度
      */
-    lastPrecision?: 'first' | 'start' | 'every' | 'any';
+    lastPrecision?: "first" | "start" | "every" | "any";
     /**
      * @description 是否大小写不敏感
      */
@@ -27,5 +27,5 @@ interface MatchOptions {
  * @param {MatchOptions=} options 配置项
  * @return {Array | null} 若匹配成功，返回 text 中匹配成功的下标数组；若匹配失败，返回 null
  */
-export declare const match: (text: string, pinyin: string, options?: MatchOptions) => any;
+export declare const match: (text: string, pinyin: string, options?: MatchOptions) => number[] | null;
 export {};
