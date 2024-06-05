@@ -1,6 +1,6 @@
 import { acTree } from '@/common/segmentit';
 import { Probability, Priority } from '@/common/constant';
-import { getStringLength } from '@/common/utils';
+import { splitString, stringLength } from '@/common/utils';
 import DICT1 from '@/data/dict1';
 let customDict: { [key: string]: string } = {};
 let customMultipleDict: string[] = [];
@@ -33,7 +33,7 @@ export function customPinyin(
   options?: CustomPinyinOptions
 ) {
   const keys = Object.keys(config).sort(
-    (key1, key2) => getStringLength(key2) - getStringLength(key1)
+    (key1, key2) => stringLength(key2) - stringLength(key1)
   );
   keys.forEach((key) => {
     customDict[key] = config[key];
@@ -41,7 +41,7 @@ export function customPinyin(
   const customPatterns = Object.keys(customDict).map((key) => ({
     zh: key,
     pinyin: customDict[key],
-    probability: Probability.Custom + getStringLength(key),
+    probability: Probability.Custom + stringLength(key),
     length: key.length,
     priority: Priority.Custom,
     dict: CustomDictName,
@@ -63,10 +63,10 @@ function addCustomConfigToDict(
 ) {
   for (let key in config) {
     const pinyins = config[key];
-    key.split('').forEach((word, index) => {
+    splitString(key).forEach((word, index) => {
       const pinyin = pinyins.split(' ')[index] || '';
       const wordCode = word.charCodeAt(0);
-      if (handleType === 'replace') {
+      if (handleType === 'replace' || (handleType === 'add' && !dict[wordCode] && !DICT1[wordCode])) {
         // 直接覆盖原词典
         dict[wordCode] = pinyin;
       } else {

@@ -1,4 +1,4 @@
-import { match } from '../lib/index';
+import { match, customPinyin, clearCustomDict } from '../lib/index';
 import { expect, describe, it } from 'vitest';
 
 describe('match', () => {
@@ -88,6 +88,17 @@ describe('match', () => {
   it('[match]first&space', () => {
     const result = match('𧒽测 试', 'c s');
     expect(result).to.deep.equal([2, 4]);
+  });
+
+  it('[match]first&space', () => {
+    customPinyin({
+      𧒽: 'lei'
+    }, {
+      multiple: 'replace'
+    })
+    const result = match('𧒽测 试', 'l c s');
+    expect(result).to.deep.equal([0, 1, 2, 4]);
+    clearCustomDict(['pinyin', 'multiple', 'polyphonic']);
   });
 
   it('[match]nonZh match', () => {

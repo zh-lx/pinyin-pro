@@ -1,4 +1,4 @@
-import { getStringLength, isZhChar } from "@/common/utils";
+import { stringLength, isZhChar } from "@/common/utils";
 import type { SingleWordResult } from "../../common/type";
 import {
   DoubleUnicodePrefixReg,
@@ -59,7 +59,7 @@ export const middlewareMultiple = (
   word: string,
   options: CompleteOptions
 ): SingleWordResult[] | false => {
-  if (getStringLength(word) === 1 && options.multiple) {
+  if (stringLength(word) === 1 && options.multiple) {
     return getMultiplePinyin(word, options.surname);
   } else {
     return false;
@@ -166,7 +166,7 @@ export const middlewareType = (
   options: CompleteOptions,
   word: string
 ) => {
-  if (options.multiple && getStringLength(word) === 1) {
+  if (options.multiple && stringLength(word) === 1) {
     let last = "";
     list = list.filter((item) => {
       const res = item.result !== last;

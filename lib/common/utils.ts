@@ -1,7 +1,24 @@
-import { DoubleUnicodeReg } from './constant';
+import { DoubleUnicodePrefixReg, DoubleUnicodeSuffixReg, DoubleUnicodeReg } from './constant';
 
-export function getStringLength(string: string) {
-  return string.replace(DoubleUnicodeReg, '_').length;
+export function stringLength(text: string) {
+  return text.replace(DoubleUnicodeReg, '_').length;
+}
+
+// 双音节字符处理
+export function splitString(text: string): string[] {
+  const result = [];
+  let i = 0;
+  while (i < text.length) {
+    const char = text.charAt(i);
+    if (DoubleUnicodePrefixReg.test(char) && DoubleUnicodeSuffixReg.test(text.charAt(i + 1))) {
+      result.push(text.substring(i, i + 2));
+      i += 2;
+    } else {
+      result.push(char);
+      i += 1;
+    }
+  }
+  return result;
 }
 
 export function isZhChar(char: string) {
