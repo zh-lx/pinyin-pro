@@ -9,6 +9,7 @@ import { minTokenization } from "./min-tokenization";
 import { reverseMaxMatch } from "./reverse-max-match";
 import { Priority } from "@/common/constant";
 import type { SurnameMode } from "../type";
+import { splitString, stringLength } from "../utils";
 
 export const enum TokenizationAlgorithm {
   ReverseMaxMatch = 1,
@@ -69,12 +70,12 @@ export class AC {
   // 构建 trie 树
   buildTrie(patternList: Pattern[]) {
     for (let pattern of patternList) {
-      const { zh } = pattern;
+      const zhChars = splitString(pattern.zh);
       let cur = this.root;
-      for (let i = 0; i < zh.length; i++) {
-        let c = zh.charAt(i);
+      for (let i = 0; i < zhChars.length; i++) {
+        let c = zhChars[i];
         if (!cur.children.has(c)) {
-          const trieNode = new TrieNode(cur, zh.slice(0, i), c);
+          const trieNode = new TrieNode(cur, zhChars.slice(0, i).join(''), c);
           cur.children.set(c, trieNode);
           this.addNodeToQueues(trieNode);
         }
@@ -161,8 +162,9 @@ export class AC {
   match(text: string, surname: SurnameMode) {
     let cur = this.root;
     let result: MatchPattern[] = [];
-    for (let i = 0; i < text.length; i++) {
-      let c = text.charAt(i);
+    const zhChars = splitString(text);
+    for (let i = 0; i < zhChars.length; i++) {
+      let c = zhChars[i];
 
       while (cur !== null && !cur.children.has(c)) {
         cur = cur.fail as TrieNode;
@@ -220,9 +222,9 @@ export class AC {
     if (algorithm === TokenizationAlgorithm.ReverseMaxMatch) {
       return reverseMaxMatch(patterns);
     } else if (algorithm === TokenizationAlgorithm.MinTokenization) {
-      return minTokenization(patterns, text.length);
+      return minTokenization(patterns, stringLength(text));
     }
-    return maxProbability(patterns, text.length);
+    return maxProbability(patterns, stringLength(text));
   }
 }
 

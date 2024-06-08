@@ -1,3 +1,4 @@
+import { FastDictFactory } from '@/common/utils';
 type CustomHandleType = 'add' | 'replace';
 type CustomDictType = 'pinyin' | 'multiple' | 'polyphonic';
 interface CustomPinyinOptions {
@@ -16,9 +17,9 @@ interface CustomPinyinOptions {
  * @param {CustomPinyinOptions} options multiple/polyphonic 对于 customPinyin 补充词汇的处理
  */
 export declare function customPinyin(config?: {
-    [key: string]: string;
+    [word: string]: string;
 }, options?: CustomPinyinOptions): void;
-export declare const getCustomMultpileDict: () => string[];
-export declare const getCustomPolyphonicDict: () => string[];
+export declare const getCustomMultpileDict: () => FastDictFactory;
+export declare const getCustomPolyphonicDict: () => FastDictFactory;
 export declare function clearCustomDict(dict: CustomDictType | CustomDictType[]): void;
 export {};

@@ -1,6 +1,7 @@
 export declare const DoubleUnicodePrefixReg: RegExp;
 export declare const DoubleUnicodeSuffixReg: RegExp;
 export declare const DoubleUnicodeReg: RegExp;
+export declare const DoubleUnicodeCharReg: RegExp;
 export declare const enum Probability {
     Unknown = 1e-13,
     Rule = 1e-12,

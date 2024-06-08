@@ -26,36 +26,36 @@ export function addDict(dict: DICT | {}, options?: string | DictOptions) {
   const name = typeof options === "object" ? options.name : options;
   const dictName = name || DefaultName;
   const dict1Handle = (options as DictOptions)?.dict1 || "add";
-  for (let key in dict as DICT) {
-    const value = (dict as DICT)[key];
+  for (let word in dict as DICT) {
+    const value = (dict as DICT)[word];
     const pinyin = Array.isArray(value) ? value[0] : value;
-    if (stringLength(key) === 1) {
+    if (stringLength(word) === 1) {
       addToOriginDict(
         dictName,
-        key,
+        word,
         pinyin,
         dict1Handle
       );
     }
     if (Array.isArray(value)) {
       patterns.push({
-        zh: key,
+        zh: word,
         pinyin,
         probability:
           typeof value[1] === "number"
             ? value[1]
-            : Probability.DICT * key.length * key.length,
-        length: key.length,
+            : Probability.DICT * stringLength(word) * stringLength(word),
+        length: stringLength(word),
         priority: Priority.Normal,
         dict: dictName,
         pos: typeof value[2] === "string" ? value[2] : "",
       });
     } else {
       patterns.push({
-        zh: key,
+        zh: word,
         pinyin,
-        probability: Probability.DICT * key.length * key.length,
-        length: key.length,
+        probability: Probability.DICT * stringLength(word) * stringLength(word),
+        length: stringLength(word),
         priority: Priority.Normal,
         dict: dictName,
       });
@@ -71,7 +71,7 @@ export function removeDict(dictName?: string) {
 
 function addToOriginDict(
   dict: string | Symbol,
-  key: string,
+  char: string,
   pinyin: string,
   handle: "add" | "replace" | "ignore" = "add"
 ) {
@@ -79,26 +79,25 @@ function addToOriginDict(
     originDictMap.set(dict, {})
   }
   const originDict = originDictMap.get(dict)!;
-  const code = key.charCodeAt(0);
-  if (!originDict[key]) {
-    originDict[key] = DICT1[code] as string;
+  if (!originDict[char]) {
+    originDict[char] = DICT1.get(char) as string;
   }
   if (handle === "add") {
-    if (DICT1[code] && !DICT1[code].split(' ').includes(pinyin)) {
-      DICT1[code] += ` ${pinyin}`;
-    } else if (!DICT1[code]) {
-      DICT1[code] = pinyin;
+    const existedPinyin = DICT1.get(char);
+    if (existedPinyin && !existedPinyin.split(' ').includes(pinyin)) {
+      DICT1.set(char, `${existedPinyin} ${pinyin}`);
+    } else if (!DICT1.get(char)) {
+      DICT1.set(char, pinyin);
     }
   } else if (handle === "replace") {
-    DICT1[code] = pinyin;
+    DICT1.set(char, pinyin);
   }
 }
 
 function removeOriginDict(dict: string | Symbol) {
   const originDict = originDictMap.get(dict) || {};
-  for (let key in originDict) {
-    const code = key.charCodeAt(0);
-    DICT1[code] = originDict[key];
-    delete originDict[key];
+  for (let char in originDict) {
+    DICT1.set(char, originDict[char]);
+    delete originDict[char];
   }
 }

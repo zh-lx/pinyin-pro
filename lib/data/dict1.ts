@@ -1,3 +1,5 @@
+import { FastDictFactory } from "@/common/utils";
+
 const map: { [key: string]: number[] } = {
   'bǎng páng pāng': [33152],
   líng: [
@@ -6076,12 +6078,14 @@ const map: { [key: string]: number[] } = {
   'kuí wā': [17839],
 };
 
-const DICT1: string[] = [];
+const DICT1 = new FastDictFactory();
+
 Object.keys(map).forEach((key) => {
   const codes = map[key];
   for (let code of codes) {
-    DICT1[code] = key;
+    DICT1.set(code, key);
   }
 });
 
 export default DICT1;
+

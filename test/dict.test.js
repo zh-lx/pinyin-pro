@@ -60,4 +60,14 @@ describe("addDict", () => {
     expect(result).to.be.equal("yī");
     removeDict();
   });
+
+  it("[addDict]2 unicode dict", () => {
+    const stringDict = {
+      𧒽: 'lei'
+    }
+    addDict(stringDict, { name: 'double-unicode-dict' });
+    const result = pinyin("𧒽");
+    expect(result).to.be.equal("lei");
+    removeDict();
+  });
 });

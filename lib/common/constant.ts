@@ -1,6 +1,7 @@
 export const DoubleUnicodePrefixReg = /^[\uD800-\uDBFF]$/;
 export const DoubleUnicodeSuffixReg = /^[\uDC00-\uDFFF]$/;
 export const DoubleUnicodeReg = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+export const DoubleUnicodeCharReg = /^[\uD800-\uDBFF][\uDC00-\uDFFF]$/g;
 export const enum Probability {
   Unknown = 1e-13,
   Rule = 1e-12,
