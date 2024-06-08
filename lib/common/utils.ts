@@ -28,15 +28,6 @@ export function splitString(text: string): string[] {
   return result;
 }
 
-// todo: 双 unicode 编码字符的适配
-export function isZhChar(char: string) {
-  if (typeof char !== "string") {
-    return false;
-  }
-  let code = char.charCodeAt(0);
-  return code >= 19968 && code <= 40869;
-}
-
 export class FastDictFactory {
   NumberDICT: string[];
   StringDICT: Map<string, string>;
@@ -55,10 +46,8 @@ export class FastDictFactory {
     }
   }
 
-  set(word: string | number, pinyin: string) {
-    if (typeof word === 'number') {
-      this.NumberDICT[word] = pinyin;
-    } else if (word.length > 1) {
+  set(word: string, pinyin: string) {
+    if (word.length > 1) {
       this.StringDICT.set(word, pinyin);
     } else {
       const code = word.charCodeAt(0);

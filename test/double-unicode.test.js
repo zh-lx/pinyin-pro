@@ -28,4 +28,10 @@ describe('double unicode', () => {
     });
     expect(result5).to.be.equal('cè shì a𧒽𧒽a cè shì a𧒽𧒽a cè shì');
   });
+
+  it('[double unicode]dp consecutive', () => {
+    const result4 = pinyin('测试𬭬𬭬测试𬭬测试');
+    expect(result4).to.be.equal('cè shì huì huì cè shì huì cè shì');
+  });
+  
 });

@@ -14,7 +14,7 @@ import {
   getFinalParts,
 } from '@/core/pinyin/handle';
 import { getCustomPolyphonicDict } from '../custom';
-import { isZhChar, splitString } from '@/common/utils';
+import { splitString } from '@/common/utils';
 
 interface BasicOptions {
   /**
@@ -255,7 +255,7 @@ export const handleType = (
         finalTail: tail,
         num: Number(getNumOfTone(item.originPinyin)),
         isZh: item.isZh,
-        inZhRange: isZhChar(item.origin),
+        inZhRange: !!DICT1.get(item.origin),
       };
     });
   }

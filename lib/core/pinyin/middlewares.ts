@@ -1,9 +1,5 @@
-import { stringLength, isZhChar } from "@/common/utils";
+import { stringLength } from "@/common/utils";
 import type { SingleWordResult } from "../../common/type";
-import {
-  DoubleUnicodePrefixReg,
-  DoubleUnicodeSuffixReg,
-} from "@/common/constant";
 import { getAllPinyin, getMultiplePinyin } from "./handle";
 import { CompleteOptions } from "./index";
 import {
@@ -14,6 +10,7 @@ import {
   getPinyinWithoutTone,
   getPinyinWithNum,
 } from "./handle";
+import DICT1 from "@/data/dict1";
 
 // 验证输入是否为字符串
 export const validateType = (word: unknown) => {
@@ -202,7 +199,7 @@ export const middlewareType = (
         num: Number(getNumOfTone(item.originPinyin)),
         isZh: item.isZh,
         polyphonic,
-        inZhRange: isZhChar(item.origin),
+        inZhRange: !!DICT1.get(item.origin),
       };
     });
   }
