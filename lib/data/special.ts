@@ -5,7 +5,7 @@ import {
   getNumOfTone,
   getPinyinWithoutTone,
 } from '@/core/pinyin/handle';
-import { isZhChar } from '@/common/utils';
+import DICT1 from './dict1';
 
 export const InitialList = [
   'zh',
@@ -225,7 +225,7 @@ export function processToneSandhi(cur: string, pre: string, next: string) {
 
 // 处理「了」字的变调
 export function processToneSandhiLiao(cur: string, pre: string) {
-  if (cur === '了' && !isZhChar(pre)) {
+  if (cur === '了' && (!pre || !DICT1.get(pre))) {
     return 'liǎo';
   }
 }

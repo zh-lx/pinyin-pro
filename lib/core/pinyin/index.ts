@@ -1,3 +1,4 @@
+import { stringLength } from "@/common/utils";
 import { TokenizationAlgorithm } from "../../common/segmentit";
 import type {
   SingleWordResult,
@@ -13,7 +14,6 @@ import {
   middlewareToneType,
   middlewareV,
   middlewareType,
-  middlewareDoubleUnicode,
   middlewareToneSandhi,
 } from "./middlewares";
 
@@ -241,7 +241,7 @@ function pinyin(
     options.nonZh = "removed";
   }
 
-  let list: SingleWordResult[] = Array(word.length);
+  let list: SingleWordResult[] = Array(stringLength(word));
 
   list = getPinyin(
     word,
@@ -252,9 +252,6 @@ function pinyin(
 
   // 一和不变调处理
   list = middlewareToneSandhi(list, options.toneSandhi as boolean);
-
-  // 双 unicode 编码字符处理
-  list = middlewareDoubleUnicode(list);
 
   // nonZh 参数及 removeNonZh 参数
   list = middleWareNonZh(list, options);

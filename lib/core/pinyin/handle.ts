@@ -13,22 +13,20 @@ import { SingleWordResult } from "../../common/type";
 import type { SurnameMode } from "../../common/type";
 import { acTree, TokenizationAlgorithm } from "../../common/segmentit";
 import {
-  DoubleUnicodePrefixReg,
-  DoubleUnicodeSuffixReg,
   Priority,
 } from "@/common/constant";
+import { splitString } from "@/common/utils";
 
 /**
  * @description: 获取单个字符的拼音
- * @param {string} word
+ * @param {string} char
  * @return {string}
  */
-type GetSingleWordPinyin = (word: string) => string;
-export const getSingleWordPinyin: GetSingleWordPinyin = (word) => {
-  const wordCode = word.charCodeAt(0);
-  const pinyin = DICT1[wordCode];
+type GetSingleWordPinyin = (char: string) => string;
+export const getSingleWordPinyin: GetSingleWordPinyin = (char) => {
+  const pinyin = DICT1.get(char);
   // 若查到, 则返回第一个拼音; 若未查到, 返回原字符
-  return pinyin ? pinyin.split(" ")[0] : word;
+  return pinyin ? pinyin.split(" ")[0] : char;
 };
 
 export const getPinyin = (
@@ -39,13 +37,14 @@ export const getPinyin = (
 ): SingleWordResult[] => {
   const matches = acTree.search(word, surname, segmentit);
   let matchIndex = 0;
-  for (let i = 0; i < word.length; ) {
+  const zhChars = splitString(word);
+  for (let i = 0; i < zhChars.length; ) {
     const match = matches[matchIndex];
     if (match && i === match.index) {
       if (match.length === 1 && match.priority <= Priority.Normal) {
-        const char = word[i];
+        const char = zhChars[i];
         let pinyin: string = "";
-        pinyin = processSepecialPinyin(char, word[i - 1], word[i + 1]);
+        pinyin = processSepecialPinyin(char, zhChars[i - 1], zhChars[i + 1]);
         list[i] = {
           origin: char,
           result: pinyin,
@@ -59,32 +58,21 @@ export const getPinyin = (
       const pinyins = match.pinyin.split(" ");
       let pinyinIndex = 0;
       for (let j = 0; j < match.length; j++) {
-        if (
-          DoubleUnicodePrefixReg.test(match.zh[j - 1]) &&
-          DoubleUnicodeSuffixReg.test(match.zh[j])
-        ) {
-          list[i + j] = {
-            origin: match.zh[j],
-            result: "",
-            isZh: true,
-            originPinyin: "",
-          };
-        } else {
-          list[i + j] = {
-            origin: match.zh[j],
-            result: pinyins[pinyinIndex],
-            isZh: true,
-            originPinyin: pinyins[pinyinIndex],
-          };
-          pinyinIndex++;
-        }
+        const zhChars = splitString(match.zh);
+        list[i + j] = {
+          origin: zhChars[j],
+          result: pinyins[pinyinIndex],
+          isZh: true,
+          originPinyin: pinyins[pinyinIndex],
+        };
+        pinyinIndex++;
       }
       i += match.length;
       matchIndex++;
     } else {
-      const char = word[i];
+      const char = zhChars[i];
       let pinyin: string = "";
-      pinyin = processSepecialPinyin(char, word[i - 1], word[i + 1]);
+      pinyin = processSepecialPinyin(char, zhChars[i - 1], zhChars[i + 1]);
       list[i] = {
         origin: char,
         result: pinyin,
@@ -117,18 +105,17 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
 
 /**
  * @description: 获取单字符的多音拼音
- * @param {string} word
+ * @param {string} char
  * @return {WordResult[]}
  */
-type GetAllPinyin = (word: string, surname?: SurnameMode) => string[];
-export const getAllPinyin: GetAllPinyin = (word, surname = "off") => {
-  const wordCode = word.charCodeAt(0);
+type GetAllPinyin = (char: string, surname?: SurnameMode) => string[];
+export const getAllPinyin: GetAllPinyin = (char, surname = "off") => {
   const customMultpileDict = getCustomMultpileDict();
-  let pinyin = DICT1[wordCode] ? DICT1[wordCode].split(" ") : [];
-  if (customMultpileDict[wordCode]) {
-    pinyin = customMultpileDict[wordCode].split(" ");
+  let pinyin = DICT1.get(char) ? DICT1.get(char).split(" ") : [];
+  if (customMultpileDict.get(char)) {
+    pinyin = customMultpileDict.get(char).split(" ");
   } else if (surname !== "off") {
-    const surnamePinyin = Surnames[word];
+    const surnamePinyin = Surnames[char];
     if (surnamePinyin) {
       pinyin = [surnamePinyin].concat(
         pinyin.filter((py) => py !== surnamePinyin)

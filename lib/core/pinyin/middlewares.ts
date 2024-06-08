@@ -1,9 +1,5 @@
-import { stringLength, isZhChar } from "@/common/utils";
+import { stringLength } from "@/common/utils";
 import type { SingleWordResult } from "../../common/type";
-import {
-  DoubleUnicodePrefixReg,
-  DoubleUnicodeSuffixReg,
-} from "@/common/constant";
 import { getAllPinyin, getMultiplePinyin } from "./handle";
 import { CompleteOptions } from "./index";
 import {
@@ -14,6 +10,7 @@ import {
   getPinyinWithoutTone,
   getPinyinWithNum,
 } from "./handle";
+import DICT1 from "@/data/dict1";
 
 // 验证输入是否为字符串
 export const validateType = (word: unknown) => {
@@ -202,35 +199,11 @@ export const middlewareType = (
         num: Number(getNumOfTone(item.originPinyin)),
         isZh: item.isZh,
         polyphonic,
-        inZhRange: isZhChar(item.origin),
+        inZhRange: !!DICT1.get(item.origin),
       };
     });
   }
   return list.map((item) => item.result).join(options.separator);
-};
-
-// 处理双 Unicode 编码字符，将第二个删除
-export const middlewareDoubleUnicode = (
-  list: SingleWordResult[]
-): SingleWordResult[] => {
-  for (let i = list.length - 2; i >= 0; i--) {
-    const cur = list[i];
-    const next = list[i + 1];
-    if (
-      DoubleUnicodePrefixReg.test(cur.origin) &&
-      DoubleUnicodeSuffixReg.test(next.origin)
-    ) {
-      cur.origin += next.origin;
-      cur.result += next.result;
-      cur.originPinyin = cur.result;
-      next.delete = true;
-      i--;
-    }
-  }
-  list = list.filter((item) => {
-    return !item.delete;
-  });
-  return list;
 };
 
 // 是否开启变调

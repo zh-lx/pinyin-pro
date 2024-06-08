@@ -3,10 +3,10 @@ import type { SurnameMode } from "../../common/type";
 import { TokenizationAlgorithm } from "../../common/segmentit";
 /**
  * @description: 获取单个字符的拼音
- * @param {string} word
+ * @param {string} char
  * @return {string}
  */
-type GetSingleWordPinyin = (word: string) => string;
+type GetSingleWordPinyin = (char: string) => string;
 export declare const getSingleWordPinyin: GetSingleWordPinyin;
 export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm) => SingleWordResult[];
 /**
@@ -18,10 +18,10 @@ type GetPinyinWithoutTone = (pinyin: string) => string;
 declare const getPinyinWithoutTone: GetPinyinWithoutTone;
 /**
  * @description: 获取单字符的多音拼音
- * @param {string} word
+ * @param {string} char
  * @return {WordResult[]}
  */
-type GetAllPinyin = (word: string, surname?: SurnameMode) => string[];
+type GetAllPinyin = (char: string, surname?: SurnameMode) => string[];
 export declare const getAllPinyin: GetAllPinyin;
 /**
  * @description: 获取单字符的多音拼音

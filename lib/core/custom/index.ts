@@ -1,10 +1,10 @@
 import { acTree } from '@/common/segmentit';
 import { Probability, Priority } from '@/common/constant';
-import { splitString, stringLength } from '@/common/utils';
+import { FastDictFactory, splitString, stringLength } from '@/common/utils';
 import DICT1 from '@/data/dict1';
 let customDict: { [key: string]: string } = {};
-let customMultipleDict: string[] = [];
-let customPolyphonicDict: string[] = [];
+const customMultipleDict = new FastDictFactory();
+const customPolyphonicDict = new FastDictFactory();
 
 type CustomHandleType = 'add' | 'replace';
 
@@ -29,20 +29,20 @@ const CustomDictName = Symbol('custom');
  * @param {CustomPinyinOptions} options multiple/polyphonic 对于 customPinyin 补充词汇的处理
  */
 export function customPinyin(
-  config: { [key: string]: string } = {},
+  config: { [word: string]: string } = {},
   options?: CustomPinyinOptions
 ) {
-  const keys = Object.keys(config).sort(
-    (key1, key2) => stringLength(key2) - stringLength(key1)
+  const words = Object.keys(config).sort(
+    (word1, word2) => stringLength(word2) - stringLength(word1)
   );
-  keys.forEach((key) => {
-    customDict[key] = config[key];
+  words.forEach((word) => {
+    customDict[word] = config[word];
   });
-  const customPatterns = Object.keys(customDict).map((key) => ({
-    zh: key,
-    pinyin: customDict[key],
-    probability: Probability.Custom + stringLength(key),
-    length: key.length,
+  const customPatterns = Object.keys(customDict).map((word) => ({
+    zh: word,
+    pinyin: customDict[word],
+    probability: Probability.Custom + stringLength(word),
+    length: stringLength(word),
     priority: Priority.Custom,
     dict: CustomDictName,
   }));
@@ -58,23 +58,21 @@ export function customPinyin(
 
 function addCustomConfigToDict(
   config: { [key: string]: string },
-  dict: string[],
+  dict: FastDictFactory,
   handleType: CustomHandleType
 ) {
-  for (let key in config) {
-    const pinyins = config[key];
-    splitString(key).forEach((word, index) => {
+  for (let word in config) {
+    const pinyins = config[word];
+    splitString(word).forEach((char, index) => {
       const pinyin = pinyins.split(' ')[index] || '';
-      const wordCode = word.charCodeAt(0);
-      if (handleType === 'replace' || (handleType === 'add' && !dict[wordCode] && !DICT1[wordCode])) {
+      if (handleType === 'replace' || (handleType === 'add' && !dict.get(char) && !DICT1.get(char))) {
         // 直接覆盖原词典
-        dict[wordCode] = pinyin;
+        dict.set(char, pinyin);
       } else {
         // 补充至原词典
-        dict[wordCode] = dict[wordCode] || DICT1[wordCode];
-        if (!dict[wordCode].split(' ').includes(pinyin)) {
-          dict[wordCode] += ` ${pinyin}`;
-          dict[wordCode] = dict[wordCode].trim();
+        dict.set(char, dict.get(char) || DICT1.get(char));
+        if (!dict.get(char).split(' ').includes(pinyin)) {
+          dict.set(char, `${dict.get(char)} ${pinyin}`.trim());
         }
       }
     });
@@ -91,15 +89,15 @@ export const getCustomPolyphonicDict = () => {
 
 export function clearCustomDict(dict: CustomDictType | CustomDictType[]) {
   if (dict === 'pinyin' || dict.indexOf('pinyin') !== -1) {
-    Object.keys(customDict).forEach(function (key) {
-      delete customDict[key];
+    Object.keys(customDict).forEach(function (word) {
+      delete customDict[word];
     });
     acTree.removeDict(CustomDictName);
   }
   if (dict === 'multiple' || dict.indexOf('multiple') !== -1) {
-    customMultipleDict.length = 0;
+    customMultipleDict.clear();
   }
   if (dict === 'polyphonic' || dict.indexOf('polyphonic') !== -1) {
-    customPolyphonicDict.length = 0;
+    customPolyphonicDict.clear();
   }
 }

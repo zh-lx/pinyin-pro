@@ -5,7 +5,6 @@ import {
   middlewarePattern,
   middlewareToneType,
   middlewareV,
-  middlewareDoubleUnicode,
 } from '@/core/pinyin/middlewares';
 import DICT1 from '@/data/dict1';
 import {
@@ -15,7 +14,7 @@ import {
   getFinalParts,
 } from '@/core/pinyin/handle';
 import { getCustomPolyphonicDict } from '../custom';
-import { isZhChar, splitString } from '@/common/utils';
+import { splitString } from '@/common/utils';
 
 interface BasicOptions {
   /**
@@ -177,8 +176,6 @@ function polyphonic(
 
   let list = getPolyphonicList(text);
 
-  list = middlewareDoubleUnicode(list);
-
   // nonZh 参数及 removeNonZh 参数
   list = middleWareNonZh(list, options);
 
@@ -206,14 +203,13 @@ function polyphonic(
 
 // 获取每个字多音字的数组
 const getPolyphonicList = (text: string): SingleWordResult[] => {
-  return splitString(text).map((word) => {
-    const wordCode = word.charCodeAt(0);
+  return splitString(text).map((char) => {
     const customPolyphonicDict = getCustomPolyphonicDict();
-    const pinyin = customPolyphonicDict[wordCode] || DICT1[wordCode] || word;
+    const pinyin = customPolyphonicDict.get(char) || DICT1.get(char) || char;
     return {
-      origin: word,
+      origin: char,
       result: pinyin,
-      isZh: pinyin !== word,
+      isZh: pinyin !== char,
       originPinyin: pinyin,
     };
   });
@@ -259,7 +255,7 @@ export const handleType = (
         finalTail: tail,
         num: Number(getNumOfTone(item.originPinyin)),
         isZh: item.isZh,
-        inZhRange: isZhChar(item.origin),
+        inZhRange: !!DICT1.get(item.origin),
       };
     });
   }
