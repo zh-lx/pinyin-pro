@@ -6,6 +6,7 @@ import {
   getPinyinWithoutTone,
 } from '@/core/pinyin/handle';
 import DICT1 from './dict1';
+import { stringLength } from '@/common/utils';
 
 export const InitialList = [
   'zh',
@@ -167,7 +168,7 @@ export const PatternNumberDict: Pattern[] = Object.keys(NumberDict).map(
     zh: key,
     pinyin: NumberDict[key],
     probability: Probability.Rule,
-    length: key.length,
+    length: stringLength(key),
     priority: Priority.Normal,
     dict: Symbol('rule'),
   })

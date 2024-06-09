@@ -1,5 +1,7 @@
 import { Probability, Priority } from '@/common/constant';
+import { stringLength } from '@/common/utils';
 import type { Pattern } from  '../common/segmentit';
+
 const Surnames: { [key: string]: string } = {
   南宫: 'nán gōng',
   第五: 'dì wǔ',
@@ -498,8 +500,8 @@ export default Surnames;
 export const PatternSurname: Pattern[] = Object.keys(Surnames).map((key) => ({
   zh: key,
   pinyin: Surnames[key],
-  probability: Probability.Surname + key.length,
-  length: key.length,
+  probability: Probability.Surname + stringLength(key),
+  length: stringLength(key),
   priority: Priority.Surname,
   dict: Symbol('surname'),
 }));

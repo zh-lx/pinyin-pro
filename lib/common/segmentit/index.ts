@@ -121,10 +121,10 @@ export class AC {
   }
 
   addNodeToQueues(trieNode: TrieNode) {
-    if (!this.queues[trieNode.prefix.length]) {
-      this.queues[trieNode.prefix.length] = [];
+    if (!this.queues[stringLength(trieNode.prefix)]) {
+      this.queues[stringLength(trieNode.prefix)] = [];
     }
-    this.queues[trieNode.prefix.length].push(trieNode);
+    this.queues[stringLength(trieNode.prefix)].push(trieNode);
   }
 
   // 按照优先级插入 pattern
