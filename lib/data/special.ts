@@ -230,8 +230,20 @@ export function processToneSandhiLiao(cur: string, pre: string) {
   }
 }
 
+// 处理叠字符[々]
+function processReduplicationChar(cur: string, pre: string) {
+  if (cur === '々') {
+    if (!pre || !DICT1.get(pre)) {
+      return 'tóng';
+    } else {
+      return DICT1.get(pre).split(' ')[0];
+    }
+  }
+}
+
 export function processSepecialPinyin(cur: string, pre: string, next: string) {
   return (
+    processReduplicationChar(cur, pre) ||
     processToneSandhiLiao(cur, pre) ||
     processToneSandhi(cur, pre, next) ||
     getSingleWordPinyin(cur)
