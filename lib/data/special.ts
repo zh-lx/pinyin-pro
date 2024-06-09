@@ -236,7 +236,7 @@ function processReduplicationChar(cur: string, pre: string) {
     if (!pre || !DICT1.get(pre)) {
       return 'tóng';
     } else {
-      return 'liǎo';
+      return DICT1.get(pre).split(' ')[0];
     }
   }
 }
