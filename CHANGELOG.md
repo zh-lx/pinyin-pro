@@ -1,5 +1,13 @@
 # 更新日志
 
+# 3.22.0
+
+- 【feat】各 api 全面适配双 unicode 编码中文字符 [#242](https://github.com/zh-lx/pinyin-pro/pull/242)、[#243](https://github.com/zh-lx/pinyin-pro/pull/243)、[#247](https://github.com/zh-lx/pinyin-pro/pull/247)
+- 【feat】支持[《通用汉字规范表》](https://zh.wiktionary.org/wiki/Appendix:%E6%B1%89%E8%AF%AD%E6%8B%BC%E9%9F%B3%E7%B4%A2%E5%BC%95/%E9%80%9A%E7%94%A8%E8%A7%84%E8%8C%83%E6%B1%89%E5%AD%97%E8%A1%A8) 中所有字符 [#244](https://github.com/zh-lx/pinyin-pro/pull/244)
+- 【feat】支持叠字符 々 的发音 [#245](https://github.com/zh-lx/pinyin-pro/pull/245)
+- 【feat】支持 `êê̄ếê̌ề` 等拼音字符 [#248](https://github.com/zh-lx/pinyin-pro/pull/248)
+- 【patch】修正 `曲` 默认读音: [#249](https://github.com/zh-lx/pinyin-pro/pull/249)
+
 ## 3.21.1
 
 - 【fix】修复 `surname: 'head'` 对于复姓不生效的问题
