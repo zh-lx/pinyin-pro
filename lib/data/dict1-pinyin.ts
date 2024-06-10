@@ -964,7 +964,7 @@ export const DICT1: { [prop: string]: string } = {
   岸: 'àn',
   扶: 'fú',
   乱: 'luàn',
-  曲: 'qū qǔ',
+  曲: 'qǔ qū',
   脱: 'tuō',
   践: 'jiàn',
   危: 'wēi',
