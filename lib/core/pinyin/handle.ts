@@ -99,8 +99,9 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
     .replace(/(ī|í|ǐ|ì)/g, "i")
     .replace(/(ū|ú|ǔ|ù)/g, "u")
     .replace(/(ǖ|ǘ|ǚ|ǜ)/g, "ü")
-    .replace(/(ń|ň|ǹ)/g, "n")
-    .replace(/ḿ|m̀/g, "m");
+    .replace(/(n̄|ń|ň|ǹ)/g, "n")
+    .replace(/(m̄|ḿ|m̌|m̀)/g, "m")
+    .replace(/(ê̄|ế|ê̌|ề)/g, "ê");
 };
 
 /**
@@ -224,11 +225,12 @@ const getFinalParts: GetFinalParts = (pinyin) => {
  */
 type GetNumOfTone = (pinyin: string) => string;
 const getNumOfTone: GetNumOfTone = (pinyin) => {
-  const reg_tone1 = /(ā|ō|ē|ī|ū|ǖ)/;
-  const reg_tone2 = /(á|ó|é|í|ú|ǘ|ń|ḿ)/;
-  const reg_tone3 = /(ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň)/;
-  const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ|m̀)/;
-  const reg_tone0 = /(a|o|e|i|u|ü|n)/;
+  const reg_tone1 = /(ā|ō|ē|ī|ū|ǖ|n̄|m̄|ê̄)/;
+  const reg_tone2 = /(á|ó|é|í|ú|ǘ|ń|ḿ|ế)/;
+  const reg_tone3 = /(ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň|m̌|ê̌)/;
+  const reg_tone4 = /(à|ò|è|ì|ù|ǜ|ǹ|m̀|ề)/;
+  const reg_tone0 = /(a|o|e|i|u|ü|ê)/;
+  const special_tone = /(n|m)$/;
   const tone_num_arr: string[] = [];
   const pinyin_arr = pinyin.split(" ");
   pinyin_arr.forEach((_pinyin) => {
@@ -241,6 +243,8 @@ const getNumOfTone: GetNumOfTone = (pinyin) => {
     } else if (reg_tone4.test(_pinyin)) {
       tone_num_arr.push("4");
     } else if (reg_tone0.test(_pinyin)) {
+      tone_num_arr.push("0");
+    } else if (special_tone.test(_pinyin)) {
       tone_num_arr.push("0");
     } else {
       tone_num_arr.push("");
