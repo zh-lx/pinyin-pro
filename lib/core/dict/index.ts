@@ -29,7 +29,8 @@ export function addDict(dict: DICT | {}, options?: string | DictOptions) {
   for (let word in dict as DICT) {
     const value = (dict as DICT)[word];
     const pinyin = Array.isArray(value) ? value[0] : value;
-    if (stringLength(word) === 1) {
+    const wordLength = stringLength(word);
+    if (wordLength === 1) {
       addToOriginDict(
         dictName,
         word,
@@ -44,8 +45,8 @@ export function addDict(dict: DICT | {}, options?: string | DictOptions) {
         probability:
           typeof value[1] === "number"
             ? value[1]
-            : Probability.DICT * stringLength(word) * stringLength(word),
-        length: stringLength(word),
+            : Probability.DICT * wordLength * wordLength,
+        length: wordLength,
         priority: Priority.Normal,
         dict: dictName,
         pos: typeof value[2] === "string" ? value[2] : "",
@@ -54,8 +55,8 @@ export function addDict(dict: DICT | {}, options?: string | DictOptions) {
       patterns.push({
         zh: word,
         pinyin,
-        probability: Probability.DICT * stringLength(word) * stringLength(word),
-        length: stringLength(word),
+        probability: Probability.DICT * wordLength * wordLength,
+        length: wordLength,
         priority: Priority.Normal,
         dict: dictName,
       });

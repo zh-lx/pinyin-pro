@@ -5,7 +5,7 @@ import {
 } from "./constant";
 
 export function stringLength(text: string) {
-  return text.replace(DoubleUnicodeReg, "_").length;
+  return text.length - (text.match(DoubleUnicodeReg)?.length || 0);
 }
 
 // 双音节字符处理
@@ -13,10 +13,10 @@ export function splitString(text: string): string[] {
   const result = [];
   let i = 0;
   while (i < text.length) {
-    const char = text.charAt(i);
+    const char = text[i];
     if (
       DoubleUnicodePrefixReg.test(char) &&
-      DoubleUnicodeSuffixReg.test(text.charAt(i + 1))
+      DoubleUnicodeSuffixReg.test(text[i + 1])
     ) {
       result.push(text.substring(i, i + 2));
       i += 2;

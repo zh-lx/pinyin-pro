@@ -70,7 +70,7 @@ export const html = (text: string, options?: HtmlOptions) => {
     let additionalClass = '';
     for (const classname in completeOptions.customClassMap) {
       const dict = completeOptions.customClassMap[classname];
-      if (dict.indexOf(item.origin) !== -1) {
+      if (dict.includes(item.origin)) {
         additionalClass += ` ${classname}`;
       }
     }
