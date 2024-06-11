@@ -55,13 +55,13 @@ npm install pinyin-pro
   // 获取数组格式拼音
   pinyin("汉语拼音", { type: "array" }); // ["hàn", "yǔ", "pīn", "yīn"]
 
-  // 获取不带音调数组格式拼音
+  // 获取不带音调格式拼音
   pinyin("汉语拼音", { toneType: "none" }); // "han yu pin yin"
 
   // 获取不带音调数组格式拼音
   pinyin("汉语拼音", { toneType: "none", type: "array" }); // ["han", "yu", "pin", "yin"]
 
-  // 音调以数组形式显示
+  // 音调以数字形式显示
   pinyin("汉语拼音", { toneType: "num" }); // "han4 yu3 pin1 yin1"
 
   // 自动识别多音字
