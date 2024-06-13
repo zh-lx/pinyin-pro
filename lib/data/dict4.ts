@@ -1593,9 +1593,10 @@ const DICT4: { [prop: string]: string } = {
   一路公交: 'yī lù gōng jiāo',
   一路汽车: 'yī lù qì chē',
   一路巴士: 'yī lù bā shì',
-  不行一行: 'bù xíng yì háng', // 绕口令
   朝朝朝落: 'zhāo cháo zhāo luò',
   曲意逢迎: 'qū yì féng yíng',
+  一行不行: 'yì háng bù xíng',
+  行行不行: 'háng háng bù xíng'
 }
 export default DICT4;
 export const Pattern4: Pattern[] = Object.keys(DICT4).map((key) => ({
