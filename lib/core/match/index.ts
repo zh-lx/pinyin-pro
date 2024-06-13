@@ -83,9 +83,10 @@ const matchAny = (
 ) => {
   let result = [];
   const words = splitString(text);
+  const ignoreSpace = options.space === "ignore";
   for (let i = 0; i < words.length; i++) {
     // 空格字符
-    if (options.space === "ignore" && words[i] === " ") {
+    if (ignoreSpace && words[i] === " ") {
       result.push(i);
       continue;
     }
