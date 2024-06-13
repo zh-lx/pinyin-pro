@@ -23,7 +23,6 @@ const DICT3: { [prop: string]: string } = {
   运输量: 'yùn shū liàng',
   发脾气: 'fā pí qi',
   士大夫: 'shì dà fū',
-  仡佬族: 'gē lǎo zú',
   鸭绿江: 'yā lù jiāng',
   压根儿: 'yà gēn er',
   对得起: 'duì de qǐ',

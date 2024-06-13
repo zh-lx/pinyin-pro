@@ -2078,10 +2078,7 @@ const DICT2: { [prop: string]: string } = {
   逐一: 'zhú yī',
   周一: 'zhōu yī',
   初一: 'chū yī',
-  高一: 'gāo yī',
-  大一: 'dà yī',
   研一: 'yán yī',
-  守一: 'shǒu yī',
   归一: 'guī yī', // 如：归一化、九九归一
   假一: 'jiǎ yī', // 假一赔十
   闻一: 'wén yī', // 闻一知十、闻一知二
@@ -2115,11 +2112,8 @@ const DICT2: { [prop: string]: string } = {
   一八: 'yī bā',
   一九: 'yī jiǔ', // 如：一九天很冷
   一又: 'yī yòu', // 如小数：一又二分之一
-  // TODO:  添加更多为(二声)的词
-  一更: 'yī gēng', // 古代时间
   一饼: 'yī bǐng', // 麻将牌
   一楼: 'yī lóu',
-  一期: 'yī qī',
   为例: 'wéi lì',
   为准: 'wéi zhǔn',
   沧海: 'cāng hǎi', // 加这个词是为了避免匹配成「曾经沧/海难/为水」为变成第四声
@@ -2146,8 +2140,6 @@ const DICT2: { [prop: string]: string } = {
   空难: 'kōng nàn',
   喜欢: 'xǐ huan', // 现代汉语词典(第7版)P1405
   朝朝: 'zhāo zhāo',
-  行行: 'háng háng',
-  哪行: 'nǎ háng',
   不行: 'bù xíng',
   轧轧: 'yà yà',
   弯曲: 'wān qū',
@@ -2164,6 +2156,8 @@ const DICT2: { [prop: string]: string } = {
   曲折: 'qū zhé',
   曲肱: 'qū gōng',
   曲意: 'qū yì',
+  仡佬: 'gē lǎo',
+
 };
 export default DICT2;
 export const Pattern2: Pattern[] = Object.keys(DICT2).map((key) => ({
