@@ -494,6 +494,7 @@ const Surnames: { [key: string]: string } = {
   甯: 'nìng', // 如：周代有甯越，现在用作人名时也读四声，比如：张钧甯
   六: 'lù', // https://baike.baidu.com/item/%E5%85%AD%E5%A7%93/9394114
   啜: 'chuài', // https://baike.baidu.com/item/%E5%95%9C%E5%A7%93/9563772
+  行: 'xíng',
 };
 
 export default Surnames;
