@@ -19,7 +19,7 @@ describe("types", () => {
           // 如果是文件夹，递归检查
           checkFilesRecursively(filePath);
         } else if (stats.isFile()) {
-          // 如果是文件，检查内容是否包含 'xyz'
+          // 如果是文件，检查内容是否包含 '@/'
           const data = fs.readFileSync(filePath, 'utf8');
           if (data.includes('@/')) {
             console.error('There are alias in .d.ts: ' + filePath);
