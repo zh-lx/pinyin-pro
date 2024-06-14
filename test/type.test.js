@@ -1,4 +1,3 @@
-import { pinyin } from "../lib/index";
 import { expect, describe, it } from "vitest";
 import path from 'path';
 import fs from 'fs';
