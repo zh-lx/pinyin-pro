@@ -1,4 +1,4 @@
-import { FastDictFactory } from "@/common/utils";
+import { FastDictFactory } from "../common/utils";
 
 const map: { [key: string]: string[] } = {
   'bǎng páng pāng': ['膀'],

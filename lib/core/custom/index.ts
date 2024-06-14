@@ -1,6 +1,7 @@
 import { acTree } from '@/common/segmentit';
 import { Probability, Priority } from '@/common/constant';
-import { FastDictFactory, splitString, stringLength } from '@/common/utils';
+import { splitString, stringLength } from '@/common/utils';
+import { FastDictFactory } from '../../common/utils';
 import DICT1 from '@/data/dict1';
 let customDict: { [key: string]: string } = {};
 const customMultipleDict = new FastDictFactory();

@@ -1,4 +1,4 @@
-import { FastDictFactory } from '@/common/utils';
+import { FastDictFactory } from '../../common/utils';
 type CustomHandleType = 'add' | 'replace';
 type CustomDictType = 'pinyin' | 'multiple' | 'polyphonic';
 interface CustomPinyinOptions {
