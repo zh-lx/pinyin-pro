@@ -1,5 +1,9 @@
 # 更新日志
 
+# 3.22.2
+
+- 【fix】修复 alias 导致的 `.d.ts` 文件报错 [#253](https://github.com/zh-lx/pinyin-pro/pull/253)
+
 # 3.22.1
 
 - 【patch】校正部分词库 [#252](https://github.com/zh-lx/pinyin-pro/pull/252)
