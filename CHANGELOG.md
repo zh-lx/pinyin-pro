@@ -1,5 +1,9 @@
 # 更新日志
 
+# 3.23.0
+
+- 【feat】支持外部调用 `getInitialAndFinal`、`getFinalParts`、`getNumOfTone` 等 API
+
 # 3.22.2
 
 - 【fix】修复 alias 导致的 `.d.ts` 文件报错 [#253](https://github.com/zh-lx/pinyin-pro/pull/253)
