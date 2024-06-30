@@ -2,7 +2,7 @@
 
 # 3.23.0
 
-- 【feat】支持外部调用 `getInitialAndFinal`、`getFinalParts`、`getNumOfTone` 等 API
+- 【feat】支持外部调用 `getInitialAndFinal`、`getFinalParts`、`getNumOfTone` 等 API [#255](https://github.com/zh-lx/pinyin-pro/pull/255)
 
 # 3.22.2
 
