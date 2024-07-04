@@ -7,6 +7,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/zh-lx/pinyin-pro)](https://app.codecov.io/gh/zh-lx/pinyin-pro)
 [![DeepScan grade](https://deepscan.io/api/teams/20303/projects/26161/branches/829070/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=20303&pid=26161&bid=829070)
 [![MIT-license](https://img.shields.io/npm/l/pinyin-pro.svg)](https://opensource.org/licenses/MIT)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/pinyin-pro)](https://bundlephobia.com/package/pinyin-pro)
 [![GITHUB-language](https://img.shields.io/github/languages/top/zh-lx/pinyin-pro.svg)](https://github.com/zh-lx/pinyin-pro)
 
 ### 📖 介绍
