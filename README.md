@@ -43,9 +43,9 @@ npm install pinyin-pro
 
 ### 💡 使用示例
 
-全部功能的使用说明文档请查看[在线文档](https://pinyin-pro.cn/use/pinyin)
+全部功能的使用说明文档请查看[在线文档](https://pinyin-pro.cn/use/pinyin.html)
 
-- 获取拼音，更多功能请查看[pinyin API](https://pinyin-pro.cn/use/pinyin)
+- 获取拼音，更多功能请查看[pinyin API](https://pinyin-pro.cn/use/pinyin.html)
 
   ```js
   import { pinyin } from "pinyin-pro";
@@ -69,7 +69,7 @@ npm install pinyin-pro
   pinyin("睡着了"); // "shuì zháo le"
   ```
 
-- 文本和拼音匹配，更多匹配规则请查看[match API](https://pinyin-pro.cn/use/match)
+- 文本和拼音匹配，更多匹配规则请查看[match API](https://pinyin-pro.cn/use/match.html)
 
   ```js
   import { match } from "pinyin-pro";
@@ -84,7 +84,7 @@ npm install pinyin-pro
   match("中文拼音", "zhongwp"); // [0, 1, 2]
   ```
 
-- 拼音格式转换，更多功能请查看[convert API](https://pinyin-pro.cn/use/convert)
+- 拼音格式转换，更多功能请查看[convert API](https://pinyin-pro.cn/use/convert.html)
 
   ```js
   import { convert } from "pinyin-pro";
@@ -99,7 +99,7 @@ npm install pinyin-pro
   convert("pīn yīn", { format: "toneNone" }); // 'pin yin'
   ```
 
-- 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html)
+- 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html.html)
 
   ```js
   import { html } from "pinyin-pro";

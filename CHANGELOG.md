@@ -426,7 +426,7 @@
 
 ## 3.5.0
 
-- 【feat】新增 `match` api 以支持拼音文本匹配功能。[去看看](/user/match)
+- 【feat】新增 `match` api 以支持拼音文本匹配功能。[去看看](/user/match.html)
 
 ## 3.4.1
 
@@ -435,7 +435,7 @@
 ## 3.4.0
 
 - 【feat】<b>pinyin</b>：`options` 参数新增 `mode` 可选属性，`options.mode = 'surname'` 模式支持姓氏模式拼音识别。[去看看](/use/pinyin.html#姓氏模式)
-- 【feat】新增 `customPinyin` api，支持用户自定义拼音功能。[去看看](/use/customPinyin)
+- 【feat】新增 `customPinyin` api，支持用户自定义拼音功能。[去看看](/use/customPinyin.html)
 - 【fix】修复文本过长时堆栈溢出问题
 - 【patch】修正部分读音：
   - 褚: `zhǔ` -> `chǔ zhǔ`
