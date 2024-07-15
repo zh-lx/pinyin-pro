@@ -1,5 +1,9 @@
 # 更新日志
 
+# 3.23.1
+
+- 【patch】修正部分读音 [#260](https://github.com/zh-lx/pinyin-pro/pull/260)
+
 # 3.23.0
 
 - 【feat】支持外部调用 `getInitialAndFinal`、`getFinalParts`、`getNumOfTone` 等 API [#255](https://github.com/zh-lx/pinyin-pro/pull/255)
