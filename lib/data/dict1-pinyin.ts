@@ -1377,7 +1377,7 @@ export const DICT1: { [prop: string]: string } = {
   触: 'chù',
   陕: 'shǎn',
   拖: 'tuō',
-  伯: 'bǎi bó',
+  伯: 'bó bǎi',
   盲: 'máng',
   宪: 'xiàn',
   净: 'jìng chēng',

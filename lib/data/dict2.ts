@@ -262,6 +262,7 @@ const DICT2: { [prop: string]: string } = {
   委屈: 'wěi qu',
   为期: 'wéi qī',
   伯伯: 'bó bo',
+  伯子: 'bǎi zi',
   圈子: 'quān zi',
   见识: 'jiàn shi',
   笼罩: 'lǒng zhào',

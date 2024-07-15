@@ -56,6 +56,7 @@ const DICT3: { [prop: string]: string } = {
   充其量: 'chōng qí liàng',
   靠得住: 'kào de zhù',
   车行道: 'chē xíng dào',
+  人行道: 'rén xíng dào',
   中郎将: 'zhōng láng jiàng',
   照明弹: 'zhào míng dàn',
   烟幕弹: 'yān mù dàn',

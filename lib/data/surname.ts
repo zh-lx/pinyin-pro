@@ -121,7 +121,7 @@ const Surnames: { [key: string]: string } = {
   花: 'huā',
   方: 'fāng',
   俞: 'yú',
-  任: 'rèn', // 如任正非、任贤齐
+  任: 'rén', // 如任正非、任贤齐
   袁: 'yuán',
   柳: 'liǔ',
   酆: 'fēng',
