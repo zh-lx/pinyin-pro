@@ -1120,7 +1120,6 @@ const DICT4: { [prop: string]: string } = {
   将取固予: "jiāng qǔ gù yǔ",
   将门有将: "jiàng mén yǒu jiàng",
   将夺固与: "jiāng duó gù yǔ",
-  将伯之助: "qiāng bó zhī zhù",
   槛花笼鹤: "jiàn huā lóng hè",
   鉴影度形: "jiàn yǐng duó xíng",
   渐不可长: "jiàn bù kě zhǎng",
