@@ -24,6 +24,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['hàn'],
+        result: 'hàn',
       },
       {
         origin: '语',
@@ -38,6 +39,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['yǔ', "yù"],
+        result: 'yǔ',
       },
       {
         origin: '拼',
@@ -52,6 +54,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['pīn'],
+        result: 'pīn',
       },
       {
         origin: '音',
@@ -66,6 +69,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['yīn'],
+        result: 'yīn',
       },
     ]);
   });
@@ -88,6 +92,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['hàn'],
+        result: 'hàn',
       },
       {
         origin: 'a',
@@ -102,6 +107,7 @@ describe('all', () => {
         isZh: false,
         inZhRange: false,
         polyphonic: [],
+        result: 'a',
       },
       {
         origin: '𧒽',
@@ -116,6 +122,7 @@ describe('all', () => {
         isZh: false,
         inZhRange: false,
         polyphonic: [],
+        result: '𧒽',
       },
       {
         origin: '音',
@@ -130,6 +137,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['yīn'],
+        result: 'yīn',
       },
     ]);
   });
@@ -153,6 +161,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['hàn'],
+        result: 'hàn',
       },
       {
         origin: '音',
@@ -167,6 +176,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['yīn'],
+        result: 'yīn',
       },
     ]);
   });
@@ -190,6 +200,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['hàn'],
+        result: 'hàn',
       },
       {
         origin: 'a𧒽',
@@ -204,6 +215,7 @@ describe('all', () => {
         isZh: false,
         inZhRange: false,
         polyphonic: [],
+        result: 'a𧒽',
       },
       {
         origin: '音',
@@ -218,6 +230,7 @@ describe('all', () => {
         isZh: true,
         inZhRange: true,
         polyphonic: ['yīn'],
+        result: 'yīn',
       },
     ]);
   });

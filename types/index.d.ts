@@ -6,3 +6,4 @@ export { match } from './core/match';
 export { html } from './core/html';
 export { polyphonic } from './core/polyphonic';
 export { convert } from './core/convert';
+export { segment, OutputFormat } from './core/segment';

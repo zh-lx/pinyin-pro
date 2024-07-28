@@ -200,6 +200,7 @@ export const middlewareType = (
         isZh: item.isZh,
         polyphonic,
         inZhRange: !!DICT1.get(item.origin),
+        result: item.result,
       };
     });
   }
