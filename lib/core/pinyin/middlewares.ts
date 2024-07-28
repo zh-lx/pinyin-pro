@@ -26,6 +26,13 @@ export const validateType = (word: unknown) => {
   }
 };
 
+export function isNonZhScope(char: string, scope?: RegExp) {
+  if (scope instanceof RegExp) {
+    return scope.test(char);
+  }
+  return true;
+}
+
 // nonZh 属性处理
 export const middleWareNonZh = (
   list: SingleWordResult[],
@@ -34,12 +41,12 @@ export const middleWareNonZh = (
   let nonZh = options.nonZh;
 
   if (nonZh === "removed") {
-    return list.filter((item) => item.isZh);
+    return list.filter((item) => item.isZh || !isNonZhScope(item.origin, options.nonZhScope));
   } else if (nonZh === "consecutive") {
     for (let i = list.length - 2; i >= 0; i--) {
       const cur = list[i];
       const pre = list[i + 1];
-      if (!cur.isZh && !pre.isZh) {
+      if (!cur.isZh && !pre.isZh && isNonZhScope(cur.origin, options.nonZhScope) && isNonZhScope(pre.origin, options.nonZhScope)) {
         cur.origin += pre.origin;
         cur.result += pre.result;
         pre.delete = true;

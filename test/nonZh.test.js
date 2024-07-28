@@ -32,8 +32,8 @@ describe('nonZh', () => {
     expect(result4).to.deep.equal(['xǐ', ' ', 'huān']);
   });
 
-  it('/', () => {
-    const result4 = pinyin('一丁点儿\n');
-    expect(result4).to.deep.equal('yī dīng diǎn er \n');
+  it('[nonZh]scope regexp', () => {
+    const result4 = pinyin('我very喜欢你，真的', { nonZh: 'consecutive', nonZhScope: /[a-zA-Z]/ });
+    expect(result4).to.be.equal('wǒ very xǐ huan nǐ ， zhēn de');
   });
 });

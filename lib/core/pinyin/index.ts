@@ -78,6 +78,10 @@ export interface BasicOptions {
    */
   nonZh?: "spaced" | "consecutive" | "removed";
   /**
+   * @description nonZh 生效范围的正则表达式
+   */
+  nonZhScope?: RegExp;
+  /**
    * @description 对于 ü 的返回是否转换成 v（仅在 toneType: none 启用时生效）
    * @value false：返回值中保留 ü （默认值）
    * @value true：返回值中 ü 转换成 v
