@@ -1,5 +1,10 @@
 # 更新日志
 
+# 3.24.0
+
+- 【feat】新增 `segment` API 用于分词 [#265](https://github.com/zh-lx/pinyin-pro/pull/265)
+- 【feat】`pinyin` API 新增 `nonZhScope` 属性用于指定 `nonZh` 的范围 [#266](https://github.com/zh-lx/pinyin-pro/pull/266)
+
 # 3.23.1
 
 - 【patch】修正部分读音 [#260](https://github.com/zh-lx/pinyin-pro/pull/260)
