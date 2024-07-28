@@ -1,6 +1,6 @@
 import { TokenizationAlgorithm } from "../../common/segmentit";
 import type { PinyinMode, SurnameMode } from "../../common/type";
-interface BasicOptions {
+export interface BasicOptions {
     /**
      * @description 返回的拼音音调类型
      * @value symbol：在字母上加音调 （默认值）
@@ -85,6 +85,7 @@ interface AllData {
     isZh: boolean;
     polyphonic: string[];
     inZhRange: boolean;
+    result: string;
 }
 interface OptionsReturnString extends BasicOptions {
     /**

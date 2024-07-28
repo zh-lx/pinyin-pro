@@ -19,5 +19,6 @@ export declare const middlewareType: (list: SingleWordResult[], options: Complet
     isZh: boolean;
     polyphonic: string[];
     inZhRange: boolean;
+    result: string;
 }[];
 export declare const middlewareToneSandhi: (list: SingleWordResult[], toneSandhi: boolean) => SingleWordResult[];

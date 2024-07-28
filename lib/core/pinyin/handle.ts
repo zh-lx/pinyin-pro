@@ -11,7 +11,7 @@ import DICT1 from "@/data/dict1";
 import { getCustomMultpileDict } from "@/core/custom";
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode } from "../../common/type";
-import { acTree, TokenizationAlgorithm } from "../../common/segmentit";
+import { acTree, MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
 import {
   Priority,
 } from "@/common/constant";
@@ -34,7 +34,7 @@ export const getPinyin = (
   list: SingleWordResult[],
   surname: SurnameMode,
   segmentit: TokenizationAlgorithm
-): SingleWordResult[] => {
+): { list: SingleWordResult[], matches: MatchPattern[] } => {
   const matches = acTree.search(word, surname, segmentit);
   let matchIndex = 0;
   const zhChars = splitString(word);
@@ -82,7 +82,7 @@ export const getPinyin = (
       i++;
     }
   }
-  return list;
+  return { list, matches };
 };
 
 /**

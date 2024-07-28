@@ -1,6 +1,6 @@
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode } from "../../common/type";
-import { TokenizationAlgorithm } from "../../common/segmentit";
+import { MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
 /**
  * @description: 获取单个字符的拼音
  * @param {string} char
@@ -8,7 +8,10 @@ import { TokenizationAlgorithm } from "../../common/segmentit";
  */
 type GetSingleWordPinyin = (char: string) => string;
 export declare const getSingleWordPinyin: GetSingleWordPinyin;
-export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm) => SingleWordResult[];
+export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm) => {
+    list: SingleWordResult[];
+    matches: MatchPattern[];
+};
 /**
  * @description: 将带音调符号拼音转换为不带音调拼音
  * @param {string} pinyin

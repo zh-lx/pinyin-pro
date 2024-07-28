@@ -17,7 +17,7 @@ import {
   middlewareToneSandhi,
 } from "./middlewares";
 
-interface BasicOptions {
+export interface BasicOptions {
   /**
    * @description 返回的拼音音调类型
    * @value symbol：在字母上加音调 （默认值）
@@ -111,6 +111,7 @@ interface AllData {
   isZh: boolean;
   polyphonic: string[];
   inZhRange: boolean;
+  result: string; // 3.24.0 新增
 }
 
 interface OptionsReturnString extends BasicOptions {
@@ -241,11 +242,11 @@ function pinyin(
     options.nonZh = "removed";
   }
 
-  let list: SingleWordResult[] = Array(stringLength(word));
+  let _list = Array(stringLength(word));
 
-  list = getPinyin(
+  let { list } = getPinyin(
     word,
-    list,
+    _list,
     options.surname as SurnameMode,
     options.segmentit as TokenizationAlgorithm
   );
