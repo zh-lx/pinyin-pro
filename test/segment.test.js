@@ -366,3 +366,17 @@ describe("segment separator", () => {
     });
   });
 });
+
+describe("segment final nonZh", () => {
+  it("[separator]final nonZh", () => {
+    const result = segment(
+      "小明硕士毕业于中国科学院计算所，后在日本京都大学深造。",
+      {
+        format: OutputFormat.PinyinString,
+      }
+    );
+    expect(result).to.deep.equal(
+      "xiǎo míng shuòshì bìyè yú zhōngguókēxuéyuàn jìsuànsuǒ ， hòu zài rìběnjīngdūdàxué shēnzào 。"
+    );
+  });
+});
