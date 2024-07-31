@@ -75,6 +75,20 @@ export function middlewareSegment(list: SingleWordResult[], matches: MatchPatter
     }
   }
 
+  while (i < list.length) {
+    const item = list[i];
+    segments.push({
+      segment: [
+        {
+          origin: item.origin,
+          result: item.result,
+        }
+      ],
+      isZh: false,
+    });
+    i++;
+  }
+
   return segments;
 }
 
