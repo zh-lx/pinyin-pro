@@ -1,5 +1,10 @@
 # 更新日志
 
+## 3.25.0
+
+- 【feat】`html` API 增加 `rp` 选项，用于去除输出结果中的 `<rp>(</rp>` 和 `<rp>)</rp>` [#272](https://github.com/zh-lx/pinyin-pro/pull/272)
+- 【feat】`html` API 中自定义类名为 `false` 或者 `null` 时，保持默认类名 [#271](https://github.com/zh-lx/pinyin-pro/pull/271)
+
 ## 3.24.1
 
 - 【fix】修复 `segment` 对于最后的标点符号丢弃的问题 [#268](https://github.com/zh-lx/pinyin-pro/pull/268)

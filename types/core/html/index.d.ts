@@ -35,6 +35,12 @@ interface HtmlOptions {
      * @value false：不开启
      */
     toneSandhi?: boolean;
+    /**
+     * @description 是否保留  <rp>(</rp> 标签，默认为保留
+     * @value true：保留 <rp>(</rp>
+     * @value false：移除 <rp>(</rp>
+     */
+    rp?: boolean;
 }
 /**
  * @description: 获取带拼音汉字的 html 字符串
