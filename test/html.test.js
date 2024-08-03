@@ -87,4 +87,20 @@ describe('html', () => {
     expect(result).to.be.equal('<span class="py-result-item"><ruby><span class="py-chinese-item">汉</span><rp>(</rp><rt class="py-pinyin-item">hàn</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">字</span><rp>(</rp><rt class="py-pinyin-item">zì</rt><rp>)</rp></ruby></span>abc');
   });
 
+  it('[html-custom-class]自定义类名控制', () => {
+    const result = html('汉语，拼音', {
+      wrapNonChinese: true,
+      // @ts-ignore
+      resultClass: false,
+      // @ts-ignore
+      chineseClass: null,
+      // @ts-ignore
+      pinyinClass: false,
+      // @ts-ignore
+      nonChineseClass: null,
+    });
+    expect(result).to.be.equal(
+      `<span class="py-result-item"><ruby><span class="py-chinese-item">汉</span><rp>(</rp><rt class="py-pinyin-item">hàn</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">语</span><rp>(</rp><rt class="py-pinyin-item">yǔ</rt><rp>)</rp></ruby></span><span class="py-non-chinese-item">，</span><span class="py-result-item"><ruby><span class="py-chinese-item">拼</span><rp>(</rp><rt class="py-pinyin-item">pīn</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">音</span><rp>(</rp><rt class="py-pinyin-item">yīn</rt><rp>)</rp></ruby></span>`
+    );
+  });
 });
