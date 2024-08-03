@@ -103,4 +103,13 @@ describe('html', () => {
       `<span class="py-result-item"><ruby><span class="py-chinese-item">汉</span><rp>(</rp><rt class="py-pinyin-item">hàn</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">语</span><rp>(</rp><rt class="py-pinyin-item">yǔ</rt><rp>)</rp></ruby></span><span class="py-non-chinese-item">，</span><span class="py-result-item"><ruby><span class="py-chinese-item">拼</span><rp>(</rp><rt class="py-pinyin-item">pīn</rt><rp>)</rp></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">音</span><rp>(</rp><rt class="py-pinyin-item">yīn</rt><rp>)</rp></ruby></span>`
     );
   });
+
+  it('[html-custom-class]remove rp', () => {
+    const result = html('汉语，拼音', {
+      rp: false,
+    });
+    expect(result).to.be.equal(
+      `<span class="py-result-item"><ruby><span class="py-chinese-item">汉</span><rt class="py-pinyin-item">hàn</rt></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">语</span><rt class="py-pinyin-item">yǔ</rt></ruby></span>，<span class="py-result-item"><ruby><span class="py-chinese-item">拼</span><rt class="py-pinyin-item">pīn</rt></ruby></span><span class="py-result-item"><ruby><span class="py-chinese-item">音</span><rt class="py-pinyin-item">yīn</rt></ruby></span>`
+    );
+  });
 });
