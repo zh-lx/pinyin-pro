@@ -76,14 +76,14 @@ export const html = (text: string, options?: HtmlOptions) => {
     }
     if (item.isZh) {
       // 汉字字符处理
-      const resultClass = completeOptions.resultClass;
-      const chineseClass = completeOptions.chineseClass;
-      const pinyinClass = completeOptions.pinyinClass;
+      const resultClass = completeOptions.resultClass || DefaultHtmlOptions.resultClass;
+      const chineseClass = completeOptions.chineseClass || DefaultHtmlOptions.chineseClass;
+      const pinyinClass = completeOptions.pinyinClass || DefaultHtmlOptions.pinyinClass;
       return `<span class="${resultClass}${additionalClass}"><ruby><span class="${chineseClass}">${item.origin}</span><rp>(</rp><rt class="${pinyinClass}">${item.pinyin}</rt><rp>)</rp></ruby></span>`;
     } else {
       // 非汉字字符处理
       if (completeOptions.wrapNonChinese) {
-        const nonChineseClass = completeOptions.nonChineseClass;
+        const nonChineseClass = completeOptions.nonChineseClass || DefaultHtmlOptions.nonChineseClass;
         return `<span class="${nonChineseClass}${additionalClass}">${item.origin}</span>`;
       } else {
         return item.origin;
