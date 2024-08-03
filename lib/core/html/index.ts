@@ -37,6 +37,12 @@ interface HtmlOptions {
    * @value false：不开启
    */
   toneSandhi?: boolean;
+  /**
+   * @description 是否保留  <rp>(</rp> 标签，默认为保留
+   * @value true：保留 <rp>(</rp>
+   * @value false：移除 <rp>(</rp>
+   */
+  rp?: boolean;
 }
 
 const DefaultHtmlOptions: HtmlOptions = {
@@ -48,6 +54,7 @@ const DefaultHtmlOptions: HtmlOptions = {
   toneType: 'symbol',
   customClassMap: {},
   toneSandhi: true,
+  rp: true,
 };
 
 /**
@@ -79,7 +86,7 @@ export const html = (text: string, options?: HtmlOptions) => {
       const resultClass = completeOptions.resultClass || DefaultHtmlOptions.resultClass;
       const chineseClass = completeOptions.chineseClass || DefaultHtmlOptions.chineseClass;
       const pinyinClass = completeOptions.pinyinClass || DefaultHtmlOptions.pinyinClass;
-      return `<span class="${resultClass}${additionalClass}"><ruby><span class="${chineseClass}">${item.origin}</span><rp>(</rp><rt class="${pinyinClass}">${item.pinyin}</rt><rp>)</rp></ruby></span>`;
+      return `<span class="${resultClass}${additionalClass}"><ruby><span class="${chineseClass}">${item.origin}</span>${completeOptions.rp ? '<rp>(</rp>' : ''}<rt class="${pinyinClass}">${item.pinyin}</rt>${completeOptions.rp ? '<rp>)</rp>' : ''}</ruby></span>`;
     } else {
       // 非汉字字符处理
       if (completeOptions.wrapNonChinese) {
