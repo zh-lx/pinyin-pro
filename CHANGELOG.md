@@ -1,5 +1,9 @@
 # 更新日志
 
+## 3.25.0
+
+- 【feat】`match` API 新增 `v` 选项，允许使用 `v` 匹配 `ü` 的拼音 [#276](https://github.com/zh-lx/pinyin-pro/pull/276)
+
 ## 3.24.2
 
 - 【feat】`html` API 增加 `rp` 选项，用于去除输出结果中的 `<rp>(</rp>` 和 `<rp>)</rp>` [#272](https://github.com/zh-lx/pinyin-pro/pull/272)
