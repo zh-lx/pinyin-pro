@@ -22,6 +22,10 @@ interface MatchOptions {
    * @description 是否大小写不敏感
    */
   insensitive?: boolean;
+  /**
+   * @description 是否将 ü 替换成 v 进行匹配
+   */
+  v?: boolean;
 }
 
 const DefaultMatchOptions: MatchOptions = {
@@ -30,6 +34,7 @@ const DefaultMatchOptions: MatchOptions = {
   space: "ignore",
   lastPrecision: "start",
   insensitive: true,
+  v: false,
 };
 
 const MAX_PINYIN_LENGTH = 6;
@@ -44,6 +49,9 @@ const MAX_PINYIN_LENGTH = 6;
 export const match = (text: string, pinyin: string, options?: MatchOptions) => {
   if (options?.precision === "any") {
     options.lastPrecision = "any";
+  }
+  if (options?.v) {
+    pinyin = pinyin.replace(/ü/g, "v");
   }
   const completeOptions = {
     ...DefaultMatchOptions,
@@ -101,6 +109,7 @@ const matchAny = (
       toneType: "none",
       multiple: true,
       type: "array",
+      v: options.v,
     });
     let currentLength = 0;
     ps.forEach((p) => {
@@ -179,6 +188,7 @@ const matchAboveStart = (
           type: "array",
           toneType: "none",
           multiple: true,
+          v: options.v,
         });
 
         // 非中文匹配

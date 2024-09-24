@@ -19,6 +19,10 @@ interface MatchOptions {
      * @description 是否大小写不敏感
      */
     insensitive?: boolean;
+    /**
+     * @description 是否将 ü 替换成 v 进行匹配
+     */
+    v?: boolean;
 }
 /**
  * @description: 检测汉语字符串和拼音是否匹配
