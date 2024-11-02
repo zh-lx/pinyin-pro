@@ -249,7 +249,7 @@ export const handleType = (
         pinyin,
         initial,
         final,
-        first: item.isZh ? getFirstLetter(item.result) : '',
+        first: getFirstLetter(item.result),
         finalHead: head,
         finalBody: body,
         finalTail: tail,
