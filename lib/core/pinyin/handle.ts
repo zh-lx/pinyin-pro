@@ -12,10 +12,7 @@ import { getCustomMultpileDict } from "@/core/custom";
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode } from "../../common/type";
 import { acTree, MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
-import {
-  DoubleUnicodeCharReg,
-  Priority,
-} from "@/common/constant";
+import {  Priority } from "@/common/constant";
 import { splitString } from "@/common/utils";
 
 /**
