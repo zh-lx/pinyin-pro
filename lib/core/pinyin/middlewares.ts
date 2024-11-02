@@ -95,7 +95,7 @@ export const middlewarePattern = (
       break;
     case "first":
       list.forEach((item) => {
-        item.result = getFirstLetter(item.result);
+        item.result = getFirstLetter(item.result, item.isZh);
       });
       break;
     case "finalHead":
@@ -198,7 +198,7 @@ export const middlewareType = (
         pinyin,
         initial,
         final,
-        first: getFirstLetter(item.result),
+        first: getFirstLetter(item.result, item.isZh),
         finalHead: head,
         finalBody: body,
         finalTail: tail,

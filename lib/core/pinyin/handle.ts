@@ -13,6 +13,7 @@ import { SingleWordResult } from "../../common/type";
 import type { SurnameMode } from "../../common/type";
 import { acTree, MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
 import {
+  DoubleUnicodeCharReg,
   Priority,
 } from "@/common/constant";
 import { splitString } from "@/common/utils";
@@ -275,12 +276,12 @@ const getPinyinWithNum: GetPinyinWithNum = (pinyin, originPinyin) => {
  * @param {string} pinyin
  * @return {string}
  */
-type GetFirstLetter = (pinyin: string) => string;
-const getFirstLetter: GetFirstLetter = (pinyin) => {
+type GetFirstLetter = (pinyin: string, isZh: boolean) => string;
+const getFirstLetter: GetFirstLetter = (pinyin: string, isZh: boolean) => {
   const first_letter_arr: string[] = [];
   const pinyin_arr = pinyin.split(" ");
   pinyin_arr.forEach((pinyin) => {
-    first_letter_arr.push(pinyin[0]);
+    first_letter_arr.push(isZh ? pinyin[0] : pinyin);
   });
   return first_letter_arr.join(" ");
 };
