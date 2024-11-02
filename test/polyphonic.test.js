@@ -220,7 +220,7 @@ describe('polyphonic', () => {
           finalBody: '',
           finalHead: '',
           finalTail: '',
-          first: '',
+          first: 's',
           initial: '',
           isZh: false,
           num: 0,
