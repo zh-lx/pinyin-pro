@@ -130,6 +130,15 @@ describe('customConfig', () => {
     expect(result).to.be.equal('𧒽 shā fā lei ke 𧒽 suàn fǎ shì');
     clearAllCustomDicts();
   });
+
+  it('[custom] length not match', () => {
+    customPinyin({
+      你好: 'nihao',
+    });
+    const result = pinyin('你好', { toneType: 'none'});
+    expect(result).to.be.equal('nihao ');
+    clearAllCustomDicts();
+  });
 });
 
 

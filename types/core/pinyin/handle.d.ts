@@ -74,6 +74,6 @@ declare const getPinyinWithNum: GetPinyinWithNum;
  * @param {string} pinyin
  * @return {string}
  */
-type GetFirstLetter = (pinyin: string) => string;
+type GetFirstLetter = (pinyin: string, isZh: boolean) => string;
 declare const getFirstLetter: GetFirstLetter;
 export { getPinyinWithoutTone, getInitialAndFinal, getMultiplePinyin, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };

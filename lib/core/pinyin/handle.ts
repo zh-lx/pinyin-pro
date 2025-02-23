@@ -59,9 +59,9 @@ export const getPinyin = (
         const zhChars = splitString(match.zh);
         list[i + j] = {
           origin: zhChars[j],
-          result: pinyins[pinyinIndex],
+          result: pinyins[pinyinIndex] || '',
           isZh: true,
-          originPinyin: pinyins[pinyinIndex],
+          originPinyin: pinyins[pinyinIndex] || '',
         };
         pinyinIndex++;
       }
