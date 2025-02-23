@@ -26,4 +26,9 @@ describe('v', () => {
     const result4 = pinyin('吕布ü', { toneType: 'none', v: true });
     expect(result4).to.be.equal('lv bu ü');
   });
+
+  it('[v]string', () => {
+    const result4 = pinyin('吕和平', { toneType: 'none', v: 'yu' });
+    expect(result4).to.be.equal('lyu he ping');
+  });
 });
