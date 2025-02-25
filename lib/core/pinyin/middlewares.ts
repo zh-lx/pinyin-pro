@@ -157,7 +157,7 @@ export const middlewareV = (
   if (options.v) {
     list.forEach((item) => {
       if (item.isZh) {
-        item.result = item.result.replace(/ü/g, "v");
+        item.result = item.result.replace(/ü/g, typeof options.v === 'string' ? options.v : "v");
       }
     });
   }

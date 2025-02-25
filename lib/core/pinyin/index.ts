@@ -85,8 +85,9 @@ export interface BasicOptions {
    * @description 对于 ü 的返回是否转换成 v（仅在 toneType: none 启用时生效）
    * @value false：返回值中保留 ü （默认值）
    * @value true：返回值中 ü 转换成 v
+   * @value string：返回值中 ü 转换成指定字符
    */
-  v?: boolean;
+  v?: boolean | string;
   /**
    * @description 是否开启「一」和 「不」字的变调。默认开启。参考：https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83
    * @value true：开启
