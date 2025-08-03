@@ -1,103 +1,112 @@
-import { pinyin } from '../lib/index';
-import { expect, describe, it } from 'vitest';
+import { pinyin } from "../lib/index";
+import { expect, describe, it } from "vitest";
 
-describe('pattern', () => {
-  it('[pattern]num', () => {
-    const result = pinyin('汉语拼音', { pattern: 'num' });
-    expect(result).to.be.equal('4 3 1 1');
+describe("pattern", () => {
+  it("[pattern]num", () => {
+    const result = pinyin("汉语拼音", { pattern: "num" });
+    expect(result).to.be.equal("4 3 1 1");
   });
 
-  it('[pattern]num-array', () => {
-    const result = pinyin('汉语拼音', { pattern: 'num', type: 'array' });
-    expect(result).to.deep.equal(['4', '3', '1', '1']);
+  it("[pattern]num-array", () => {
+    const result = pinyin("汉语拼音", { pattern: "num", type: "array" });
+    expect(result).to.deep.equal(["4", "3", "1", "1"]);
   });
 
-  it('[pattern]final', () => {
-    const result = pinyin('汉语拼音', { pattern: 'final' });
-    expect(result).to.be.equal('àn ǔ īn īn');
+  it("[pattern]final", () => {
+    const result = pinyin("汉语拼音", { pattern: "final" });
+    expect(result).to.be.equal("àn ǔ īn īn");
   });
 
-  it('[pattern]final-array', () => {
-    const result = pinyin('汉语拼音', { pattern: 'final', type: 'array' });
-    expect(result).to.deep.equal(['àn', 'ǔ', 'īn', 'īn']);
+  it("[pattern]final-array", () => {
+    const result = pinyin("汉语拼音", { pattern: "final", type: "array" });
+    expect(result).to.deep.equal(["àn", "ǔ", "īn", "īn"]);
   });
 
-  it('[pattern]initial', () => {
-    const result = pinyin('汉语拼音', { pattern: 'initial' });
-    expect(result).to.be.equal('h y p y');
+  it("[pattern]initial", () => {
+    const result = pinyin("汉语拼音", { pattern: "initial" });
+    expect(result).to.be.equal("h y p y");
   });
 
-  it('[pattern]initial-array', () => {
-    const result = pinyin('汉语拼音', { pattern: 'initial', type: 'array' });
-    expect(result).to.deep.equal(['h', 'y', 'p', 'y']);
-  });
-
-  it('[pattern]num-all', () => {
-    const resultNumStr = pinyin('赵钱孙李吧', { pattern: 'num' });
-    expect(resultNumStr).to.be.equal('4 2 1 3 0');
-  });
-
-  it('[pattern]num-array', () => {
-    const resultNumArr = pinyin('赵钱孙李吧', {
-      pattern: 'num',
-      type: 'array',
+  it("[pattern]initial-yw", () => {
+    const result = pinyin("汉语拼音", {
+      pattern: "initial",
+      initialPattern: "standard",
+      type: "array",
     });
-    expect(resultNumArr).to.deep.equal(['4', '2', '1', '3', '0']);
+    expect(result).to.deep.equal(["h", "", "p", ""]);
   });
 
-  it('[pattern]initial-all', () => {
-    const resultInitial = pinyin('赵钱孙李吧', {
-      pattern: 'initial',
-    });
-    expect(resultInitial).to.be.equal('zh q s l b');
+  it("[pattern]initial-array", () => {
+    const result = pinyin("汉语拼音", { pattern: "initial", type: "array" });
+    expect(result).to.deep.equal(["h", "y", "p", "y"]);
   });
 
-  it('[pattern]final-all', () => {
-    const resultFinal = pinyin('赵钱孙李吧', {
-      pattern: 'final',
-    });
-    expect(resultFinal).to.be.equal('ào ián ūn ǐ a');
+  it("[pattern]num-all", () => {
+    const resultNumStr = pinyin("赵钱孙李吧", { pattern: "num" });
+    expect(resultNumStr).to.be.equal("4 2 1 3 0");
   });
 
-  it('[pattern]first-all', () => {
-    const resultFirst = pinyin('赵钱孙李额', {
-      pattern: 'first',
+  it("[pattern]num-array", () => {
+    const resultNumArr = pinyin("赵钱孙李吧", {
+      pattern: "num",
+      type: "array",
     });
-    const resultFirst1 = pinyin('赵钱孙李very', {
-      pattern: 'first',
-    });
-    expect(resultFirst).to.be.equal('z q s l é');
-    expect(resultFirst1).to.be.equal('z q s l v e r y');
+    expect(resultNumArr).to.deep.equal(["4", "2", "1", "3", "0"]);
   });
 
-  it('[pattern]first-all-none', () => {
-    const resultFirstNone = pinyin('赵钱孙李额', {
-      pattern: 'first',
-      toneType: 'none',
+  it("[pattern]initial-all", () => {
+    const resultInitial = pinyin("赵钱孙李吧", {
+      pattern: "initial",
     });
-    expect(resultFirstNone).to.be.equal('z q s l e');
+    expect(resultInitial).to.be.equal("zh q s l b");
   });
 
-  it('[pattern]nonZh', () => {
-    const resultNonZhInitial = pinyin('a', {
-      pattern: 'initial',
+  it("[pattern]final-all", () => {
+    const resultFinal = pinyin("赵钱孙李吧", {
+      pattern: "final",
     });
-    const resultNonZhFinal = pinyin('a', {
-      pattern: 'final',
+    expect(resultFinal).to.be.equal("ào ián ūn ǐ a");
+  });
+
+  it("[pattern]first-all", () => {
+    const resultFirst = pinyin("赵钱孙李额", {
+      pattern: "first",
     });
-    const resultNonZhFinalHead = pinyin('a', {
-      pattern: 'finalHead',
+    const resultFirst1 = pinyin("赵钱孙李very", {
+      pattern: "first",
     });
-    const resultNonZhFinalBody = pinyin('a', {
-      pattern: 'finalBody',
+    expect(resultFirst).to.be.equal("z q s l é");
+    expect(resultFirst1).to.be.equal("z q s l v e r y");
+  });
+
+  it("[pattern]first-all-none", () => {
+    const resultFirstNone = pinyin("赵钱孙李额", {
+      pattern: "first",
+      toneType: "none",
     });
-    const resultNonZhFinalTail = pinyin('a', {
-      pattern: 'finalTail',
+    expect(resultFirstNone).to.be.equal("z q s l e");
+  });
+
+  it("[pattern]nonZh", () => {
+    const resultNonZhInitial = pinyin("a", {
+      pattern: "initial",
     });
-    expect(resultNonZhInitial).to.deep.equal('');
-    expect(resultNonZhFinal).to.deep.equal('');
-    expect(resultNonZhFinalHead).to.deep.equal('');
-    expect(resultNonZhFinalBody).to.deep.equal('');
-    expect(resultNonZhFinalTail).to.deep.equal('');
+    const resultNonZhFinal = pinyin("a", {
+      pattern: "final",
+    });
+    const resultNonZhFinalHead = pinyin("a", {
+      pattern: "finalHead",
+    });
+    const resultNonZhFinalBody = pinyin("a", {
+      pattern: "finalBody",
+    });
+    const resultNonZhFinalTail = pinyin("a", {
+      pattern: "finalTail",
+    });
+    expect(resultNonZhInitial).to.deep.equal("");
+    expect(resultNonZhFinal).to.deep.equal("");
+    expect(resultNonZhFinalHead).to.deep.equal("");
+    expect(resultNonZhFinalBody).to.deep.equal("");
+    expect(resultNonZhFinalTail).to.deep.equal("");
   });
 });

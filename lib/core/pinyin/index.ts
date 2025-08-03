@@ -5,6 +5,7 @@ import type {
   PinyinMode,
   SurnameMode,
   CommonOptions,
+  InitialPattern,
 } from "../../common/type";
 import { getPinyin } from "./handle";
 import {

@@ -10,9 +10,13 @@ import Surnames from "@/data/surname";
 import DICT1 from "@/data/dict1";
 import { getCustomMultpileDict } from "@/core/custom";
 import { SingleWordResult } from "../../common/type";
-import type { SurnameMode } from "../../common/type";
-import { acTree, MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
-import {  Priority } from "@/common/constant";
+import type { SurnameMode, InitialPattern } from "../../common/type";
+import {
+  acTree,
+  MatchPattern,
+  TokenizationAlgorithm,
+} from "../../common/segmentit";
+import { Priority } from "@/common/constant";
 import { splitString } from "@/common/utils";
 
 /**
@@ -32,7 +36,7 @@ export const getPinyin = (
   list: SingleWordResult[],
   surname: SurnameMode,
   segmentit: TokenizationAlgorithm
-): { list: SingleWordResult[], matches: MatchPattern[] } => {
+): { list: SingleWordResult[]; matches: MatchPattern[] } => {
   const matches = acTree.search(word, surname, segmentit);
   let matchIndex = 0;
   const zhChars = splitString(word);
@@ -59,9 +63,9 @@ export const getPinyin = (
         const zhChars = splitString(match.zh);
         list[i + j] = {
           origin: zhChars[j],
-          result: pinyins[pinyinIndex] || '',
+          result: pinyins[pinyinIndex] || "",
           isZh: true,
-          originPinyin: pinyins[pinyinIndex] || '',
+          originPinyin: pinyins[pinyinIndex] || "",
         };
         pinyinIndex++;
       }
@@ -157,13 +161,17 @@ const getMultiplePinyin: GetMultiplePinyin = (word, surname = "off") => {
 /**
  * @description: 获取拼音的声母和韵母
  * @param {string} pinyin
+ * @param {InitialPattern} initialPattern
  * @return {*}
  */
-type GetInitialAndFinal = (pinyin: string) => {
+type GetInitialAndFinal = (
+  pinyin: string,
+  initialPattern?: InitialPattern
+) => {
   final: string;
   initial: string;
 };
-const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
+const getInitialAndFinal: GetInitialAndFinal = (pinyin, initialPattern) => {
   const pinyin_arr = pinyin.split(" ");
   const initial_arr: string[] = [];
   const final_arr: string[] = [];
@@ -183,6 +191,13 @@ const getInitialAndFinal: GetInitialAndFinal = (pinyin) => {
         break;
       }
     }
+  }
+  if (initialPattern === "standard") {
+    initial_arr.forEach((initial, index) => {
+      if (initial === "y" || initial === "w") {
+        initial_arr[index] = "";
+      }
+    });
   }
   return {
     final: final_arr.join(" "), // 韵母
