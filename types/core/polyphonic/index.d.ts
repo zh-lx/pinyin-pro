@@ -1,37 +1,5 @@
-import type { SingleWordResult } from '../../common/type';
-interface BasicOptions {
-    /**
-     * @description 返回的拼音音调类型
-     * @value symbol：在字母上加音调 （默认值）
-     * @value num：以数字格式展示音调，并跟在拼音后面
-     * @value none：不展示音调
-     */
-    toneType?: 'symbol' | 'num' | 'none';
-    /**
-     * @description 返回的拼音格式类型
-     * @value pinyin：返回完整拼音 （默认值）
-     * @value initial：返回声母
-     * @value final：返回韵母
-     * @value num：返回音调对应的数字
-     * @value first：返回首字母
-     * @value finalHead：返回韵头（介音）
-     * @value finalBody：返回韵腹
-     * @value finalTail：返回韵尾
-     */
-    pattern?: 'pinyin' | 'initial' | 'final' | 'num' | 'first' | 'finalHead' | 'finalBody' | 'finalTail';
-    /**
-     * @description 对于 ü 的返回是否转换成 v（仅在 toneType: none 启用时生效）
-     * @value false：返回值中保留 ü （默认值）
-     * @value true：返回值中 ü 转换成 v
-     */
-    v?: boolean;
-    /**
-     * @description 非汉字字符的间距格式
-     * @value spaced：连续非汉字字符之间用空格隔开 （默认值）
-     * @value consecutive：连续非汉字字符无间距
-     * @value removed：返回结果移除非汉字字符
-     */
-    nonZh?: 'spaced' | 'consecutive' | 'removed';
+import type { SingleWordResult, CommonOptions } from "../../common/type";
+interface BasicOptions extends CommonOptions {
 }
 interface AllData {
     origin: string;
@@ -53,7 +21,7 @@ interface OptionsReturnString extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type?: 'string';
+    type?: "string";
 }
 interface OptionsReturnArray extends BasicOptions {
     /**
@@ -62,7 +30,7 @@ interface OptionsReturnArray extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type: 'array';
+    type: "array";
 }
 interface OptionsReturnAll extends BasicOptions {
     /**
@@ -71,7 +39,7 @@ interface OptionsReturnAll extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type: 'all';
+    type: "all";
 }
 export interface CompleteOptions extends BasicOptions {
     /**
@@ -80,7 +48,7 @@ export interface CompleteOptions extends BasicOptions {
      * @value array：以数组格式返回
      * @value array: 返回全部信息数组
      */
-    type?: 'string' | 'array' | 'all';
+    type?: "string" | "array" | "all";
 }
 /**
  * @description: 获取每个汉字的所有读音

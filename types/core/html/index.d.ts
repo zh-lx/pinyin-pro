@@ -22,7 +22,7 @@ interface HtmlOptions {
     /**
      * @description 拼音上是否标注音调
      */
-    toneType?: 'symbol' | 'num' | 'none';
+    toneType?: "symbol" | "num" | "none";
     /**
      * @description 对于指定的汉字及字符，在 result 上额外补充的拼音
      */
@@ -41,6 +41,13 @@ interface HtmlOptions {
      * @value false：移除 <rp>(</rp>
      */
     rp?: boolean;
+    /**
+     * @description 对于 ü 的返回是否转换成 v（仅在 toneType: none 启用时生效）
+     * @value false：返回值中保留 ü （默认值）
+     * @value true：返回值中 ü 转换成 v
+     * @value string：返回值中 ü 转换成指定字符
+     */
+    v?: boolean | string;
 }
 /**
  * @description: 获取带拼音汉字的 html 字符串

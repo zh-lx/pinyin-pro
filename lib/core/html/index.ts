@@ -1,4 +1,4 @@
-import { pinyin } from '@/core/pinyin';
+import { pinyin } from "@/core/pinyin";
 
 interface HtmlOptions {
   /**
@@ -24,7 +24,7 @@ interface HtmlOptions {
   /**
    * @description 拼音上是否标注音调
    */
-  toneType?: 'symbol' | 'num' | 'none';
+  toneType?: "symbol" | "num" | "none";
   /**
    * @description 对于指定的汉字及字符，在 result 上额外补充的拼音
    */
@@ -43,18 +43,26 @@ interface HtmlOptions {
    * @value false：移除 <rp>(</rp>
    */
   rp?: boolean;
+  /**
+   * @description 对于 ü 的返回是否转换成 v（仅在 toneType: none 启用时生效）
+   * @value false：返回值中保留 ü （默认值）
+   * @value true：返回值中 ü 转换成 v
+   * @value string：返回值中 ü 转换成指定字符
+   */
+  v?: boolean | string;
 }
 
 const DefaultHtmlOptions: HtmlOptions = {
-  resultClass: 'py-result-item',
-  chineseClass: 'py-chinese-item',
-  pinyinClass: 'py-pinyin-item',
-  nonChineseClass: 'py-non-chinese-item',
+  resultClass: "py-result-item",
+  chineseClass: "py-chinese-item",
+  pinyinClass: "py-pinyin-item",
+  nonChineseClass: "py-non-chinese-item",
   wrapNonChinese: false,
-  toneType: 'symbol',
+  toneType: "symbol",
   customClassMap: {},
   toneSandhi: true,
   rp: true,
+  v: false,
 };
 
 /**
@@ -69,12 +77,13 @@ export const html = (text: string, options?: HtmlOptions) => {
     ...(options || {}),
   } as Required<HtmlOptions>;
   const pinyinArray = pinyin(text, {
-    type: 'all',
+    type: "all",
     toneType: completeOptions.toneType,
     toneSandhi: options?.toneSandhi,
+    v: completeOptions.v,
   });
   const result = pinyinArray.map((item) => {
-    let additionalClass = '';
+    let additionalClass = "";
     for (const classname in completeOptions.customClassMap) {
       const dict = completeOptions.customClassMap[classname];
       if (dict.includes(item.origin)) {
@@ -83,19 +92,29 @@ export const html = (text: string, options?: HtmlOptions) => {
     }
     if (item.isZh) {
       // 汉字字符处理
-      const resultClass = completeOptions.resultClass || DefaultHtmlOptions.resultClass;
-      const chineseClass = completeOptions.chineseClass || DefaultHtmlOptions.chineseClass;
-      const pinyinClass = completeOptions.pinyinClass || DefaultHtmlOptions.pinyinClass;
-      return `<span class="${resultClass}${additionalClass}"><ruby><span class="${chineseClass}">${item.origin}</span>${completeOptions.rp ? '<rp>(</rp>' : ''}<rt class="${pinyinClass}">${item.pinyin}</rt>${completeOptions.rp ? '<rp>)</rp>' : ''}</ruby></span>`;
+      const resultClass =
+        completeOptions.resultClass || DefaultHtmlOptions.resultClass;
+      const chineseClass =
+        completeOptions.chineseClass || DefaultHtmlOptions.chineseClass;
+      const pinyinClass =
+        completeOptions.pinyinClass || DefaultHtmlOptions.pinyinClass;
+      return `<span class="${resultClass}${additionalClass}"><ruby><span class="${chineseClass}">${
+        item.origin
+      }</span>${
+        completeOptions.rp ? "<rp>(</rp>" : ""
+      }<rt class="${pinyinClass}">${item.pinyin}</rt>${
+        completeOptions.rp ? "<rp>)</rp>" : ""
+      }</ruby></span>`;
     } else {
       // 非汉字字符处理
       if (completeOptions.wrapNonChinese) {
-        const nonChineseClass = completeOptions.nonChineseClass || DefaultHtmlOptions.nonChineseClass;
+        const nonChineseClass =
+          completeOptions.nonChineseClass || DefaultHtmlOptions.nonChineseClass;
         return `<span class="${nonChineseClass}${additionalClass}">${item.origin}</span>`;
       } else {
         return item.origin;
       }
     }
   });
-  return result.join('');
+  return result.join("");
 };
