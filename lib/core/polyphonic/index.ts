@@ -204,7 +204,10 @@ export const handleType = (
   if (options.type === "all") {
     return list.map((item) => {
       const pinyin = item.isZh ? item.result : "";
-      const { initial, final } = getInitialAndFinal(pinyin);
+      const { initial, final } = getInitialAndFinal(
+        pinyin,
+        options.initialPattern
+      );
       const { head, body, tail } = getFinalParts(pinyin);
       return {
         origin: item.origin,

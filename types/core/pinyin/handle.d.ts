@@ -1,5 +1,5 @@
 import { SingleWordResult } from "../../common/type";
-import type { SurnameMode } from "../../common/type";
+import type { SurnameMode, InitialPattern } from "../../common/type";
 import { MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
 /**
  * @description: 获取单个字符的拼音
@@ -36,9 +36,10 @@ declare const getMultiplePinyin: GetMultiplePinyin;
 /**
  * @description: 获取拼音的声母和韵母
  * @param {string} pinyin
+ * @param {InitialPattern} initialPattern
  * @return {*}
  */
-type GetInitialAndFinal = (pinyin: string) => {
+type GetInitialAndFinal = (pinyin: string, initialPattern?: InitialPattern) => {
     final: string;
     initial: string;
 };

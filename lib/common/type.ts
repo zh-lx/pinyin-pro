@@ -12,6 +12,7 @@ export type ToneType = "symbol" | "num" | "none";
 
 export type PinyinMode = "normal" | "surname";
 export type SurnameMode = "all" | "head" | "off";
+export type InitialPattern = "yw" | "standard";
 
 export type CommonOptions = {
   /**
@@ -65,4 +66,10 @@ export type CommonOptions = {
    * @value string：返回值中 ü 转换成指定字符
    */
   v?: boolean | string;
+  /**
+   * @description 是否将 `y`、`w` 视为声母
+   * @value yw：将 `y`、`w` 视为声母
+   * @value standard：不将 `y`、`w` 视为声母
+   */
+  initialPattern?: InitialPattern;
 };

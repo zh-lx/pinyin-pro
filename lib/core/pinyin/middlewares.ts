@@ -41,12 +41,19 @@ export const middleWareNonZh = (
   let nonZh = options.nonZh;
 
   if (nonZh === "removed") {
-    return list.filter((item) => item.isZh || !isNonZhScope(item.origin, options.nonZhScope));
+    return list.filter(
+      (item) => item.isZh || !isNonZhScope(item.origin, options.nonZhScope)
+    );
   } else if (nonZh === "consecutive") {
     for (let i = list.length - 2; i >= 0; i--) {
       const cur = list[i];
       const pre = list[i + 1];
-      if (!cur.isZh && !pre.isZh && isNonZhScope(cur.origin, options.nonZhScope) && isNonZhScope(pre.origin, options.nonZhScope)) {
+      if (
+        !cur.isZh &&
+        !pre.isZh &&
+        isNonZhScope(cur.origin, options.nonZhScope) &&
+        isNonZhScope(pre.origin, options.nonZhScope)
+      ) {
         cur.origin += pre.origin;
         cur.result += pre.result;
         pre.delete = true;
@@ -85,12 +92,16 @@ export const middlewarePattern = (
       break;
     case "initial":
       list.forEach((item) => {
-        item.result = item.isZh ? getInitialAndFinal(item.result).initial : "";
+        item.result = item.isZh
+          ? getInitialAndFinal(item.result, options.initialPattern).initial
+          : "";
       });
       break;
     case "final":
       list.forEach((item) => {
-        item.result = item.isZh ? getInitialAndFinal(item.result).final : "";
+        item.result = item.isZh
+          ? getInitialAndFinal(item.result, options.initialPattern).final
+          : "";
       });
       break;
     case "first":
@@ -157,7 +168,10 @@ export const middlewareV = (
   if (options.v) {
     list.forEach((item) => {
       if (item.isZh) {
-        item.result = item.result.replace(/ü/g, typeof options.v === 'string' ? options.v : "v");
+        item.result = item.result.replace(
+          /ü/g,
+          typeof options.v === "string" ? options.v : "v"
+        );
       }
     });
   }
@@ -183,7 +197,10 @@ export const middlewareType = (
   if (options.type === "all") {
     return list.map((item) => {
       const pinyin = item.isZh ? item.result : "";
-      const { initial, final } = getInitialAndFinal(pinyin);
+      const { initial, final } = getInitialAndFinal(
+        pinyin,
+        options.initialPattern
+      );
       const { head, body, tail } = getFinalParts(pinyin);
       let polyphonic: string[] = [];
       if (pinyin !== "") {
