@@ -348,7 +348,7 @@ const testText = `
    他跪了下来。等到主教抬起头来，那个国民公会代表已经面带庄严的神色，气绝而亡。
    主教回到家中，深深沉浸在一种难以名状的思绪里。他整整祈祷了一夜。第二天，几个胆大好奇的人，费尽心机要引他谈论那个 G.代表，他却只指了指天。从此以后，他对小孩和有痛苦的人更加仁慈亲切。
    任何言词，只要影射到“G.老贼”，他就一定会陷入一种异样不安的状态中。谁也不能说，那样一颗心在他自己心前的昭示，那伟大的良心在他意识上所起的反应，对他日趋完善的精神会毫无影响。
-   那次的“乡村访问”当然会给本地的那些小集团提供饶舌的机会：“那种死人的病榻前面也能成为主教涉足的地方吗？明明没有什么可以感化的指望。那些革命党人全是屡教不改，违反圣教的。那，又何必到那里去呢？那里有什么可看的呢？真是好奇，魔鬼接收灵魂，他也要去看看。”
+   那次的“乡村访问”当然会给当前分支的那些小集团提供饶舌的机会：“那种死人的病榻前面也能成为主教涉足的地方吗？明明没有什么可以感化的指望。那些革命党人全是屡教不改，违反圣教的。那，又何必到那里去呢？那里有什么可看的呢？真是好奇，魔鬼接收灵魂，他也要去看看。”
    一天，有个阔寡妇，即那些自作聪明的冒失鬼中的一个，问了他这样一句俏皮话：“我的主教，有人要打听，大人您在什么时候能得到一①墨洛温（Merovee），法国第一个王朝，从五世纪中叶到八世纪中叶。
    顶红帽子①。”“呵！呵！多么高贵的颜色，”主教回答，“幸亏鄙视红帽子的人也还崇拜红法冠呢。”
    ①戴红帽子，为参加革命的意思。
@@ -817,7 +817,7 @@ function formatSize(bytes) {
 }
 
 /**
- * 获取本地文件大小
+ * 获取当前分支文件大小
  */
 function getLocalFileSize(filePath) {
   try {
@@ -825,16 +825,16 @@ function getLocalFileSize(filePath) {
     return stats.size;
   } catch (error) {
     console.error(
-      `${colors.red}读取本地文件失败: ${error.message}${colors.reset}`,
+      `${colors.red}读取当前分支文件失败: ${error.message}${colors.reset}`,
     );
     return null;
   }
 }
 
 /**
- * 获取 CDN 文件大小
+ * 获取  master 文件大小
  */
-function getCDNFileSize(url) {
+function get masterFileSize(url) {
   return new Promise((resolve, reject) => {
     https
       .get(url, (response) => {
@@ -853,7 +853,7 @@ function getCDNFileSize(url) {
           }
         } else if (response.statusCode === 301 || response.statusCode === 302) {
           const redirectUrl = response.headers.location;
-          getCDNFileSize(redirectUrl).then(resolve).catch(reject);
+          get masterFileSize(redirectUrl).then(resolve).catch(reject);
         } else {
           reject(new Error(`HTTP 状态码: ${response.statusCode}`));
         }
@@ -865,9 +865,9 @@ function getCDNFileSize(url) {
 }
 
 /**
- * 下载 CDN 文件内容
+ * 下载  master 文件内容
  */
-function downloadCDNFile(url) {
+function download masterFile(url) {
   return new Promise((resolve, reject) => {
     https
       .get(url, (response) => {
@@ -881,7 +881,7 @@ function downloadCDNFile(url) {
           });
         } else if (response.statusCode === 301 || response.statusCode === 302) {
           const redirectUrl = response.headers.location;
-          downloadCDNFile(redirectUrl).then(resolve).catch(reject);
+          download masterFile(redirectUrl).then(resolve).catch(reject);
         } else {
           reject(new Error(`HTTP 状态码: ${response.statusCode}`));
         }
@@ -939,7 +939,7 @@ async function compare() {
   console.log(`${separator}\n`);
 
   const localFilePath = path.resolve(__dirname, "../dist/index.js");
-  const cdnUrl = "https://cdn.jsdelivr.net/npm/pinyin-pro/dist/index.js";
+  const  masterUrl = "https:// master.jsdelivr.net/npm/pinyin-pro/dist/index.js";
 
   try {
     // ============ 1. 体积对比 ============
@@ -948,26 +948,26 @@ async function compare() {
       `${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}`,
     );
 
-    console.log(`${colors.yellow}正在读取本地文件...${colors.reset}`);
+    console.log(`${colors.yellow}正在读取当前分支文件...${colors.reset}`);
     const localSize = getLocalFileSize(localFilePath);
     if (localSize === null) {
-      throw new Error("无法读取本地文件");
+      throw new Error("无法读取当前分支文件");
     }
     console.log(
-      `本地文件大小: ${colors.green}${formatSize(localSize)}${colors.reset}`,
+      `当前分支文件大小: ${colors.green}${formatSize(localSize)}${colors.reset}`,
     );
 
-    console.log(`${colors.yellow}正在获取 CDN 文件大小...${colors.reset}`);
-    const cdnSize = await getCDNFileSize(cdnUrl);
+    console.log(`${colors.yellow}正在获取  master 文件大小...${colors.reset}`);
+    const  masterSize = await get masterFileSize( masterUrl);
     console.log(
-      `CDN 文件大小:  ${colors.green}${formatSize(cdnSize)}${colors.reset}\n`,
+      ` master 文件大小:  ${colors.green}${formatSize( masterSize)}${colors.reset}\n`,
     );
 
-    const sizeDiff = localSize - cdnSize;
-    const sizeDiffPercent = ((sizeDiff / cdnSize) * 100).toFixed(2);
+    const sizeDiff = localSize -  masterSize;
+    const sizeDiffPercent = ((sizeDiff /  masterSize) * 100).toFixed(2);
 
     if (sizeDiff > 0) {
-      const message = `本地文件比 CDN 文件大 ${formatSize(sizeDiff)} (+${sizeDiffPercent}%)`;
+      const message = `当前分支文件比  master 文件大 ${formatSize(sizeDiff)} (+${sizeDiffPercent}%)`;
       console.log(
         isCI ? `⬆️  ${message}` : `${colors.red}${message}${colors.reset}`,
       );
@@ -975,7 +975,7 @@ async function compare() {
         console.log(`⚠️  警告: 文件体积增长超过 5%`);
       }
     } else if (sizeDiff < 0) {
-      const message = `本地文件比 CDN 文件小 ${formatSize(Math.abs(sizeDiff))} (${sizeDiffPercent}%)`;
+      const message = `当前分支文件比  master 文件小 ${formatSize(Math.abs(sizeDiff))} (${sizeDiffPercent}%)`;
       console.log(
         isCI ? `⬇️  ${message}` : `${colors.green}${message}${colors.reset}`,
       );
@@ -985,7 +985,7 @@ async function compare() {
         );
       }
     } else {
-      const message = "本地文件与 CDN 文件大小相同";
+      const message = "当前分支文件与  master 文件大小相同";
       console.log(
         isCI ? `✅ ${message}` : `${colors.green}${message}${colors.reset}`,
       );
@@ -997,45 +997,45 @@ async function compare() {
       `${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}`,
     );
 
-    // 加载本地版本
-    console.log(`${colors.yellow}正在加载本地版本...${colors.reset}`);
+    // 加载当前分支版本
+    console.log(`${colors.yellow}正在加载当前分支版本...${colors.reset}`);
     delete require.cache[require.resolve(localFilePath)];
     const { pinyin: localPinyin } = require(localFilePath);
-    console.log(`${colors.green}✓ 本地版本加载成功${colors.reset}`);
+    console.log(`${colors.green}✓ 当前分支版本加载成功${colors.reset}`);
 
-    // 下载并加载 CDN 版本
-    console.log(`${colors.yellow}正在下载 CDN 版本...${colors.reset}`);
-    const cdnCode = await downloadCDNFile(cdnUrl);
-    const tempPath = path.resolve(__dirname, "../dist/cdn-temp.js");
-    fs.writeFileSync(tempPath, cdnCode);
+    // 下载并加载  master 版本
+    console.log(`${colors.yellow}正在下载  master 版本...${colors.reset}`);
+    const  masterCode = await download masterFile( masterUrl);
+    const tempPath = path.resolve(__dirname, "../dist/ master-temp.js");
+    fs.writeFileSync(tempPath,  masterCode);
     delete require.cache[require.resolve(tempPath)];
-    const { pinyin: cdnPinyin } = require(tempPath);
-    console.log(`${colors.green}✓ CDN 版本下载并加载成功${colors.reset}`);
+    const { pinyin:  masterPinyin } = require(tempPath);
+    console.log(`${colors.green}✓  master 版本下载并加载成功${colors.reset}`);
 
     // 速度测试
     console.log(`\n100次运行平均值`);
-    const cdnSpeed = testSpeed(cdnPinyin);
+    const  masterSpeed = testSpeed( masterPinyin);
     const localSpeed = testSpeed(localPinyin);
 
     console.log(
-      `本地版本: ${colors.green}${localSpeed.toFixed(2)}ms${colors.reset} /次`,
+      `当前分支版本: ${colors.green}${localSpeed.toFixed(2)}ms${colors.reset} /次`,
     );
     console.log(
-      `CDN 版本:  ${colors.green}${cdnSpeed.toFixed(2)}ms${colors.reset} /次\n`,
+      ` master 版本:  ${colors.green}${ masterSpeed.toFixed(2)}ms${colors.reset} /次\n`,
     );
 
-    const speedDiff = (((localSpeed - cdnSpeed) / cdnSpeed) * 100).toFixed(2);
+    const speedDiff = (((localSpeed -  masterSpeed) /  masterSpeed) * 100).toFixed(2);
     if (Math.abs(speedDiff) < 5) {
       console.log(
         `${isCI ? "✅" : colors.green + "✅" + colors.reset} 速度基本相同 (差异 < 5%)`,
       );
     } else if (speedDiff < 0) {
       console.log(
-        `${isCI ? "🚀" : colors.green + "🚀" + colors.reset} 本地版本更快 ${Math.abs(speedDiff)}%`,
+        `${isCI ? "🚀" : colors.green + "🚀" + colors.reset} 当前分支版本更快 ${Math.abs(speedDiff)}%`,
       );
     } else {
       console.log(
-        `${isCI ? "⚠️" : colors.yellow + "⚠️" + colors.reset} CDN 版本更快 ${speedDiff}%`,
+        `${isCI ? "⚠️" : colors.yellow + "⚠️" + colors.reset}  master 版本更快 ${speedDiff}%`,
       );
     }
 
