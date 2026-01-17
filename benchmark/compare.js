@@ -968,13 +968,13 @@ async function compare() {
 
     if (sizeDiff > 0) {
       const message = `当前分支文件比 master 文件大 ${formatSize(sizeDiff)} (+${sizeDiffPercent}%)`;
-      console.log(`⬆️  ${message}`);
+      console.log(`⬆️ ${message}`);
       if (Math.abs(parseFloat(sizeDiffPercent)) > 5) {
-        console.log(`⚠️  警告: 文件体积增长超过 5%`);
+        console.log(`⚠️ 警告: 文件体积增长超过 5%`);
       }
     } else if (sizeDiff < 0) {
       const message = `当前分支文件比 master 文件小 ${formatSize(Math.abs(sizeDiff))} (${sizeDiffPercent}%)`;
-      console.log(`⬇️  ${message}`);
+      console.log(`⬇️ ${message}`);
       if (Math.abs(parseFloat(sizeDiffPercent)) > 5) {
         console.log(
           `✅ 太棒了! 文件体积减少了 ${Math.abs(parseFloat(sizeDiffPercent))}%`,
