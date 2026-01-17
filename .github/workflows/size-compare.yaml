@@ -39,6 +39,8 @@ jobs:
 
       - name: Comment PR with size comparison
         if: github.event_name == 'pull_request'
+        env:
+          SIZE_OUTPUT: ${{ steps.size-compare.outputs.SIZE_OUTPUT }}
         uses: actions/github-script@v7
         with:
           script: |
@@ -86,8 +88,6 @@ jobs:
               });
               console.log('✅ 已创建体积对比评论');
             }
-          env:
-            SIZE_OUTPUT: ${{ steps.size-compare.outputs.SIZE_OUTPUT }}
 
       - name: Display size comparison in logs
         if: github.event_name == 'push'
