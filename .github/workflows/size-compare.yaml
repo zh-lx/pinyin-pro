@@ -42,7 +42,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const output = `${{ steps.size-compare.outputs.SIZE_OUTPUT }}`;
+            const output = process.env.SIZE_OUTPUT;
 
             // 查找是否已有体积对比评论
             const { data: comments } = await github.rest.issues.listComments({
@@ -58,14 +58,14 @@ jobs:
 
             const body = `## 📦 Bundle Size Comparison
 
-\`\`\`
-${output}
-\`\`\`
+            \`\`\`
+            ${output}
+            \`\`\`
 
-_Updated at ${new Date().toUTCString()}_
+            _Updated at ${new Date().toUTCString()}_
 
----
-💡 **提示**: 此评论会在每次推送新提交时自动更新`;
+            ---
+            💡 **提示**: 此评论会在每次推送新提交时自动更新`;
 
             if (botComment) {
               // 更新现有评论
@@ -86,6 +86,8 @@ _Updated at ${new Date().toUTCString()}_
               });
               console.log('✅ 已创建体积对比评论');
             }
+          env:
+            SIZE_OUTPUT: ${{ steps.size-compare.outputs.SIZE_OUTPUT }}
 
       - name: Display size comparison in logs
         if: github.event_name == 'push'
