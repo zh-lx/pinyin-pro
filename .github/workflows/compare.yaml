@@ -29,22 +29,24 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run size comparison
-        id: size-compare
+      - name: Run comparison (size, accuracy & speed)
+        id: compare
         run: |
-          echo "SIZE_OUTPUT<<EOF" >> $GITHUB_OUTPUT
-          npm run size:compare 2>&1 | tee -a $GITHUB_OUTPUT
+          echo "COMPARE_OUTPUT<<EOF" >> $GITHUB_OUTPUT
+          npm run compare 2>&1 | tee -a $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
         continue-on-error: false
 
-      - name: Comment PR with size comparison
+      - name: Comment PR with comparison results
         if: github.event_name == 'pull_request'
+        env:
+          COMPARE_OUTPUT: ${{ steps.compare.outputs.COMPARE_OUTPUT }}
         uses: actions/github-script@v7
         with:
           script: |
-            const output = `${{ steps.size-compare.outputs.SIZE_OUTPUT }}`;
+            const compareOutput = process.env.COMPARE_OUTPUT;
 
-            // 查找是否已有体积对比评论
+            // 查找是否已有对比评论
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -53,19 +55,13 @@ jobs:
 
             const botComment = comments.find(comment =>
               comment.user.type === 'Bot' &&
-              comment.body.includes('📦 Bundle Size Comparison')
+              comment.body.includes('📦 CDN vs Local 完整对比')
             );
 
-            const body = `## 📦 Bundle Size Comparison
-
-\`\`\`
-${output}
-\`\`\`
-
-_Updated at ${new Date().toUTCString()}_
-
----
-💡 **提示**: 此评论会在每次推送新提交时自动更新`;
+            const timestamp = new Date().toUTCString();
+            const body = '## 📦 CDN vs Local 完整对比\n\n```\n' +
+              compareOutput +
+              '\n```\n\n_Updated at ' + timestamp + '_\n\n---\n💡 **提示**: 此评论会在每次推送新提交时自动更新';
 
             if (botComment) {
               // 更新现有评论
@@ -75,7 +71,7 @@ _Updated at ${new Date().toUTCString()}_
                 comment_id: botComment.id,
                 body: body
               });
-              console.log('✅ 已更新体积对比评论');
+              console.log('✅ 已更新对比评论');
             } else {
               // 创建新评论
               await github.rest.issues.createComment({
@@ -84,9 +80,9 @@ _Updated at ${new Date().toUTCString()}_
                 issue_number: context.issue.number,
                 body: body
               });
-              console.log('✅ 已创建体积对比评论');
+              console.log('✅ 已创建对比评论');
             }
 
-      - name: Display size comparison in logs
+      - name: Display comparison in logs
         if: github.event_name == 'push'
-        run: npm run size:compare
+        run: npm run compare
