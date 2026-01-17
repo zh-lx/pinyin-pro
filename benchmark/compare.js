@@ -1,28 +1,30 @@
-const fs = require('fs');
-const https = require('https');
-const path = require('path');
+const fs = require("fs");
+const https = require("https");
+const path = require("path");
 
 // 检测是否在 CI 环境中
-const isCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+const isCI = process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true";
 
 // ANSI 颜色代码（仅在非 CI 环境中使用）
-const colors = isCI ? {
-  reset: '',
-  bright: '',
-  green: '',
-  red: '',
-  yellow: '',
-  cyan: '',
-  blue: '',
-} : {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  green: '\x1b[32m',
-  red: '\x1b[31m',
-  yellow: '\x1b[33m',
-  cyan: '\x1b[36m',
-  blue: '\x1b[34m',
-};
+const colors = isCI
+  ? {
+      reset: "",
+      bright: "",
+      green: "",
+      red: "",
+      yellow: "",
+      cyan: "",
+      blue: "",
+    }
+  : {
+      reset: "\x1b[0m",
+      bright: "\x1b[1m",
+      green: "\x1b[32m",
+      red: "\x1b[31m",
+      yellow: "\x1b[33m",
+      cyan: "\x1b[36m",
+      blue: "\x1b[34m",
+    };
 
 // 测试文本（使用 accuracy.js 中的部分文本）
 const testText = `大海深处的一条美人鱼一直对大海之外的世界充满了好奇，她一直想要出去看看海之外的世界，她的父母兄弟姐妹们却告诉她海以外的世界非常险恶，人心非常险恶，如果人类发现她美人鱼的身份她就会陷入非常危险的境地，他们劝告她不要出去。她不相信，她觉得自己有能力保护好自己，等她玩一段时间她就回来，否则这始终会是她心里的一个遗憾，她不想在大海里局限的过完这一生。`;
@@ -35,11 +37,11 @@ const correctPinyin = `dà hǎi shēn chù de yì tiáo měi rén yú yì zhí d
  */
 function formatSize(bytes) {
   if (bytes < 1024) {
-    return bytes + ' B';
+    return bytes + " B";
   } else if (bytes < 1024 * 1024) {
-    return (bytes / 1024).toFixed(2) + ' KB';
+    return (bytes / 1024).toFixed(2) + " KB";
   } else {
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
   }
 }
 
@@ -51,7 +53,9 @@ function getLocalFileSize(filePath) {
     const stats = fs.statSync(filePath);
     return stats.size;
   } catch (error) {
-    console.error(`${colors.red}读取本地文件失败: ${error.message}${colors.reset}`);
+    console.error(
+      `${colors.red}读取本地文件失败: ${error.message}${colors.reset}`,
+    );
     return null;
   }
 }
@@ -61,29 +65,31 @@ function getLocalFileSize(filePath) {
  */
 function getCDNFileSize(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (response) => {
-      if (response.statusCode === 200) {
-        const contentLength = response.headers['content-length'];
-        if (contentLength) {
-          resolve(parseInt(contentLength, 10));
+    https
+      .get(url, (response) => {
+        if (response.statusCode === 200) {
+          const contentLength = response.headers["content-length"];
+          if (contentLength) {
+            resolve(parseInt(contentLength, 10));
+          } else {
+            let data = "";
+            response.on("data", (chunk) => {
+              data += chunk;
+            });
+            response.on("end", () => {
+              resolve(Buffer.byteLength(data));
+            });
+          }
+        } else if (response.statusCode === 301 || response.statusCode === 302) {
+          const redirectUrl = response.headers.location;
+          getCDNFileSize(redirectUrl).then(resolve).catch(reject);
         } else {
-          let data = '';
-          response.on('data', (chunk) => {
-            data += chunk;
-          });
-          response.on('end', () => {
-            resolve(Buffer.byteLength(data));
-          });
+          reject(new Error(`HTTP 状态码: ${response.statusCode}`));
         }
-      } else if (response.statusCode === 301 || response.statusCode === 302) {
-        const redirectUrl = response.headers.location;
-        getCDNFileSize(redirectUrl).then(resolve).catch(reject);
-      } else {
-        reject(new Error(`HTTP 状态码: ${response.statusCode}`));
-      }
-    }).on('error', (error) => {
-      reject(error);
-    });
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
   });
 }
 
@@ -92,24 +98,26 @@ function getCDNFileSize(url) {
  */
 function downloadCDNFile(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, (response) => {
-      if (response.statusCode === 200) {
-        let data = '';
-        response.on('data', (chunk) => {
-          data += chunk;
-        });
-        response.on('end', () => {
-          resolve(data);
-        });
-      } else if (response.statusCode === 301 || response.statusCode === 302) {
-        const redirectUrl = response.headers.location;
-        downloadCDNFile(redirectUrl).then(resolve).catch(reject);
-      } else {
-        reject(new Error(`HTTP 状态码: ${response.statusCode}`));
-      }
-    }).on('error', (error) => {
-      reject(error);
-    });
+    https
+      .get(url, (response) => {
+        if (response.statusCode === 200) {
+          let data = "";
+          response.on("data", (chunk) => {
+            data += chunk;
+          });
+          response.on("end", () => {
+            resolve(data);
+          });
+        } else if (response.statusCode === 301 || response.statusCode === 302) {
+          const redirectUrl = response.headers.location;
+          downloadCDNFile(redirectUrl).then(resolve).catch(reject);
+        } else {
+          reject(new Error(`HTTP 状态码: ${response.statusCode}`));
+        }
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
   });
 }
 
@@ -117,9 +125,9 @@ function downloadCDNFile(url) {
  * 测试准确率
  */
 function testAccuracy(pinyinFunc) {
-  const corrects = correctPinyin.split(' ');
-  const result = pinyinFunc(testText, { nonZh: 'consecutive' });
-  const results = result.split(' ');
+  const corrects = correctPinyin.split(" ");
+  const result = pinyinFunc(testText, { nonZh: "consecutive" });
+  const results = result.split(" ");
 
   let errors = 0;
   corrects.forEach((item, i) => {
@@ -138,7 +146,7 @@ function testAccuracy(pinyinFunc) {
 function testSpeed(pinyinFunc, iterations = 100) {
   const start = Date.now();
   for (let i = 0; i < iterations; i++) {
-    pinyinFunc(testText, { nonZh: 'consecutive' });
+    pinyinFunc(testText, { nonZh: "consecutive" });
   }
   const end = Date.now();
   return (end - start) / iterations;
@@ -148,59 +156,79 @@ function testSpeed(pinyinFunc, iterations = 100) {
  * 主对比函数
  */
 async function compare() {
-  const separator = isCI ? '========================================' : `${colors.bright}${colors.cyan}========================================${colors.reset}`;
-  const title = isCI ? '   CDN vs Local 完整对比' : `${colors.bright}${colors.cyan}   CDN vs Local 完整对比${colors.reset}`;
+  const separator = isCI
+    ? "========================================"
+    : `${colors.bright}${colors.cyan}========================================${colors.reset}`;
+  const title = isCI
+    ? "   CDN vs Local 完整对比"
+    : `${colors.bright}${colors.cyan}   CDN vs Local 完整对比${colors.reset}`;
 
   console.log(`\n${separator}`);
   console.log(title);
   console.log(`${separator}\n`);
 
-  const localFilePath = path.resolve(__dirname, '../dist/index.js');
-  const cdnUrl = 'https://cdn.jsdelivr.net/npm/pinyin-pro/dist/index.js';
+  const localFilePath = path.resolve(__dirname, "../dist/index.js");
+  const cdnUrl = "https://cdn.jsdelivr.net/npm/pinyin-pro/dist/index.js";
 
   try {
     // ============ 1. 体积对比 ============
     console.log(`${colors.bright}${colors.blue}📦 文件体积对比${colors.reset}`);
-    console.log(`${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`);
+    console.log(
+      `${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`,
+    );
 
     console.log(`${colors.yellow}正在读取本地文件...${colors.reset}`);
     const localSize = getLocalFileSize(localFilePath);
     if (localSize === null) {
-      throw new Error('无法读取本地文件');
+      throw new Error("无法读取本地文件");
     }
-    console.log(`本地文件大小: ${colors.green}${formatSize(localSize)}${colors.reset}`);
+    console.log(
+      `本地文件大小: ${colors.green}${formatSize(localSize)}${colors.reset}`,
+    );
 
     console.log(`${colors.yellow}正在获取 CDN 文件大小...${colors.reset}`);
     const cdnSize = await getCDNFileSize(cdnUrl);
-    console.log(`CDN 文件大小:  ${colors.green}${formatSize(cdnSize)}${colors.reset}\n`);
+    console.log(
+      `CDN 文件大小:  ${colors.green}${formatSize(cdnSize)}${colors.reset}\n`,
+    );
 
     const sizeDiff = localSize - cdnSize;
     const sizeDiffPercent = ((sizeDiff / cdnSize) * 100).toFixed(2);
 
-    let sizeStatus = '';
+    let sizeStatus = "";
     if (sizeDiff > 0) {
       const message = `本地文件比 CDN 文件大 ${formatSize(sizeDiff)} (+${sizeDiffPercent}%)`;
-      console.log(isCI ? `⬆️  ${message}` : `${colors.red}${message}${colors.reset}`);
-      sizeStatus = Math.abs(parseFloat(sizeDiffPercent)) > 5 ? '⚠️' : '⬆️';
+      console.log(
+        isCI ? `⬆️  ${message}` : `${colors.red}${message}${colors.reset}`,
+      );
+      sizeStatus = Math.abs(parseFloat(sizeDiffPercent)) > 5 ? "⚠️" : "⬆️";
       if (isCI && Math.abs(parseFloat(sizeDiffPercent)) > 5) {
         console.log(`⚠️  警告: 文件体积增长超过 5%`);
       }
     } else if (sizeDiff < 0) {
       const message = `本地文件比 CDN 文件小 ${formatSize(Math.abs(sizeDiff))} (${sizeDiffPercent}%)`;
-      console.log(isCI ? `⬇️  ${message}` : `${colors.green}${message}${colors.reset}`);
-      sizeStatus = '⬇️';
+      console.log(
+        isCI ? `⬇️  ${message}` : `${colors.green}${message}${colors.reset}`,
+      );
+      sizeStatus = "⬇️";
       if (isCI && Math.abs(parseFloat(sizeDiffPercent)) > 5) {
-        console.log(`✅ 太棒了! 文件体积减少了 ${Math.abs(parseFloat(sizeDiffPercent))}%`);
+        console.log(
+          `✅ 太棒了! 文件体积减少了 ${Math.abs(parseFloat(sizeDiffPercent))}%`,
+        );
       }
     } else {
-      const message = '本地文件与 CDN 文件大小相同';
-      console.log(isCI ? `✅ ${message}` : `${colors.green}${message}${colors.reset}`);
-      sizeStatus = '✅';
+      const message = "本地文件与 CDN 文件大小相同";
+      console.log(
+        isCI ? `✅ ${message}` : `${colors.green}${message}${colors.reset}`,
+      );
+      sizeStatus = "✅";
     }
 
-    // ============ 2. 准确率和速度对比 ============
-    console.log(`\n${colors.bright}${colors.blue}⚖️ 功能对比 (准确率 & 速度)${colors.reset}`);
-    console.log(`${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`);
+    // ============ 2. 准确率对比 ============
+    console.log(`\n${colors.bright}${colors.blue}⚖️ 准确率对比${colors.reset}`);
+    console.log(
+      `${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`,
+    );
 
     // 加载本地版本
     console.log(`${colors.yellow}正在加载本地版本...${colors.reset}`);
@@ -211,7 +239,7 @@ async function compare() {
     // 下载并加载 CDN 版本
     console.log(`${colors.yellow}正在下载 CDN 版本...${colors.reset}`);
     const cdnCode = await downloadCDNFile(cdnUrl);
-    const tempPath = path.resolve(__dirname, '../dist/cdn-temp.js');
+    const tempPath = path.resolve(__dirname, "../dist/cdn-temp.js");
     fs.writeFileSync(tempPath, cdnCode);
     delete require.cache[require.resolve(tempPath)];
     const { pinyin: cdnPinyin } = require(tempPath);
@@ -222,59 +250,73 @@ async function compare() {
     const localAccuracy = testAccuracy(localPinyin);
     const cdnAccuracy = testAccuracy(cdnPinyin);
 
-    console.log(`本地版本: ${colors.green}${localAccuracy.accuracy}%${colors.reset} (错误: ${localAccuracy.errors}/${localAccuracy.total})`);
-    console.log(`CDN 版本:  ${colors.green}${cdnAccuracy.accuracy}%${colors.reset} (错误: ${cdnAccuracy.errors}/${cdnAccuracy.total})`);
+    console.log(
+      `本地版本: ${colors.green}${localAccuracy.accuracy}%${colors.reset} (错误: ${localAccuracy.errors}/${localAccuracy.total})`,
+    );
+    console.log(
+      `CDN 版本:  ${colors.green}${cdnAccuracy.accuracy}%${colors.reset} (错误: ${cdnAccuracy.errors}/${cdnAccuracy.total})`,
+    );
 
-    let accuracyStatus = '';
+    let accuracyStatus = "";
     if (localAccuracy.accuracy === cdnAccuracy.accuracy) {
-      console.log(`${isCI ? '✅' : colors.green + '✅' + colors.reset} 准确率相同`);
-      accuracyStatus = '✅';
+      console.log(
+        `${isCI ? "✅" : colors.green + "✅" + colors.reset} 准确率相同`,
+      );
+      accuracyStatus = "✅";
     } else {
-      const diff = (parseFloat(localAccuracy.accuracy) - parseFloat(cdnAccuracy.accuracy)).toFixed(2);
-      const diffText = diff > 0 ? `本地版本高 ${diff}%` : `CDN 版本高 ${Math.abs(diff)}%`;
-      console.log(`${isCI ? '⚠️' : colors.yellow + '⚠️' + colors.reset} 准确率差异: ${diffText}`);
-      accuracyStatus = '⚠️';
+      const diff = (
+        parseFloat(localAccuracy.accuracy) - parseFloat(cdnAccuracy.accuracy)
+      ).toFixed(2);
+      const diffText =
+        diff > 0 ? `本地版本高 ${diff}%` : `CDN 版本高 ${Math.abs(diff)}%`;
+      console.log(
+        `${isCI ? "⚠️" : colors.yellow + "⚠️" + colors.reset} 准确率差异: ${diffText}`,
+      );
+      accuracyStatus = "⚠️";
     }
 
+    // ============ 3. 速度对比 ============
+    console.log(`\n${colors.bright}${colors.blue}🚀 速度对比${colors.reset}`);
+    console.log(
+      `${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`,
+    );
     // 速度测试
-    console.log(`\n${colors.bright}⚡ 速度测试${colors.reset} (100次运行平均值)`);
+    console.log(
+      `\n${colors.bright}⚡ 速度测试${colors.reset} (100次运行平均值)`,
+    );
     const localSpeed = testSpeed(localPinyin);
     const cdnSpeed = testSpeed(cdnPinyin);
 
-    console.log(`本地版本: ${colors.green}${localSpeed.toFixed(2)}ms${colors.reset} /次`);
-    console.log(`CDN 版本:  ${colors.green}${cdnSpeed.toFixed(2)}ms${colors.reset} /次`);
+    console.log(
+      `本地版本: ${colors.green}${localSpeed.toFixed(2)}ms${colors.reset} /次`,
+    );
+    console.log(
+      `CDN 版本:  ${colors.green}${cdnSpeed.toFixed(2)}ms${colors.reset} /次`,
+    );
 
-    const speedDiff = ((localSpeed - cdnSpeed) / cdnSpeed * 100).toFixed(2);
-    let speedStatus = '';
+    const speedDiff = (((localSpeed - cdnSpeed) / cdnSpeed) * 100).toFixed(2);
+    let speedStatus = "";
     if (Math.abs(speedDiff) < 5) {
-      console.log(`${isCI ? '✅' : colors.green + '✅' + colors.reset} 速度基本相同 (差异 < 5%)`);
-      speedStatus = '✅';
+      console.log(
+        `${isCI ? "✅" : colors.green + "✅" + colors.reset} 速度基本相同 (差异 < 5%)`,
+      );
+      speedStatus = "✅";
     } else if (speedDiff < 0) {
-      console.log(`${isCI ? '🚀' : colors.green + '🚀' + colors.reset} 本地版本更快 ${Math.abs(speedDiff)}%`);
-      speedStatus = '🚀';
+      console.log(
+        `${isCI ? "🚀" : colors.green + "🚀" + colors.reset} 本地版本更快 ${Math.abs(speedDiff)}%`,
+      );
+      speedStatus = "🚀";
     } else {
-      console.log(`${isCI ? '⚠️' : colors.yellow + '⚠️' + colors.reset} CDN 版本更快 ${speedDiff}%`);
-      speedStatus = '⚠️';
+      console.log(
+        `${isCI ? "⚠️" : colors.yellow + "⚠️" + colors.reset} CDN 版本更快 ${speedDiff}%`,
+      );
+      speedStatus = "⚠️";
     }
 
     // 清理临时文件
     fs.unlinkSync(tempPath);
 
     console.log(`\n${separator}\n`);
-
-    // ============ 3. GitHub Actions 输出 ============
-    if (isCI && process.env.GITHUB_ACTIONS === 'true') {
-      // 体积对比注释
-      const sizeEmoji = sizeDiff > 0 ? '📈' : sizeDiff < 0 ? '📉' : '✅';
-      const sizeChangeText = sizeDiff === 0 ? '无变化' :
-        sizeDiff > 0 ? `增加 ${formatSize(sizeDiff)} (+${sizeDiffPercent}%)` :
-        `减少 ${formatSize(Math.abs(sizeDiff))} (${sizeDiffPercent}%)`;
-      console.log(`::notice title=Bundle Size ${sizeEmoji}::${sizeChangeText} - Local: ${formatSize(localSize)}, CDN: ${formatSize(cdnSize)}`);
-
-      // 功能对比注释
-      console.log(`::notice title=Functionality ${accuracyStatus}${speedStatus}::Accuracy: ${localAccuracy.accuracy}% vs ${cdnAccuracy.accuracy}% | Speed: ${localSpeed.toFixed(2)}ms vs ${cdnSpeed.toFixed(2)}ms`);
-    }
-
   } catch (error) {
     console.error(`${colors.red}❌ 对比失败: ${error.message}${colors.reset}`);
     console.error(error.stack);
