@@ -22,11 +22,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Compare bundle size with CDN
-        run: npm run size:compare
-
-      - name: Compare functionality with CDN
-        run: npm run cdn:compare
+      - name: Compare with CDN (size, accuracy & speed)
+        run: npm run compare
 
       - name: Run tests with coverage
         run: npm run test

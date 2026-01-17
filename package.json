@@ -8,9 +8,8 @@
   "scripts": {
     "test": "vitest run --coverage",
     "build": "rollup -c && rollup -c rollup.esm.config.js",
-    "build:compare": "npm run build && node benchmark/size-compare.js",
-    "size:compare": "node benchmark/size-compare.js",
-    "cdn:compare": "node benchmark/cdn-compare.js",
+    "build:compare": "npm run build && node benchmark/compare.js",
+    "compare": "node benchmark/compare.js",
     "commit": "git-cz",
     "lint": "eslint ."
   },
