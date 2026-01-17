@@ -968,27 +968,21 @@ async function compare() {
 
     if (sizeDiff > 0) {
       const message = `当前分支文件比 master 文件大 ${formatSize(sizeDiff)} (+${sizeDiffPercent}%)`;
-      console.log(
-        isCI ? `⬆️  ${message}` : `${colors.red}${message}${colors.reset}`,
-      );
-      if (isCI && Math.abs(parseFloat(sizeDiffPercent)) > 5) {
+      console.log(`⬆️  ${message}`);
+      if (Math.abs(parseFloat(sizeDiffPercent)) > 5) {
         console.log(`⚠️  警告: 文件体积增长超过 5%`);
       }
     } else if (sizeDiff < 0) {
       const message = `当前分支文件比 master 文件小 ${formatSize(Math.abs(sizeDiff))} (${sizeDiffPercent}%)`;
-      console.log(
-        isCI ? `⬇️  ${message}` : `${colors.green}${message}${colors.reset}`,
-      );
-      if (isCI && Math.abs(parseFloat(sizeDiffPercent)) > 5) {
+      console.log(`⬇️  ${message}`);
+      if (Math.abs(parseFloat(sizeDiffPercent)) > 5) {
         console.log(
           `✅ 太棒了! 文件体积减少了 ${Math.abs(parseFloat(sizeDiffPercent))}%`,
         );
       }
     } else {
-      const message = "当前分支文件与 master 文件大小相同";
-      console.log(
-        isCI ? `${message}` : `${colors.green}${message}${colors.reset}`,
-      );
+      const message = "✅ 当前分支文件与 master 文件大小相同";
+      console.log(message);
     }
 
     // ============ 2. 速度对比 ============
