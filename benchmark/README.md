@@ -1,10 +1,16 @@
 # Bundle Size Comparison
 
-这个目录包含用于对比打包文件体积的工具。
+这个目录包含用于对比打包文件的各种工具。
 
 ## 📦 功能说明
 
-`size-compare.js` 脚本可以自动对比本地打包后的 `dist/index.js` 文件与 CDN 上已发布版本的体积差异。
+### 1. 体积对比 (`size-compare.js`)
+自动对比本地打包后的 `dist/index.js` 文件与 CDN 上已发布版本的体积差异。
+
+### 2. CDN 功能对比 (`cdn-compare.js`)
+对比本地版本和 CDN 版本的：
+- **准确率** - 使用标准测试文本验证拼音转换准确性
+- **速度** - 运行 100 次取平均值，对比性能差异
 
 ## 🚀 使用方法
 
@@ -13,6 +19,9 @@
 ```bash
 # 仅运行体积对比（需要先手动打包）
 npm run size:compare
+
+# 运行 CDN 功能对比（准确率 & 速度）
+npm run cdn:compare
 
 # 打包后自动进行体积对比
 npm run build:compare
