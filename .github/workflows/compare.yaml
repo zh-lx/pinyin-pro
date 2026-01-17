@@ -58,16 +58,10 @@ jobs:
               comment.body.includes('📦 CDN vs Local 完整对比')
             );
 
-            const body = `## 📦 CDN vs Local 完整对比
-
-\`\`\`
-${compareOutput}
-\`\`\`
-
-_Updated at ${new Date().toUTCString()}_
-
----
-💡 **提示**: 此评论会在每次推送新提交时自动更新`;
+            const timestamp = new Date().toUTCString();
+            const body = '## 📦 CDN vs Local 完整对比\n\n```\n' +
+              compareOutput +
+              '\n```\n\n_Updated at ' + timestamp + '_\n\n---\n💡 **提示**: 此评论会在每次推送新提交时自动更新';
 
             if (botComment) {
               // 更新现有评论
