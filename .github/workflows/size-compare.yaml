@@ -1,0 +1,92 @@
+name: Bundle Size Comparison
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  compare-size:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Run size comparison
+        id: size-compare
+        run: |
+          echo "SIZE_OUTPUT<<EOF" >> $GITHUB_OUTPUT
+          npm run size:compare 2>&1 | tee -a $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        continue-on-error: false
+
+      - name: Comment PR with size comparison
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const output = `${{ steps.size-compare.outputs.SIZE_OUTPUT }}`;
+
+            // 查找是否已有体积对比评论
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('📦 Bundle Size Comparison')
+            );
+
+            const body = `## 📦 Bundle Size Comparison
+
+\`\`\`
+${output}
+\`\`\`
+
+_Updated at ${new Date().toUTCString()}_
+
+---
+💡 **提示**: 此评论会在每次推送新提交时自动更新`;
+
+            if (botComment) {
+              // 更新现有评论
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+              console.log('✅ 已更新体积对比评论');
+            } else {
+              // 创建新评论
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+              console.log('✅ 已创建体积对比评论');
+            }
+
+      - name: Display size comparison in logs
+        if: github.event_name == 'push'
+        run: npm run size:compare
