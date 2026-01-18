@@ -18,6 +18,7 @@ import {
 } from "../../common/segmentit";
 import { Priority } from "@/common/constant";
 import { splitString } from "@/common/utils";
+import { getTraditionalDict } from "../traditional";
 
 /**
  * @description: 获取单个字符的拼音
@@ -31,13 +32,30 @@ export const getSingleWordPinyin: GetSingleWordPinyin = (char) => {
   return pinyin ? pinyin.split(" ")[0] : char;
 };
 
+const getTraditionalWords = (word: string): string => {
+  const traditionalWords: string[] = [];
+  const traditionalDict = getTraditionalDict();
+  for (let i = 0; i < word.length; i++) {
+    const key = word[i];
+    const code = key.charCodeAt(0);
+    if (traditionalDict[code]) {
+      traditionalWords[i] = traditionalDict[code];
+    } else {
+      traditionalWords[i] = key;
+    }
+  }
+  return traditionalWords.join("");
+};
+
 export const getPinyin = (
   word: string,
   list: SingleWordResult[],
   surname: SurnameMode,
-  segmentit: TokenizationAlgorithm
+  segmentit: TokenizationAlgorithm,
+  traditional?: boolean,
 ): { list: SingleWordResult[]; matches: MatchPattern[] } => {
-  const matches = acTree.search(word, surname, segmentit);
+  const searchWord = traditional ? getTraditionalWords(word) : word;
+  const matches = acTree.search(searchWord, surname, segmentit);
   let matchIndex = 0;
   const zhChars = splitString(word);
   for (let i = 0; i < zhChars.length; ) {
@@ -45,6 +63,7 @@ export const getPinyin = (
     if (match && i === match.index) {
       if (match.length === 1 && match.priority <= Priority.Normal) {
         const char = zhChars[i];
+        match.zh = char;
         let pinyin: string = "";
         pinyin = processSepecialPinyin(char, zhChars[i - 1], zhChars[i + 1]);
         list[i] = {
@@ -59,10 +78,12 @@ export const getPinyin = (
       }
       const pinyins = match.pinyin.split(" ");
       let pinyinIndex = 0;
+      if (traditional) {
+        match.zh = zhChars.slice(match.index, match.index + match.length).join("");
+      }
       for (let j = 0; j < match.length; j++) {
-        const zhChars = splitString(match.zh);
         list[i + j] = {
-          origin: zhChars[j],
+          origin: zhChars[j + match.index],
           result: pinyins[pinyinIndex] || "",
           isZh: true,
           originPinyin: pinyins[pinyinIndex] || "",
@@ -121,7 +142,7 @@ export const getAllPinyin: GetAllPinyin = (char, surname = "off") => {
     const surnamePinyin = Surnames[char];
     if (surnamePinyin) {
       pinyin = [surnamePinyin].concat(
-        pinyin.filter((py) => py !== surnamePinyin)
+        pinyin.filter((py) => py !== surnamePinyin),
       );
     }
   }
@@ -135,7 +156,7 @@ export const getAllPinyin: GetAllPinyin = (char, surname = "off") => {
  */
 type GetMultiplePinyin = (
   word: string,
-  surname?: SurnameMode
+  surname?: SurnameMode,
 ) => SingleWordResult[];
 const getMultiplePinyin: GetMultiplePinyin = (word, surname = "off") => {
   let pinyin = getAllPinyin(word, surname);
@@ -166,7 +187,7 @@ const getMultiplePinyin: GetMultiplePinyin = (word, surname = "off") => {
  */
 type GetInitialAndFinal = (
   pinyin: string,
-  initialPattern?: InitialPattern
+  initialPattern?: InitialPattern,
 ) => {
   final: string;
   initial: string;

@@ -1,6 +1,6 @@
-import { BasicOptions } from "../pinyin";
+import type { BasicOptions } from "../pinyin";
 import { Output, OutputFormat } from "./middlewares";
-type SegmentBaseOptions = Pick<BasicOptions, "toneType" | "mode" | "surname" | "nonZh" | "v" | "toneSandhi" | "segmentit">;
+type SegmentBaseOptions = Pick<BasicOptions, "toneType" | "mode" | "surname" | "nonZh" | "v" | "toneSandhi" | "segmentit" | "traditional">;
 interface AllSegmentReturnOptions extends SegmentBaseOptions {
     /**
      * @description 以片段格式返回全部信息
