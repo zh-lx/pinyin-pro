@@ -1,5 +1,17 @@
 # 更新日志
 
+## 3.28.0
+
+- 【feat】新增 `addTraditionalDict` API，用于更好的识别繁体字 [#303](https://github.com/zh-lx/pinyin-pro/pull/303)
+
+## 3.27.0
+
+- 【feat】`pinyin` API 新增 `initialPattern` 选项，用于排除 `y` 和 `w` 作为声母 [#295](https://github.com/zh-lx/pinyin-pro/pull/295)
+
+## 3.26.0
+
+- 【feat】修复 `first` 在 `pattern: 'first'` 模式和 `type: 'all'` 中返回值不一致的问题：修改为对于非中文，统一返回原始非中文字符 [#278](https://github.com/zh-lx/pinyin-pro/pull/278)
+
 ## 3.25.0
 
 - 【feat】`match` API 新增 `v` 选项，允许使用 `v` 匹配 `ü` 的拼音 [#276](https://github.com/zh-lx/pinyin-pro/pull/276)
