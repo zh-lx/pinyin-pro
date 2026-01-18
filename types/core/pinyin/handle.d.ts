@@ -8,7 +8,7 @@ import { MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
  */
 type GetSingleWordPinyin = (char: string) => string;
 export declare const getSingleWordPinyin: GetSingleWordPinyin;
-export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm) => {
+export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm, traditional?: boolean) => {
     list: SingleWordResult[];
     matches: MatchPattern[];
 };

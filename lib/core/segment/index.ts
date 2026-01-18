@@ -1,4 +1,4 @@
-import { BasicOptions } from "../pinyin";
+import type { BasicOptions } from "../pinyin";
 import { TokenizationAlgorithm } from "../../common/segmentit";
 import { stringLength } from "@/common/utils";
 import { middleWareNonZh, middlewareToneSandhi, middlewareToneType, middlewareV, validateType } from "@/core/pinyin/middlewares";
@@ -8,7 +8,7 @@ import { middlewareOutputFormat, middlewareSegment, Output, OutputFormat } from 
 
 type SegmentBaseOptions = Pick<
   BasicOptions,
-  "toneType" | "mode" | "surname" | "nonZh" | "v" | "toneSandhi" | "segmentit"
+  "toneType" | "mode" | "surname" | "nonZh" | "v" | "toneSandhi" | "segmentit" | "traditional"
 >;
 
 interface AllSegmentReturnOptions extends SegmentBaseOptions {
@@ -103,6 +103,7 @@ const DEFAULT_OPTIONS: SegmentCompleteOptions = {
   toneSandhi: true,
   segmentit: TokenizationAlgorithm.MaxProbability,
   format: OutputFormat.AllSegment,
+  traditional: false,
 };
 
 export function segment(word: string, options?: AllSegmentReturnOptions): Output['AllSegment'];
@@ -138,7 +139,8 @@ export function segment(word: string, options?: SegmentCompleteOptions) {
     word,
     _list,
     options.surname as SurnameMode,
-    options.segmentit as TokenizationAlgorithm
+    options.segmentit as TokenizationAlgorithm,
+    options.traditional as boolean
   );
 
   // 一和不变调处理

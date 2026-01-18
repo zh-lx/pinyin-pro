@@ -4,6 +4,7 @@ export interface SingleWordResult {
     result: string;
     isZh: boolean;
     delete?: boolean;
+    traditional?: string;
 }
 export type ToneType = "symbol" | "num" | "none";
 export type PinyinMode = "normal" | "surname";
@@ -59,4 +60,10 @@ export type CommonOptions = {
      * @value standard：不将 `y`、`w` 视为声母
      */
     initialPattern?: InitialPattern;
+    /**
+     * @description 是否启用繁体字模式(可以更好地识别繁体字)
+     * @value false：不启用繁体字模式 （默认值）
+     * @value true：启用繁体字模式
+     */
+    traditional?: boolean;
 };

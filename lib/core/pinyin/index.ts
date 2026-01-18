@@ -163,7 +163,7 @@ function pinyin(word: string, options?: OptionsReturnAll): AllData[];
  */
 function pinyin(
   word: string,
-  options?: CompleteOptions
+  options?: CompleteOptions,
 ): string | string[] | AllData[] {
   options = { ...DEFAULT_OPTIONS, ...(options || {}) };
   // 校验 word 类型是否正确
@@ -203,7 +203,8 @@ function pinyin(
     word,
     _list,
     options.surname as SurnameMode,
-    options.segmentit as TokenizationAlgorithm
+    options.segmentit as TokenizationAlgorithm,
+    options.traditional,
   );
 
   // 一和不变调处理
