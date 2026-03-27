@@ -67,4 +67,45 @@ describe('convert', () => {
     const result = convert('m̄ hm ê̄ ế ê̌ ề', { format: 'symbolToNum' });
     expect(result).to.be.equal('m1 hm0 ê1 ê2 ê3 ê4');
   });
+
+  // 儿化音 (erhua) tests
+  it('[convert]erhua numToSymbol', () => {
+    const result = convert('yi4 dian3r', { format: 'numToSymbol' });
+    expect(result).to.be.equal('yì diǎnr');
+  });
+
+  it('[convert]erhua symbolToNum', () => {
+    const result = convert('yì diǎnr', { format: 'symbolToNum' });
+    expect(result).to.be.equal('yi4 dian3r');
+  });
+
+  it('[convert]erhua toneNone', () => {
+    const result = convert('yì diǎnr', { format: 'toneNone' });
+    expect(result).to.be.equal('yi dianr');
+  });
+
+  it('[convert]erhua numToSymbol hua1r', () => {
+    const result = convert('hua1r', { format: 'numToSymbol' });
+    expect(result).to.be.equal('huār');
+  });
+
+  it('[convert]erhua symbolToNum huār', () => {
+    const result = convert('huār', { format: 'symbolToNum' });
+    expect(result).to.be.equal('hua1r');
+  });
+
+  it('[convert]erhua does not affect er', () => {
+    const result = convert('ér', { format: 'symbolToNum' });
+    expect(result).to.be.equal('er2');
+  });
+
+  it('[convert]erhua numToSymbol does not affect er', () => {
+    const result = convert('er2', { format: 'numToSymbol' });
+    expect(result).to.be.equal('ér');
+  });
+
+  it('[convert]erhua numToSymbol array', () => {
+    const result = convert(['dian3r', 'hua1r']);
+    expect(result).to.deep.equal(['diǎnr', 'huār']);
+  });
 });

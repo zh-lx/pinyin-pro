@@ -86,22 +86,40 @@ function convert(pinyin: string | string[], options?: ConvertOptions) {
 }
 
 function formatNumToSymbol(pinyin: string) {
+  // Handle erhua (儿化音): e.g., dian3r -> diǎnr
+  let suffixR: '' | 'r' = '';
+  if (pinyin.length > 2 && pinyin.endsWith('r')) {
+    const secondToLast = Number(pinyin[pinyin.length - 2]);
+    if (secondToLast >= 0 && secondToLast <= 4) {
+      suffixR = 'r';
+      pinyin = pinyin.slice(0, -1);
+    }
+  }
+
   const lastChar = Number(pinyin[pinyin.length - 1]);
   if (lastChar >= 0 && lastChar <= 4) {
     for (let key in toneMap) {
       if (pinyin.includes(key)) {
         return pinyin
           .slice(0, pinyin.length - 1)
-          .replace(key, toneMap[key as keyof typeof toneMap][lastChar]);
+          .replace(key, toneMap[key as keyof typeof toneMap][lastChar]) + suffixR;
       }
     }
-    return pinyin;
+    return pinyin + suffixR;
   } else {
-    return pinyin;
+    return pinyin + suffixR;
   }
 }
 
 function formatSymbolToNum(pinyin: string) {
+  // Handle erhua (儿化音): e.g., diǎnr -> dian3r
+  if (pinyin.endsWith('r') && pinyin.length > 1 && !/^[eēéěè]r$/.test(pinyin)) {
+    const pinyinWithoutR = pinyin.slice(0, -1);
+    const toneNum = getNumOfTone(pinyinWithoutR);
+    if (toneNum !== '' && toneNum !== '0') {
+      return `${getPinyinWithoutTone(pinyinWithoutR)}${toneNum}r`;
+    }
+  }
   return `${getPinyinWithoutTone(pinyin)}${getNumOfTone(pinyin)}`;
 }
 
