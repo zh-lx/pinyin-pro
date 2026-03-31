@@ -97,6 +97,11 @@ npm install pinyin-pro
 
   // 消除符号
   convert("pīn yīn", { format: "toneNone" }); // 'pin yin'
+
+  // 儿化音
+  convert("dou4 zhi1r") // dòu zhīr
+  convert("dòu zhīr", { format: "symbolToNum" }) // dou4 zhi1r
+  convert("dòu zhīr", { format: "toneNone" }); // 'dou zhir'
   ```
 
 - 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html.html)
