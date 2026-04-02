@@ -18,7 +18,7 @@ export const validateType = (word: unknown) => {
     console.error(
       "The first param of pinyin is error: " +
         word +
-        ' is not assignable to type "string".'
+        ' is not assignable to type "string".',
     );
     return false;
   } else {
@@ -36,13 +36,13 @@ export function isNonZhScope(char: string, scope?: RegExp) {
 // nonZh 属性处理
 export const middleWareNonZh = (
   list: SingleWordResult[],
-  options: CompleteOptions
+  options: CompleteOptions,
 ) => {
   let nonZh = options.nonZh;
 
   if (nonZh === "removed") {
     return list.filter(
-      (item) => item.isZh || !isNonZhScope(item.origin, options.nonZhScope)
+      (item) => item.isZh || !isNonZhScope(item.origin, options.nonZhScope),
     );
   } else if (nonZh === "consecutive") {
     for (let i = list.length - 2; i >= 0; i--) {
@@ -68,7 +68,7 @@ export const middleWareNonZh = (
 // multiple 属性处理
 export const middlewareMultiple = (
   word: string,
-  options: CompleteOptions
+  options: CompleteOptions,
 ): SingleWordResult[] | false => {
   if (stringLength(word) === 1 && options.multiple) {
     return getMultiplePinyin(word, options.surname);
@@ -80,7 +80,7 @@ export const middlewareMultiple = (
 // pattern 属性处理
 export const middlewarePattern = (
   list: SingleWordResult[],
-  options: CompleteOptions
+  options: CompleteOptions,
 ) => {
   switch (options.pattern) {
     case "pinyin":
@@ -132,7 +132,7 @@ export const middlewarePattern = (
 // toneType 属性处理
 export const middlewareToneType = (
   list: SingleWordResult[],
-  options: CompleteOptions
+  options: CompleteOptions,
 ) => {
   switch (options.toneType) {
     case "symbol":
@@ -149,7 +149,7 @@ export const middlewareToneType = (
         if (item.isZh) {
           item.result = getPinyinWithNum(
             item.result,
-            item.originPinyin as string
+            item.originPinyin as string,
           );
         }
       });
@@ -163,14 +163,14 @@ export const middlewareToneType = (
 // v 属性处理
 export const middlewareV = (
   list: SingleWordResult[],
-  options: CompleteOptions
+  options: CompleteOptions,
 ) => {
   if (options.v) {
     list.forEach((item) => {
       if (item.isZh) {
         item.result = item.result.replace(
           /ü/g,
-          typeof options.v === "string" ? options.v : "v"
+          typeof options.v === "string" ? options.v : "v",
         );
       }
     });
@@ -181,7 +181,7 @@ export const middlewareV = (
 export const middlewareType = (
   list: SingleWordResult[],
   options: CompleteOptions,
-  word: string
+  word: string,
 ) => {
   if (options.multiple && stringLength(word) === 1) {
     let last = "";
@@ -199,15 +199,15 @@ export const middlewareType = (
       const pinyin = item.isZh ? item.result : "";
       const { initial, final } = getInitialAndFinal(
         pinyin,
-        options.initialPattern
+        options.initialPattern,
       );
       const { head, body, tail } = getFinalParts(pinyin);
       let polyphonic: string[] = [];
       if (pinyin !== "") {
         polyphonic = [pinyin].concat(
           getAllPinyin(item.origin, options.surname).filter(
-            (item) => item !== pinyin
-          )
+            (item) => item !== pinyin,
+          ),
         );
       }
       return {
@@ -233,7 +233,7 @@ export const middlewareType = (
 // 是否开启变调
 export const middlewareToneSandhi = (
   list: SingleWordResult[],
-  toneSandhi: boolean
+  toneSandhi: boolean,
 ): SingleWordResult[] => {
   if (toneSandhi === false) {
     list.forEach((item) => {
