@@ -77,4 +77,5 @@ declare const getPinyinWithNum: GetPinyinWithNum;
  */
 type GetFirstLetter = (pinyin: string, isZh: boolean) => string;
 declare const getFirstLetter: GetFirstLetter;
+export declare function processToneSandhi(cur: string, pre: string, next: string): string | undefined;
 export { getPinyinWithoutTone, getInitialAndFinal, getMultiplePinyin, getNumOfTone, getPinyinWithNum, getFirstLetter, getFinalParts, };
