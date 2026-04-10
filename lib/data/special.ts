@@ -1,11 +1,5 @@
 import { Probability, Priority } from "@/common/constant";
 import type { Pattern } from "../common/segmentit";
-import {
-  getSingleWordPinyin,
-  getNumOfTone,
-  getPinyinWithoutTone,
-} from "@/core/pinyin/handle";
-import DICT1 from "./dict1";
 import { stringLength } from "@/common/utils";
 
 export const InitialList = [
