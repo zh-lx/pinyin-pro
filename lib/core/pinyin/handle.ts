@@ -4,7 +4,9 @@ import {
   SpecialFinalMap,
   SpecialFinalList,
   doubleFinalList,
-  processSepecialPinyin,
+  toneSandhiList,
+  toneSandhiIgnoreSuffix,
+  toneSandhiMap,
 } from "@/data/special";
 import Surnames from "@/data/surname";
 import DICT1 from "@/data/dict1";
@@ -79,7 +81,9 @@ export const getPinyin = (
       const pinyins = match.pinyin.split(" ");
       let pinyinIndex = 0;
       if (traditional) {
-        match.zh = zhChars.slice(match.index, match.index + match.length).join("");
+        match.zh = zhChars
+          .slice(match.index, match.index + match.length)
+          .join("");
       }
       for (let j = 0; j < match.length; j++) {
         list[i + j] = {
@@ -318,6 +322,63 @@ const getFirstLetter: GetFirstLetter = (pinyin: string, isZh: boolean) => {
   });
   return first_letter_arr.join(" ");
 };
+
+// 处理「一」和 「不」字的变调
+export function processToneSandhi(cur: string, pre: string, next: string) {
+  if (toneSandhiList.indexOf(cur) === -1) {
+    return getSingleWordPinyin(cur);
+  }
+  // 轻声变调：说不说，说一说，叠词之间发音为轻声
+  if (pre === next && pre && getSingleWordPinyin(pre) !== pre) {
+    return getPinyinWithoutTone(getSingleWordPinyin(cur));
+  }
+  // 「一」和 「不」字变调处理
+  if (
+    next &&
+    !toneSandhiIgnoreSuffix[
+      cur as keyof typeof toneSandhiIgnoreSuffix
+    ].includes(next)
+  ) {
+    const nextPinyin = getSingleWordPinyin(next);
+    if (nextPinyin !== next) {
+      const nextTone = getNumOfTone(nextPinyin);
+      const pinyinMap = toneSandhiMap[cur as keyof typeof toneSandhiMap];
+      for (let pinyin in pinyinMap) {
+        const tones = pinyinMap[pinyin as keyof typeof pinyinMap] as number[];
+        if (tones.indexOf(Number(nextTone)) !== -1) {
+          return pinyin;
+        }
+      }
+    }
+  }
+}
+
+// 处理「了」字的变调
+function processToneSandhiLiao(cur: string, pre: string) {
+  if (cur === "了" && (!pre || !DICT1.get(pre))) {
+    return "liǎo";
+  }
+}
+
+// 处理叠字符[々]
+function processReduplicationChar(cur: string, pre: string) {
+  if (cur === "々") {
+    if (!pre || !DICT1.get(pre)) {
+      return "tóng";
+    } else {
+      return DICT1.get(pre).split(" ")[0];
+    }
+  }
+}
+
+function processSepecialPinyin(cur: string, pre: string, next: string) {
+  return (
+    processReduplicationChar(cur, pre) ||
+    processToneSandhiLiao(cur, pre) ||
+    processToneSandhi(cur, pre, next) ||
+    getSingleWordPinyin(cur)
+  );
+}
 
 export {
   getPinyinWithoutTone,

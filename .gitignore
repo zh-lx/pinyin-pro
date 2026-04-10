@@ -2,5 +2,4 @@ node_modules
 coverage
 handle-data
 package-lock.json
-yarn.lock
 dist
