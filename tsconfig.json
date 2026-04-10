@@ -15,9 +15,11 @@
     "declaration": true,
     "declarationDir": "types",
     "baseUrl": "./",
+    "allowImportingTsExtensions": false,
     "paths": {
       "@/*": ["lib/*"]
     }
   },
-  "exclude": ["node_modules", "types"]
+  "exclude": ["node_modules", "types"],
+  "include": ["lib/**/*.ts", "lib/**/*.js"]
 }
