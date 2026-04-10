@@ -15,7 +15,6 @@
     "declaration": true,
     "declarationDir": "types",
     "baseUrl": "./",
-    "allowImportingTsExtensions": false,
     "paths": {
       "@/*": ["lib/*"]
     }
