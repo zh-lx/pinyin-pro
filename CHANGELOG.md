@@ -1,5 +1,9 @@
 # 更新日志
 
+## 3.28.1
+
+- 【feat】`convert` api 中增加了对于儿化音缩写格式的识别支持 [#306](https://github.com/zh-lx/pinyin-pro/pull/306)
+
 ## 3.28.0
 
 - 【feat】新增 `addTraditionalDict` API，用于更好的识别繁体字 [#303](https://github.com/zh-lx/pinyin-pro/pull/303)
