@@ -182,14 +182,25 @@ const getSplittedPolyphonicList = (
   list: SingleWordResult[]
 ): SingleWordResult[][] => {
   return list.map((item) => {
-    return item.isZh
-      ? item.result.split(" ").map((pinyin) => ({
+    if (!item.isZh) {
+      return [item];
+    }
+    if (!item.result.includes(" ")) {
+      return [
+        {
           origin: item.origin,
-          result: pinyin,
+          result: item.result,
           isZh: true,
-          originPinyin: pinyin,
-        }))
-      : [item];
+          originPinyin: item.result,
+        },
+      ];
+    }
+    return item.result.split(" ").map((pinyin) => ({
+      origin: item.origin,
+      result: pinyin,
+      isZh: true,
+      originPinyin: pinyin,
+    }));
   });
 };
 
