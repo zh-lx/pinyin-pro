@@ -80,7 +80,7 @@ function addCustomConfigToDict(
   }
 }
 
-export const getCustomMultpileDict = () => {
+export const getCustomMultipleDict = () => {
   return customMultipleDict;
 };
 

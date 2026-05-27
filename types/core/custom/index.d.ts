@@ -19,7 +19,7 @@ interface CustomPinyinOptions {
 export declare function customPinyin(config?: {
     [word: string]: string;
 }, options?: CustomPinyinOptions): void;
-export declare const getCustomMultpileDict: () => FastDictFactory;
+export declare const getCustomMultipleDict: () => FastDictFactory;
 export declare const getCustomPolyphonicDict: () => FastDictFactory;
 export declare function clearCustomDict(dict: CustomDictType | CustomDictType[]): void;
 export {};
