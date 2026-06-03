@@ -10,7 +10,7 @@ import {
 } from "@/data/special";
 import Surnames from "@/data/surname";
 import DICT1 from "@/data/dict1";
-import { getCustomMultpileDict } from "@/core/custom";
+import { getCustomMultipleDict } from "@/core/custom";
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode, InitialPattern } from "../../common/type";
 import {
@@ -138,10 +138,10 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
  */
 type GetAllPinyin = (char: string, surname?: SurnameMode) => string[];
 export const getAllPinyin: GetAllPinyin = (char, surname = "off") => {
-  const customMultpileDict = getCustomMultpileDict();
+  const customMultipleDict = getCustomMultipleDict();
   let pinyin = DICT1.get(char) ? DICT1.get(char).split(" ") : [];
-  if (customMultpileDict.get(char)) {
-    pinyin = customMultpileDict.get(char).split(" ");
+  if (customMultipleDict.get(char)) {
+    pinyin = customMultipleDict.get(char).split(" ");
   } else if (surname !== "off") {
     const surnamePinyin = Surnames[char];
     if (surnamePinyin) {
