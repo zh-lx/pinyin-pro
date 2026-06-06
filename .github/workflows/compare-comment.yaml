@@ -1,0 +1,79 @@
+name: Comment Bundle Size Comparison
+
+# 在 Bundle Size Comparison 跑完后触发。workflow_run 运行在 base 仓库
+# (zh-lx/pinyin-pro)的上下文中,即使源 PR 来自 fork,GITHUB_TOKEN 仍具备
+# 写权限,因此可以安全地评论 PR——且本 workflow 不会 checkout / 执行任何 PR 代码。
+on:
+  workflow_run:
+    workflows: ['Bundle Size Comparison']
+    types:
+      - completed
+
+permissions:
+  pull-requests: write
+  actions: read # 下载另一个 run 的 artifact 需要
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    # 仅在源 run 是 pull_request 触发且成功时评论
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Download comparison artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: compare-output
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment PR with comparison results
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const compareOutput = fs.readFileSync('compare-output.txt', 'utf8');
+            const prNumber = parseInt(
+              fs.readFileSync('pr-number.txt', 'utf8').trim(),
+              10
+            );
+
+            // 查找是否已有对比评论
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('📦 CDN vs Local 完整对比')
+            );
+
+            const timestamp = new Date().toUTCString();
+            const body = '## 📦 CDN vs Local 完整对比\n\n```\n' +
+              compareOutput +
+              '\n```\n\n_Updated at ' + timestamp + '_\n\n---\n💡 **提示**: 此评论会在每次推送新提交时自动更新';
+
+            if (botComment) {
+              // 更新现有评论
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+              console.log('✅ 已更新对比评论');
+            } else {
+              // 创建新评论
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: body
+              });
+              console.log('✅ 已创建对比评论');
+            }

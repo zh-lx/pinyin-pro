@@ -7,12 +7,14 @@ on:
   push:
     branches: [main]
 
+# 只读权限即可：本 workflow 会执行 PR(可能来自 fork)的代码,
+# 评论 PR 的写操作放在 compare-comment.yaml 里完成。
+permissions:
+  contents: read
+
 jobs:
   compare-size:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
 
     steps:
       - name: Checkout code
@@ -30,59 +32,22 @@ jobs:
         run: yarn build
 
       - name: Run comparison (size, accuracy & speed)
-        id: compare
         run: |
-          echo "COMPARE_OUTPUT<<EOF" >> $GITHUB_OUTPUT
-          npm run compare 2>&1 | tee -a $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-        continue-on-error: false
+          set -o pipefail
+          npm run compare 2>&1 | tee compare-output.txt
 
-      - name: Comment PR with comparison results
+      - name: Save PR number
         if: github.event_name == 'pull_request'
-        env:
-          COMPARE_OUTPUT: ${{ steps.compare.outputs.COMPARE_OUTPUT }}
-        uses: actions/github-script@v7
+        run: echo "${{ github.event.pull_request.number }}" > pr-number.txt
+
+      # 上传对比结果,供 compare-comment.yaml 在有写权限的上下文中下载并评论。
+      # fork PR 的 GITHUB_TOKEN 在此被强制为只读,无法直接评论,故拆分。
+      - name: Upload comparison artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
         with:
-          script: |
-            const compareOutput = process.env.COMPARE_OUTPUT;
-
-            // 查找是否已有对比评论
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const botComment = comments.find(comment =>
-              comment.user.type === 'Bot' &&
-              comment.body.includes('📦 CDN vs Local 完整对比')
-            );
-
-            const timestamp = new Date().toUTCString();
-            const body = '## 📦 CDN vs Local 完整对比\n\n```\n' +
-              compareOutput +
-              '\n```\n\n_Updated at ' + timestamp + '_\n\n---\n💡 **提示**: 此评论会在每次推送新提交时自动更新';
-
-            if (botComment) {
-              // 更新现有评论
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: body
-              });
-              console.log('✅ 已更新对比评论');
-            } else {
-              // 创建新评论
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: body
-              });
-              console.log('✅ 已创建对比评论');
-            }
-
-      - name: Display comparison in logs
-        if: github.event_name == 'push'
-        run: npm run compare
+          name: compare-output
+          path: |
+            compare-output.txt
+            pr-number.txt
+          retention-days: 1
