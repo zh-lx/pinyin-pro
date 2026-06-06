@@ -141,32 +141,22 @@ function polyphonic(
   // nonZh 参数及 removeNonZh 参数
   list = middleWareNonZh(list, options);
 
-  let doubleList = getSplittedPolyphonicList(list);
-  // pattern 参数
-  doubleList.forEach((list) => {
-    middlewarePattern(list, options);
-  });
-
-  // toneType参数处理
-  doubleList.forEach((list) => {
-    middlewareToneType(list, options);
-  });
-
-  // v参数处理
-  doubleList.forEach((list) => {
-    middlewareV(list, options);
-  });
-
-  // type 参数处理
-  const result = doubleList.map((list) => handleType(list, options));
+  const doubleList = getSplittedPolyphonicList(list);
+  const result = [];
+  for (const itemList of doubleList) {
+    middlewarePattern(itemList, options);
+    middlewareToneType(itemList, options);
+    middlewareV(itemList, options);
+    result.push(handleType(itemList, options));
+  }
 
   return result as string[] | string[][] | AllData[][];
 }
 
 // 获取每个字多音字的数组
 const getPolyphonicList = (text: string): SingleWordResult[] => {
+  const customPolyphonicDict = getCustomPolyphonicDict();
   return splitString(text).map((char) => {
-    const customPolyphonicDict = getCustomPolyphonicDict();
     const pinyin = customPolyphonicDict.get(char) || DICT1.get(char) || char;
     return {
       origin: char,
@@ -209,33 +199,39 @@ export const handleType = (
   list: SingleWordResult[],
   options: CompleteOptions
 ) => {
-  if (options.type === "array") {
-    return Array.from(new Set(list.map((item) => item.result)));
+  if (options.type !== "all") {
+    const result = new Set<string>();
+    for (const item of list) {
+      result.add(item.result);
+    }
+    const values = Array.from(result);
+    return options.type === "array" ? values : values.join(" ");
   }
-  if (options.type === "all") {
-    return list.map((item) => {
-      const pinyin = item.isZh ? item.result : "";
-      const { initial, final } = getInitialAndFinal(
-        pinyin,
-        options.initialPattern
-      );
-      const { head, body, tail } = getFinalParts(pinyin);
-      return {
-        origin: item.origin,
-        pinyin,
-        initial,
-        final,
-        first: getFirstLetter(item.result, item.isZh),
-        finalHead: head,
-        finalBody: body,
-        finalTail: tail,
-        num: Number(getNumOfTone(item.originPinyin)),
-        isZh: item.isZh,
-        inZhRange: !!DICT1.get(item.origin),
-      };
+
+  const result = [];
+  for (const item of list) {
+    const pinyin = item.isZh ? item.result : "";
+    const { initial, final } = getInitialAndFinal(
+      pinyin,
+      options.initialPattern
+    );
+    const { head, body, tail } = getFinalParts(pinyin);
+    result.push({
+      origin: item.origin,
+      pinyin,
+      initial,
+      final,
+      first: getFirstLetter(item.result, item.isZh),
+      finalHead: head,
+      finalBody: body,
+      finalTail: tail,
+      num: Number(getNumOfTone(item.originPinyin)),
+      isZh: item.isZh,
+      inZhRange: !!DICT1.get(item.origin),
     });
   }
-  return Array.from(new Set(list.map((item) => item.result))).join(" ");
+
+  return result;
 };
 
 export { polyphonic };
