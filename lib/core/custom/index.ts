@@ -64,16 +64,22 @@ function addCustomConfigToDict(
 ) {
   for (let word in config) {
     const pinyins = config[word];
+    const pinyinList = pinyins.split(' ');
     splitString(word).forEach((char, index) => {
-      const pinyin = pinyins.split(' ')[index] || '';
-      if (handleType === 'replace' || (handleType === 'add' && !dict.get(char) && !DICT1.get(char))) {
+      const pinyin = pinyinList[index] || '';
+      const current = dict.get(char);
+      const base = current || DICT1.get(char);
+      if (handleType === 'replace' || (handleType === 'add' && !base)) {
         // 直接覆盖原词典
         dict.set(char, pinyin);
       } else {
         // 补充至原词典
-        dict.set(char, dict.get(char) || DICT1.get(char));
-        if (!dict.get(char).split(' ').includes(pinyin)) {
-          dict.set(char, `${dict.get(char)} ${pinyin}`.trim());
+        const merged = base as string;
+        if (!current) {
+          dict.set(char, merged);
+        }
+        if (!merged.split(' ').includes(pinyin)) {
+          dict.set(char, `${merged} ${pinyin}`.trim());
         }
       }
     });
