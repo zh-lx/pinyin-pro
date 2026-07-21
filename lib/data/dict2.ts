@@ -69,7 +69,7 @@ const DICT2: { [prop: string]: string } = {
   行首: 'háng shǒu',
   行尾: 'háng wěi',
   行末: 'háng mò',
-  行长: 'háng cháng',
+  行长: 'háng zhǎng',
   行距: 'háng jù',
   换行: 'huàn háng',
   行会: 'háng huì',

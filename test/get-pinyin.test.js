@@ -16,4 +16,9 @@ describe('getPinyin', () => {
     const result = pinyin('阿比让');
     expect(result).to.be.equal('ā bǐ ràng');
   });
+
+  it('[get-pinyin]行长', () => {
+    const result = pinyin('行长');
+    expect(result).to.be.equal('háng zhǎng');
+  });
 });
