@@ -1,5 +1,14 @@
 # 更新日志
 
+## 3.28.2
+
+- 【patch】词库修正以下词语：
+
+  ```diff
+  行长: 'háng cháng', // [!code --]
+  行长: 'háng zhǎng', // [!code ++]
+  ```
+
 ## 3.28.1
 
 - 【feat】`convert` api 中增加了对于儿化音缩写格式的识别支持 [#306](https://github.com/zh-lx/pinyin-pro/pull/306)

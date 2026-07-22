@@ -1,5 +1,14 @@
 # ChangeLog
 
+## 3.28.2
+
+- 【patch】Correct the following words in directory:
+
+  ```diff
+  行长: 'háng cháng', // [!code --]
+  行长: 'háng zhǎng', // [!code ++]
+  ```
+  
 ## 3.28.1
 
 - 【feat】Added support for recognizing abbreviated forms of rhotic final sounds in the `convert` API [#306](https://github.com/zh-lx/pinyin-pro/pull/306)
