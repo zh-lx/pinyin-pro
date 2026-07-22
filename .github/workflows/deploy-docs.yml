@@ -1,0 +1,52 @@
+name: Deploy docs
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      DEPLOY_HOST:
+        required: true
+      DEPLOY_PATH:
+        required: true
+      DEPLOY_PORT:
+        required: false
+      SERVER_PASSWORD:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+      SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages and docs
+        run: pnpm build:all
+
+      - name: Install deploy dependencies
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy docs
+        run: pnpm deploy:docs

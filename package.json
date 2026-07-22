@@ -12,6 +12,7 @@
     "build:packages": "pnpm --filter @pinyin-pro/data build && pnpm --filter pinyin-pro build",
     "build:docs": "pnpm --filter @pinyin-pro/docs build",
     "build:all": "pnpm build:packages && pnpm build:docs",
+    "deploy:docs": "bash ./deploy.sh",
     "test": "pnpm --filter pinyin-pro test",
     "lint": "pnpm --filter pinyin-pro lint",
     "compare": "pnpm --filter pinyin-pro compare",

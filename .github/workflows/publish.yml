@@ -1,0 +1,85 @@
+name: Publish npm package
+
+on:
+  workflow_dispatch:
+    inputs:
+      dist_tag:
+        description: npm dist-tag
+        required: true
+        default: latest
+        type: choice
+        options:
+          - latest
+          - beta
+      dry_run:
+        description: Run publish in dry-run mode
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Publish package
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            pnpm --filter pinyin-pro publish --dry-run --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
+          else
+            pnpm --filter pinyin-pro publish --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
+          fi
+
+  deploy-docs:
+    needs: publish
+    if: ${{ !inputs.dry_run }}
+    uses: ./.github/workflows/deploy-docs.yml
+    secrets: inherit
