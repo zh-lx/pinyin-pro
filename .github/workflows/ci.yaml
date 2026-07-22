@@ -11,19 +11,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Set up Node 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Run tests with coverage
-        run: yarn test
+        run: pnpm test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

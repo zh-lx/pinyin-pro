@@ -153,8 +153,8 @@ npm install pinyin-pro
 
 以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，可以看到 `pinyin-pro` 在各方面都全面领先。
 
-- 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/benchmark/accuracy.js)
-- 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/benchmark/speed.js)
+- 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
+- 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
 <table>
     <tr>
         <th colspan="2">对比项</th>
@@ -215,3 +215,21 @@ npm install pinyin-pro
   <img src="https://user-images.githubusercontent.com/73059627/226233976-5dbb9daa-6620-4d16-a2b0-359055dcafe1.png" width="200" >
   <img src="https://user-images.githubusercontent.com/73059627/226233691-848b2a40-f1a9-414e-a80f-3fc6c6209eb1.png" width="200" >
 </div>
+
+### 🧰 Monorepo 开发
+
+本仓库使用 pnpm workspace 管理以下项目：
+
+- `packages/pinyin-pro`：`pinyin-pro` 核心包
+- `packages/data`：`@pinyin-pro/data` 扩展字典包及数据处理脚本
+- `packages/docs`：中英文 VitePress 文档
+
+```shell
+pnpm install
+pnpm build          # 构建核心包与数据包
+pnpm test           # 运行核心包测试
+pnpm build:docs     # 构建并打包中英文文档
+pnpm build:all      # 构建全部 workspace
+pnpm docs:dev:zh    # 启动中文文档
+pnpm docs:dev:en    # 启动英文文档
+```

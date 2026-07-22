@@ -1,0 +1,11 @@
+{
+  "name": "@pinyin-pro/docs",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter @pinyin-pro/docs-en docs:build && pnpm --filter @pinyin-pro/docs-zh docs:build && node scripts/zip.js"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.2.0",
+    "zip-a-folder": "^3.1.7"
+  }
+}
