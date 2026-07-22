@@ -1,0 +1,16 @@
+{
+  "name": "@pinyin-pro/docs-en",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "less": "^4.2.0",
+    "prismjs": "^1.29.0",
+    "pinyin-pro": "workspace:^",
+    "vitepress": "1.0.0-rc.25",
+    "vue": "^3.3.8"
+  }
+}
