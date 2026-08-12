@@ -1,1 +1,1 @@
-export declare const PatternsNormal: import("@/common/segmentit").Pattern[];
+export declare const PatternsNormal: import("../../../pinyin-pro/lib/common/segmentit").Pattern[];
