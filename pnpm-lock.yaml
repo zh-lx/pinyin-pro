@@ -128,6 +128,39 @@ importers:
         specifier: ^1.5.0
         version: 1.6.1(@types/node@26.1.1)(less@4.7.0)(terser@5.49.0)
 
+  packages/pinyin-pro-mini:
+    devDependencies:
+      '@pinyin-pro/data':
+        specifier: workspace:^
+        version: link:../data
+      '@rollup/plugin-alias':
+        specifier: ^3.1.9
+        version: 3.1.9(rollup@2.60.0)
+      '@rollup/plugin-commonjs':
+        specifier: ^17.1.0
+        version: 17.1.0(rollup@2.60.0)
+      '@rollup/plugin-json':
+        specifier: ^4.1.0
+        version: 4.1.0(rollup@2.60.0)
+      '@rollup/plugin-node-resolve':
+        specifier: ^11.2.0
+        version: 11.2.1(rollup@2.60.0)
+      rollup:
+        specifier: 2.60.0
+        version: 2.60.0
+      rollup-plugin-cleanup:
+        specifier: ^3.2.1
+        version: 3.2.1(rollup@2.60.0)
+      rollup-plugin-typescript2:
+        specifier: ^0.36.0
+        version: 0.36.0(rollup@2.60.0)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.2.3
+        version: 4.9.5
+      vitest:
+        specifier: ^1.5.0
+        version: 1.6.1(@types/node@26.1.1)(less@4.7.0)(terser@5.49.0)
+
 packages:
 
   '@algolia/abtesting@1.22.0':
