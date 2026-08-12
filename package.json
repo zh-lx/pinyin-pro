@@ -16,6 +16,7 @@
     "test": "pnpm --filter pinyin-pro test",
     "lint": "pnpm --filter pinyin-pro lint",
     "compare": "pnpm --filter pinyin-pro compare",
+    "size": "pnpm --filter pinyin-pro exec node scripts/size.js",
     "docs:dev:zh": "pnpm --filter @pinyin-pro/docs-zh docs:dev",
     "docs:dev:en": "pnpm --filter @pinyin-pro/docs-en docs:dev",
     "data:validate": "pnpm --filter @pinyin-pro/data validate"

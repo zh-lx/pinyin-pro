@@ -28,8 +28,11 @@ module.exports = {
   output: [
     {
       exports: 'auto',
-      file: path.resolve(__dirname, './dist/index.mjs'),
+      dir: path.resolve(__dirname, './dist/esm'),
+      entryFileNames: '[name].mjs',
       format: 'es',
+      preserveModules: true,
+      preserveModulesRoot: path.resolve(__dirname, './lib'),
       sourcemap: false,
     },
   ],

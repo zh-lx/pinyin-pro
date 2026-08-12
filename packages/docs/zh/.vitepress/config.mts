@@ -68,6 +68,7 @@ export default defineConfig({
         items: [
           { text: '介绍', link: '/guide/compare.md' },
           { text: '快速开始', link: '/guide/start.md' },
+          { text: 'API Size', link: '/guide/api-size.md' },
           { text: '更新日志', link: '/guide/changelog.md' },
         ],
       },

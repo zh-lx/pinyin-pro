@@ -71,6 +71,9 @@ npm install pinyin-pro
 
 - 文本和拼音匹配，更多匹配规则请查看[match API](https://pinyin-pro.cn/use/match.html)
 
+  <details>
+    <summary>点击展开文本和拼音匹配示例</summary>
+
   ```js
   import { match } from "pinyin-pro";
 
@@ -84,7 +87,12 @@ npm install pinyin-pro
   match("中文拼音", "zhongwp"); // [0, 1, 2]
   ```
 
+  </details>
+
 - 拼音格式转换，更多功能请查看[convert API](https://pinyin-pro.cn/use/convert.html)
+
+  <details>
+    <summary>点击展开拼音格式转换示例</summary>
 
   ```js
   import { convert } from "pinyin-pro";
@@ -104,7 +112,36 @@ npm install pinyin-pro
   convert("dòu zhīr", { format: "toneNone" }); // 'dou zhir'
   ```
 
+  </details>
+
+- 分词并获取拼音，更多配置请查看[segment API](https://pinyin-pro.cn/use/segment.html)
+
+  <details>
+    <summary>点击展开 segment 基础使用示例</summary>
+
+  ```js
+  import { segment, OutputFormat } from "pinyin-pro";
+
+  // 默认返回分词及对应的拼音
+  segment("我喜欢学习汉语");
+  // [
+  //   { origin: "我", result: "wǒ" },
+  //   { origin: "喜欢", result: "xǐhuān" },
+  //   { origin: "学习", result: "xuéxí" },
+  //   { origin: "汉语", result: "hànyǔ" }
+  // ]
+
+  // 仅获取分词后的拼音
+  segment("我喜欢学习汉语", { format: OutputFormat.PinyinString });
+  // "wǒ xǐhuān xuéxí hànyǔ"
+  ```
+
+  </details>
+
 - 获取带汉字拼音的 HTML 字符串，更多配置请查看[html API](https://pinyin-pro.cn/use/html.html)
+
+  <details>
+    <summary>点击展开 HTML 字符串示例</summary>
 
   ```js
   import { html } from "pinyin-pro";
@@ -149,9 +186,36 @@ npm install pinyin-pro
   </ruby>
   </span>
 
+  </details>
+
+- 更多的 API 请查看[pinyin-pro 官网](https://pinyin-pro.cn/)
+
 ### 🏆 竞品对比
 
 以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，可以看到 `pinyin-pro` 在各方面都全面领先。
+
+### 📦 API Size
+
+以下数据由 `pnpm size` 自动生成。ESM 各 API 为独立打包并开启 Tree Shaking 后的压缩体积；UMD 不支持按 API Tree Shaking，展示完整产物体积。括号内为对应产物 gzip 后的体积。
+
+<table>
+    <thead>
+        <tr>
+            <th>API</th>
+            <th>ESM</th>
+            <th>UMD</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr><td>pinyin</td><td>305.98 KB (gzip 134.19 KB)</td><td rowspan="7">316.18 KB (gzip 137.60 KB)</td></tr>
+    <tr><td>segment</td><td>304.77 KB (gzip 133.42 KB)</td></tr>
+    <tr><td>match</td><td>185.44 KB (gzip 80.79 KB)</td></tr>
+    <tr><td>convert</td><td>1.78 KB (gzip 0.98 KB)</td></tr>
+    <tr><td>html</td><td>306.81 KB (gzip 134.49 KB)</td></tr>
+    <tr><td>polyphonic</td><td>180.63 KB (gzip 78.78 KB)</td></tr>
+    <tr><td>总体积</td><td>557.49 KB (gzip 157.07 KB)</td></tr>
+    </tbody>
+</table>
 
 - 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
 - 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)

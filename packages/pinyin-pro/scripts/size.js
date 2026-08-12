@@ -1,0 +1,240 @@
+const path = require("path");
+const fs = require("fs");
+const zlib = require("zlib");
+const ts = require("typescript");
+const { rollup } = require("rollup");
+const alias = require("@rollup/plugin-alias");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const commonjs = require("@rollup/plugin-commonjs");
+const json = require("@rollup/plugin-json");
+const { terser } = require("rollup-plugin-terser");
+
+const root = path.resolve(__dirname, "..");
+const packages = {
+  "pinyin-pro": {
+    lib: path.join(root, "lib"),
+    tsconfig: path.join(root, "tsconfig.json"),
+  },
+};
+const apis = ["pinyin", "segment", "match", "convert", "html", "polyphonic"];
+const extensions = [".mjs", ".js", ".json", ".node", ".ts"];
+
+function format(bytes) {
+  return `${(bytes / 1024).toFixed(2)} KB`;
+}
+
+function typescript() {
+  return {
+    name: "typescript-strip",
+    transform(code, id) {
+      if (!id.endsWith(".ts")) return null;
+      const result = ts.transpileModule(code, {
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2018,
+          module: ts.ModuleKind.ESNext,
+          importsNotUsedAsValues: ts.ImportsNotUsedAsValues.Remove,
+          sourceMap: false,
+        },
+        fileName: id,
+      });
+      return { code: result.outputText, map: null };
+    },
+  };
+}
+
+function plugins(pkg) {
+  const config = packages[pkg];
+  const entries = [];
+  entries.push({ find: "@", replacement: config.lib });
+  return [
+    {
+      name: "size-entry",
+      resolveId(id) {
+        return id === "size-entry" ? "\0size-entry" : null;
+      },
+      load(id) {
+        return id === "\0size-entry" ? this.meta.apiEntry : null;
+      },
+    },
+    alias({ entries }),
+    nodeResolve({ extensions }),
+    typescript(),
+    commonjs(),
+    json(),
+  ];
+}
+
+async function measure(pkg, api, format, minify) {
+  const config = packages[pkg];
+  const dist = path.join(root, "dist/esm/index.mjs");
+  if (!fs.existsSync(dist)) {
+    throw new Error(`Missing build output: ${dist}. Run pnpm build first.`);
+  }
+  const input = `export { ${api} } from ${JSON.stringify(dist)};`;
+  const rollupPlugins = plugins(pkg);
+  rollupPlugins[0].load = (id) => (id === "\0size-entry" ? input : null);
+  if (minify) rollupPlugins.push(terser());
+  const bundle = await rollup({
+    input: "size-entry",
+    treeshake: true,
+    plugins: rollupPlugins,
+  });
+  const generated = await bundle.generate({ format: "es" });
+  const code = generated.output
+    .filter((item) => item.type === "chunk")
+    .map((item) => item.code)
+    .join("");
+  await bundle.close();
+  return {
+    bytes: Buffer.byteLength(code),
+    gzip: zlib.gzipSync(code, { level: 9 }).length,
+  };
+}
+
+function measureDirectory(directory) {
+  const files = [];
+  function collect(current) {
+    fs.readdirSync(current, { withFileTypes: true }).forEach((entry) => {
+      const file = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        collect(file);
+      } else if (file.endsWith(".mjs")) {
+        files.push(file);
+      }
+    });
+  }
+  collect(directory);
+  const code = Buffer.concat(files.map((file) => fs.readFileSync(file)));
+  return {
+    bytes: code.length,
+    gzip: zlib.gzipSync(code, { level: 9 }).length,
+  };
+}
+
+function measureFile(file) {
+  if (!fs.existsSync(file)) {
+    throw new Error(`Missing build output: ${file}. Run pnpm build first.`);
+  }
+  const code = fs.readFileSync(file);
+  return {
+    bytes: code.length,
+    gzip: zlib.gzipSync(code, { level: 9 }).length,
+  };
+}
+
+function renderSize(size) {
+  return `${format(size.bytes)} (gzip ${format(size.gzip)})`;
+}
+
+function renderRows(packageResults, overall) {
+  const rows = apis.map((api, index) => {
+    const umd = index === 0 ? `<td rowspan="${apis.length + 1}">${renderSize(overall.umd)}</td>` : "";
+    return `    <tr><td>${api}</td><td>${renderSize(packageResults[api].esm)}</td>${umd}</tr>`;
+  });
+  rows.push(`    <tr><td>总体积</td><td>${renderSize(overall.esm)}</td></tr>`);
+  return rows;
+}
+
+function renderTable(results, overall) {
+  const packageResults = results["pinyin-pro"];
+  return [
+    "### 📦 API Size",
+    "",
+    "以下数据由 `pnpm size` 自动生成。ESM 各 API 为独立打包并开启 Tree Shaking 后的压缩体积；UMD 不支持按 API Tree Shaking，展示完整产物体积。括号内为对应产物 gzip 后的体积。",
+    "",
+    "<table>",
+    "    <thead>",
+    "        <tr>",
+    "            <th>API</th>",
+    "            <th>ESM</th>",
+    "            <th>UMD</th>",
+    "        </tr>",
+    "    </thead>",
+    "    <tbody>",
+    ...renderRows(packageResults, overall),
+    "    </tbody>",
+    "</table>",
+    "",
+  ].join("\n");
+}
+
+function renderGuidePage(results, overall, language) {
+  const packageResults = results["pinyin-pro"];
+  const isEnglish = language === "en";
+  return [
+    isEnglish ? "# API Size" : "# API Size",
+    "",
+    isEnglish
+      ? "The following data is automatically generated by `pnpm size`. ESM API sizes are measured after independent bundling and Tree Shaking; UMD does not support API-level Tree Shaking, so its full artifact size is shown. Gzip sizes are shown in parentheses."
+      : "以下数据由 `pnpm size` 自动生成。ESM 各 API 为独立打包并开启 Tree Shaking 后的压缩体积；UMD 不支持按 API Tree Shaking，展示完整产物体积。括号内为对应产物 gzip 后的体积。",
+    "",
+    "<table>",
+    "    <thead>",
+    "        <tr>",
+    "            <th>API</th>",
+    "            <th>ESM</th>",
+    "            <th>UMD</th>",
+    "        </tr>",
+    "    </thead>",
+    "    <tbody>",
+    ...renderRows(packageResults, overall),
+    "    </tbody>",
+    "</table>",
+    "",
+  ].join("\n");
+}
+
+function updateReadme(results, overall) {
+  const readme = path.join(root, "README.md");
+  const content = fs.readFileSync(readme, "utf8");
+  const section = renderTable(results, overall);
+  const sectionPattern = /### 📦 API Size[\s\S]*?(?=\n- 准确率测试数据:)/;
+  if (!sectionPattern.test(content)) {
+    throw new Error(`Could not find API size section in ${readme}`);
+  }
+  fs.writeFileSync(readme, content.replace(sectionPattern, section), "utf8");
+  console.log(`Updated ${readme}`);
+}
+
+function updateGuidePages(results, overall) {
+  const pages = [
+    {
+      file: path.resolve(root, "../docs/zh/docs/guide/api-size.md"),
+      language: "zh",
+    },
+    {
+      file: path.resolve(root, "../docs/en/docs/guide/api-size.md"),
+      language: "en",
+    },
+  ];
+  for (const page of pages) {
+    fs.writeFileSync(page.file, renderGuidePage(results, overall, page.language), "utf8");
+    console.log(`Updated ${page.file}`);
+  }
+}
+
+(async () => {
+  const results = {
+    "pinyin-pro": {},
+  };
+  for (const pkg of Object.keys(packages)) {
+    console.log(`\n${pkg}`);
+    results[pkg] = {};
+    for (const api of apis) {
+      const esm = await measure(pkg, api, "es", true);
+      results[pkg][api] = { esm };
+      console.log(
+        `${api}\tESM ${renderSize(esm)}`,
+      );
+    }
+  }
+  const overall = {
+    umd: measureFile(path.join(root, "dist/index.js")),
+    esm: measureDirectory(path.join(root, "dist/esm")),
+  };
+  updateReadme(results, overall);
+  updateGuidePages(results, overall);
+})().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
