@@ -8,6 +8,8 @@ const cleanup = require('rollup-plugin-cleanup');
 const { terser } = require('rollup-plugin-terser');
 
 const sharedLib = path.resolve(__dirname, '../pinyin-pro/lib');
+const sharedPatterns = path.resolve(sharedLib, 'data/patterns.ts');
+const miniPatterns = path.resolve(__dirname, './lib/data/patterns.ts');
 const extensions = ['.mjs', '.js', '.json', '.node', '.ts'];
 
 module.exports = (format, file, name) => ({
@@ -22,6 +24,9 @@ module.exports = (format, file, name) => ({
   plugins: [
     alias({
       entries: [
+        // TypeScript may resolve the shared segmentit import to this absolute path
+        // before Rollup applies the @/data/patterns alias.
+        { find: sharedPatterns, replacement: miniPatterns },
         { find: '@/data/dict1', replacement: path.resolve(__dirname, './lib/data/dict1.ts') },
         { find: '@/data/patterns', replacement: path.resolve(__dirname, './lib/data/patterns.ts') },
         { find: '@', replacement: sharedLib },
