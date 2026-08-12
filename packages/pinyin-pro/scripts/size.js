@@ -93,16 +93,19 @@ async function measure(pkg, api, minify) {
 function measureDirectory(directory) {
   const files = [];
   function collect(current) {
-    fs.readdirSync(current, { withFileTypes: true }).forEach((entry) => {
-      const file = path.join(current, entry.name);
-      if (entry.isDirectory()) {
-        collect(file);
-      } else if (file.endsWith(".mjs")) {
-        files.push(file);
-      }
-    });
+    fs.readdirSync(current, { withFileTypes: true })
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((entry) => {
+        const file = path.join(current, entry.name);
+        if (entry.isDirectory()) {
+          collect(file);
+        } else if (file.endsWith(".mjs")) {
+          files.push(file);
+        }
+      });
   }
   collect(directory);
+  files.sort();
   const code = Buffer.concat(files.map((file) => fs.readFileSync(file)));
   return {
     bytes: code.length,
@@ -125,12 +128,12 @@ function renderSize(size) {
   return `${format(size.bytes)} (gzip ${format(size.gzip)})`;
 }
 
-function renderRows(packageResults, overall) {
+function renderRows(packageResults, overall, totalLabel) {
   const rows = apis.map((api, index) => {
     const umd = index === 0 ? `<td rowspan="${apis.length + 1}">${renderSize(overall.umd)}</td>` : "";
     return `    <tr><td>${api}</td><td>${renderSize(packageResults[api].esm)}</td>${umd}</tr>`;
   });
-  rows.push(`    <tr><td>总体积</td><td>${renderSize(overall.esm)}</td></tr>`);
+  rows.push(`    <tr><td>${totalLabel}</td><td>${renderSize(overall.esm)}</td></tr>`);
   return rows;
 }
 
@@ -150,7 +153,7 @@ function renderTable(results, overall) {
     "        </tr>",
     "    </thead>",
     "    <tbody>",
-    ...renderRows(packageResults, overall),
+    ...renderRows(packageResults, overall, "总体积"),
     "    </tbody>",
     "</table>",
     "",
@@ -176,7 +179,7 @@ function renderGuidePage(results, overall, language) {
     "        </tr>",
     "    </thead>",
     "    <tbody>",
-    ...renderRows(packageResults, overall),
+    ...renderRows(packageResults, overall, isEnglish ? "Total" : "总体积"),
     "    </tbody>",
     "</table>",
     "",
