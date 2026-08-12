@@ -1,4 +1,5 @@
 import { pinyin, addDict, customPinyin, clearCustomDict, polyphonic } from '../lib/index';
+import { getCustomMultipleDict, getCustomPolyphonicDict } from '../lib/core/custom';
 import { expect, describe, it } from 'vitest';
 
 const completeDict = require("@pinyin-pro/data/complete.json");
@@ -13,6 +14,11 @@ function clearAllCustomDicts() {
 }
 
 describe('customConfig', () => {
+  it('[custom]get custom dictionaries', () => {
+    expect(getCustomMultipleDict()).toBe(getCustomMultipleDict());
+    expect(getCustomPolyphonicDict()).toBe(getCustomPolyphonicDict());
+  });
+
   it('[custom]custom none', () => {
     customPinyin();
     const result = pinyin('干一行行一行');
