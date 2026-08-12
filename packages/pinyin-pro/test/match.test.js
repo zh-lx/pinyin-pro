@@ -198,7 +198,12 @@ describe("match", () => {
   });
 
   it("[match]custom v replacement", () => {
-    const result = match("吕", "lu", { v: "u" });
+    const result = match("吕", "lü", { v: "u" });
     expect(result).to.deep.equal([0]);
+  });
+
+  it("[match]combining tone marks", () => {
+    const result = match("欸", "êê");
+    expect(result).to.deep.equal(null);
   });
 });

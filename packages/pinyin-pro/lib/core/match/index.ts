@@ -25,7 +25,7 @@ interface MatchOptions {
   /**
    * @description 是否将 ü 替换成 v 进行匹配
    */
-  v?: boolean;
+  v?: boolean | string;
 }
 
 const DefaultMatchOptions: MatchOptions = {
@@ -50,10 +50,12 @@ const getMatchPinyin = (char: string, options: Required<MatchOptions>) => {
       .replace(/[īíǐì]/g, "i")
       .replace(/[ūúǔù]/g, "u")
       .replace(/[ǖǘǚǜ]/g, "ü")
-      .replace(/[n̄ńňǹ]/g, "n")
-      .replace(/[m̄ḿm̌m̀]/g, "m")
-      .replace(/[ê̄ếê̌ề]/g, "ê");
-    return options.v ? withoutTone.replace(/ü/g, typeof options.v === "string" ? options.v : "v") : withoutTone;
+      .replace(/(n̄|ń|ň|ǹ)/g, "n")
+      .replace(/(m̄|ḿ|m̌|m̀)/g, "m")
+      .replace(/(ê̄|ế|ê̌|ề)/g, "ê");
+    return options.v
+      ? withoutTone.replace(/ü/g, typeof options.v === "string" ? options.v : "v")
+      : withoutTone;
   });
 };
 
@@ -69,7 +71,8 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
     options.lastPrecision = "any";
   }
   if (options?.v) {
-    pinyin = pinyin.replace(/ü/g, "v");
+    const replacement = typeof options.v === "string" ? options.v : "v";
+    pinyin = pinyin.replace(/ü/g, replacement);
   }
   const completeOptions = {
     ...DefaultMatchOptions,

@@ -22,7 +22,7 @@ interface MatchOptions {
     /**
      * @description 是否将 ü 替换成 v 进行匹配
      */
-    v?: boolean;
+    v?: boolean | string;
 }
 /**
  * @description: 检测汉语字符串和拼音是否匹配
