@@ -1,1 +1,1 @@
-export * from "./pinyin-pro-mini/lib/index";
+export * from "./pinyin-pro/lib/index";
