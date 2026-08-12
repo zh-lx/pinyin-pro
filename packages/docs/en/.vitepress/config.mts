@@ -70,6 +70,7 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/guide/compare.md' },
           { text: 'Get Started', link: '/guide/start.md' },
+          { text: 'API Size', link: '/guide/api-size.md' },
           { text: 'ChangeLog', link: '/guide/changelog.md' },
         ],
       },

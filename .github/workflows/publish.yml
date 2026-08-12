@@ -77,10 +77,8 @@ jobs:
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             pnpm --filter pinyin-pro publish --dry-run --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
-            pnpm --filter pinyin-pro-mini publish --dry-run --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
           else
             pnpm --filter pinyin-pro publish --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
-            pnpm --filter pinyin-pro-mini publish --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
           fi
 
   deploy-docs:
