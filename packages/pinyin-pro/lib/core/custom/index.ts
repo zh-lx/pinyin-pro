@@ -3,9 +3,8 @@ import { Probability, Priority } from '@/common/constant';
 import { splitString, stringLength } from '@/common/utils';
 import { FastDictFactory } from '../../common/utils';
 import DICT1 from '@/data/dict1';
+import { customMultipleDict, customPolyphonicDict } from './state';
 let customDict: { [key: string]: string } = {};
-const customMultipleDict = new FastDictFactory();
-const customPolyphonicDict = new FastDictFactory();
 
 type CustomHandleType = 'add' | 'replace';
 

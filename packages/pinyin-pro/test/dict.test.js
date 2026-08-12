@@ -21,6 +21,13 @@ describe("addDict", () => {
     expect(result).to.be.equal("hàn yǔ pīn yīn");
   });
 
+  it("[addDict]array dict with probability and part of speech", () => {
+    addDict({ 拼音: ['pīn yīn', 1, 'noun'] }, "arrayDictWithMetadata");
+    const result = pinyin("拼音");
+    expect(result).to.be.equal("pīn yīn");
+    removeDict('arrayDictWithMetadata');
+  });
+
   it("[addDict]dict handle add", () => {
     const stringDict = {
       汉: ['yīn']

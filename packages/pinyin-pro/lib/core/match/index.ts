@@ -1,5 +1,5 @@
 import { splitString } from "@/common/utils";
-import { pinyin as _pinyin } from "@/core/pinyin";
+import { getAllPinyin } from "@/core/pinyin/all";
 
 interface MatchOptions {
   /**
@@ -25,7 +25,7 @@ interface MatchOptions {
   /**
    * @description 是否将 ü 替换成 v 进行匹配
    */
-  v?: boolean;
+  v?: boolean | string;
 }
 
 const DefaultMatchOptions: MatchOptions = {
@@ -39,6 +39,26 @@ const DefaultMatchOptions: MatchOptions = {
 
 const MAX_PINYIN_LENGTH = 6;
 
+// match 只需要单字多音结果，不需要经过完整的词组匹配流程。
+const getMatchPinyin = (char: string, options: Required<MatchOptions>) => {
+  const pinyins = getAllPinyin(char);
+  return (pinyins.length ? pinyins : [char]).map((pinyin) => {
+    const withoutTone = pinyin
+      .replace(/[āáǎà]/g, "a")
+      .replace(/[ōóǒò]/g, "o")
+      .replace(/[ēéěè]/g, "e")
+      .replace(/[īíǐì]/g, "i")
+      .replace(/[ūúǔù]/g, "u")
+      .replace(/[ǖǘǚǜ]/g, "ü")
+      .replace(/(n̄|ń|ň|ǹ)/g, "n")
+      .replace(/(m̄|ḿ|m̌|m̀)/g, "m")
+      .replace(/(ê̄|ế|ê̌|ề)/g, "ê");
+    return options.v
+      ? withoutTone.replace(/ü/g, typeof options.v === "string" ? options.v : "v")
+      : withoutTone;
+  });
+};
+
 /**
  * @description: 检测汉语字符串和拼音是否匹配
  * @param {string} text 汉语字符串
@@ -51,7 +71,8 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
     options.lastPrecision = "any";
   }
   if (options?.v) {
-    pinyin = pinyin.replace(/ü/g, "v");
+    const replacement = typeof options.v === "string" ? options.v : "v";
+    pinyin = pinyin.replace(/ü/g, replacement);
   }
   const completeOptions = {
     ...DefaultMatchOptions,
@@ -105,12 +126,7 @@ const matchAny = (
       continue;
     }
     // 当前字的多音字拼音
-    const ps = _pinyin(words[i], {
-      toneType: "none",
-      multiple: true,
-      type: "array",
-      v: options.v,
-    });
+    const ps = getMatchPinyin(words[i], options);
     let currentLength = 0;
     ps.forEach((p) => {
       const length = getMatchLength(p, pinyin);
@@ -184,12 +200,7 @@ const matchAboveStart = (
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
-        const muls = _pinyin(words[i - 1], {
-          type: "array",
-          toneType: "none",
-          multiple: true,
-          v: options.v,
-        });
+        const muls = getMatchPinyin(words[i - 1], options);
 
         // 非中文匹配
         if (words[i - 1] === pinyin[j - 1]) {

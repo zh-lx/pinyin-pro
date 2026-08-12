@@ -196,4 +196,14 @@ describe("match", () => {
     const result = match("我是吕布", "woshilvbu", { v: true });
     expect(result).to.deep.equal([0, 1, 2, 3]);
   });
+
+  it("[match]custom v replacement", () => {
+    const result = match("吕", "lü", { v: "u" });
+    expect(result).to.deep.equal([0]);
+  });
+
+  it("[match]combining tone marks", () => {
+    const result = match("欸", "êê");
+    expect(result).to.deep.equal(null);
+  });
 });

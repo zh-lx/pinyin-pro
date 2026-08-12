@@ -1,6 +1,7 @@
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode, InitialPattern } from "../../common/type";
 import { MatchPattern, TokenizationAlgorithm } from "../../common/segmentit";
+export { getAllPinyin } from "./all";
 /**
  * @description: 获取单个字符的拼音
  * @param {string} char
@@ -24,8 +25,6 @@ declare const getPinyinWithoutTone: GetPinyinWithoutTone;
  * @param {string} char
  * @return {WordResult[]}
  */
-type GetAllPinyin = (char: string, surname?: SurnameMode) => string[];
-export declare const getAllPinyin: GetAllPinyin;
 /**
  * @description: 获取单字符的多音拼音
  * @param {string} word

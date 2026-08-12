@@ -8,9 +8,8 @@ import {
   toneSandhiIgnoreSuffix,
   toneSandhiMap,
 } from "@/data/special";
-import Surnames from "@/data/surname";
 import DICT1 from "@/data/dict1";
-import { getCustomMultipleDict } from "@/core/custom";
+import { getAllPinyin } from "./all";
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode, InitialPattern } from "../../common/type";
 import {
@@ -21,6 +20,7 @@ import {
 import { Priority } from "@/common/constant";
 import { splitString } from "@/common/utils";
 import { getTraditionalDict } from "../traditional";
+export { getAllPinyin } from "./all";
 
 /**
  * @description: 获取单个字符的拼音
@@ -136,23 +136,6 @@ const getPinyinWithoutTone: GetPinyinWithoutTone = (pinyin) => {
  * @param {string} char
  * @return {WordResult[]}
  */
-type GetAllPinyin = (char: string, surname?: SurnameMode) => string[];
-export const getAllPinyin: GetAllPinyin = (char, surname = "off") => {
-  const customMultipleDict = getCustomMultipleDict();
-  let pinyin = DICT1.get(char) ? DICT1.get(char).split(" ") : [];
-  if (customMultipleDict.get(char)) {
-    pinyin = customMultipleDict.get(char).split(" ");
-  } else if (surname !== "off") {
-    const surnamePinyin = Surnames[char];
-    if (surnamePinyin) {
-      pinyin = [surnamePinyin].concat(
-        pinyin.filter((py) => py !== surnamePinyin),
-      );
-    }
-  }
-  return pinyin;
-};
-
 /**
  * @description: 获取单字符的多音拼音
  * @param {string} word
