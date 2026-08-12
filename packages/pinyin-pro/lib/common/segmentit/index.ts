@@ -1,15 +1,12 @@
-import { PatternNumberDict } from "@/data/special";
-import { Pattern2 } from "@/data/dict2";
-import { Pattern3 } from "@/data/dict3";
-import { Pattern4 } from "@/data/dict4";
-import { Pattern5 } from "@/data/dict5";
-import { PatternSurname } from "@/data/surname";
+import { PatternsNormal } from "@/data/patterns";
 import { maxProbability } from "./max-probability";
 import { minTokenization } from "./min-tokenization";
 import { reverseMaxMatch } from "./reverse-max-match";
 import { Priority } from "@/common/constant";
 import type { SurnameMode } from "../type";
 import { splitString, stringLength } from "../utils";
+
+export { PatternsNormal } from "../../data/patterns";
 
 export const enum TokenizationAlgorithm {
   ReverseMaxMatch = 1,
@@ -75,7 +72,7 @@ export class AC {
       for (let i = 0; i < zhChars.length; i++) {
         let c = zhChars[i];
         if (!cur.children.has(c)) {
-          const trieNode = new TrieNode(cur, zhChars.slice(0, i).join(''), c);
+          const trieNode = new TrieNode(cur, zhChars.slice(0, i).join(""), c);
           cur.children.set(c, trieNode);
           this.addNodeToQueues(trieNode);
         }
@@ -216,7 +213,7 @@ export class AC {
   search(
     text: string,
     surname: SurnameMode,
-    algorithm: TokenizationAlgorithm = TokenizationAlgorithm.MaxProbability
+    algorithm: TokenizationAlgorithm = TokenizationAlgorithm.MaxProbability,
   ) {
     const patterns = this.match(text, surname);
     if (algorithm === TokenizationAlgorithm.ReverseMaxMatch) {
@@ -229,13 +226,5 @@ export class AC {
 }
 
 // 常规匹配
-export const PatternsNormal = [
-  ...Pattern5,
-  ...Pattern4,
-  ...Pattern3,
-  ...Pattern2,
-  ...PatternNumberDict,
-  ...PatternSurname,
-];
 export const acTree = new AC();
 acTree.build(PatternsNormal);

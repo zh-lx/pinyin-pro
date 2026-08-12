@@ -1,0 +1,13 @@
+{
+  "extends": "../pinyin-pro/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/data/dict1": ["lib/data/dict1.ts"],
+      "@/data/patterns": ["lib/data/patterns.ts"],
+      "@/*": ["../pinyin-pro/lib/*"]
+    },
+    "declarationDir": "types"
+  },
+  "include": ["lib/**/*.ts"]
+}
