@@ -130,10 +130,15 @@ function renderSize(size) {
 
 function renderRows(packageResults, overall, totalLabel) {
   const rows = apis.map((api, index) => {
-    const umd = index === 0 ? `<td rowspan="${apis.length + 1}">${renderSize(overall.umd)}</td>` : "";
+    const umd =
+      index === 0
+        ? `<td rowspan="${apis.length + 1}">${renderSize(overall.umd)}</td>`
+        : "";
     return `    <tr><td>${api}</td><td>${renderSize(packageResults[api].esm)}</td>${umd}</tr>`;
   });
-  rows.push(`    <tr><td>${totalLabel}</td><td>${renderSize(overall.esm)}</td></tr>`);
+  rows.push(
+    `    <tr><td>${totalLabel}</td><td>${renderSize(overall.esm)}</td></tr>`,
+  );
   return rows;
 }
 
@@ -190,7 +195,7 @@ function updateReadme(results, overall) {
   const readme = path.join(root, "README.md");
   const content = fs.readFileSync(readme, "utf8");
   const section = renderTable(results, overall);
-  const sectionPattern = /### 📦 API Size[\s\S]*?(?=\n- 准确率测试数据:)/;
+  const sectionPattern = /### 📦 API Size[\s\S]*?(?=\n### 📠 反馈)/;
   if (!sectionPattern.test(content)) {
     throw new Error(`Could not find API size section in ${readme}`);
   }
@@ -210,7 +215,11 @@ function updateGuidePages(results, overall) {
     },
   ];
   for (const page of pages) {
-    fs.writeFileSync(page.file, renderGuidePage(results, overall, page.language), "utf8");
+    fs.writeFileSync(
+      page.file,
+      renderGuidePage(results, overall, page.language),
+      "utf8",
+    );
     console.log(`Updated ${page.file}`);
   }
 }
@@ -225,9 +234,7 @@ function updateGuidePages(results, overall) {
     for (const api of apis) {
       const esm = await measure(pkg, api, true);
       results[pkg][api] = { esm };
-      console.log(
-        `${api}\tESM ${renderSize(esm)}`,
-      );
+      console.log(`${api}\tESM ${renderSize(esm)}`);
     }
   }
   const overall = {

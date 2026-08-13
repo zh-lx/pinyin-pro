@@ -194,29 +194,6 @@ npm install pinyin-pro
 
 以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，可以看到 `pinyin-pro` 在各方面都全面领先。
 
-### 📦 API Size
-
-以下数据由 `pnpm size` 自动生成。ESM 各 API 为独立打包并开启 Tree Shaking 后的压缩体积；UMD 不支持按 API Tree Shaking，展示完整产物体积。括号内为对应产物 gzip 后的体积。
-
-<table>
-    <thead>
-        <tr>
-            <th>API</th>
-            <th>ESM</th>
-            <th>UMD</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr><td>pinyin</td><td>305.98 KB (gzip 134.19 KB)</td><td rowspan="7">316.18 KB (gzip 137.60 KB)</td></tr>
-    <tr><td>segment</td><td>304.77 KB (gzip 133.42 KB)</td></tr>
-    <tr><td>match</td><td>185.44 KB (gzip 80.79 KB)</td></tr>
-    <tr><td>convert</td><td>1.78 KB (gzip 0.98 KB)</td></tr>
-    <tr><td>html</td><td>306.81 KB (gzip 134.49 KB)</td></tr>
-    <tr><td>polyphonic</td><td>180.63 KB (gzip 78.78 KB)</td></tr>
-    <tr><td>总体积</td><td>557.49 KB (gzip 157.07 KB)</td></tr>
-    </tbody>
-</table>
-
 - 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
 - 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
 <table>
@@ -267,6 +244,29 @@ npm install pinyin-pro
         <td>✔️ 支持</td>
         <td>✔️ 支持</td>
     </tr>
+</table>
+
+### 📦 API Size
+
+以下数据由 `pnpm size` 自动生成。ESM 各 API 为独立打包并开启 Tree Shaking 后的压缩体积；UMD 不支持按 API Tree Shaking，展示完整产物体积。括号内为对应产物 gzip 后的体积。
+
+<table>
+    <thead>
+        <tr>
+            <th>API</th>
+            <th>ESM</th>
+            <th>UMD</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr><td>pinyin</td><td>305.98 KB (gzip 134.19 KB)</td><td rowspan="7">316.18 KB (gzip 137.60 KB)</td></tr>
+    <tr><td>segment</td><td>304.77 KB (gzip 133.42 KB)</td></tr>
+    <tr><td>match</td><td>185.44 KB (gzip 80.79 KB)</td></tr>
+    <tr><td>convert</td><td>1.78 KB (gzip 0.98 KB)</td></tr>
+    <tr><td>html</td><td>306.81 KB (gzip 134.49 KB)</td></tr>
+    <tr><td>polyphonic</td><td>180.63 KB (gzip 78.78 KB)</td></tr>
+    <tr><td>总体积</td><td>557.49 KB (gzip 157.07 KB)</td></tr>
+    </tbody>
 </table>
 
 ### 📠 反馈
