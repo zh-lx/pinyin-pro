@@ -1,11 +1,6 @@
 import { stringLength } from "@/common/utils";
 import { TokenizationAlgorithm } from "../../common/segmentit";
-import type {
-  SingleWordResult,
-  PinyinMode,
-  SurnameMode,
-  CommonOptions,
-} from "../../common/type";
+import type { PinyinMode, SurnameMode, CommonOptions } from "../../common/type";
 import { getPinyin } from "./handle";
 import {
   validateType,
@@ -214,8 +209,9 @@ function pinyin(
   list = middleWareNonZh(list, options);
 
   // multiple 参数
-  if (middlewareMultiple(word, options)) {
-    list = middlewareMultiple(word, options) as SingleWordResult[];
+  const multipleList = middlewareMultiple(word, options);
+  if (multipleList) {
+    list = multipleList;
   }
 
   // pattern 参数
