@@ -225,6 +225,23 @@ export class AC {
   }
 }
 
-// 常规匹配
+let acBuilt = false;
+
 export const acTree = new AC();
-acTree.build(PatternsNormal);
+
+export function ensureAcBuilt() {
+  if (!acBuilt) {
+    acTree.build(PatternsNormal);
+    acBuilt = true;
+  }
+}
+
+export function scheduleAcBuild() {
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(() => ensureAcBuilt());
+  } else {
+    setTimeout(ensureAcBuilt, 0);
+  }
+}
+
+scheduleAcBuild();

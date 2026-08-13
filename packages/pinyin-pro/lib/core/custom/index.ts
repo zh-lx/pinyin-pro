@@ -1,4 +1,4 @@
-import { acTree } from '@/common/segmentit';
+import { acTree, ensureAcBuilt } from '@/common/segmentit';
 import { Probability, Priority } from '@/common/constant';
 import { splitString, stringLength } from '@/common/utils';
 import { FastDictFactory } from '../../common/utils';
@@ -32,6 +32,7 @@ export function customPinyin(
   config: { [word: string]: string } = {},
   options?: CustomPinyinOptions
 ) {
+  ensureAcBuilt();
   const words = Object.keys(config).sort(
     (word1, word2) => stringLength(word2) - stringLength(word1)
   );
