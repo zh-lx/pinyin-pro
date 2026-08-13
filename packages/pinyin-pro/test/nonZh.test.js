@@ -41,4 +41,9 @@ describe('nonZh', () => {
     const result = pinyin('ab', { nonZh: 'removed', nonZhScope: /[a-z]/g });
     expect(result).to.be.equal('');
   });
+
+  it('[nonZh]scope frozen regexp', () => {
+    const result = pinyin('a', { nonZh: 'removed', nonZhScope: Object.freeze(/[a-z]/) });
+    expect(result).to.be.equal('');
+  });
 });
