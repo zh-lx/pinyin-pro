@@ -1,4 +1,5 @@
 import { pinyin, addDict, customPinyin } from '../lib/index';
+import { AC } from '../lib/common/segmentit';
 import { expect, describe, it } from 'vitest';
 
 const completeDict = require("@pinyin-pro/data/complete.json");
@@ -6,6 +7,23 @@ const completeDict = require("@pinyin-pro/data/complete.json");
 addDict(completeDict);
 
 describe('segmentit', () => {
+  it('[segmentit]rebuild fail pointers after adding patterns', () => {
+    const ac = new AC();
+    const pattern = (zh, pinyin) => ({
+      zh,
+      pinyin,
+      probability: 1,
+      length: zh.length,
+      priority: 1,
+      dict: zh,
+    });
+
+    ac.build([pattern('ab', 'a b')]);
+    ac.build([pattern('ba', 'b a')]);
+
+    expect(ac.match('aba', 'off').map((item) => item.zh)).to.deep.equal(['ab', 'ba']);
+  });
+
   it('[surname]segmentit-max-probability', () => {
     const result = pinyin('小明硕士毕业于中国科学院计算所，后在日本京都大学深造');
     expect(result).to.be.equal('xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào');

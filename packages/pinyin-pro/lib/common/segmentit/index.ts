@@ -86,27 +86,28 @@ export class AC {
 
   // 构建失败指针
   buildFailPointer() {
-    let queue: TrieNode[] = [];
-    let queueIndex = 0;
-    this.queues.forEach((_queue) => {
-      queue = queue.concat(_queue);
+    const queue: TrieNode[] = [];
+    this.root.fail = null;
+
+    this.root.children.forEach((node) => {
+      node.fail = this.root;
+      queue.push(node);
     });
-    this.queues = [];
 
-    while (queue.length > queueIndex) {
-      let node = queue[queueIndex++] as TrieNode;
-      let failNode = node.parent && (node.parent.fail as TrieNode | null);
-      let key = node.key;
-
-      while (failNode && !failNode.children.has(key)) {
-        failNode = failNode.fail;
-      }
-      if (!failNode) {
-        node.fail = this.root;
-      } else {
-        node.fail = failNode.children.get(key) as TrieNode;
-      }
+    for (let queueIndex = 0; queueIndex < queue.length; queueIndex++) {
+      const node = queue[queueIndex];
+      node.children.forEach((child, key) => {
+        let failNode = node.fail;
+        while (failNode && !failNode.children.has(key)) {
+          failNode = failNode.fail;
+        }
+        child.fail = failNode && failNode.children.has(key)
+          ? failNode.children.get(key) as TrieNode
+          : this.root;
+        queue.push(child);
+      });
     }
+    this.queues = [];
   }
 
   // 将 pattern 添加到 dictMap 中
