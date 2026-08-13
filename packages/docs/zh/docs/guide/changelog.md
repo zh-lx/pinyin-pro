@@ -1,5 +1,10 @@
 # 更新日志
 
+## 3.29.0
+
+- 【perf】优化 `match` API 在 ESM 模式下 tree shaking 的 size，`306.81 KB (gzip 134.49 KB)` > `185.44 KB (gzip 80.79 KB)` [#323](https://github.com/zh-lx/pinyin-pro/pull/323)
+- 【perf】优化 ESM 打包配置，确保 tree shaking 时仅引入必要代码，减小各个 API 的 size [#327](https://github.com/zh-lx/pinyin-pro/pull/327)
+
 ## 3.28.2
 
 - 【patch】词库修正以下词语：

@@ -1,5 +1,10 @@
 # ChangeLog
 
+## 3.29.0
+
+- 【perf】Optimized the size of the `match` API in ESM mode, `306.81 KB (gzip 134.49 KB)` > `185.44 KB (gzip 80.79 KB)` [#323](https://github.com/zh-lx/pinyin-pro/pull/323)
+- 【perf】Optimized ESM packaging configuration to ensure only necessary code is imported during tree shaking, reducing the size of each API [#327](https://github.com/zh-lx/pinyin-pro/pull/327)
+
 ## 3.28.2
 
 - 【patch】Correct the following words in directory:
@@ -8,7 +13,7 @@
   行长: 'háng cháng', // [!code --]
   行长: 'háng zhǎng', // [!code ++]
   ```
-  
+
 ## 3.28.1
 
 - 【feat】Added support for recognizing abbreviated forms of rhotic final sounds in the `convert` API [#306](https://github.com/zh-lx/pinyin-pro/pull/306)
