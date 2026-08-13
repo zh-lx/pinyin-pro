@@ -11,6 +11,13 @@ describe("addDict", () => {
     expect(result).to.be.equal("hàn yǔ pīn yīn");
   });
 
+  it("[addDict]dynamic dict overrides the base dict", () => {
+    addDict({ 汉语: "hàn yù" }, "dynamic-override");
+    const result = pinyin("汉语");
+    expect(result).to.be.equal("hàn yù");
+    removeDict("dynamic-override");
+  });
+
   it("[addDict]array dict", () => {
     const stringDict = {
       汉语拼音: ['hàn yǔ pīn yīn']

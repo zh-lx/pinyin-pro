@@ -13,7 +13,7 @@ import { getAllPinyin } from "./all";
 import { SingleWordResult } from "../../common/type";
 import type { SurnameMode, InitialPattern } from "../../common/type";
 import {
-  acTree,
+  searchAcTrees,
   MatchPattern,
   TokenizationAlgorithm,
 } from "../../common/segmentit";
@@ -57,7 +57,7 @@ export const getPinyin = (
   traditional?: boolean,
 ): { list: SingleWordResult[]; matches: MatchPattern[] } => {
   const searchWord = traditional ? getTraditionalWords(word) : word;
-  const matches = acTree.search(searchWord, surname, segmentit);
+  const matches = searchAcTrees(searchWord, surname, segmentit);
   let matchIndex = 0;
   const zhChars = splitString(word);
   for (let i = 0; i < zhChars.length; ) {

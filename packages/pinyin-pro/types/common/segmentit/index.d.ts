@@ -45,4 +45,7 @@ export declare class AC {
     match(text: string, surname: SurnameMode): MatchPattern[];
     search(text: string, surname: SurnameMode, algorithm?: TokenizationAlgorithm): MatchPattern[];
 }
+export declare const baseAcTree: AC;
+export declare const dynamicAcTree: AC;
+export declare function searchAcTrees(text: string, surname: SurnameMode, algorithm?: TokenizationAlgorithm): MatchPattern[];
 export declare const acTree: AC;

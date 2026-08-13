@@ -1,5 +1,5 @@
 import { Priority, Probability } from "@/common/constant";
-import { Pattern, acTree } from "@/common/segmentit";
+import { Pattern, dynamicAcTree } from "@/common/segmentit";
 import { stringLength } from "@/common/utils";
 import DICT1 from "@/data/dict1";
 
@@ -62,11 +62,11 @@ export function addDict(dict: DICT | {}, options?: string | DictOptions) {
       });
     }
   }
-  acTree.build(patterns);
+  dynamicAcTree.build(patterns);
 }
 
 export function removeDict(dictName?: string) {
-  acTree.removeDict(dictName || DefaultName);
+  dynamicAcTree.removeDict(dictName || DefaultName);
   removeOriginDict(dictName || DefaultName);
 }
 

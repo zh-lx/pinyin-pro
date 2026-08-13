@@ -226,6 +226,40 @@ export class AC {
   }
 }
 
-// 常规匹配
-export const acTree = new AC();
-acTree.build(PatternsNormal);
+// The built-in dictionary is kept separate from user-provided dictionaries so
+// dynamic updates do not rebuild the large base trie.
+export const baseAcTree = new AC();
+baseAcTree.build(PatternsNormal);
+
+export const dynamicAcTree = new AC();
+
+export function searchAcTrees(
+  text: string,
+  surname: SurnameMode,
+  algorithm: TokenizationAlgorithm = TokenizationAlgorithm.MaxProbability,
+) {
+  const patterns = baseAcTree
+    .match(text, surname)
+    .concat(dynamicAcTree.match(text, surname))
+    .sort((a, b) => {
+      const aEnd = a.index + a.length;
+      const bEnd = b.index + b.length;
+      return (
+        aEnd - bEnd ||
+        a.index - b.index ||
+        b.priority - a.priority ||
+        b.probability - a.probability ||
+        b.length - a.length
+      );
+    });
+
+  if (algorithm === TokenizationAlgorithm.ReverseMaxMatch) {
+    return reverseMaxMatch(patterns);
+  } else if (algorithm === TokenizationAlgorithm.MinTokenization) {
+    return minTokenization(patterns, stringLength(text));
+  }
+  return maxProbability(patterns, stringLength(text));
+}
+
+// Kept as an alias for internal consumers of the built-in dictionary.
+export const acTree = baseAcTree;
