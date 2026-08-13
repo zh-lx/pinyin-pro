@@ -62,9 +62,13 @@ export class AC {
   build(patternList: Pattern[]) {
     const newNodes: TrieNode[] = [];
     this.buildTrie(patternList, newNodes);
-    const minNewDepth = newNodes.length
-      ? Math.min(...newNodes.map((node) => stringLength(node.prefix) + 1))
-      : Infinity;
+    let minNewDepth = Infinity;
+    for (const node of newNodes) {
+      minNewDepth = Math.min(
+        minNewDepth,
+        stringLength(node.prefix) + 1,
+      );
+    }
     this.buildFailPointer(minNewDepth);
   }
 
