@@ -1,11 +1,6 @@
 import { stringLength } from "@/common/utils";
 import { TokenizationAlgorithm } from "../../common/segmentit";
-import type {
-  SingleWordResult,
-  PinyinMode,
-  SurnameMode,
-  CommonOptions,
-} from "../../common/type";
+import type { PinyinMode, SurnameMode, CommonOptions } from "../../common/type";
 import { getPinyin } from "./handle";
 import {
   validateType,
