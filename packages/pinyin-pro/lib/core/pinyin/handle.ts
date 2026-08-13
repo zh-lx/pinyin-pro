@@ -14,6 +14,7 @@ import { SingleWordResult } from "../../common/type";
 import type { SurnameMode, InitialPattern } from "../../common/type";
 import {
   acTree,
+  ensureAcBuilt,
   MatchPattern,
   TokenizationAlgorithm,
 } from "../../common/segmentit";
@@ -56,6 +57,7 @@ export const getPinyin = (
   segmentit: TokenizationAlgorithm,
   traditional?: boolean,
 ): { list: SingleWordResult[]; matches: MatchPattern[] } => {
+  ensureAcBuilt();
   const searchWord = traditional ? getTraditionalWords(word) : word;
   const matches = acTree.search(searchWord, surname, segmentit);
   let matchIndex = 0;

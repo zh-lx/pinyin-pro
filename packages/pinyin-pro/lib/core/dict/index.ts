@@ -1,5 +1,5 @@
 import { Priority, Probability } from "@/common/constant";
-import { Pattern, acTree } from "@/common/segmentit";
+import { Pattern, acTree, ensureAcBuilt } from "@/common/segmentit";
 import { stringLength } from "@/common/utils";
 import DICT1 from "@/data/dict1";
 
@@ -21,6 +21,7 @@ type DictOptions = {
 const originDictMap = new Map<string | Symbol, { [word: string]: string }>();
 
 export function addDict(dict: DICT | {}, options?: string | DictOptions) {
+  ensureAcBuilt();
   const patterns: Pattern[] = [];
   // string 类型时：options 为 name（）
   const name = typeof options === "object" ? options.name : options;
