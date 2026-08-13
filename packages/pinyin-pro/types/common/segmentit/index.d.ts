@@ -33,13 +33,13 @@ declare class TrieNode {
 export declare class AC {
     root: TrieNode;
     dictMap: Map<string | Symbol, Set<Pattern>>;
-    queues: TrieNode[][];
+    nodesByDepth: TrieNode[][];
     constructor();
     build(patternList: Pattern[]): void;
-    buildTrie(patternList: Pattern[]): void;
-    buildFailPointer(): void;
+    buildTrie(patternList: Pattern[], newNodes?: TrieNode[]): void;
+    buildFailPointer(minDepth?: number): void;
     addPatternToDictMap(pattern: Pattern): void;
-    addNodeToQueues(trieNode: TrieNode): void;
+    addNodeToDepthIndex(trieNode: TrieNode): void;
     insertPattern(patterns: Pattern[], pattern: Pattern): void;
     removeDict(dictName: string | symbol): void;
     match(text: string, surname: SurnameMode): MatchPattern[];

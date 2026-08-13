@@ -53,19 +53,23 @@ class TrieNode {
 export class AC {
   root: TrieNode;
   dictMap = new Map<string | Symbol, Set<Pattern>>();
-  queues: TrieNode[][] = [];
+  nodesByDepth: TrieNode[][] = [];
 
   constructor() {
     this.root = new TrieNode(null);
   }
 
   build(patternList: Pattern[]) {
-    this.buildTrie(patternList);
-    this.buildFailPointer();
+    const newNodes: TrieNode[] = [];
+    this.buildTrie(patternList, newNodes);
+    const minNewDepth = newNodes.length
+      ? Math.min(...newNodes.map((node) => stringLength(node.prefix) + 1))
+      : Infinity;
+    this.buildFailPointer(minNewDepth);
   }
 
   // 构建 trie 树
-  buildTrie(patternList: Pattern[]) {
+  buildTrie(patternList: Pattern[], newNodes: TrieNode[] = []) {
     for (let pattern of patternList) {
       const zhChars = splitString(pattern.zh);
       let cur = this.root;
@@ -74,7 +78,8 @@ export class AC {
         if (!cur.children.has(c)) {
           const trieNode = new TrieNode(cur, zhChars.slice(0, i).join(""), c);
           cur.children.set(c, trieNode);
-          this.addNodeToQueues(trieNode);
+          this.addNodeToDepthIndex(trieNode);
+          newNodes.push(trieNode);
         }
         cur = cur.children.get(c) as TrieNode;
       }
@@ -85,29 +90,23 @@ export class AC {
   }
 
   // 构建失败指针
-  buildFailPointer() {
-    const queue: TrieNode[] = [];
+  buildFailPointer(minDepth = 1) {
     this.root.fail = null;
 
-    this.root.children.forEach((node) => {
-      node.fail = this.root;
-      queue.push(node);
-    });
-
-    for (let queueIndex = 0; queueIndex < queue.length; queueIndex++) {
-      const node = queue[queueIndex];
-      node.children.forEach((child, key) => {
-        let failNode = node.fail;
-        while (failNode && !failNode.children.has(key)) {
+    for (let depth = 1; depth < this.nodesByDepth.length; depth++) {
+      if (depth < minDepth) {
+        continue;
+      }
+      for (const node of this.nodesByDepth[depth]) {
+        let failNode = node.parent && node.parent.fail;
+        while (failNode && !failNode.children.has(node.key)) {
           failNode = failNode.fail;
         }
-        child.fail = failNode && failNode.children.has(key)
-          ? failNode.children.get(key) as TrieNode
+        node.fail = failNode && failNode.children.has(node.key)
+          ? failNode.children.get(node.key) as TrieNode
           : this.root;
-        queue.push(child);
-      });
+      }
     }
-    this.queues = [];
   }
 
   // 将 pattern 添加到 dictMap 中
@@ -118,11 +117,12 @@ export class AC {
     (this.dictMap.get(pattern.dict) as Set<Pattern>).add(pattern);
   }
 
-  addNodeToQueues(trieNode: TrieNode) {
-    if (!this.queues[stringLength(trieNode.prefix)]) {
-      this.queues[stringLength(trieNode.prefix)] = [];
+  addNodeToDepthIndex(trieNode: TrieNode) {
+    const depth = stringLength(trieNode.prefix) + 1;
+    if (!this.nodesByDepth[depth]) {
+      this.nodesByDepth[depth] = [];
     }
-    this.queues[stringLength(trieNode.prefix)].push(trieNode);
+    this.nodesByDepth[depth].push(trieNode);
   }
 
   // 按照优先级插入 pattern

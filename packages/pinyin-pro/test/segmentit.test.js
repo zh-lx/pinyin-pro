@@ -24,6 +24,25 @@ describe('segmentit', () => {
     expect(ac.match('aba', 'off').map((item) => item.zh)).to.deep.equal(['ab', 'ba']);
   });
 
+  it('[segmentit]rebuild only nodes at or below new pattern depth', () => {
+    const ac = new AC();
+    const pattern = (zh) => ({
+      zh,
+      pinyin: zh,
+      probability: 1,
+      length: zh.length,
+      priority: 1,
+      dict: zh,
+    });
+
+    ac.build([pattern('abcdef')]);
+    const shallowNode = ac.root.children.get('a');
+    ac.build([pattern('uvwxyz')]);
+
+    expect(ac.root.children.get('a')).to.equal(shallowNode);
+    expect(ac.match('uvwxyz', 'off').map((item) => item.zh)).to.deep.equal(['uvwxyz']);
+  });
+
   it('[surname]segmentit-max-probability', () => {
     const result = pinyin('小明硕士毕业于中国科学院计算所，后在日本京都大学深造');
     expect(result).to.be.equal('xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào');
