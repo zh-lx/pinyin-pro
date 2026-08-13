@@ -36,4 +36,14 @@ describe('nonZh', () => {
     const result4 = pinyin('我very喜欢你，真的', { nonZh: 'consecutive', nonZhScope: /[a-zA-Z]/ });
     expect(result4).to.be.equal('wǒ very xǐ huan nǐ ， zhēn de');
   });
+
+  it('[nonZh]scope global regexp', () => {
+    const result = pinyin('ab', { nonZh: 'removed', nonZhScope: /[a-z]/g });
+    expect(result).to.be.equal('');
+  });
+
+  it('[nonZh]scope frozen regexp', () => {
+    const result = pinyin('a', { nonZh: 'removed', nonZhScope: Object.freeze(/[a-z]/) });
+    expect(result).to.be.equal('');
+  });
 });

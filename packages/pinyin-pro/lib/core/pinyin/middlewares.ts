@@ -28,6 +28,10 @@ export const validateType = (word: unknown) => {
 
 export function isNonZhScope(char: string, scope?: RegExp) {
   if (scope instanceof RegExp) {
+    // Global and sticky regexes retain lastIndex between calls.
+    if (scope.global || scope.sticky) {
+      scope.lastIndex = 0;
+    }
     return scope.test(char);
   }
   return true;
