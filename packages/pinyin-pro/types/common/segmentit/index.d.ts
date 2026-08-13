@@ -47,3 +47,4 @@ export declare class AC {
 }
 export declare const acTree: AC;
 export declare function ensureAcBuilt(): void;
+export declare function scheduleAcBuild(): void;
