@@ -1,5 +1,11 @@
 # 更新日志
 
+## 3.29.1
+
+- 【perf】推迟 AC 自动机的构建时机，减少 `import pinyin-pro` 时对主线程的阻塞 [#333](https://github.com/zh-lx/pinyin-pro/pull/333)
+- 【perf】优化 `middlewareMultiple` 重复计算的问题 [#330](https://github.com/zh-lx/pinyin-pro/pull/330)
+- 【fix】修复 `nonZhScope` 非中文字符移除不彻底的问题 [#329](https://github.com/zh-lx/pinyin-pro/pull/329)
+
 ## 3.29.0
 
 - 【perf】优化 `match` API 在 ESM 模式下 tree shaking 的 size，`306.81 KB (gzip 134.49 KB)` > `185.44 KB (gzip 80.79 KB)` [#323](https://github.com/zh-lx/pinyin-pro/pull/323)

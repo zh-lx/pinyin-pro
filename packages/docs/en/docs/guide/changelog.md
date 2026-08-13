@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 3.29.1
+
+- 【perf】Postpone the construction of the AC automaton to reduce main thread blocking when `import pinyin-pro` [#333](https://github.com/zh-lx/pinyin-pro/pull/333)
+- 【perf】Optimize repeated calculations in `middlewareMultiple` [#330](https://github.com/zh-lx/pinyin-pro/pull/330)
+- 【fix】Fix the issue where non-Chinese characters are not completely removed by `nonZhScope` [#329](https://github.com/zh-lx/pinyin-pro/pull/329)
+
 ## 3.29.0
 
 - 【perf】Optimized the size of the `match` API in ESM mode, `306.81 KB (gzip 134.49 KB)` > `185.44 KB (gzip 80.79 KB)` [#323](https://github.com/zh-lx/pinyin-pro/pull/323)
