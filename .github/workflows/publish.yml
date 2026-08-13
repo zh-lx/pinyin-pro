@@ -18,7 +18,7 @@ on:
         type: boolean
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   test:
@@ -80,6 +80,28 @@ jobs:
           else
             pnpm --filter pinyin-pro publish --no-git-checks --access public --tag "${{ inputs.dist_tag }}"
           fi
+
+      - name: Create GitHub release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./packages/pinyin-pro/package.json').version")
+          awk -v version="$VERSION" '
+            $0 == "## " version { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' packages/docs/zh/docs/guide/changelog.md > release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+            echo "No changelog entry found for version $VERSION" >&2
+            exit 1
+          fi
+
+          gh release create "$VERSION" \
+            --target "$GITHUB_SHA" \
+            --title "$VERSION" \
+            --notes-file release-notes.md
 
   deploy-docs:
     needs: publish
