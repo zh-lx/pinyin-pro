@@ -53,6 +53,11 @@ type GetFinalParts = (pinyin: string) => {
     body: string;
     tail: string;
 };
+export declare function getFinalPartsFromFinal(final: string): {
+    head: string;
+    body: string;
+    tail: string;
+};
 declare const getFinalParts: GetFinalParts;
 /**
  * @description: 将带音调符号拼音转换为带音调数字
