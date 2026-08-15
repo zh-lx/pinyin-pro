@@ -1,5 +1,13 @@
 # ChangeLog
 
+## 3.29.2
+
+Thank you [@luojiyin1987](https://github.com/luojiyin1987) for a series of optimizations, the performance of the `pinyin` API has been significantly improved (about 30%+):
+- 【perf】`pinyin`: Reuse parsed final in all output mode [#342](https://github.com/zh-lx/pinyin-pro/pull/342)
+- 【fix】`customPinyin`: Prevent `pattern` accumulation on repeated updates [#340](https://github.com/zh-lx/pinyin-pro/pull/340)
+- 【perf】`pinyin`: Reuse split characters across multiple `middleware` [#338](https://github.com/zh-lx/pinyin-pro/pull/338)
+- 【perf】`pinyin`: Avoid splitting non-polyphonic pinyin with `split` [#336](https://github.com/zh-lx/pinyin-pro/pull/336)
+
 ## 3.29.1
 
 - 【perf】Postpone the construction of the AC automaton to reduce main thread blocking when `import pinyin-pro` [#333](https://github.com/zh-lx/pinyin-pro/pull/333)

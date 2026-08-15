@@ -1,5 +1,13 @@
 # 更新日志
 
+## 3.29.2
+
+感谢 [@luojiyin1987](https://github.com/luojiyin1987) 的一系列优化，`pinyin` API 性能得到显著提升(约30%+):
+- 【perf】`pinyin`: 在所有输出模式中复用解析后的 `final` [#342](https://github.com/zh-lx/pinyin-pro/pull/342)
+- 【fix】`customPinyin`: 防止更新时 `pattern` 重复积累 [#340](https://github.com/zh-lx/pinyin-pro/pull/340)
+- 【perf】`pinyin`: 在多个 `middleware` 中复用分割后的字符 [#338](https://github.com/zh-lx/pinyin-pro/pull/338)
+- 【perf】`pinyin`: 避免非多音字拼音被 `split` 分割 [#336](https://github.com/zh-lx/pinyin-pro/pull/336)
+
 ## 3.29.1
 
 - 【perf】推迟 AC 自动机的构建时机，减少 `import pinyin-pro` 时对主线程的阻塞 [#333](https://github.com/zh-lx/pinyin-pro/pull/333)
