@@ -74,7 +74,7 @@ export const middlewareMultiple = (
   word: string,
   options: CompleteOptions,
 ): SingleWordResult[] | false => {
-  if (stringLength(word) === 1 && options.multiple) {
+  if (options.multiple && stringLength(word) === 1) {
     return getMultiplePinyin(word, options.surname);
   } else {
     return false;

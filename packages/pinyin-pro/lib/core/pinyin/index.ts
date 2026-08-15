@@ -1,4 +1,4 @@
-import { stringLength } from "@/common/utils";
+import { splitString } from "@/common/utils";
 import { TokenizationAlgorithm } from "../../common/segmentit";
 import type { PinyinMode, SurnameMode, CommonOptions } from "../../common/type";
 import { getPinyin } from "./handle";
@@ -192,7 +192,8 @@ function pinyin(
     options.nonZh = "removed";
   }
 
-  let _list = Array(stringLength(word));
+  const zhChars = splitString(word);
+  let _list = Array(zhChars.length);
 
   let { list } = getPinyin(
     word,
@@ -200,6 +201,7 @@ function pinyin(
     options.surname as SurnameMode,
     options.segmentit as TokenizationAlgorithm,
     options.traditional,
+    zhChars,
   );
 
   // 一和不变调处理

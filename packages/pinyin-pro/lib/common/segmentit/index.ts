@@ -156,10 +156,13 @@ export class AC {
   }
 
   // 搜索字符串返回匹配的模式串
-  match(text: string, surname: SurnameMode) {
+  match(
+    text: string,
+    surname: SurnameMode,
+    zhChars: string[] = splitString(text),
+  ) {
     let cur = this.root;
     let result: MatchPattern[] = [];
-    const zhChars = splitString(text);
     for (let i = 0; i < zhChars.length; i++) {
       let c = zhChars[i];
 
@@ -214,14 +217,15 @@ export class AC {
     text: string,
     surname: SurnameMode,
     algorithm: TokenizationAlgorithm = TokenizationAlgorithm.MaxProbability,
+    zhChars: string[] = splitString(text),
   ) {
-    const patterns = this.match(text, surname);
+    const patterns = this.match(text, surname, zhChars);
     if (algorithm === TokenizationAlgorithm.ReverseMaxMatch) {
       return reverseMaxMatch(patterns);
     } else if (algorithm === TokenizationAlgorithm.MinTokenization) {
-      return minTokenization(patterns, stringLength(text));
+      return minTokenization(patterns, zhChars.length);
     }
-    return maxProbability(patterns, stringLength(text));
+    return maxProbability(patterns, zhChars.length);
   }
 }
 

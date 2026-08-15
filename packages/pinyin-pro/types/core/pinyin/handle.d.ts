@@ -9,7 +9,7 @@ export { getAllPinyin } from "./all";
  */
 type GetSingleWordPinyin = (char: string) => string;
 export declare const getSingleWordPinyin: GetSingleWordPinyin;
-export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm, traditional?: boolean) => {
+export declare const getPinyin: (word: string, list: SingleWordResult[], surname: SurnameMode, segmentit: TokenizationAlgorithm, traditional?: boolean, zhChars?: string[]) => {
     list: SingleWordResult[];
     matches: MatchPattern[];
 };

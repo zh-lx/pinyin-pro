@@ -1,6 +1,6 @@
 import type { BasicOptions } from "../pinyin";
 import { TokenizationAlgorithm } from "../../common/segmentit";
-import { stringLength } from "@/common/utils";
+import { splitString } from "@/common/utils";
 import { middleWareNonZh, middlewareToneSandhi, middlewareToneType, middlewareV, validateType } from "@/core/pinyin/middlewares";
 import { getPinyin } from "@/core/pinyin/handle";
 import { SurnameMode } from "../../common/type";
@@ -133,14 +133,16 @@ export function segment(word: string, options?: SegmentCompleteOptions) {
     }
   }
 
-  let _list = Array(stringLength(word));
+  const zhChars = splitString(word);
+  let _list = Array(zhChars.length);
 
   let { list, matches } = getPinyin(
     word,
     _list,
     options.surname as SurnameMode,
     options.segmentit as TokenizationAlgorithm,
-    options.traditional as boolean
+    options.traditional as boolean,
+    zhChars,
   );
 
   // 一和不变调处理

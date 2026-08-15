@@ -59,12 +59,13 @@ export const getPinyin = (
   surname: SurnameMode,
   segmentit: TokenizationAlgorithm,
   traditional?: boolean,
+  zhChars: string[] = splitString(word),
 ): { list: SingleWordResult[]; matches: MatchPattern[] } => {
   ensureAcBuilt();
   const searchWord = traditional ? getTraditionalWords(word) : word;
-  const matches = acTree.search(searchWord, surname, segmentit);
+  const searchChars = traditional ? splitString(searchWord) : zhChars;
+  const matches = acTree.search(searchWord, surname, segmentit, searchChars);
   let matchIndex = 0;
-  const zhChars = splitString(word);
   for (let i = 0; i < zhChars.length; ) {
     const match = matches[matchIndex];
     if (match && i === match.index) {
