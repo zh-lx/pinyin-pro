@@ -229,8 +229,7 @@ type GetFinalParts = (pinyin: string) => {
   body: string;
   tail: string;
 };
-const getFinalParts: GetFinalParts = (pinyin) => {
-  const { final } = getInitialAndFinal(pinyin);
+export function getFinalPartsFromFinal(final: string) {
   let head = "",
     body = "",
     tail = "";
@@ -243,6 +242,11 @@ const getFinalParts: GetFinalParts = (pinyin) => {
     tail = final.slice(1) || "";
   }
   return { head, body, tail };
+}
+
+const getFinalParts: GetFinalParts = (pinyin) => {
+  const { final } = getInitialAndFinal(pinyin);
+  return getFinalPartsFromFinal(final);
 };
 
 /**

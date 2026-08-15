@@ -7,6 +7,7 @@ import {
   getInitialAndFinal,
   getFirstLetter,
   getFinalParts,
+  getFinalPartsFromFinal,
   getPinyinWithoutTone,
   getPinyinWithNum,
 } from "./handle";
@@ -205,7 +206,7 @@ export const middlewareType = (
         pinyin,
         options.initialPattern,
       );
-      const { head, body, tail } = getFinalParts(pinyin);
+      const { head, body, tail } = getFinalPartsFromFinal(final);
       let polyphonic: string[] = [];
       if (pinyin !== "") {
         polyphonic = [pinyin].concat(
