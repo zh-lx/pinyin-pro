@@ -47,6 +47,7 @@ export function customPinyin(
     priority: Priority.Custom,
     dict: CustomDictName,
   }));
+  acTree.removeDict(CustomDictName);
   acTree.build(customPatterns);
   // add words for multiple and polyphonic
   if (options?.multiple) {
