@@ -1,4 +1,5 @@
 import { pinyin, addDict, customPinyin, clearCustomDict, polyphonic } from '../lib/index';
+import { acTree } from '../lib/common/segmentit';
 import { getCustomMultipleDict, getCustomPolyphonicDict } from '../lib/core/custom';
 import { expect, describe, it } from 'vitest';
 
@@ -11,6 +12,14 @@ function clearAllCustomDicts() {
   clearCustomDict('multiple');
   clearCustomDict('polyphonic');
   clearCustomDict(['pinyin', 'multiple', 'polyphonic']);
+}
+
+function getPatternCount() {
+  let count = 0;
+  acTree.dictMap.forEach((patterns) => {
+    count += patterns.size;
+  });
+  return count;
 }
 
 describe('customConfig', () => {
@@ -117,6 +126,25 @@ describe('customConfig', () => {
     const result = pinyin('银行');
     expect(result).to.be.equal('yin hang');
     clearAllCustomDicts();
+  });
+
+  it('[custom] repeated updates do not accumulate patterns', () => {
+    clearAllCustomDicts();
+    const initialPatternCount = getPatternCount();
+    const config = {
+      银行: 'yin hang',
+      重庆: 'chong qing',
+    };
+
+    for (let i = 0; i < 1000; i++) {
+      customPinyin(config);
+    }
+
+    expect(pinyin('银行重庆')).to.be.equal('yin hang chong qing');
+    expect(getPatternCount()).to.be.equal(initialPatternCount + 2);
+
+    clearAllCustomDicts();
+    expect(getPatternCount()).to.be.equal(initialPatternCount);
   });
 
   it('[custom] double unicode1', () => {
