@@ -32,7 +32,10 @@ type GetSingleWordPinyin = (char: string) => string;
 export const getSingleWordPinyin: GetSingleWordPinyin = (char) => {
   const pinyin = DICT1.get(char);
   // 若查到, 则返回第一个拼音; 若未查到, 返回原字符
-  return pinyin ? pinyin.split(" ")[0] : char;
+  if (!pinyin) return char;
+
+  const index = pinyin.indexOf(" ");
+  return index === -1 ? pinyin : pinyin.slice(0, index);
 };
 
 const getTraditionalWords = (word: string): string => {
