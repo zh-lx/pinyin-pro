@@ -42,8 +42,8 @@ export declare class AC {
     addNodeToQueues(trieNode: TrieNode): void;
     insertPattern(patterns: Pattern[], pattern: Pattern): void;
     removeDict(dictName: string | symbol): void;
-    match(text: string, surname: SurnameMode): MatchPattern[];
-    search(text: string, surname: SurnameMode, algorithm?: TokenizationAlgorithm): MatchPattern[];
+    match(text: string, surname: SurnameMode, zhChars?: string[]): MatchPattern[];
+    search(text: string, surname: SurnameMode, algorithm?: TokenizationAlgorithm, zhChars?: string[]): MatchPattern[];
 }
 export declare const acTree: AC;
 export declare function ensureAcBuilt(): void;
