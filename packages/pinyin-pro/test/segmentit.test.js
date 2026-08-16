@@ -1,12 +1,45 @@
 import { pinyin, addDict, customPinyin } from '../lib/index';
 import { expect, describe, it, vi } from 'vitest';
-import { scheduleAcBuild } from '../lib/common/segmentit';
+import { AC, scheduleAcBuild } from '../lib/common/segmentit';
 
 const completeDict = require("@pinyin-pro/data/complete.json");
 
 addDict(completeDict);
 
 describe('segmentit', () => {
+  it('[segmentit]match after root miss and fail fallback', () => {
+    const ac = new AC();
+    const createPattern = (zh, pinyin) => ({
+      zh,
+      pinyin,
+      probability: 1,
+      length: zh.length,
+      priority: 1,
+      dict: 'test',
+    });
+    ac.build([
+      createPattern('中华', 'zhōng huá'),
+      createPattern('华人', 'huá rén'),
+    ]);
+
+    const result = ac.match('甲中华人', 'off').map(({ zh, index }) => ({
+      zh,
+      index,
+    }));
+
+    expect(result).toEqual([
+      { zh: '中华', index: 1 },
+      { zh: '华人', index: 2 },
+    ]);
+
+    const trieOnly = new AC();
+    trieOnly.buildTrie([createPattern('中华', 'zhōng huá')]);
+    expect(
+      trieOnly.match('中甲中华', 'off').map(({ zh, index }) => ({ zh, index })),
+    ).toEqual([{ zh: '中华', index: 2 }]);
+    expect(trieOnly.match('中中华', 'off')).toEqual([]);
+  });
+
   it('[segmentit]schedule idle build when requestIdleCallback is available', () => {
     const requestIdleCallback = vi.fn((callback) => callback());
     vi.stubGlobal('requestIdleCallback', requestIdleCallback);

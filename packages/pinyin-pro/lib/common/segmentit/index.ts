@@ -163,15 +163,19 @@ export class AC {
     let result: MatchPattern[] = [];
     for (let i = 0; i < zhChars.length; i++) {
       let c = zhChars[i];
+      let next = cur.children.size ? cur.children.get(c) : undefined;
 
-      while (cur !== null && !cur.children.has(c)) {
-        cur = cur.fail as TrieNode;
+      while (!next && cur !== this.root) {
+        if (!cur.fail) {
+          cur = this.root;
+          break;
+        }
+        cur = cur.fail;
+        next = cur.children.size ? cur.children.get(c) : undefined;
       }
 
-      if (cur === null) {
-        cur = this.root;
-      } else {
-        cur = cur.children.get(c) as TrieNode;
+      if (next) {
+        cur = next;
         const pattern = cur.patterns.find((item) => {
           if (surname === "off") {
             return item.priority !== Priority.Surname;
