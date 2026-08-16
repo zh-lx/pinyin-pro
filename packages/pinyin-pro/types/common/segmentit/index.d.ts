@@ -25,10 +25,9 @@ declare class TrieNode {
     children: Map<string, TrieNode>;
     fail: TrieNode | null;
     patterns: Pattern[];
-    prefix: string;
     parent: TrieNode | null;
     key: string;
-    constructor(parent: TrieNode | null, prefix?: string, key?: string);
+    constructor(parent: TrieNode | null, key?: string);
 }
 export declare class AC {
     root: TrieNode;
@@ -39,7 +38,7 @@ export declare class AC {
     buildTrie(patternList: Pattern[]): void;
     buildFailPointer(): void;
     addPatternToDictMap(pattern: Pattern): void;
-    addNodeToQueues(trieNode: TrieNode): void;
+    addNodeToQueues(trieNode: TrieNode, depth: number): void;
     insertPattern(patterns: Pattern[], pattern: Pattern): void;
     removeDict(dictName: string | symbol): void;
     match(text: string, surname: SurnameMode, zhChars?: string[]): MatchPattern[];

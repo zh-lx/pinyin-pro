@@ -4,7 +4,7 @@ import { minTokenization } from "./min-tokenization";
 import { reverseMaxMatch } from "./reverse-max-match";
 import { Priority } from "@/common/constant";
 import type { SurnameMode } from "../type";
-import { splitString, stringLength } from "../utils";
+import { splitString } from "../utils";
 
 export { PatternsNormal } from "../../data/patterns";
 
@@ -36,16 +36,14 @@ class TrieNode {
   children: Map<string, TrieNode>; // 子节点
   fail: TrieNode | null; // 失效指针
   patterns: Pattern[];
-  prefix: string; // 前置字符串
   parent: TrieNode | null; // 父节点
   key: string; // 所在父节点的 key
 
-  constructor(parent: TrieNode | null, prefix: string = "", key = "") {
+  constructor(parent: TrieNode | null, key = "") {
     this.children = new Map();
     this.fail = null;
     this.patterns = [];
     this.parent = parent;
-    this.prefix = prefix;
     this.key = key;
   }
 }
@@ -72,9 +70,9 @@ export class AC {
       for (let i = 0; i < zhChars.length; i++) {
         let c = zhChars[i];
         if (!cur.children.has(c)) {
-          const trieNode = new TrieNode(cur, zhChars.slice(0, i).join(""), c);
+          const trieNode = new TrieNode(cur, c);
           cur.children.set(c, trieNode);
-          this.addNodeToQueues(trieNode);
+          this.addNodeToQueues(trieNode, i + 1);
         }
         cur = cur.children.get(c) as TrieNode;
       }
@@ -117,11 +115,11 @@ export class AC {
     (this.dictMap.get(pattern.dict) as Set<Pattern>).add(pattern);
   }
 
-  addNodeToQueues(trieNode: TrieNode) {
-    if (!this.queues[stringLength(trieNode.prefix)]) {
-      this.queues[stringLength(trieNode.prefix)] = [];
+  addNodeToQueues(trieNode: TrieNode, depth: number) {
+    if (!this.queues[depth]) {
+      this.queues[depth] = [];
     }
-    this.queues[stringLength(trieNode.prefix)].push(trieNode);
+    this.queues[depth].push(trieNode);
   }
 
   // 按照优先级插入 pattern

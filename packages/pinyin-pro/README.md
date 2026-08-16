@@ -259,13 +259,13 @@ npm install pinyin-pro
         </tr>
     </thead>
     <tbody>
-    <tr><td>pinyin</td><td>306.25 KB (gzip 134.32 KB)</td><td rowspan="7">316.51 KB (gzip 137.75 KB)</td></tr>
-    <tr><td>segment</td><td>305.00 KB (gzip 133.54 KB)</td></tr>
+    <tr><td>pinyin</td><td>306.19 KB (gzip 134.30 KB)</td><td rowspan="7">316.44 KB (gzip 137.73 KB)</td></tr>
+    <tr><td>segment</td><td>304.94 KB (gzip 133.51 KB)</td></tr>
     <tr><td>match</td><td>185.44 KB (gzip 80.79 KB)</td></tr>
     <tr><td>convert</td><td>1.78 KB (gzip 0.98 KB)</td></tr>
-    <tr><td>html</td><td>307.09 KB (gzip 134.63 KB)</td></tr>
+    <tr><td>html</td><td>307.03 KB (gzip 134.60 KB)</td></tr>
     <tr><td>polyphonic</td><td>180.70 KB (gzip 78.81 KB)</td></tr>
-    <tr><td>总体积</td><td>558.56 KB (gzip 157.31 KB)</td></tr>
+    <tr><td>总体积</td><td>558.41 KB (gzip 157.29 KB)</td></tr>
     </tbody>
 </table>
 
