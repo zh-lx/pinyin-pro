@@ -10,6 +10,7 @@ export function stringLength(text: string) {
 
 // 双音节字符处理
 export function splitString(text: string): string[] {
+  DoubleUnicodeReg.lastIndex = 0;
   if (!DoubleUnicodeReg.test(text)) {
     return text.split("");
   }
