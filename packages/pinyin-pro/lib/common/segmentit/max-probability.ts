@@ -4,12 +4,15 @@ import { Probability, Priority } from "../constant";
 type ProbabilityItem = {
   probability: number;
   decimal: number; // 为防止小数溢出，decimal 标识 Math.pow(1e-300, decimal)
-  patterns: MatchPattern[];
-  concatPattern?: MatchPattern;
+  pattern?: MatchPattern;
+  nextIndex: number;
 };
 
 // 根据 probability 和 decimal 获取两个概率中最大的
-function getMaxProbability(a: ProbabilityItem, b: ProbabilityItem) {
+function getMaxProbability(
+  a: ProbabilityItem | undefined,
+  b: ProbabilityItem,
+) {
   if (!a) {
     return b;
   }
@@ -43,22 +46,25 @@ function getPatternDecimal(pattern: MatchPattern) {
 // 最大概率算法
 export function maxProbability(patterns: MatchPattern[], length: number) {
   const dp: ProbabilityItem[] = [];
+  const terminalDP: ProbabilityItem = {
+    probability: 1,
+    decimal: 0,
+    nextIndex: length,
+  };
   let patternIndex = patterns.length - 1;
   let pattern = patterns[patternIndex];
   // 按照长度去除重叠词
   for (let i = length - 1; i >= 0; i--) {
     // suffix
-    const suffixDP =
-      i + 1 >= length
-        ? { probability: 1, decimal: 0, patterns: [] as MatchPattern[] }
-        : dp[i + 1];
+    const suffixDP = i + 1 >= length ? terminalDP : dp[i + 1];
+    const nextIndex = suffixDP.pattern ? i + 1 : suffixDP.nextIndex;
     while (pattern && pattern.index + pattern.length - 1 === i) {
       const startIndex = pattern.index;
       const curDP = {
         probability: pattern.probability * suffixDP.probability,
         decimal: suffixDP.decimal + getPatternDecimal(pattern),
-        patterns: suffixDP.patterns,
-        concatPattern: pattern,
+        pattern,
+        nextIndex,
       };
       checkDecimal(curDP);
       dp[startIndex] = getMaxProbability(dp[startIndex], curDP);
@@ -68,15 +74,20 @@ export function maxProbability(patterns: MatchPattern[], length: number) {
     const iDP = {
       probability: Probability.Unknown * suffixDP.probability,
       decimal: 0,
-      patterns: suffixDP.patterns,
+      nextIndex,
     };
     checkDecimal(iDP);
     dp[i] = getMaxProbability(dp[i], iDP);
-    if (dp[i].concatPattern) {
-      dp[i].patterns = dp[i].patterns.concat(dp[i].concatPattern as MatchPattern);
-      dp[i].concatPattern = undefined;
-      delete dp[i + 1];
-    }
   }
-  return dp[0].patterns.reverse();
+
+  const result: MatchPattern[] = [];
+  let index = 0;
+  while (index < length) {
+    const item = dp[index];
+    if (item.pattern) {
+      result.push(item.pattern);
+    }
+    index = item.nextIndex;
+  }
+  return result;
 }
