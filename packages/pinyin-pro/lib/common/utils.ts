@@ -10,7 +10,7 @@ export function stringLength(text: string) {
 
 // 双音节字符处理
 export function splitString(text: string): string[] {
-  if (!/[\uD800-\uDFFF]/.test(text)) {
+  if (!DoubleUnicodeReg.test(text)) {
     return text.split("");
   }
   const result = [];
