@@ -10,6 +10,9 @@ export function stringLength(text: string) {
 
 // 双音节字符处理
 export function splitString(text: string): string[] {
+  if (!/[\uD800-\uDFFF]/.test(text)) {
+    return text.split("");
+  }
   const result = [];
   let i = 0;
   while (i < text.length) {
