@@ -66,6 +66,7 @@ export const getPinyin = (
   const searchChars = traditional ? splitString(searchWord) : zhChars;
   const matches = acTree.search(searchWord, surname, segmentit, searchChars);
   let matchIndex = 0;
+  const processFuncs = getProcessFuncs(word);
   for (let i = 0; i < zhChars.length; ) {
     const match = matches[matchIndex];
     if (match && i === match.index) {
@@ -73,7 +74,12 @@ export const getPinyin = (
         const char = zhChars[i];
         match.zh = char;
         let pinyin: string = "";
-        pinyin = processSepecialPinyin(char, zhChars[i - 1], zhChars[i + 1]);
+        pinyin = processSepecialPinyin(
+          char,
+          zhChars[i - 1],
+          zhChars[i + 1],
+          processFuncs,
+        );
         list[i] = {
           origin: char,
           result: pinyin,
@@ -105,7 +111,12 @@ export const getPinyin = (
     } else {
       const char = zhChars[i];
       let pinyin: string = "";
-      pinyin = processSepecialPinyin(char, zhChars[i - 1], zhChars[i + 1]);
+      pinyin = processSepecialPinyin(
+        char,
+        zhChars[i - 1],
+        zhChars[i + 1],
+        processFuncs,
+      );
       list[i] = {
         origin: char,
         result: pinyin,
@@ -347,14 +358,14 @@ export function processToneSandhi(cur: string, pre: string, next: string) {
 }
 
 // 处理「了」字的变调
-function processToneSandhiLiao(cur: string, pre: string) {
+function processToneSandhiLiao(cur: string, pre: string, _?: string) {
   if (cur === "了" && (!pre || !DICT1.get(pre))) {
     return "liǎo";
   }
 }
 
 // 处理叠字符[々]
-function processReduplicationChar(cur: string, pre: string) {
+function processReduplicationChar(cur: string, pre: string, _?: string) {
   if (cur === "々") {
     if (!pre || !DICT1.get(pre)) {
       return "tóng";
@@ -364,13 +375,29 @@ function processReduplicationChar(cur: string, pre: string) {
   }
 }
 
-function processSepecialPinyin(cur: string, pre: string, next: string) {
-  return (
-    processReduplicationChar(cur, pre) ||
-    processToneSandhiLiao(cur, pre) ||
-    processToneSandhi(cur, pre, next) ||
-    getSingleWordPinyin(cur)
-  );
+function getProcessFuncs(text: string) {
+  const processes = [];
+  if (text.includes("々")) {
+    processes.push(processReduplicationChar);
+  }
+  processes.push(processToneSandhiLiao);
+  processes.push(processToneSandhi);
+  return processes;
+}
+
+function processSepecialPinyin(
+  cur: string,
+  pre: string,
+  next: string,
+  funcs: ReturnType<typeof getProcessFuncs>,
+) {
+  for (let func of funcs) {
+    const res = func(cur, pre, next);
+    if (res) {
+      return res;
+    }
+  }
+  return getSingleWordPinyin(cur);
 }
 
 export {
