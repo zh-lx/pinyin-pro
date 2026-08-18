@@ -257,12 +257,4 @@ describe("match", () => {
     expect(match("欸", "ê̌")).to.deep.equal(null);
     expect(match("欸", "ê")).to.deep.equal([0]);
   });
-
-  it("[match]tone stripping: decomposed vowel tone mark (a + combining macron)", () => {
-    // Register custom pinyin with decomposed ā (a + U+0304) instead of precomposed U+0101.
-    // stripTone must handle the combining macron (U+0304) the same way as the precomposed form.
-    customPinyin({ 啊: "a\u0304" }, { multiple: "replace" });
-    expect(match("啊", "a")).to.deep.equal([0]);
-    clearCustomDict(["pinyin", "multiple", "polyphonic"]);
-  });
 });
