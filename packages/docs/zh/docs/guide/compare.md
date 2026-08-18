@@ -67,5 +67,5 @@
 
 ## 基准数据
 
-- 准确率测试数据可见: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
-- 性能测试数据可见：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
+- 准确率测试数据可见: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/accuracy.ts)
+- 性能测试数据可见：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/speed.ts)

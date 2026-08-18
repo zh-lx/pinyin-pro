@@ -67,5 +67,5 @@ Among similar products, `pinyin-pro` has achieved a leading position in terms of
 
 ## Data Source
 
-- More details on accuracy testing data: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
-- More details on performance testing data: [speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
+- More details on accuracy testing data: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/accuracy.ts)
+- More details on performance testing data: [speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/speed.ts)

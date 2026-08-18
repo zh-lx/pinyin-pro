@@ -1,6 +1,9 @@
-const fs = require("fs");
-const https = require("https");
-const path = require("path");
+import fs from "fs";
+import https from "https";
+import path from "path";
+import type { IncomingMessage } from "http";
+
+type PinyinFunction = (text: string, options: { nonZh: string }) => string;
 
 // 检测是否在 CI 环境中
 const isCI = process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true";
@@ -26,7 +29,7 @@ const colors = isCI
       blue: "\x1b[34m",
     };
 
-// 测试文本（使用 accuracy.js 中的部分文本）
+// 测试文本（使用 accuracy.ts 中的部分文本）
 const testText = `
 序
 　　流亡在大西洋上的盖纳西岛，一八六一年六月三十日上午八时半，维克多·雨果，法兰西一代文豪，完成了他的长篇小说《悲惨世界》。
@@ -806,7 +809,7 @@ const testText = `
 /**
  * 格式化文件大小
  */
-function formatSize(bytes) {
+function formatSize(bytes: number): string {
   if (bytes < 1024) {
     return bytes + " B";
   } else if (bytes < 1024 * 1024) {
@@ -819,32 +822,40 @@ function formatSize(bytes) {
 /**
  * 获取当前分支文件大小
  */
-function getLocalFileSize(filePath) {
+function getLocalFileSize(filePath: string): number | null {
   try {
     const stats = fs.statSync(filePath);
     return stats.size;
   } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
     console.error(
-      `${colors.red}读取当前分支文件失败: ${error.message}${colors.reset}`,
+      `${colors.red}读取当前分支文件失败: ${message}${colors.reset}`,
     );
     return null;
   }
 }
 
+function headerValue(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return value;
+}
+
 /**
  * 获取 CDN 文件大小
  */
-function getCDNFileSize(url) {
+function getCDNFileSize(url: string): Promise<number> {
   return new Promise((resolve, reject) => {
     https
-      .get(url, (response) => {
+      .get(url, (response: IncomingMessage) => {
         if (response.statusCode === 200) {
-          const contentLength = response.headers["content-length"];
+          const contentLength = headerValue(response.headers["content-length"]);
           if (contentLength) {
             resolve(parseInt(contentLength, 10));
           } else {
             let data = "";
-            response.on("data", (chunk) => {
+            response.on("data", (chunk: Buffer | string) => {
               data += chunk;
             });
             response.on("end", () => {
@@ -852,13 +863,17 @@ function getCDNFileSize(url) {
             });
           }
         } else if (response.statusCode === 301 || response.statusCode === 302) {
-          const redirectUrl = response.headers.location;
-          getCDNFileSize(redirectUrl).then(resolve).catch(reject);
+          const redirectUrl = headerValue(response.headers.location);
+          if (redirectUrl) {
+            getCDNFileSize(redirectUrl).then(resolve).catch(reject);
+          } else {
+            reject(new Error("Missing redirect location"));
+          }
         } else {
           reject(new Error(`HTTP 状态码: ${response.statusCode}`));
         }
       })
-      .on("error", (error) => {
+      .on("error", (error: Error) => {
         reject(error);
       });
   });
@@ -867,54 +882,39 @@ function getCDNFileSize(url) {
 /**
  * 下载 CDN 文件内容
  */
-function downloadCDNFile(url) {
+function downloadCDNFile(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     https
-      .get(url, (response) => {
+      .get(url, (response: IncomingMessage) => {
         if (response.statusCode === 200) {
           let data = "";
-          response.on("data", (chunk) => {
+          response.on("data", (chunk: Buffer | string) => {
             data += chunk;
           });
           response.on("end", () => {
             resolve(data);
           });
         } else if (response.statusCode === 301 || response.statusCode === 302) {
-          const redirectUrl = response.headers.location;
-          downloadCDNFile(redirectUrl).then(resolve).catch(reject);
+          const redirectUrl = headerValue(response.headers.location);
+          if (redirectUrl) {
+            downloadCDNFile(redirectUrl).then(resolve).catch(reject);
+          } else {
+            reject(new Error("Missing redirect location"));
+          }
         } else {
           reject(new Error(`HTTP 状态码: ${response.statusCode}`));
         }
       })
-      .on("error", (error) => {
+      .on("error", (error: Error) => {
         reject(error);
       });
   });
 }
 
 /**
- * 测试准确率
- */
-function testAccuracy(pinyinFunc) {
-  const corrects = correctPinyin.split(" ");
-  const result = pinyinFunc(testText, { nonZh: "consecutive" });
-  const results = result.split(" ");
-
-  let errors = 0;
-  corrects.forEach((item, i) => {
-    if (item !== results[i]) {
-      errors++;
-    }
-  });
-
-  const accuracy = ((1 - errors / corrects.length) * 100).toFixed(2);
-  return { accuracy, errors, total: corrects.length };
-}
-
-/**
  * 测试速度（运行多次取平均值）
  */
-function testSpeed(pinyinFunc, iterations = 100) {
+function testSpeed(pinyinFunc: PinyinFunction, iterations = 100): number {
   const start = Date.now();
   for (let i = 0; i < iterations; i++) {
     pinyinFunc(testText, { nonZh: "consecutive" });
@@ -923,10 +923,16 @@ function testSpeed(pinyinFunc, iterations = 100) {
   return (end - start) / iterations;
 }
 
+function loadPinyin(filePath: string): PinyinFunction {
+  delete require.cache[require.resolve(filePath)];
+  const loaded = require(filePath) as { pinyin: PinyinFunction };
+  return loaded.pinyin;
+}
+
 /**
  * 主对比函数
  */
-async function compare() {
+async function compare(): Promise<void> {
   const separator = isCI
     ? "========================================"
     : `${colors.bright}${colors.cyan}========================================${colors.reset}`;
@@ -938,7 +944,7 @@ async function compare() {
   console.log(title);
   console.log(`${separator}\n`);
 
-  const localFilePath = path.resolve(__dirname, "../dist/index.js");
+  const localFilePath = path.resolve(__dirname, "../../dist/index.js");
   const cdnUrl = "https://cdn.jsdelivr.net/npm/pinyin-pro/dist/index.js";
 
   try {
@@ -993,17 +999,15 @@ async function compare() {
 
     // 加载当前分支版本
     console.log(`${colors.yellow}正在加载当前分支版本...${colors.reset}`);
-    delete require.cache[require.resolve(localFilePath)];
-    const { pinyin: localPinyin } = require(localFilePath);
+    const localPinyin = loadPinyin(localFilePath);
     console.log(`${colors.green}✓ 当前分支版本加载成功${colors.reset}`);
 
     // 下载并加载 CDN 版本
     console.log(`${colors.yellow}正在下载 master 版本...${colors.reset}`);
     const cdnCode = await downloadCDNFile(cdnUrl);
-    const tempPath = path.resolve(__dirname, "../dist/cdn-temp.js");
+    const tempPath = path.resolve(__dirname, "../../dist/cdn-temp.js");
     fs.writeFileSync(tempPath, cdnCode);
-    delete require.cache[require.resolve(tempPath)];
-    const { pinyin: cdnPinyin } = require(tempPath);
+    const cdnPinyin = loadPinyin(tempPath);
     console.log(`${colors.green}✓ master 版本下载并加载成功${colors.reset}`);
 
     // 速度测试
@@ -1018,18 +1022,19 @@ async function compare() {
       `master 版本:  ${colors.green}${cdnSpeed.toFixed(2)}ms${colors.reset} /次\n`,
     );
 
-    const speedDiff = (((localSpeed - cdnSpeed) / cdnSpeed) * 100).toFixed(2);
+    const speedDiff = ((localSpeed - cdnSpeed) / cdnSpeed) * 100;
+    const speedDiffText = speedDiff.toFixed(2);
     if (Math.abs(speedDiff) < 5) {
       console.log(
         `${isCI ? "✅" : colors.green + "✅" + colors.reset} 速度基本相同 (差异 < 5%)`,
       );
     } else if (speedDiff < 0) {
       console.log(
-        `${isCI ? "🚀" : colors.green + "🚀" + colors.reset} 当前分支版本更快 ${Math.abs(speedDiff)}%`,
+        `${isCI ? "🚀" : colors.green + "🚀" + colors.reset} 当前分支版本更快 ${Math.abs(Number(speedDiffText))}%`,
       );
     } else {
       console.log(
-        `${isCI ? "⚠️" : colors.yellow + "⚠️" + colors.reset} master 版本更快 ${speedDiff}%`,
+        `${isCI ? "⚠️" : colors.yellow + "⚠️" + colors.reset} master 版本更快 ${speedDiffText}%`,
       );
     }
 
@@ -1038,8 +1043,10 @@ async function compare() {
 
     console.log(`\n${separator}\n`);
   } catch (error) {
-    console.error(`${colors.red}❌ 对比失败: ${error.message}${colors.reset}`);
-    console.error(error.stack);
+    const message = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error ? error.stack : undefined;
+    console.error(`${colors.red}❌ 对比失败: ${message}${colors.reset}`);
+    console.error(stack);
     process.exit(1);
   }
 }

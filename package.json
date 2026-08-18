@@ -16,7 +16,9 @@
     "test": "pnpm --filter pinyin-pro test",
     "lint": "pnpm --filter pinyin-pro lint",
     "compare": "pnpm --filter pinyin-pro compare",
-    "size": "pnpm --filter pinyin-pro exec node scripts/size.js",
+    "size": "pnpm --filter pinyin-pro size",
+    "speed": "pnpm --filter pinyin-pro speed",
+    "accuracy": "pnpm --filter pinyin-pro accuracy",
     "docs:dev:zh": "pnpm --filter @pinyin-pro/docs-zh docs:dev",
     "docs:dev:en": "pnpm --filter @pinyin-pro/docs-en docs:dev",
     "data:validate": "pnpm --filter @pinyin-pro/data validate"
@@ -25,5 +27,11 @@
     "type": "git",
     "url": "git+https://github.com/zh-lx/pinyin-pro.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/pinyin": "^1.7.7",
+    "@types/node": "^26.2.0",
+    "pinyin": "^4.0.0",
+    "ts-node": "^10.9.2"
+  }
 }

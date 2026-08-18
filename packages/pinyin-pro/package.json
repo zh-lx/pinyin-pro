@@ -7,9 +7,12 @@
   "typings": "./types/index.d.ts",
   "scripts": {
     "test": "vitest run --coverage",
-    "build": "rollup -c && rollup -c rollup.esm.config.js && node scripts/create-esm-compat.js",
-    "build:compare": "pnpm build && node benchmark/compare.js",
-    "compare": "node benchmark/compare.js",
+    "build": "rollup -c && rollup -c rollup.esm.config.js && ts-node --project scripts/tsconfig.json scripts/create-esm-compat.ts",
+    "build:compare": "pnpm build && ts-node --project scripts/tsconfig.json scripts/benchmark/compare.ts",
+    "compare": "ts-node --project scripts/tsconfig.json scripts/benchmark/compare.ts",
+    "speed": "ts-node --project scripts/tsconfig.json scripts/benchmark/speed.ts",
+    "accuracy": "ts-node --project scripts/tsconfig.json scripts/benchmark/accuracy.ts",
+    "size": "ts-node --project scripts/tsconfig.json scripts/size.ts",
     "commit": "git-cz",
     "lint": "eslint ."
   },
@@ -61,6 +64,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@types/jest": "^26.0.20",
+    "@types/node": "18",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
     "@vitest/coverage-v8": "^1.5.0",
