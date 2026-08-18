@@ -54,7 +54,19 @@ const TONE_MAP: Record<string, string> = {
   "\u030c": "", // combining caron: m̌, ê̌
   "\u0300": "", // combining grave: m̀
 };
-const TONE_RE = /[āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜńňǹḿếề\u0304\u030c\u0300]/g;
+const TONE_CHARS = [
+  "āáǎà", // a
+  "ōóǒò", // o
+  "ēéěè", // e
+  "īíǐì", // i
+  "ūúǔù", // u
+  "ǖǘǚǜ", // ü
+  "ńňǹ",  // n
+  "ḿ",    // m
+  "ếề",   // ê
+  "\u0304\u030c\u0300", // combining macron, caron, grave
+].join("");
+const TONE_RE = new RegExp(`[${TONE_CHARS}]`, "g");
 const stripTone = (pinyin: string) =>
   pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch] ?? ch);
 
