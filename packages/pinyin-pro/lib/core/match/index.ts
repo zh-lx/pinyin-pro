@@ -191,6 +191,8 @@ const matchAboveStart = (
         dp[i][j - 1] = dp[i - 1][j - 1];
       }
     }
+    // 每个字只计算一次拼音候选，复用到所有 DP 状态
+    let muls: string[] | undefined;
     // 第 i 个字参与匹配
     for (let j = 1; j <= pinyin.length; j++) {
       if (!dp[i - 1][j - 1]) {
@@ -200,7 +202,7 @@ const matchAboveStart = (
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
-        const muls = getMatchPinyin(words[i - 1], options);
+        const pinyins = (muls ??= getMatchPinyin(words[i - 1], options));
 
         // 非中文匹配
         if (words[i - 1] === pinyin[j - 1]) {
@@ -218,7 +220,7 @@ const matchAboveStart = (
         // 剩余长度小于等于 MAX_PINYIN_LENGTH(6) 时，有可能是最后一个拼音了
         if (pinyin.length - j <= MAX_PINYIN_LENGTH) {
           // lastPrecision 参数处理
-          const last = muls.some((py) => {
+          const last = pinyins.some((py) => {
             if (options.lastPrecision === "any") {
               return py.includes(pinyin.slice(j - 1, pinyin.length));
             }
@@ -242,7 +244,7 @@ const matchAboveStart = (
 
         // precision 为 start 时，匹配开头
         if (precision === "start") {
-          muls.forEach((py) => {
+          pinyins.forEach((py) => {
             let end = j;
             const matches = [...dp[i - 1][j - 1], i - 1];
             while (
@@ -259,7 +261,7 @@ const matchAboveStart = (
 
         // precision 为 first 时，匹配首字母
         if (precision === "first") {
-          if (muls.some((py) => py[0] === pinyin[j - 1])) {
+          if (pinyins.some((py) => py[0] === pinyin[j - 1])) {
             const matches = [...dp[i - 1][j - 1], i - 1];
             // 记录最长的可匹配下标数组
             if (!dp[i][j] || matches.length > dp[i][j].length) {
@@ -269,7 +271,7 @@ const matchAboveStart = (
         }
 
         // 匹配当前汉字的完整拼音
-        const completeMatch = muls.find(
+        const completeMatch = pinyins.find(
           (py: string) => py === pinyin.slice(j - 1, j - 1 + py.length)
         );
         if (completeMatch) {
