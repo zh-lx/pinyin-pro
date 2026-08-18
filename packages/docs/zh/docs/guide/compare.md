@@ -32,23 +32,35 @@
         <td>😕 Web 版: 91.170%	</td>
     </tr>
     <tr>
-        <td rowspan="3">性能</td>
-        <td>5k字转换耗时</td>
-        <td>🐢 749.111ms</td>
-        <td>🚲 200.877ms</td>
-        <td>🚀 5.958ms</td>
+        <td rowspan="5">性能</td>
+        <td>首次使用字典初始化时长</td>
+        <td>🚀 14.261ms</td>
+        <td>🐢 160.769ms</td>
+        <td>🚀 8.412ms</td>
     </tr>
     <tr>
-        <td>1w字转换耗时</td>
-        <td>🐢 795.904ms</td>
-        <td>🚲 206.5ms</td>
-        <td>🚀 15.260ms</td>
+        <td>10k字转换耗时</td>
+        <td>🚲 74.442ms</td>
+        <td>🚀 4.298ms</td>
+        <td>🚀 7.216ms</td>
     </tr>
     <tr>
-        <td>100w字转换耗时</td>
+        <td>100k字转换耗时</td>
+        <td>🐢 6287.332s</td>
+        <td>🚀 29.32ms</td>
+        <td>🚀 45.471ms</td>
+    </tr>
+    <tr>
+        <td>1m字转换耗时</td>
         <td>⛔ 内存溢出转换失败</td>
-        <td>🚀 638.888ms</td>
-        <td>🚀 820.131ms</td>
+        <td>🚀 297.41ms</td>
+        <td>🚀 328.338ms</td>
+    </tr>
+    <tr>
+        <td>10m字转换耗时</td>
+        <td>⛔ 内存溢出转换失败</td>
+        <td>🚀 3907.278ms</td>
+        <td>🚀 3375.192ms</td>
     </tr>
     <tr>
         <td rowspan="2">兼容性</td>
@@ -67,5 +79,5 @@
 
 ## 基准数据
 
-- 准确率测试数据可见: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
-- 性能测试数据可见：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
+- 准确率测试数据可见: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/accuracy.ts)
+- 性能测试数据可见：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/speed.ts)

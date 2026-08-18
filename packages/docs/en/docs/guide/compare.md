@@ -32,26 +32,38 @@ Among similar products, `pinyin-pro` has achieved a leading position in terms of
         <td>😕 Web 版: 91.170%	</td>
     </tr>
     <tr>
-        <td rowspan="3">Performance</td>
-        <td>5,000 Chinese characters</td>
-        <td>🐢 749.111ms</td>
-        <td>🚲 200.877ms</td>
-        <td>🚀 5.958ms</td>
+        <td rowspan="5">Performance</td>
+        <td>Dictionary initialization on first use</td>
+        <td>🚀 14.261ms</td>
+        <td>🐢 160.769ms</td>
+        <td>🚀 8.412ms</td>
     </tr>
     <tr>
         <td>10,000 Chinese characters</td>
-        <td>🐢 795.904s</td>
-        <td>🚲 206.5ms</td>
-        <td>🚀 15.260ms</td>
+        <td>🚲 74.442ms</td>
+        <td>🚀 4.298ms</td>
+        <td>🚀 7.216ms</td>
+    </tr>
+    <tr>
+        <td>100,000 Chinese characters</td>
+        <td>🐢 6287.332s</td>
+        <td>🚀 29.32ms</td>
+        <td>🚀 45.471ms</td>
     </tr>
     <tr>
         <td>1,000,000 Chinese characters</td>
         <td>⛔ Out Of Memory</td>
-        <td>🚀 638.888ms</td>
-        <td>🚀 607.131ms</td>
+        <td>🚀 297.41ms</td>
+        <td>🚀 328.338ms</td>
     </tr>
     <tr>
-        <td rowspan="3">Compatibility</td>
+        <td>10,000,000 Chinese characters</td>
+        <td>⛔ Out Of Memory</td>
+        <td>🚀 3907.278ms</td>
+        <td>🚀 3375.192ms</td>
+    </tr>
+    <tr>
+        <td rowspan="2">Compatibility</td>
         <td>Browser</td>
         <td>✔️ Supported</td>
         <td>❌ Not Supported</td>
@@ -67,5 +79,5 @@ Among similar products, `pinyin-pro` has achieved a leading position in terms of
 
 ## Data Source
 
-- More details on accuracy testing data: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
-- More details on performance testing data: [speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
+- More details on accuracy testing data: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/accuracy.ts)
+- More details on performance testing data: [speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/speed.ts)

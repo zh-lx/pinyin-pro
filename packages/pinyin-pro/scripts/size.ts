@@ -1,13 +1,13 @@
-const path = require("path");
-const fs = require("fs");
-const zlib = require("zlib");
-const ts = require("typescript");
-const { rollup } = require("rollup");
-const alias = require("@rollup/plugin-alias");
-const { nodeResolve } = require("@rollup/plugin-node-resolve");
-const commonjs = require("@rollup/plugin-commonjs");
-const json = require("@rollup/plugin-json");
-const { terser } = require("rollup-plugin-terser");
+import path from "path";
+import fs from "fs";
+import zlib from "zlib";
+import ts from "typescript";
+import { rollup, Plugin, OutputChunk } from "rollup";
+import alias from "@rollup/plugin-alias";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
+import { terser } from "rollup-plugin-terser";
 
 const root = path.resolve(__dirname, "..");
 const packages = {
@@ -15,18 +15,45 @@ const packages = {
     lib: path.join(root, "lib"),
     tsconfig: path.join(root, "tsconfig.json"),
   },
-};
-const apis = ["pinyin", "segment", "match", "convert", "html", "polyphonic"];
+} as const;
+const apis = [
+  "pinyin",
+  "segment",
+  "match",
+  "convert",
+  "html",
+  "polyphonic",
+] as const;
 const extensions = [".mjs", ".js", ".json", ".node", ".ts"];
 
-function format(bytes) {
+type PackageName = keyof typeof packages;
+type ApiName = (typeof apis)[number];
+
+interface SizeResult {
+  bytes: number;
+  gzip: number;
+}
+
+interface ApiSizes {
+  esm: SizeResult;
+}
+
+type PackageResults = Record<ApiName, ApiSizes>;
+type SizeResults = Record<PackageName, PackageResults>;
+
+interface OverallSizes {
+  umd: SizeResult;
+  esm: SizeResult;
+}
+
+function format(bytes: number): string {
   return `${(bytes / 1024).toFixed(2)} KB`;
 }
 
-function typescript() {
+function typescript(): Plugin {
   return {
     name: "typescript-strip",
-    transform(code, id) {
+    transform(code: string, id: string) {
       if (!id.endsWith(".ts")) return null;
       const result = ts.transpileModule(code, {
         compilerOptions: {
@@ -42,47 +69,56 @@ function typescript() {
   };
 }
 
-function plugins(pkg) {
-  const config = packages[pkg];
-  const entries = [];
-  entries.push({ find: "@", replacement: config.lib });
-  return [
-    {
-      name: "size-entry",
-      resolveId(id) {
-        return id === "size-entry" ? "\0size-entry" : null;
-      },
-      load(id) {
-        return id === "\0size-entry" ? this.meta.apiEntry : null;
-      },
+function createSizeEntryPlugin(input: string): Plugin {
+  return {
+    name: "size-entry",
+    resolveId(id: string) {
+      return id === "size-entry" ? "\0size-entry" : null;
     },
-    alias({ entries }),
+    load(id: string) {
+      return id === "\0size-entry" ? input : null;
+    },
+  };
+}
+
+function plugins(pkg: PackageName, input: string, minify: boolean): Plugin[] {
+  const config = packages[pkg];
+  const rollupPlugins: Plugin[] = [
+    createSizeEntryPlugin(input),
+    alias({
+      entries: [{ find: "@", replacement: config.lib }],
+    }),
     nodeResolve({ extensions }),
     typescript(),
     commonjs(),
     json(),
   ];
+  if (minify) {
+    rollupPlugins.push(terser());
+  }
+  return rollupPlugins;
 }
 
-async function measure(pkg, api, minify) {
+async function measure(
+  pkg: PackageName,
+  api: ApiName,
+  minify: boolean,
+): Promise<SizeResult> {
   const dist = path.join(root, "dist/esm/index.mjs");
   if (!fs.existsSync(dist)) {
     throw new Error(`Missing build output: ${dist}. Run pnpm build first.`);
   }
   const input = `export { ${api} } from ${JSON.stringify(dist)};`;
-  const rollupPlugins = plugins(pkg);
-  rollupPlugins[0].load = (id) => (id === "\0size-entry" ? input : null);
-  if (minify) rollupPlugins.push(terser());
   const bundle = await rollup({
     input: "size-entry",
     treeshake: true,
-    plugins: rollupPlugins,
+    plugins: plugins(pkg, input, minify),
   });
   const generated = await bundle.generate({ format: "es" });
-  const code = generated.output
-    .filter((item) => item.type === "chunk")
-    .map((item) => item.code)
-    .join("");
+  const chunks = generated.output.filter(
+    (item): item is OutputChunk => item.type === "chunk",
+  );
+  const code = chunks.map((item) => item.code).join("");
   await bundle.close();
   return {
     bytes: Buffer.byteLength(code),
@@ -90,9 +126,9 @@ async function measure(pkg, api, minify) {
   };
 }
 
-function measureDirectory(directory) {
-  const files = [];
-  function collect(current) {
+function measureDirectory(directory: string): SizeResult {
+  const files: string[] = [];
+  function collect(current: string): void {
     fs.readdirSync(current, { withFileTypes: true })
       .sort((a, b) => a.name.localeCompare(b.name))
       .forEach((entry) => {
@@ -113,7 +149,7 @@ function measureDirectory(directory) {
   };
 }
 
-function measureFile(file) {
+function measureFile(file: string): SizeResult {
   if (!fs.existsSync(file)) {
     throw new Error(`Missing build output: ${file}. Run pnpm build first.`);
   }
@@ -124,11 +160,15 @@ function measureFile(file) {
   };
 }
 
-function renderSize(size) {
+function renderSize(size: SizeResult): string {
   return `${format(size.bytes)} (gzip ${format(size.gzip)})`;
 }
 
-function renderRows(packageResults, overall, totalLabel) {
+function renderRows(
+  packageResults: PackageResults,
+  overall: OverallSizes,
+  totalLabel: string,
+): string[] {
   const rows = apis.map((api, index) => {
     const umd =
       index === 0
@@ -142,7 +182,7 @@ function renderRows(packageResults, overall, totalLabel) {
   return rows;
 }
 
-function renderTable(results, overall) {
+function renderTable(results: SizeResults, overall: OverallSizes): string {
   const packageResults = results["pinyin-pro"];
   return [
     "### 📦 API Size",
@@ -165,7 +205,11 @@ function renderTable(results, overall) {
   ].join("\n");
 }
 
-function renderGuidePage(results, overall, language) {
+function renderGuidePage(
+  results: SizeResults,
+  overall: OverallSizes,
+  language: "zh" | "en",
+): string {
   const packageResults = results["pinyin-pro"];
   const isEnglish = language === "en";
   return [
@@ -191,7 +235,7 @@ function renderGuidePage(results, overall, language) {
   ].join("\n");
 }
 
-function updateReadme(results, overall) {
+function updateReadme(results: SizeResults, overall: OverallSizes): void {
   const readme = path.join(root, "README.md");
   const content = fs.readFileSync(readme, "utf8");
   const section = renderTable(results, overall);
@@ -203,8 +247,8 @@ function updateReadme(results, overall) {
   console.log(`Updated ${readme}`);
 }
 
-function updateGuidePages(results, overall) {
-  const pages = [
+function updateGuidePages(results: SizeResults, overall: OverallSizes): void {
+  const pages: Array<{ file: string; language: "zh" | "en" }> = [
     {
       file: path.resolve(root, "../docs/zh/docs/guide/api-size.md"),
       language: "zh",
@@ -224,26 +268,28 @@ function updateGuidePages(results, overall) {
   }
 }
 
-(async () => {
+async function main(): Promise<void> {
   const results = {
-    "pinyin-pro": {},
-  };
-  for (const pkg of Object.keys(packages)) {
+    "pinyin-pro": {} as PackageResults,
+  } as SizeResults;
+  for (const pkg of Object.keys(packages) as PackageName[]) {
     console.log(`\n${pkg}`);
-    results[pkg] = {};
+    results[pkg] = {} as PackageResults;
     for (const api of apis) {
       const esm = await measure(pkg, api, true);
       results[pkg][api] = { esm };
       console.log(`${api}\tESM ${renderSize(esm)}`);
     }
   }
-  const overall = {
+  const overall: OverallSizes = {
     umd: measureFile(path.join(root, "dist/index.js")),
     esm: measureDirectory(path.join(root, "dist/esm")),
   };
   updateReadme(results, overall);
   updateGuidePages(results, overall);
-})().catch((error) => {
+}
+
+main().catch((error: unknown) => {
   console.error(error);
   process.exitCode = 1;
 });

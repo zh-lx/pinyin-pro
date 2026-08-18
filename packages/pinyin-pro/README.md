@@ -194,8 +194,8 @@ npm install pinyin-pro
 
 以下是 `pinyin-pro`、`pinyin` 及 `@napi-rs/pinyin` 包对于汉字转换的速度及准确率对比，可以看到 `pinyin-pro` 在各方面都全面领先。
 
-- 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/accuracy.js)
-- 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/benchmark/speed.js)
+- 准确率测试数据: [accuracy](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/accuracy.ts)
+- 性能测试数据：[speed](https://github.com/zh-lx/pinyin-pro/blob/main/packages/pinyin-pro/scripts/benchmark/speed.ts)
 <table>
     <tr>
         <th colspan="2">对比项</th>
@@ -213,23 +213,35 @@ npm install pinyin-pro
         <td>😕 Web 版: 91.170%	</td>
     </tr>
     <tr>
-        <td rowspan="3">性能</td>
-        <td>5k字转换耗时</td>
-        <td>🐢 749.111ms</td>
-        <td>🚲 200.877ms</td>
-        <td>🚀 5.958ms</td>
+        <td rowspan="5">性能</td>
+        <td>首次使用字典初始化时长</td>
+        <td>🚀 14.261ms</td>
+        <td>🐢 160.769ms</td>
+        <td>🚀 8.412ms</td>
     </tr>
     <tr>
-        <td>1w字转换耗时</td>
-        <td>🐢 795.904ms</td>
-        <td>🚲 206.5ms</td>
-        <td>🚀 15.260ms</td>
+        <td>10k字转换耗时</td>
+        <td>🚲 74.442ms</td>
+        <td>🚀 4.298ms</td>
+        <td>🚀 7.216ms</td>
     </tr>
     <tr>
-        <td>100w字转换耗时</td>
+        <td>100k字转换耗时</td>
+        <td>🐢 6287.332s</td>
+        <td>🚀 29.32ms</td>
+        <td>🚀 45.471ms</td>
+    </tr>
+    <tr>
+        <td>1m字转换耗时</td>
         <td>⛔ 内存溢出转换失败</td>
-        <td>🚀 638.888ms</td>
-        <td>🚀 820.131ms</td>
+        <td>🚀 297.41ms</td>
+        <td>🚀 328.338ms</td>
+    </tr>
+    <tr>
+        <td>10m字转换耗时</td>
+        <td>⛔ 内存溢出转换失败</td>
+        <td>🚀 3907.278ms</td>
+        <td>🚀 3375.192ms</td>
     </tr>
     <tr>
         <td rowspan="2">兼容性</td>
@@ -259,13 +271,13 @@ npm install pinyin-pro
         </tr>
     </thead>
     <tbody>
-    <tr><td>pinyin</td><td>306.19 KB (gzip 134.30 KB)</td><td rowspan="7">316.44 KB (gzip 137.73 KB)</td></tr>
-    <tr><td>segment</td><td>304.94 KB (gzip 133.51 KB)</td></tr>
-    <tr><td>match</td><td>185.44 KB (gzip 80.79 KB)</td></tr>
+    <tr><td>pinyin</td><td>306.40 KB (gzip 134.52 KB)</td><td rowspan="7">316.65 KB (gzip 137.94 KB)</td></tr>
+    <tr><td>segment</td><td>305.14 KB (gzip 133.75 KB)</td></tr>
+    <tr><td>match</td><td>185.48 KB (gzip 80.83 KB)</td></tr>
     <tr><td>convert</td><td>1.78 KB (gzip 0.98 KB)</td></tr>
-    <tr><td>html</td><td>307.03 KB (gzip 134.60 KB)</td></tr>
-    <tr><td>polyphonic</td><td>180.70 KB (gzip 78.81 KB)</td></tr>
-    <tr><td>总体积</td><td>558.41 KB (gzip 157.29 KB)</td></tr>
+    <tr><td>html</td><td>307.23 KB (gzip 134.83 KB)</td></tr>
+    <tr><td>polyphonic</td><td>180.75 KB (gzip 78.83 KB)</td></tr>
+    <tr><td>总体积</td><td>559.12 KB (gzip 157.54 KB)</td></tr>
     </tbody>
 </table>
 
