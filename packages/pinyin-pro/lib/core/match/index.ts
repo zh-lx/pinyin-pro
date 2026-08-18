@@ -47,15 +47,11 @@ const TONE_MAP: Record<string, string> = {
   "ī": "i", "í": "i", "ǐ": "i", "ì": "i",
   "ū": "u", "ú": "u", "ǔ": "u", "ù": "u",
   "ǖ": "ü", "ǘ": "ü", "ǚ": "ü", "ǜ": "ü",
-  "ń": "n", "ň": "n", "ǹ": "n",
-  "ḿ": "m",
-  "ế": "ê", "ề": "ê",
-  // Non-standard decomposed forms: n̄, m̄, ê̄, m̌, ê̌, m̀
-  "\u0304": "",
-  "\u030c": "",
-  "\u0300": "",
+  "n̄": "n", "ń": "n", "ň": "n", "ǹ": "n",
+  "m̄": "m", "ḿ": "m", "m̌": "m", "m̀": "m",
+  "ê̄": "ê", "ế": "ê", "ê̌": "ê", "ề": "ê",
 };
-const TONE_RE = new RegExp(`[${Object.keys(TONE_MAP).join("")}]`, "g");
+const TONE_RE = new RegExp(Object.keys(TONE_MAP).join("|"), "g");
 const stripTone = (pinyin: string) =>
   pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch] ?? ch);
 
