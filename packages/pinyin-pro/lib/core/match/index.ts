@@ -40,19 +40,26 @@ const DefaultMatchOptions: MatchOptions = {
 const MAX_PINYIN_LENGTH = 6;
 
 // match 只需要单字多音结果，不需要经过完整的词组匹配流程。
+const TONE_MAP: Record<string, string> = {
+  "\u0101": "a", "\u00e1": "a", "\u01ce": "a", "\u00e0": "a",
+  "\u014d": "o", "\u00f3": "o", "\u01d2": "o", "\u00f2": "o",
+  "\u0113": "e", "\u00e9": "e", "\u011b": "e", "\u00e8": "e",
+  "\u012b": "i", "\u00ed": "i", "\u01d0": "i", "\u00ec": "i",
+  "\u016b": "u", "\u00fa": "u", "\u01d4": "u", "\u00f9": "u",
+  "\u01d6": "\u00fc", "\u01d8": "\u00fc", "\u01da": "\u00fc", "\u01dc": "\u00fc",
+  "\u0144": "n", "\u0148": "n", "\u01f9": "n",
+  "\u1e3f": "m",
+  "\u1ebf": "\u00ea", "\u1ec1": "\u00ea",
+  "\u0304": "", "\u030c": "", "\u0300": "",
+};
+const TONE_RE = /[āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜńňǹḿếề\u0304\u030c\u0300]/g;
+const stripTone = (pinyin: string) =>
+  pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch] ?? ch);
+
 const getMatchPinyin = (char: string, options: Required<MatchOptions>) => {
   const pinyins = getAllPinyin(char);
   return (pinyins.length ? pinyins : [char]).map((pinyin) => {
-    const withoutTone = pinyin
-      .replace(/[āáǎà]/g, "a")
-      .replace(/[ōóǒò]/g, "o")
-      .replace(/[ēéěè]/g, "e")
-      .replace(/[īíǐì]/g, "i")
-      .replace(/[ūúǔù]/g, "u")
-      .replace(/[ǖǘǚǜ]/g, "ü")
-      .replace(/(n̄|ń|ň|ǹ)/g, "n")
-      .replace(/(m̄|ḿ|m̌|m̀)/g, "m")
-      .replace(/(ê̄|ế|ê̌|ề)/g, "ê");
+    const withoutTone = stripTone(pinyin);
     return options.v
       ? withoutTone.replace(/ü/g, typeof options.v === "string" ? options.v : "v")
       : withoutTone;

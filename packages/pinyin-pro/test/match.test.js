@@ -206,4 +206,63 @@ describe("match", () => {
     const result = match("欸", "êê");
     expect(result).to.deep.equal(null);
   });
+
+  it("[match]tone stripping: all a/o/e/i/u vowels", () => {
+    expect(match("阿哦额衣乌", "a")).to.deep.equal([0]);
+    expect(match("阿哦额衣乌", "āáǎà")).to.deep.equal(null);
+    expect(match("阿哦额衣乌", "ōóǒò")).to.deep.equal(null);
+    expect(match("阿哦额衣乌", "ēéěè")).to.deep.equal(null);
+    expect(match("阿哦额衣乌", "īíǐì")).to.deep.equal(null);
+    expect(match("阿哦额衣乌", "ūúǔù")).to.deep.equal(null);
+  });
+
+  it("[match]tone stripping: ü precomposed", () => {
+    expect(match("女", "nv")).to.deep.equal(null);
+    expect(match("女", "nü")).to.deep.equal([0]);
+    expect(match("女", "ǖǘǚǜ")).to.deep.equal(null);
+  });
+
+  it("[match]tone stripping: n precomposed (ń ň ǹ)", () => {
+    expect(match("嗯", "ń")).to.deep.equal(null);
+    expect(match("嗯", "ň")).to.deep.equal(null);
+    expect(match("嗯", "ǹ")).to.deep.equal(null);
+    expect(match("嗯", "n")).to.deep.equal([0]);
+  });
+
+  it("[match]tone stripping: n combining mark (n̄)", () => {
+    expect(match("嗯", "n̄")).to.deep.equal(null);
+    expect(match("嗯", "n")).to.deep.equal([0]);
+  });
+
+  it("[match]tone stripping: m precomposed (ḿ)", () => {
+    expect(match("呣", "ḿ")).to.deep.equal(null);
+    expect(match("呣", "m")).to.deep.equal([0]);
+  });
+
+  it("[match]tone stripping: m combining marks (m̄ m̌ m̀)", () => {
+    expect(match("呣", "m̄")).to.deep.equal(null);
+    expect(match("呣", "m̌")).to.deep.equal(null);
+    expect(match("呣", "m̀")).to.deep.equal(null);
+    expect(match("呣", "m")).to.deep.equal([0]);
+  });
+
+  it("[match]tone stripping: ê precomposed (ế ề)", () => {
+    expect(match("欸", "ế")).to.deep.equal(null);
+    expect(match("欸", "ề")).to.deep.equal(null);
+    expect(match("欸", "ê")).to.deep.equal([0]);
+  });
+
+  it("[match]tone stripping: ê combining marks (ê̄ ê̌)", () => {
+    expect(match("欸", "ê̄")).to.deep.equal(null);
+    expect(match("欸", "ê̌")).to.deep.equal(null);
+    expect(match("欸", "ê")).to.deep.equal([0]);
+  });
+
+  it("[match]tone stripping: decomposed vowel tone mark (a + combining macron)", () => {
+    // Register custom pinyin with decomposed ā (a + U+0304) instead of precomposed U+0101.
+    // stripTone must handle the combining macron (U+0304) the same way as the precomposed form.
+    customPinyin({ 啊: "a\u0304" }, { multiple: "replace" });
+    expect(match("啊", "a")).to.deep.equal([0]);
+    clearCustomDict(["pinyin", "multiple", "polyphonic"]);
+  });
 });
