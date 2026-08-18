@@ -60,7 +60,7 @@ Among similar products, `pinyin-pro` has achieved a leading position in terms of
         <td>10,000,000 Chinese characters</td>
         <td>⛔ Out Of Memory</td>
         <td>🚀 3907.278ms</td>
-        <td>🚀 3375.192</td>
+        <td>🚀 3375.192ms</td>
     </tr>
     <tr>
         <td rowspan="2">Compatibility</td>
