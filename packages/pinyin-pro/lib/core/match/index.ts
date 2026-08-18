@@ -192,7 +192,7 @@ const matchAboveStart = (
       }
     }
     // 每个字只计算一次拼音候选，复用到所有 DP 状态
-    let muls: string[] | undefined;
+    let pinyins: string[] | undefined;
     // 第 i 个字参与匹配
     for (let j = 1; j <= pinyin.length; j++) {
       if (!dp[i - 1][j - 1]) {
@@ -202,7 +202,7 @@ const matchAboveStart = (
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
-        const pinyins = (muls ??= getMatchPinyin(words[i - 1], options));
+        pinyins ??= getMatchPinyin(words[i - 1], options);
 
         // 非中文匹配
         if (words[i - 1] === pinyin[j - 1]) {
