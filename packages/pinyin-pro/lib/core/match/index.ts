@@ -50,7 +50,9 @@ const TONE_MAP: Record<string, string> = {
   "ń": "n", "ň": "n", "ǹ": "n",
   "ḿ": "m",
   "ế": "ê", "ề": "ê",
-  "\u0304": "", "\u030c": "", "\u0300": "",
+  "\u0304": "", // combining macron: n̄, m̄, ê̄
+  "\u030c": "", // combining caron: m̌, ê̌
+  "\u0300": "", // combining grave: m̀
 };
 const TONE_RE = /[āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜńňǹḿếề\u0304\u030c\u0300]/g;
 const stripTone = (pinyin: string) =>
