@@ -1,5 +1,14 @@
 # ChangeLog
 
+## 3.29.3
+
+Thank you [@luojiyin1987](https://github.com/luojiyin1987) for continued optimizations to the segmentation module, the performance of the `pinyin` API has been further improved (about 20%+):
+- 【perf】`segmentit`: Avoid `prefix` string allocations when building the AC automaton [#344](https://github.com/zh-lx/pinyin-pro/pull/344)
+- 【perf】`segmentit`: Reuse child lookup during AC matching [#346](https://github.com/zh-lx/pinyin-pro/pull/346)
+- 【perf】`segmentit`: Reconstruct the max-probability path with backpointers [#348](https://github.com/zh-lx/pinyin-pro/pull/348)
+- 【perf】`splitString`: Use a native `split` fast path for BMP-only text [#349](https://github.com/zh-lx/pinyin-pro/pull/349)
+- 【perf】`pinyin`: Skip the reduplication processor when the text has no `々` [#351](https://github.com/zh-lx/pinyin-pro/pull/351)
+
 ## 3.29.2
 
 Thank you [@luojiyin1987](https://github.com/luojiyin1987) for a series of optimizations, the performance of the `pinyin` API has been significantly improved (about 30%+):

@@ -1,5 +1,14 @@
 # 更新日志
 
+## 3.29.3
+
+感谢 [@luojiyin1987](https://github.com/luojiyin1987) 对分词模块的持续优化，`pinyin` API 性能进一步提升(约 20%+):
+- 【perf】`segmentit`: 构建 AC 自动机时避免 `prefix` 字符串分配 [#344](https://github.com/zh-lx/pinyin-pro/pull/344)
+- 【perf】`segmentit`: 复用 AC 匹配过程中的子节点查找 [#346](https://github.com/zh-lx/pinyin-pro/pull/346)
+- 【perf】`segmentit`: 使用回溯指针重建最大概率路径 [#348](https://github.com/zh-lx/pinyin-pro/pull/348)
+- 【perf】`splitString`: 对 BMP 文本走原生 `split` 快路径 [#349](https://github.com/zh-lx/pinyin-pro/pull/349)
+- 【perf】`pinyin`: 文本不含 `々` 时跳过叠字处理器 [#351](https://github.com/zh-lx/pinyin-pro/pull/351)
+
 ## 3.29.2
 
 感谢 [@luojiyin1987](https://github.com/luojiyin1987) 的一系列优化，`pinyin` API 性能得到显著提升(约30%+):
