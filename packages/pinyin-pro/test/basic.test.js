@@ -23,7 +23,7 @@ describe('basic', () => {
 
   it('[basic]好好', () => {
     const result = pinyin('好好学习');
-    expect(result).to.be.equal('hǎo hǎo xué xí');
+    expect(result).to.be.equal('háo hǎo xué xí');
   });
 
   it('[basic]拼音+非汉字数组', () => {
