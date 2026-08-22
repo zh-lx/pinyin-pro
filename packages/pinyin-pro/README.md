@@ -227,7 +227,7 @@ npm install pinyin-pro
     </tr>
     <tr>
         <td>100k字转换耗时</td>
-        <td>🐢 6287.332s</td>
+        <td>🐢 6287.332ms</td>
         <td>🚀 29.32ms</td>
         <td>🚀 45.471ms</td>
     </tr>
