@@ -235,6 +235,28 @@ export const middlewareType = (
   return list.map((item) => item.result).join(options.separator);
 };
 
+const thirdToneToSecondToneMap = {
+  ǎ: "á",
+  ǒ: "ó",
+  ě: "é",
+  ǐ: "í",
+  ǔ: "ú",
+  ǚ: "ǘ",
+  ň: "ń",
+  "m̌": "ḿ",
+  "ê̌": "ế",
+};
+
+const convertThirdToneToSecondTone = (pinyin: string) => {
+  return pinyin.replace(
+    /ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň|m̌|ê̌/,
+    (thirdTone) =>
+      thirdToneToSecondToneMap[
+        thirdTone as keyof typeof thirdToneToSecondToneMap
+      ],
+  );
+};
+
 // 是否开启变调
 export const middlewareToneSandhi = (
   list: SingleWordResult[],
@@ -248,6 +270,31 @@ export const middlewareToneSandhi = (
         item.result = item.originPinyin = "bù";
       }
     });
+    return list;
+  }
+
+  for (let start = 0; start < list.length; ) {
+    if (!list[start].isZh || getNumOfTone(list[start].result) !== "3") {
+      start += 1;
+      continue;
+    }
+
+    let end = start + 1;
+    while (
+      end < list.length &&
+      list[end].isZh &&
+      getNumOfTone(list[end].result) === "3"
+    ) {
+      end += 1;
+    }
+
+    if (end - start === 2) {
+      const pinyin = convertThirdToneToSecondTone(list[start].result);
+      list[start].result = pinyin;
+      list[start].originPinyin = pinyin;
+    }
+
+    start = end;
   }
   return list;
 };

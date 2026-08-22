@@ -204,7 +204,7 @@ function pinyin(
     zhChars,
   );
 
-  // 一和不变调处理
+  // 变调处理
   list = middlewareToneSandhi(list, options.toneSandhi as boolean);
 
   // nonZh 参数及 removeNonZh 参数

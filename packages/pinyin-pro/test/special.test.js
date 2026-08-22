@@ -232,7 +232,7 @@ describe("tone sandhi for “不”", () => {
 
   it("[special tone sandhi]要不你走", () => {
     const result = pinyin("要不你走");
-    expect(result).to.be.equal("yào bù nǐ zǒu");
+    expect(result).to.be.equal("yào bù ní zǒu");
   });
 
   // 变调为二声
@@ -294,7 +294,7 @@ describe('[special tone sandhi]绕口令', () => {
 
   it('[special 々]々', () => {
     const result = pinyin('天々向上，好々学习');
-    expect(result).to.be.equal('tiān tiān xiàng shàng ， hǎo hǎo xué xí');
+    expect(result).to.be.equal('tiān tiān xiàng shàng ， háo hǎo xué xí');
 
     const result1 = pinyin('々々');
     expect(result1).to.be.equal('tóng tóng');
