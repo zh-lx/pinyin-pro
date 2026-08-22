@@ -28,6 +28,16 @@ describe("toneSandhi", () => {
     ).to.be.equal("ni hao");
   });
 
+  it("reproduces the issue 286 example", () => {
+    expect(
+      pinyin("你好", {
+        toneSandhi: true,
+        type: "array",
+        toneType: "num",
+      }),
+    ).toEqual(["ni2", "hao3"]);
+  });
+
   it("keeps both third tones when tone sandhi is disabled", () => {
     expect(pinyin("你好", { toneSandhi: false })).to.be.equal("nǐ hǎo");
   });

@@ -247,9 +247,15 @@ const thirdToneToSecondToneMap = {
   "ê̌": "ế",
 };
 
+// 轻量三声判断：避免在默认热路径上调用完整的 getNumOfTone
+const thirdTonePattern = /ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň|m̌|ê̌/;
+
+const isThirdTone = (item: SingleWordResult) =>
+  item.isZh && thirdTonePattern.test(item.result);
+
 const convertThirdToneToSecondTone = (pinyin: string) => {
   return pinyin.replace(
-    /ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň|m̌|ê̌/,
+    thirdTonePattern,
     (thirdTone) =>
       thirdToneToSecondToneMap[
         thirdTone as keyof typeof thirdToneToSecondToneMap
@@ -274,17 +280,13 @@ export const middlewareToneSandhi = (
   }
 
   for (let start = 0; start < list.length; ) {
-    if (!list[start].isZh || getNumOfTone(list[start].result) !== "3") {
+    if (!isThirdTone(list[start])) {
       start += 1;
       continue;
     }
 
     let end = start + 1;
-    while (
-      end < list.length &&
-      list[end].isZh &&
-      getNumOfTone(list[end].result) === "3"
-    ) {
+    while (end < list.length && isThirdTone(list[end])) {
       end += 1;
     }
 
