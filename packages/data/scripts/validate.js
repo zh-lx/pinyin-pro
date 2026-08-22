@@ -13,7 +13,12 @@ function normalizePinyin(value) {
 function validateDictionary(dictionary) {
   const invalidEntries = [];
 
-  for (const [key, entry] of Object.entries(dictionary)) {
+  for (const key in dictionary) {
+    if (!Object.hasOwn(dictionary, key)) {
+      continue;
+    }
+
+    const entry = dictionary[key];
     const value = Array.isArray(entry) ? entry[0] : undefined;
     const reasons = [];
 
@@ -26,8 +31,8 @@ function validateDictionary(dictionary) {
       const syllableCount = pinyin.split(' ').length;
       const characterCount = Array.from(key).length;
 
-      if (!/^[a-z\sü]+$/.test(pinyin)) {
-        reasons.push('pinyin contains invalid characters');
+      if (!/^[a-zü]+(?: [a-zü]+)*$/.test(pinyin)) {
+        reasons.push('pinyin has an invalid format');
       }
       if (syllableCount !== characterCount) {
         reasons.push(
@@ -46,7 +51,13 @@ function validateDictionary(dictionary) {
 
 function runValidation(dictionary, output = console) {
   const invalidEntries = validateDictionary(dictionary);
-  const entryCount = Object.keys(dictionary).length;
+  let entryCount = 0;
+
+  for (const key in dictionary) {
+    if (Object.hasOwn(dictionary, key)) {
+      entryCount += 1;
+    }
+  }
 
   if (invalidEntries.length > 0) {
     for (const { key, pinyin, reasons } of invalidEntries) {

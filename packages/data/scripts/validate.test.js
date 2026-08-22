@@ -23,9 +23,28 @@ test('reports invalid characters and syllable counts', () => {
     {
       key: '文',
       pinyin: 'wén1',
-      reasons: ['pinyin contains invalid characters'],
+      reasons: ['pinyin has an invalid format'],
     },
   ]);
+});
+
+test('requires one ASCII space between pinyin syllables', () => {
+  for (const [pinyin, syllableCount] of [
+    ['zhōng  guó', 3],
+    ['zhōng\tguó', 1],
+    ['zhōng\nguó', 1],
+  ]) {
+    assert.deepEqual(validateDictionary({ 中国: [pinyin] }), [
+      {
+        key: '中国',
+        pinyin,
+        reasons: [
+          'pinyin has an invalid format',
+          `expected 2 syllables but found ${syllableCount}`,
+        ],
+      },
+    ]);
+  }
 });
 
 test('reports malformed dictionary entries', () => {
