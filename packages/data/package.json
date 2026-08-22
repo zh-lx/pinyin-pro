@@ -4,6 +4,7 @@
   "description": "The data directory for pinyin-pro",
   "scripts": {
     "build": "tsc && vite build",
+    "test:validate": "node --test scripts/validate.test.js",
     "validate": "node scripts/validate.js",
     "generate:modern": "node scripts/handle-modern-dict.js"
   },
