@@ -46,7 +46,7 @@ Among similar products, `pinyin-pro` has achieved a leading position in terms of
     </tr>
     <tr>
         <td>100,000 Chinese characters</td>
-        <td>🐢 6287.332s</td>
+        <td>🐢 6287.332ms</td>
         <td>🚀 29.32ms</td>
         <td>🚀 45.471ms</td>
     </tr>
