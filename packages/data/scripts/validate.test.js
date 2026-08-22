@@ -48,6 +48,15 @@ test('reports malformed dictionary entries', () => {
   ]);
 });
 
+test('ignores inherited enumerable properties', () => {
+  const dictionary = Object.create({
+    inherited: ['yī'],
+  });
+  dictionary.一 = ['yī'];
+
+  assert.deepEqual(validateDictionary(dictionary), []);
+});
+
 test('returns a failure exit code and prints a summary for invalid data', () => {
   const errors = [];
   const exitCode = runValidation(

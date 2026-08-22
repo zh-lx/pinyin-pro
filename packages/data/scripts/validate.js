@@ -1,5 +1,3 @@
-const jieba = require('../data/complete.json');
-
 function normalizePinyin(value) {
   return value
     .replace(/(ā|á|ǎ|à)/g, 'a')
@@ -15,8 +13,7 @@ function normalizePinyin(value) {
 function validateDictionary(dictionary) {
   const invalidEntries = [];
 
-  for (const key in dictionary) {
-    const entry = dictionary[key];
+  for (const [key, entry] of Object.entries(dictionary)) {
     const value = Array.isArray(entry) ? entry[0] : undefined;
     const reasons = [];
 
@@ -66,6 +63,7 @@ function runValidation(dictionary, output = console) {
 }
 
 if (require.main === module) {
+  const jieba = require('../data/complete.json');
   process.exitCode = runValidation(jieba);
 }
 
