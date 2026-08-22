@@ -346,7 +346,7 @@ pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none', type: 'array' })
     option: 'toneSandhi',
     type: 'boolean',
     description:
-      '是否应用智能变调，包括<code>一</code>、<code>不</code>以及两个连续三声的变调（如 你好 → ní hǎo），参考<a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>',
+      '是否应用智能变调，包括<code>一</code>和<code>不</code>（参考<a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>），以及两个连续三声的变调（如 你好 → ní hǎo，参考<a href=https://en.wikipedia.org/wiki/Tone_sandhi#Mandarin_Chinese target="_blank">Wikipedia</a>）',
     default: 'true',
     children: [
       {
