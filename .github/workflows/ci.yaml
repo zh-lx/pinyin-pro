@@ -26,6 +26,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Validate dictionary data
+        run: pnpm --filter @pinyin-pro/data test:validate && pnpm data:validate
+
       - name: Run tests with coverage
         run: pnpm test
 
