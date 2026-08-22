@@ -28,6 +28,26 @@ test('reports invalid characters and syllable counts', () => {
   ]);
 });
 
+test('reports malformed dictionary entries', () => {
+  const invalidEntries = validateDictionary({
+    一: 'yī',
+    二: [],
+  });
+
+  assert.deepEqual(invalidEntries, [
+    {
+      key: '一',
+      pinyin: undefined,
+      reasons: ['entry is not an array'],
+    },
+    {
+      key: '二',
+      pinyin: undefined,
+      reasons: ['pinyin is not a string'],
+    },
+  ]);
+});
+
 test('returns a failure exit code and prints a summary for invalid data', () => {
   const errors = [];
   const exitCode = runValidation(
