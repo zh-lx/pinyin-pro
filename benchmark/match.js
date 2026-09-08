@@ -5,10 +5,10 @@ const TEXT_256 = TEXT_64.repeat(4);
 const TEXT_1K = TEXT_64.repeat(16);
 
 const QUERIES = [
-  { name: "short", query: "中" },
-  { name: "long", query: "汉语拼音是中文信息处理的基础能力之一" },
-  { name: "match", query: "拼音" },
-  { name: "no-match", query: "xyz123" },
+  { name: "pinyin-short", query: "hanyu" },
+  { name: "pinyin-long", query: "hanyupinyinshizhongwenxinxichuli" },
+  { name: "initials", query: "hypy" },
+  { name: "late-fail", query: "hanyupinyinshizhongwenxinxichulixyz" },
 ];
 
 const TEXTS = [
@@ -49,11 +49,11 @@ function run() {
     }
   }
 
-  console.log("precision | text     | query    | median(ms)");
-  console.log("----------|----------|----------|----------");
+  console.log("precision | text     | query          | median(ms)");
+  console.log("----------|----------|----------------|----------");
   for (const r of results) {
     console.log(
-      `${r.precision.padEnd(10)}| ${r.textName.padEnd(9)}| ${r.queryName.padEnd(9)}| ${r.median.toFixed(3)}`
+      `${r.precision.padEnd(10)}| ${r.textName.padEnd(9)}| ${r.queryName.padEnd(15)}| ${r.median.toFixed(3)}`
     );
   }
 }
