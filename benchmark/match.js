@@ -1,20 +1,18 @@
 const { match } = require("../packages/pinyin-pro/dist");
 
-const TEXT_64 = "汉语拼音是中文信息处理的基础能力之一，多音字识别和自定义词典导入。";
-const TEXT_256 = TEXT_64.repeat(4);
-const TEXT_1K = TEXT_64.repeat(16);
+const BASE_TEXT = "汉语拼音是中文信息处理的基础能力之一，多音字识别和自定义词典导入。";
+
+const TEXTS = [
+  { name: "33chars", text: BASE_TEXT },
+  { name: "132chars", text: BASE_TEXT.repeat(4) },
+  { name: "528chars", text: BASE_TEXT.repeat(16) },
+];
 
 const QUERIES = [
   { name: "pinyin-short", query: "hanyu" },
   { name: "pinyin-long", query: "hanyupinyinshizhongwenxinxichuli" },
   { name: "initials", query: "hypy" },
   { name: "late-fail", query: "hanyupinyinshizhongwenxinxichulixyz" },
-];
-
-const TEXTS = [
-  { name: "64chars", text: TEXT_64 },
-  { name: "256chars", text: TEXT_256 },
-  { name: "1kchars", text: TEXT_1K },
 ];
 
 const PRECISIONS = ["first", "start", "every"];
