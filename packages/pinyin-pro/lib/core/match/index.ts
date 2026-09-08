@@ -198,8 +198,8 @@ const matchAboveStart = (
       }
     }
     // 当前字符的拼音 forms 只依赖字符和 options，与 j 无关。
-    // 每一行只计算一次，避免在 DP 内层循环重复查字典、拆分和去音调。
-    const muls = getMatchPinyin(words[i - 1], options);
+    // 按需计算一次，既复用结果，也保留无可达状态时的短路。
+    let muls: string[] | undefined;
     // 第 i 个字参与匹配
     for (let j = 1; j <= pinyin.length; j++) {
       if (!dp[i - 1][j - 1]) {
@@ -209,6 +209,8 @@ const matchAboveStart = (
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
+        muls ??= getMatchPinyin(words[i - 1], options);
+
         // 非中文匹配
         if (words[i - 1] === pinyin[j - 1]) {
           const matches = [...dp[i - 1][j - 1], i - 1];
