@@ -175,34 +175,32 @@ const matchAboveStart = (
 ) => {
   const words = splitString(text);
 
-  // 二维数组 dp[i][j]，i 表示遍历到的 text 索引+1, j 表示遍历到的 pinyin 的索引+1
-  const dp = Array(words.length + 1);
-  // 使用哨兵初始化 dp
-  for (let i = 0; i < dp.length; i++) {
-    dp[i] = Array(pinyin.length + 1);
-    dp[i][0] = [];
-  }
-  for (let i = 0; i < dp[0].length; i++) {
-    dp[0][i] = [];
+  // 只保留上一行和当前行，避免为所有 text × pinyin 状态预分配二维矩阵。
+  let prev = Array(pinyin.length + 1);
+  for (let j = 0; j < prev.length; j++) {
+    prev[j] = [];
   }
 
   // 动态规划匹配
-  for (let i = 1; i < dp.length; i++) {
+  for (let i = 1; i <= words.length; i++) {
+    const current = Array(pinyin.length + 1);
+    current[0] = [];
+
     // options.continuous 为 false 或 options.space 为 ignore 且当前为空格时，第 i 个字可以不参与匹配
     if (
       !options.continuous ||
       (options.space == "ignore" && words[i - 1] === " ")
     ) {
       for (let j = 1; j <= pinyin.length; j++) {
-        dp[i][j - 1] = dp[i - 1][j - 1];
+        current[j - 1] = prev[j - 1];
       }
     }
     // 第 i 个字参与匹配
     for (let j = 1; j <= pinyin.length; j++) {
-      if (!dp[i - 1][j - 1]) {
+      if (!prev[j - 1]) {
         // 第 i - 1 已经匹配失败，停止向后匹配
         continue;
-      } else if (j !== 1 && !dp[i - 1][j - 1].length) {
+      } else if (j !== 1 && !prev[j - 1].length) {
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
@@ -210,14 +208,14 @@ const matchAboveStart = (
 
         // 非中文匹配
         if (words[i - 1] === pinyin[j - 1]) {
-          const matches = [...dp[i - 1][j - 1], i - 1];
+          const matches = [...prev[j - 1], i - 1];
           // 记录最长的可匹配下标数组
-          if (!dp[i][j] || matches.length > dp[i][j].length) {
-            dp[i][j] = matches;
+          if (!current[j] || matches.length > current[j].length) {
+            current[j] = matches;
           }
           // pinyin 参数完全匹配完成，记录结果
           if (j === pinyin.length) {
-            return dp[i][j];
+            return current[j];
           }
         }
 
@@ -240,7 +238,7 @@ const matchAboveStart = (
             return false;
           });
           if (last) {
-            return [...dp[i - 1][j - 1], i - 1];
+            return [...prev[j - 1], i - 1];
           }
         }
 
@@ -250,13 +248,13 @@ const matchAboveStart = (
         if (precision === "start") {
           muls.forEach((py) => {
             let end = j;
-            const matches = [...dp[i - 1][j - 1], i - 1];
+            const matches = [...prev[j - 1], i - 1];
             while (
               end <= pinyin.length &&
               py.startsWith(pinyin.slice(j - 1, end))
             ) {
-              if (!dp[i][end] || matches.length > dp[i][end].length) {
-                dp[i][end] = matches;
+              if (!current[end] || matches.length > current[end].length) {
+                current[end] = matches;
               }
               end++;
             }
@@ -266,10 +264,10 @@ const matchAboveStart = (
         // precision 为 first 时，匹配首字母
         if (precision === "first") {
           if (muls.some((py) => py[0] === pinyin[j - 1])) {
-            const matches = [...dp[i - 1][j - 1], i - 1];
+            const matches = [...prev[j - 1], i - 1];
             // 记录最长的可匹配下标数组
-            if (!dp[i][j] || matches.length > dp[i][j].length) {
-              dp[i][j] = matches;
+            if (!current[j] || matches.length > current[j].length) {
+              current[j] = matches;
             }
           }
         }
@@ -279,15 +277,20 @@ const matchAboveStart = (
           (py: string) => py === pinyin.slice(j - 1, j - 1 + py.length)
         );
         if (completeMatch) {
-          const matches = [...dp[i - 1][j - 1], i - 1];
+          const matches = [...prev[j - 1], i - 1];
           const endIndex = j - 1 + completeMatch.length;
           // 记录最长的可匹配下标数组
-          if (!dp[i][endIndex] || matches.length > dp[i][endIndex].length) {
-            dp[i][endIndex] = matches;
+          if (
+            !current[endIndex] ||
+            matches.length > current[endIndex].length
+          ) {
+            current[endIndex] = matches;
           }
         }
       }
     }
+
+    prev = current;
   }
   return null;
 };
