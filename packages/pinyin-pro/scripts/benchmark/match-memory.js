@@ -1,7 +1,7 @@
 const { spawnSync } = require("node:child_process");
 const path = require("node:path");
 
-const distPath = path.resolve(__dirname, "../../dist/index.js");
+const distPath = process.env.PINYIN_PRO_DIST || path.resolve(__dirname, "../../dist/index.js");
 const samples = Number(process.env.BENCH_SAMPLES || 5);
 
 const SCENARIOS = [
