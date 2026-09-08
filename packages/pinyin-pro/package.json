@@ -14,7 +14,8 @@
     "accuracy": "ts-node --project scripts/tsconfig.json scripts/benchmark/accuracy.ts",
     "size": "ts-node --project scripts/tsconfig.json scripts/size.ts",
     "commit": "git-cz",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bench:node-ac-build": "node scripts/benchmark/node-ac-build.js"
   },
   "repository": {
     "type": "git",
