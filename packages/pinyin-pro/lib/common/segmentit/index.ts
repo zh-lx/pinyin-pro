@@ -245,8 +245,6 @@ export function ensureAcBuilt() {
 export function scheduleAcBuild() {
   if (typeof requestIdleCallback === "function") {
     requestIdleCallback(() => ensureAcBuilt());
-  } else {
-    setTimeout(ensureAcBuilt, 0);
   }
 }
 
