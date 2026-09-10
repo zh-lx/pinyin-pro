@@ -50,6 +50,17 @@ describe('segmentit', () => {
     vi.unstubAllGlobals();
   });
 
+  it('[segmentit]keep AC build lazy without requestIdleCallback', () => {
+    const setTimeout = vi.spyOn(globalThis, 'setTimeout');
+    vi.stubGlobal('requestIdleCallback', undefined);
+
+    scheduleAcBuild();
+
+    expect(setTimeout).not.toHaveBeenCalled();
+    setTimeout.mockRestore();
+    vi.unstubAllGlobals();
+  });
+
   it('[segmentit]ignore scheduling errors during initialization', () => {
     vi.stubGlobal('setTimeout', () => {
       throw new Error('timers are not allowed in global scope');
