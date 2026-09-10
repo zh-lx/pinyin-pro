@@ -346,7 +346,7 @@ describe("segment surname mode", () => {
         format: OutputFormat.PinyinString
       }
     );
-    expect(result).to.be.equal("zēng xiǎo xián nǐhǎo")
+    expect(result).to.be.equal("zēng xiǎo xián níhǎo")
   });
 });
 

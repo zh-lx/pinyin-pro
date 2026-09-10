@@ -348,18 +348,20 @@ pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none', type: 'array' })
     option: 'toneSandhi',
     type: 'boolean',
     description:
-      'whether to apply smart tone change to <code>一</code> and <code>不</code>, reference <a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>',
+      'whether to apply smart tone change to <code>一</code> and <code>不</code>, reference <a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>, and to two consecutive third-tone syllables (e.g. 你好 → ní hǎo), reference <a href=https://en.wikipedia.org/wiki/Tone_sandhi#Mandarin_Chinese target="_blank">Wikipedia</a>',
     default: 'true',
     children: [
       {
         value: 'true',
         desc: 'apply',
-        example: `pinyin('一旦被发现', { toneSandhi: true }); // 'yí dàn bèi fā xiàn'`,
+        example: `pinyin('一旦被发现', { toneSandhi: true }); // 'yí dàn bèi fā xiàn'
+pinyin('你好', { toneSandhi: true }); // 'ní hǎo'`,
       },
       {
         value: 'false',
         desc: 'not apply',
-        example: `pinyin('一旦被发现', { toneSandhi: false }); // 'yī dàn bèi fā xiàn'`,
+        example: `pinyin('一旦被发现', { toneSandhi: false }); // 'yī dàn bèi fā xiàn'
+pinyin('你好', { toneSandhi: false }); // 'nǐ hǎo'`,
       },
     ],
   },
