@@ -50,6 +50,15 @@ describe('segmentit', () => {
     vi.unstubAllGlobals();
   });
 
+  it('[segmentit]ignore scheduling errors during initialization', () => {
+    vi.stubGlobal('setTimeout', () => {
+      throw new Error('timers are not allowed in global scope');
+    });
+
+    expect(() => scheduleAcBuild()).not.toThrow();
+    vi.unstubAllGlobals();
+  });
+
   it('[surname]segmentit-max-probability', () => {
     const result = pinyin('小明硕士毕业于中国科学院计算所，后在日本京都大学深造');
     expect(result).to.be.equal('xiǎo míng shuò shì bì yè yú zhōng guó kē xué yuàn jì suàn suǒ ， hòu zài rì běn jīng dū dà xué shēn zào');

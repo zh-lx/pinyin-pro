@@ -243,10 +243,14 @@ export function ensureAcBuilt() {
 }
 
 export function scheduleAcBuild() {
-  if (typeof requestIdleCallback === "function") {
-    requestIdleCallback(() => ensureAcBuilt());
-  } else {
-    setTimeout(ensureAcBuilt, 0);
+  try {
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => ensureAcBuilt());
+    } else {
+      setTimeout(ensureAcBuilt, 0);
+    }
+  } catch {
+    // Some runtimes forbid scheduling asynchronous work during module initialization.
   }
 }
 
