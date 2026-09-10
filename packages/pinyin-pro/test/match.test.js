@@ -2,6 +2,43 @@ import { match, customPinyin, clearCustomDict } from "../lib/index";
 import { expect, describe, it } from "vitest";
 
 describe("match", () => {
+  it("[match]keeps the longest path across shared prefixes", () => {
+    expect(match("哈啊哈", "haha", {
+      precision: "start",
+      lastPrecision: "every",
+    })).to.deep.equal([0, 1, 2]);
+  });
+
+  it("[match]keeps the first path when lengths are equal", () => {
+    expect(match("哈哈哈", "hh", {
+      precision: "first",
+      lastPrecision: "first",
+    })).to.deep.equal([0, 1]);
+    expect(match("哈哈哈", "haha", {
+      precision: "every",
+      lastPrecision: "every",
+    })).to.deep.equal([0, 1]);
+  });
+
+  it("[match]keeps literal matches and skipped character indices", () => {
+    expect(match("哈a哈a", "haa", {
+      precision: "start",
+      lastPrecision: "every",
+    })).to.deep.equal([0, 1]);
+    expect(match("𠮷哈 空 哈", "hh")).to.deep.equal([2, 6]);
+    expect(match("哈 哈", "hh", { continuous: true })).to.deep.equal([0, 2]);
+  });
+
+  it("[match]returns a long path and rejects a final mismatch", () => {
+    const text = "汉".repeat(128);
+    const query = "h".repeat(128);
+    expect(match(text, query, {
+      precision: "first",
+      lastPrecision: "first",
+    })).to.deep.equal(Array.from({ length: 128 }, (_, index) => index));
+    expect(match(text, query + "z", { precision: "first" })).to.deep.equal(null);
+  });
+
   it("[match]default", () => {
     const result = match("欢迎使用汉语拼音", "hy");
     expect(result).to.deep.equal([0, 1]);
