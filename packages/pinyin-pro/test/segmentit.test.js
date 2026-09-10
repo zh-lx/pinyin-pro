@@ -62,7 +62,7 @@ describe('segmentit', () => {
   });
 
   it('[segmentit]ignore scheduling errors during initialization', () => {
-    vi.stubGlobal('setTimeout', () => {
+    vi.stubGlobal('requestIdleCallback', () => {
       throw new Error('timers are not allowed in global scope');
     });
 

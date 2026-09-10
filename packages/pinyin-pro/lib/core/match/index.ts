@@ -53,7 +53,7 @@ const TONE_MAP: Record<string, string> = {
 };
 const TONE_RE = new RegExp(Object.keys(TONE_MAP).join("|"), "g");
 const stripTone = (pinyin: string) =>
-  pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch] ?? ch);
+  pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch]);
 
 const getMatchPinyin = (char: string, options: Required<MatchOptions>) => {
   const pinyins = getAllPinyin(char);
