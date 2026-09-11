@@ -223,19 +223,21 @@ const matchAboveStart = (
 
         // 剩余长度小于等于 MAX_PINYIN_LENGTH(6) 时，有可能是最后一个拼音了
         if (pinyin.length - j <= MAX_PINYIN_LENGTH) {
+          const remainingLength = pinyin.length - j + 1;
+          const remainingPinyin = pinyin.slice(j - 1);
           // lastPrecision 参数处理
           const last = muls.some((py) => {
             if (options.lastPrecision === "any") {
-              return py.includes(pinyin.slice(j - 1, pinyin.length));
+              return py.includes(remainingPinyin);
             }
             if (options.lastPrecision === "start") {
-              return py.startsWith(pinyin.slice(j - 1, pinyin.length));
+              return py.startsWith(remainingPinyin);
             }
             if (options.lastPrecision === "first") {
-              return py[0] === pinyin.slice(j - 1, pinyin.length);
+              return remainingLength === 1 && py[0] === pinyin[j - 1];
             }
             if (options.lastPrecision === "every") {
-              return py === pinyin.slice(j - 1, pinyin.length);
+              return py.length === remainingLength && pinyin.startsWith(py, j - 1);
             }
             return false;
           });
@@ -249,16 +251,24 @@ const matchAboveStart = (
         // precision 为 start 时，匹配开头
         if (precision === "start") {
           muls.forEach((py) => {
-            let end = j;
             const matches = [...pre[j - 1], i - 1];
-            while (
-              end <= pinyin.length &&
-              py.startsWith(pinyin.slice(j - 1, end))
-            ) {
+            const offset = j - 1;
+            const maxLength = Math.min(py.length, pinyin.length - offset);
+            let matchedLength = 0;
+            if (maxLength === py.length && pinyin.startsWith(py, offset)) {
+              matchedLength = maxLength;
+            } else {
+              while (
+                matchedLength < maxLength &&
+                py[matchedLength] === pinyin[offset + matchedLength]
+              ) {
+                matchedLength++;
+              }
+            }
+            for (let end = j; end <= offset + matchedLength; end++) {
               if (!current[end] || matches.length > current[end].length) {
                 current[end] = matches;
               }
-              end++;
             }
           });
         }
@@ -276,7 +286,7 @@ const matchAboveStart = (
 
         // 匹配当前汉字的完整拼音
         const completeMatch = muls.find(
-          (py: string) => py === pinyin.slice(j - 1, j - 1 + py.length)
+          (py: string) => pinyin.startsWith(py, j - 1)
         );
         if (completeMatch) {
           const matches = [...pre[j - 1], i - 1];
