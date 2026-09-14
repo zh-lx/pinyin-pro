@@ -276,32 +276,16 @@ const matchAboveStart = (
         // precision 为 start 时，匹配开头
         if (precision === "start") {
           muls.forEach((py) => {
+            let end = j;
             const matches = appendMatchPath(previous, i - 1);
-            const pinyinOffset = j - 1;
-            const maxLength = Math.min(
-              py.length,
-              pinyin.length - pinyinOffset
-            );
-            let matchedLength = 0;
-            // 完整匹配使用 startsWith 快速路径。
-            // 部分匹配才逐字符计算前缀长度。
-            if (
-              maxLength === py.length &&
-              pinyin.startsWith(py, pinyinOffset)
+            while (
+              end <= pinyin.length &&
+              py.startsWith(pinyin.slice(j - 1, end))
             ) {
-              matchedLength = maxLength;
-            } else {
-              while (
-                matchedLength < maxLength &&
-                py[matchedLength] === pinyin[pinyinOffset + matchedLength]
-              ) {
-                matchedLength++;
-              }
-            }
-            for (let end = j; end <= pinyinOffset + matchedLength; end++) {
               if (matches.length > (current[end]?.length ?? -1)) {
                 current[end] = matches;
               }
+              end++;
             }
           });
         }
