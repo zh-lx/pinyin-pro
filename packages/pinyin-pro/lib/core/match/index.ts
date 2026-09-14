@@ -260,7 +260,9 @@ const matchAboveStart = (
               return remainingLength === 1 && py[0] === pinyin[j - 1];
             }
             if (options.lastPrecision === "every") {
-              return py.length === remainingLength && pinyin.startsWith(py, j - 1);
+              return (
+                py.length === remainingLength && pinyin.startsWith(py, j - 1)
+              );
             }
             return false;
           });
@@ -275,20 +277,28 @@ const matchAboveStart = (
         if (precision === "start") {
           muls.forEach((py) => {
             const matches = appendMatchPath(previous, i - 1);
-            const offset = j - 1;
-            const maxLength = Math.min(py.length, pinyin.length - offset);
+            const pinyinOffset = j - 1;
+            const maxLength = Math.min(
+              py.length,
+              pinyin.length - pinyinOffset
+            );
             let matchedLength = 0;
-            if (maxLength === py.length && pinyin.startsWith(py, offset)) {
+            // 完整匹配使用 startsWith 快速路径。
+            // 部分匹配才逐字符计算前缀长度。
+            if (
+              maxLength === py.length &&
+              pinyin.startsWith(py, pinyinOffset)
+            ) {
               matchedLength = maxLength;
             } else {
               while (
                 matchedLength < maxLength &&
-                py[matchedLength] === pinyin[offset + matchedLength]
+                py[matchedLength] === pinyin[pinyinOffset + matchedLength]
               ) {
                 matchedLength++;
               }
             }
-            for (let end = j; end <= offset + matchedLength; end++) {
+            for (let end = j; end <= pinyinOffset + matchedLength; end++) {
               if (matches.length > (current[end]?.length ?? -1)) {
                 current[end] = matches;
               }
