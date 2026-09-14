@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 3.29.4
+
+- 【fix】Tolerate runtimes that forbid timers during module initialization, such as Cloudflare Workers [#364](https://github.com/zh-lx/pinyin-pro/pull/364)
+- 【perf】`match`: Reuse per-character pinyin forms in DP to avoid repeated computation [#362](https://github.com/zh-lx/pinyin-pro/pull/362)、[#360](https://github.com/zh-lx/pinyin-pro/pull/360)
+- 【perf】`segmentit`: Stop prebuilding the AC automaton via `setTimeout` in Node to further reduce `import` cost [#361](https://github.com/zh-lx/pinyin-pro/pull/361)
+
 ## 3.29.3
 
 Thank you [@luojiyin1987](https://github.com/luojiyin1987) for continued optimizations to the segmentation module, the performance of the `pinyin` API has been further improved (about 20%+):
