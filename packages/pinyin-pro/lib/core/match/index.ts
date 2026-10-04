@@ -93,11 +93,12 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
   if (completeOptions.space === "ignore") {
     pinyin = pinyin.replace(/\s/g, "");
   }
+  const words = splitString(text);
   const result =
     options?.precision === "any"
-      ? matchAny(text, pinyin, completeOptions)
-      : matchAboveStart(text, pinyin, completeOptions);
-  return processDoubleUnicodeIndex(text, result);
+      ? matchAny(words, pinyin, completeOptions)
+      : matchAboveStart(words, pinyin, completeOptions);
+  return processDoubleUnicodeIndex(words, result);
 };
 
 // 检测两个拼音最大的匹配长度
@@ -112,12 +113,11 @@ const getMatchLength = (pinyin1: string, pinyin2: string) => {
 };
 
 const matchAny = (
-  text: string,
+  words: string[],
   pinyin: string,
   options: Required<MatchOptions>
 ) => {
   let result = [];
-  const words = splitString(text);
   const ignoreSpace = options.space === "ignore";
   for (let i = 0; i < words.length; i++) {
     // 空格字符
@@ -190,12 +190,10 @@ function restoreMatchPath(path: MatchPath): number[] {
 }
 
 const matchAboveStart = (
-  text: string,
+  words: string[],
   pinyin: string,
   options: Required<MatchOptions>
 ) => {
-  const words = splitString(text);
-
   // Shared paths must stay immutable because multiple states can reference them.
   const rootPath: MatchPath = { previous: null, index: -1, length: 0 };
   let pre = Array<MatchPath | undefined>(pinyin.length + 1);
@@ -322,7 +320,7 @@ const matchAboveStart = (
 
 // 对于双字节的字符，需要将 index 顺延 +1
 function processDoubleUnicodeIndex(
-  text: string,
+  words: string[],
   indexArray: number[] | null
 ): number[] | null {
   if (!indexArray) {
@@ -330,7 +328,6 @@ function processDoubleUnicodeIndex(
   }
   const result = [];
   let doubleUnicodeCount = 0;
-  const words = splitString(text);
   let i = 0;
   for (let j = 0; j < indexArray.length; j++) {
     const curIndex = indexArray[j];
