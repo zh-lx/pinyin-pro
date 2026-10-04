@@ -52,14 +52,31 @@ export class AC {
   root: TrieNode;
   dictMap = new Map<string | Symbol, Set<Pattern>>();
   queues: TrieNode[][] = [];
+  private pendingBuild: (() => void) | null = null;
 
   constructor() {
     this.root = new TrieNode(null);
   }
 
   build(patternList: Pattern[]) {
+    this.flushPendingBuild();
     this.buildTrie(patternList);
     this.buildFailPointer();
+  }
+
+  setPendingBuild(build: () => void) {
+    this.pendingBuild = build;
+  }
+
+  clearPendingBuild() {
+    this.pendingBuild = null;
+  }
+
+  private flushPendingBuild() {
+    const build = this.pendingBuild;
+    if (!build) return;
+    this.pendingBuild = null;
+    build();
   }
 
   // 构建 trie 树
@@ -159,6 +176,9 @@ export class AC {
     surname: SurnameMode,
     zhChars: string[] = splitString(text),
   ) {
+    if (this.pendingBuild) {
+      this.flushPendingBuild();
+    }
     let cur = this.root;
     let result: MatchPattern[] = [];
     for (let i = 0; i < zhChars.length; i++) {
