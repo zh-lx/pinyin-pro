@@ -11,7 +11,7 @@ import {
   getNumOfTone,
   getInitialAndFinal,
   getFirstLetter,
-  getFinalParts,
+  getFinalPartsFromFinal,
 } from "@/core/pinyin/handle";
 import { getCustomPolyphonicDict } from "../custom";
 import { splitString } from "@/common/utils";
@@ -215,7 +215,7 @@ export const handleType = (
       pinyin,
       options.initialPattern
     );
-    const { head, body, tail } = getFinalParts(pinyin);
+    const { head, body, tail } = getFinalPartsFromFinal(final);
     result.push({
       origin: item.origin,
       pinyin,
