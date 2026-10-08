@@ -69,12 +69,13 @@ export class AC {
       let cur = this.root;
       for (let i = 0; i < zhChars.length; i++) {
         let c = zhChars[i];
-        if (!cur.children.has(c)) {
-          const trieNode = new TrieNode(cur, c);
-          cur.children.set(c, trieNode);
-          this.addNodeToQueues(trieNode, i + 1);
+        let next = cur.children.get(c);
+        if (!next) {
+          next = new TrieNode(cur, c);
+          cur.children.set(c, next);
+          this.addNodeToQueues(next, i + 1);
         }
-        cur = cur.children.get(c) as TrieNode;
+        cur = next;
       }
       this.insertPattern(cur.patterns, pattern);
       pattern.node = cur;
@@ -84,27 +85,24 @@ export class AC {
 
   // 构建失败指针
   buildFailPointer() {
-    let queue: TrieNode[] = [];
-    let queueIndex = 0;
-    this.queues.forEach((_queue) => {
-      queue = queue.concat(_queue);
-    });
-    this.queues = [];
+    for (let depth = 1; depth < this.queues.length; depth++) {
+      const queue = this.queues[depth];
+      if (!queue) continue;
+      for (const node of queue) {
+        let failNode = node.parent && (node.parent.fail as TrieNode | null);
+        let key = node.key;
 
-    while (queue.length > queueIndex) {
-      let node = queue[queueIndex++] as TrieNode;
-      let failNode = node.parent && (node.parent.fail as TrieNode | null);
-      let key = node.key;
-
-      while (failNode && !failNode.children.has(key)) {
-        failNode = failNode.fail;
-      }
-      if (!failNode) {
-        node.fail = this.root;
-      } else {
-        node.fail = failNode.children.get(key) as TrieNode;
+        while (failNode && !failNode.children.has(key)) {
+          failNode = failNode.fail;
+        }
+        if (!failNode) {
+          node.fail = this.root;
+        } else {
+          node.fail = failNode.children.get(key) as TrieNode;
+        }
       }
     }
+    this.queues = [];
   }
 
   // 将 pattern 添加到 dictMap 中
