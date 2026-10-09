@@ -1,7 +1,7 @@
 import { stringLength } from "@/common/utils";
 import type { SingleWordResult } from "../../common/type";
 import { getAllPinyin, getMultiplePinyin } from "./handle";
-import { CompleteOptions } from "./index";
+import type { CompleteOptions, ToneSandhiOptions } from "./index";
 import {
   getNumOfTone,
   getInitialAndFinal,
@@ -235,16 +235,88 @@ export const middlewareType = (
   return list.map((item) => item.result).join(options.separator);
 };
 
+const thirdToneToSecondToneMap = {
+  ǎ: "á",
+  ǒ: "ó",
+  ě: "é",
+  ǐ: "í",
+  ǔ: "ú",
+  ǚ: "ǘ",
+  ň: "ń",
+  "m̌": "ḿ",
+  "ê̌": "ế",
+};
+
+// 轻量三声判断：避免在默认热路径上调用完整的 getNumOfTone
+const thirdTonePattern = /ǎ|ǒ|ě|ǐ|ǔ|ǚ|ň|m̌|ê̌/;
+
+const isThirdTone = (item: SingleWordResult) =>
+  item.isZh && thirdTonePattern.test(item.result);
+
+const convertThirdToneToSecondTone = (pinyin: string) => {
+  return pinyin.replace(
+    thirdTonePattern,
+    (thirdTone) =>
+      thirdToneToSecondToneMap[
+        thirdTone as keyof typeof thirdToneToSecondToneMap
+      ],
+  );
+};
+
+const resolveToneSandhi = (
+  toneSandhi?: boolean | ToneSandhiOptions,
+): Required<ToneSandhiOptions> => {
+  if (toneSandhi === false) {
+    return { yi: false, bu: false, thirdTone: false };
+  }
+  if (toneSandhi && typeof toneSandhi === "object") {
+    return {
+      yi: toneSandhi.yi ?? true,
+      bu: toneSandhi.bu ?? true,
+      thirdTone: toneSandhi.thirdTone ?? false,
+    };
+  }
+  return { yi: true, bu: true, thirdTone: false };
+};
+
+const applyThirdToneSandhi = (list: SingleWordResult[]) => {
+  for (let start = 0; start < list.length; ) {
+    if (!isThirdTone(list[start])) {
+      start += 1;
+      continue;
+    }
+
+    let end = start + 1;
+    while (end < list.length && isThirdTone(list[end])) {
+      end += 1;
+    }
+
+    if (end - start === 2) {
+      const pinyin = convertThirdToneToSecondTone(list[start].result);
+      list[start].result = pinyin;
+      list[start].originPinyin = pinyin;
+    }
+
+    start = end;
+  }
+};
+
 // 是否开启变调
 export const middlewareToneSandhi = (
   list: SingleWordResult[],
-  toneSandhi: boolean,
+  toneSandhi?: boolean | ToneSandhiOptions,
 ): SingleWordResult[] => {
-  if (toneSandhi === false) {
+  const { yi, bu, thirdTone } = resolveToneSandhi(toneSandhi);
+
+  if (thirdTone) {
+    applyThirdToneSandhi(list);
+  }
+
+  if (!yi || !bu) {
     list.forEach((item) => {
-      if (item.origin === "一") {
+      if (!yi && item.origin === "一") {
         item.result = item.originPinyin = "yī";
-      } else if (item.origin === "不") {
+      } else if (!bu && item.origin === "不") {
         item.result = item.originPinyin = "bù";
       }
     });

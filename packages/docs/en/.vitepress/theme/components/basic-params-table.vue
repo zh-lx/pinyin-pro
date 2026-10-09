@@ -346,20 +346,29 @@ pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none', type: 'array' })
   },
   {
     option: 'toneSandhi',
-    type: 'boolean',
+    type: 'boolean | object',
     description:
-      'whether to apply smart tone change to <code>一</code> and <code>不</code>, reference <a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>',
+      'Tone sandhi control. A boolean keeps the old meaning: true only applies sandhi for <code>一</code> and <code>不</code> (see <a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">Wiktionary</a>), false turns all sandhi off. An object can set <code>yi</code>, <code>bu</code>, and <code>thirdTone</code> separately (two consecutive third tones, e.g. 你好 → ní hǎo; see <a href=https://en.wikipedia.org/wiki/Tone_sandhi#Mandarin_Chinese target="_blank">Wikipedia</a>)',
     default: 'true',
     children: [
       {
         value: 'true',
-        desc: 'apply',
-        example: `pinyin('一旦被发现', { toneSandhi: true }); // 'yí dàn bèi fā xiàn'`,
+        desc: 'apply sandhi for 一 and 不, not consecutive third tones',
+        example: `pinyin('一旦被发现'); // 'yí dàn bèi fā xiàn'
+pinyin('你好'); // 'nǐ hǎo'`,
       },
       {
         value: 'false',
-        desc: 'not apply',
-        example: `pinyin('一旦被发现', { toneSandhi: false }); // 'yī dàn bèi fā xiàn'`,
+        desc: 'disable all sandhi',
+        example: `pinyin('一旦被发现', { toneSandhi: false }); // 'yī dàn bèi fā xiàn'
+pinyin('你好', { toneSandhi: false }); // 'nǐ hǎo'`,
+      },
+      {
+        value: '{ yi, bu, thirdTone }',
+        desc: 'control each rule. yi/bu default to true, thirdTone defaults to false',
+        example: `pinyin('一把', { toneSandhi: { yi: false } }); // 'yī bǎ'
+pinyin('不是', { toneSandhi: { bu: false } }); // 'bù shì'
+pinyin('你好', { toneSandhi: { thirdTone: true } }); // 'ní hǎo'`,
       },
     ],
   },

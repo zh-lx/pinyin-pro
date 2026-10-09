@@ -347,6 +347,13 @@ describe("segment surname mode", () => {
       }
     );
     expect(result).to.be.equal("zēng xiǎo xián nǐhǎo")
+    expect(
+      segment("曾小贤你好", {
+        mode: "surname",
+        format: OutputFormat.PinyinString,
+        toneSandhi: { thirdTone: true },
+      })
+    ).to.be.equal("zēng xiǎo xián níhǎo")
   });
 });
 

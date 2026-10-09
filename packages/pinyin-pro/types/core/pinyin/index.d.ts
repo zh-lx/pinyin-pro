@@ -1,5 +1,19 @@
 import { TokenizationAlgorithm } from "../../common/segmentit";
 import type { PinyinMode, SurnameMode, CommonOptions } from "../../common/type";
+export interface ToneSandhiOptions {
+    /**
+     * @description 是否开启「一」的变调。对象写法下默认开启。
+     */
+    yi?: boolean;
+    /**
+     * @description 是否开启「不」的变调。对象写法下默认开启。
+     */
+    bu?: boolean;
+    /**
+     * @description 是否开启两个连续三声的变调（如 你好 → ní hǎo）。对象写法下默认关闭。
+     */
+    thirdTone?: boolean;
+}
 export interface BasicOptions extends CommonOptions {
     /**
      * @description 是否返回单个汉字的所有多音，仅针对输入的 word 为单个汉字生效
@@ -21,11 +35,12 @@ export interface BasicOptions extends CommonOptions {
      */
     surname?: SurnameMode;
     /**
-     * @description 是否开启「一」和 「不」字的变调。默认开启。参考：https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83
-     * @value true：开启
-     * @value false：不开启
+     * @description 变调控制。传入 boolean 时保持旧语义：true 只开启「一」「不」变调，false 关闭全部变调。传入对象时可分别控制「一」「不」和连续三声。
+     * @value true：开启「一」「不」变调（默认值，不含连续三声）
+     * @value false：关闭全部变调
+     * @value { yi, bu, thirdTone }：分别控制。「一」「不」默认开启，连续三声默认关闭
      */
-    toneSandhi?: boolean;
+    toneSandhi?: boolean | ToneSandhiOptions;
     /**
      * @description 要使用的分词算法。默认为逆向最大匹配分词
      * @value 1：逆向最大匹配分词(速度最快，准确率适中)

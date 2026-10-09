@@ -1,5 +1,5 @@
 import type { SingleWordResult } from "../../common/type";
-import { CompleteOptions } from "./index";
+import type { CompleteOptions, ToneSandhiOptions } from "./index";
 export declare const validateType: (word: unknown) => boolean;
 export declare function isNonZhScope(char: string, scope?: RegExp): boolean;
 export declare const middleWareNonZh: (list: SingleWordResult[], options: CompleteOptions) => SingleWordResult[];
@@ -22,4 +22,4 @@ export declare const middlewareType: (list: SingleWordResult[], options: Complet
     inZhRange: boolean;
     result: string;
 }[];
-export declare const middlewareToneSandhi: (list: SingleWordResult[], toneSandhi: boolean) => SingleWordResult[];
+export declare const middlewareToneSandhi: (list: SingleWordResult[], toneSandhi?: boolean | ToneSandhiOptions) => SingleWordResult[];

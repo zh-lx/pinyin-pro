@@ -328,7 +328,7 @@ interface SegmentOptions {
   segmentit?: TokenizationAlgorithm;
   surname?: 'off' | 'head' | 'all';
   mode?: 'normal' | 'surname';
-  toneSandhi?: boolean;
+  toneSandhi?: boolean | { yi?: boolean; bu?: boolean; thirdTone?: boolean };
   nonZhScope?: RegExp;
   separator?: string;
   format?: OutputFormat;

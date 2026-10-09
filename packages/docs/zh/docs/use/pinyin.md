@@ -309,7 +309,7 @@ interface BasicOptions {
     segmentit?: TokenizationAlgorithm; // v3.20.0+
     surname?: 'off' | 'head' | 'all'; // v3.21.0+
     mode?: 'normal' | 'surname'; // 已废弃，使用 surname 替代
-    toneSandhi?: boolean;
+    toneSandhi?: boolean | { yi?: boolean; bu?: boolean; thirdTone?: boolean };
     nonZhScope?: RegExp; // 3.24.0+
     initialPattern?: 'standard' | 'yw'; // 3.27.0+
     traditional?: boolean; // 3.28.0+
