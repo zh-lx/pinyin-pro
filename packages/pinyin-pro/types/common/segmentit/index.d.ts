@@ -33,8 +33,12 @@ export declare class AC {
     root: TrieNode;
     dictMap: Map<string | Symbol, Set<Pattern>>;
     queues: TrieNode[][];
+    private pendingBuild;
     constructor();
     build(patternList: Pattern[]): void;
+    setPendingBuild(build: () => void): void;
+    clearPendingBuild(): void;
+    private flushPendingBuild;
     buildTrie(patternList: Pattern[]): void;
     buildFailPointer(): void;
     addPatternToDictMap(pattern: Pattern): void;

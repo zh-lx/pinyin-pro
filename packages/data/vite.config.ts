@@ -9,6 +9,7 @@ export default defineConfig({
         'src/modern.ts',
         'src/complete.ts',
         'src/traditional.ts',
+        'src/buddhist.ts',
       ],
       formats: ['es', 'cjs'],
       fileName: '[name]',

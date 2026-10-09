@@ -53,7 +53,7 @@ const TONE_MAP: Record<string, string> = {
 };
 const TONE_RE = new RegExp(Object.keys(TONE_MAP).join("|"), "g");
 const stripTone = (pinyin: string) =>
-  pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch] ?? ch);
+  pinyin.replace(TONE_RE, (ch) => TONE_MAP[ch]);
 
 const getMatchPinyin = (char: string, options: Required<MatchOptions>) => {
   const pinyins = getAllPinyin(char);
@@ -93,11 +93,12 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
   if (completeOptions.space === "ignore") {
     pinyin = pinyin.replace(/\s/g, "");
   }
+  const words = splitString(text);
   const result =
     options?.precision === "any"
-      ? matchAny(text, pinyin, completeOptions)
-      : matchAboveStart(text, pinyin, completeOptions);
-  return processDoubleUnicodeIndex(text, result);
+      ? matchAny(words, pinyin, completeOptions)
+      : matchAboveStart(words, pinyin, completeOptions);
+  return processDoubleUnicodeIndex(words, result);
 };
 
 // 检测两个拼音最大的匹配长度
@@ -112,12 +113,11 @@ const getMatchLength = (pinyin1: string, pinyin2: string) => {
 };
 
 const matchAny = (
-  text: string,
+  words: string[],
   pinyin: string,
   options: Required<MatchOptions>
 ) => {
   let result = [];
-  const words = splitString(text);
   const ignoreSpace = options.space === "ignore";
   for (let i = 0; i < words.length; i++) {
     // 空格字符
@@ -168,79 +168,104 @@ const matchAny = (
   return result.length ? result : null;
 };
 
+type MatchPath = {
+  readonly previous: MatchPath | null;
+  readonly index: number;
+  readonly length: number;
+};
+
+const appendMatchPath = (previous: MatchPath, index: number): MatchPath => ({
+  previous,
+  index,
+  length: previous.length + 1,
+});
+
+function restoreMatchPath(path: MatchPath): number[] {
+  const result = Array<number>(path.length);
+  while (path.previous) {
+    result[path.length - 1] = path.index;
+    path = path.previous;
+  }
+  return result;
+}
+
 const matchAboveStart = (
-  text: string,
+  words: string[],
   pinyin: string,
   options: Required<MatchOptions>
 ) => {
-  const words = splitString(text);
-
-  // 二维数组 dp[i][j]，i 表示遍历到的 text 索引+1, j 表示遍历到的 pinyin 的索引+1
-  const dp = Array(words.length + 1);
-  // 使用哨兵初始化 dp
-  for (let i = 0; i < dp.length; i++) {
-    dp[i] = Array(pinyin.length + 1);
-    dp[i][0] = [];
-  }
-  for (let i = 0; i < dp[0].length; i++) {
-    dp[0][i] = [];
+  // Shared paths must stay immutable because multiple states can reference them.
+  const rootPath: MatchPath = { previous: null, index: -1, length: 0 };
+  let pre = Array<MatchPath | undefined>(pinyin.length + 1);
+  for (let i = 0; i < pre.length; i++) {
+    pre[i] = rootPath;
   }
 
   // 动态规划匹配
-  for (let i = 1; i < dp.length; i++) {
+  for (let i = 1; i <= words.length; i++) {
+    const current = Array<MatchPath | undefined>(pinyin.length + 1);
+    current[0] = rootPath;
     // options.continuous 为 false 或 options.space 为 ignore 且当前为空格时，第 i 个字可以不参与匹配
     if (
       !options.continuous ||
       (options.space == "ignore" && words[i - 1] === " ")
     ) {
       for (let j = 1; j <= pinyin.length; j++) {
-        dp[i][j - 1] = dp[i - 1][j - 1];
+        current[j - 1] = pre[j - 1];
       }
     }
+    // 当前字符的拼音 forms 只依赖字符和 options，与 j 无关。
+    // 按需计算一次，既复用结果，也保留无可达状态时的短路。
+    let muls: string[] | undefined;
     // 第 i 个字参与匹配
     for (let j = 1; j <= pinyin.length; j++) {
-      if (!dp[i - 1][j - 1]) {
+      const previous = pre[j - 1];
+      if (!previous) {
         // 第 i - 1 已经匹配失败，停止向后匹配
         continue;
-      } else if (j !== 1 && !dp[i - 1][j - 1].length) {
+      } else if (j !== 1 && !previous.length) {
         // 非开头且前面的字符未匹配完成，停止向后匹配
         continue;
       } else {
-        const muls = getMatchPinyin(words[i - 1], options);
+        muls ??= getMatchPinyin(words[i - 1], options);
 
         // 非中文匹配
         if (words[i - 1] === pinyin[j - 1]) {
-          const matches = [...dp[i - 1][j - 1], i - 1];
+          const matches = appendMatchPath(previous, i - 1);
           // 记录最长的可匹配下标数组
-          if (!dp[i][j] || matches.length > dp[i][j].length) {
-            dp[i][j] = matches;
+          if (matches.length > (current[j]?.length ?? -1)) {
+            current[j] = matches;
           }
           // pinyin 参数完全匹配完成，记录结果
           if (j === pinyin.length) {
-            return dp[i][j];
+            return restoreMatchPath(current[j] ?? matches);
           }
         }
 
         // 剩余长度小于等于 MAX_PINYIN_LENGTH(6) 时，有可能是最后一个拼音了
         if (pinyin.length - j <= MAX_PINYIN_LENGTH) {
+          const remainingLength = pinyin.length - j + 1;
+          const remainingPinyin = pinyin.slice(j - 1);
           // lastPrecision 参数处理
           const last = muls.some((py) => {
             if (options.lastPrecision === "any") {
-              return py.includes(pinyin.slice(j - 1, pinyin.length));
+              return py.includes(remainingPinyin);
             }
             if (options.lastPrecision === "start") {
-              return py.startsWith(pinyin.slice(j - 1, pinyin.length));
+              return py.startsWith(remainingPinyin);
             }
             if (options.lastPrecision === "first") {
-              return py[0] === pinyin.slice(j - 1, pinyin.length);
+              return remainingLength === 1 && py[0] === pinyin[j - 1];
             }
             if (options.lastPrecision === "every") {
-              return py === pinyin.slice(j - 1, pinyin.length);
+              return (
+                py.length === remainingLength && pinyin.startsWith(py, j - 1)
+              );
             }
             return false;
           });
           if (last) {
-            return [...dp[i - 1][j - 1], i - 1];
+            return restoreMatchPath(appendMatchPath(previous, i - 1));
           }
         }
 
@@ -250,13 +275,13 @@ const matchAboveStart = (
         if (precision === "start") {
           muls.forEach((py) => {
             let end = j;
-            const matches = [...dp[i - 1][j - 1], i - 1];
+            const matches = appendMatchPath(previous, i - 1);
             while (
               end <= pinyin.length &&
               py.startsWith(pinyin.slice(j - 1, end))
             ) {
-              if (!dp[i][end] || matches.length > dp[i][end].length) {
-                dp[i][end] = matches;
+              if (matches.length > (current[end]?.length ?? -1)) {
+                current[end] = matches;
               }
               end++;
             }
@@ -266,35 +291,36 @@ const matchAboveStart = (
         // precision 为 first 时，匹配首字母
         if (precision === "first") {
           if (muls.some((py) => py[0] === pinyin[j - 1])) {
-            const matches = [...dp[i - 1][j - 1], i - 1];
+            const matches = appendMatchPath(previous, i - 1);
             // 记录最长的可匹配下标数组
-            if (!dp[i][j] || matches.length > dp[i][j].length) {
-              dp[i][j] = matches;
+            if (matches.length > (current[j]?.length ?? -1)) {
+              current[j] = matches;
             }
           }
         }
 
         // 匹配当前汉字的完整拼音
         const completeMatch = muls.find(
-          (py: string) => py === pinyin.slice(j - 1, j - 1 + py.length)
+          (py: string) => pinyin.startsWith(py, j - 1)
         );
         if (completeMatch) {
-          const matches = [...dp[i - 1][j - 1], i - 1];
+          const matches = appendMatchPath(previous, i - 1);
           const endIndex = j - 1 + completeMatch.length;
           // 记录最长的可匹配下标数组
-          if (!dp[i][endIndex] || matches.length > dp[i][endIndex].length) {
-            dp[i][endIndex] = matches;
+          if (matches.length > (current[endIndex]?.length ?? -1)) {
+            current[endIndex] = matches;
           }
         }
       }
     }
+    pre = current;
   }
   return null;
 };
 
 // 对于双字节的字符，需要将 index 顺延 +1
 function processDoubleUnicodeIndex(
-  text: string,
+  words: string[],
   indexArray: number[] | null
 ): number[] | null {
   if (!indexArray) {
@@ -302,7 +328,6 @@ function processDoubleUnicodeIndex(
   }
   const result = [];
   let doubleUnicodeCount = 0;
-  const words = splitString(text);
   let i = 0;
   for (let j = 0; j < indexArray.length; j++) {
     const curIndex = indexArray[j];

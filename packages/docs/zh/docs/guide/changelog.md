@@ -1,5 +1,11 @@
 # 更新日志
 
+## 3.29.4
+
+- 【fix】兼容 Cloudflare Workers 等运行时在模块初始化阶段禁用定时器的限制 [#364](https://github.com/zh-lx/pinyin-pro/pull/364)
+- 【perf】`match`: 优化 DP 过程中的重复计算以及内存占用 [#362](https://github.com/zh-lx/pinyin-pro/pull/362)、[#360](https://github.com/zh-lx/pinyin-pro/pull/360)
+- 【perf】`segmentit`: Node 环境下不再通过 `setTimeout` 预构建 AC 自动机，进一步降低 `import` 开销 [#361](https://github.com/zh-lx/pinyin-pro/pull/361)
+
 ## 3.29.3
 
 感谢 [@luojiyin1987](https://github.com/luojiyin1987) 对分词模块的持续优化，`pinyin` API 性能进一步提升(约 20%+):

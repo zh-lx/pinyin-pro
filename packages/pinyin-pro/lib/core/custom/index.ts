@@ -23,6 +23,19 @@ interface CustomPinyinOptions {
 
 const CustomDictName = Symbol('custom');
 
+function rebuildCustomPatterns() {
+  const customPatterns = Object.keys(customDict).map((word) => ({
+    zh: word,
+    pinyin: customDict[word],
+    probability: Probability.Custom + stringLength(word),
+    length: stringLength(word),
+    priority: Priority.Custom,
+    dict: CustomDictName,
+  }));
+  acTree.removeDict(CustomDictName);
+  acTree.build(customPatterns);
+}
+
 /**
  * @description: 用户自定义拼音
  * @param {{ [key: string]: string }} config 用户自定义的拼音映射（支持汉字、词语、句子的映射），若匹配到该映射，优先将汉字转换为该映射
@@ -39,16 +52,10 @@ export function customPinyin(
   words.forEach((word) => {
     customDict[word] = config[word];
   });
-  const customPatterns = Object.keys(customDict).map((word) => ({
-    zh: word,
-    pinyin: customDict[word],
-    probability: Probability.Custom + stringLength(word),
-    length: stringLength(word),
-    priority: Priority.Custom,
-    dict: CustomDictName,
-  }));
-  acTree.removeDict(CustomDictName);
-  acTree.build(customPatterns);
+  if (words.length) {
+    // AC combines consecutive updates until a lookup or later build needs them.
+    acTree.setPendingBuild(rebuildCustomPatterns);
+  }
   // add words for multiple and polyphonic
   if (options?.multiple) {
     addCustomConfigToDict(config, customMultipleDict, options.multiple);
@@ -100,6 +107,7 @@ export function clearCustomDict(dict: CustomDictType | CustomDictType[]) {
     Object.keys(customDict).forEach(function (word) {
       delete customDict[word];
     });
+    acTree.clearPendingBuild();
     acTree.removeDict(CustomDictName);
   }
   if (dict === 'multiple' || dict.indexOf('multiple') !== -1) {

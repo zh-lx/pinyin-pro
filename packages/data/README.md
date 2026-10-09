@@ -7,6 +7,7 @@
 - [@pinyin-pro/data/modern.json](https://github.com/zh-lx/pinyin-pro/blob/main/packages/data/json/modern.json): 《现代汉语词典(第 7 版)》词语拼音合集(gzip 压缩后大概 0.6 MB)
 - [@pinyin-pro/data/complete.json](https://github.com/zh-lx/pinyin-pro/blob/main/packages/data/json/complete.json): jieba 中文分词库词语拼音合集(gzip 压缩后大概 3.99 MB)
 - [@pinyin-pro/data/chars.json](https://github.com/zh-lx/pinyin-pro/blob/main/packages/data/json/chars.json): 部分补充生僻字字典(gzip 压缩后大概 0.1KB)
+- [@pinyin-pro/data/buddhist.json](https://github.com/zh-lx/pinyin-pro/blob/main/packages/data/json/buddhist.json): 佛经（佛教典籍）专用拼音词典（128 条，opt-in）
 
 ## 🔨 安装
 
@@ -43,4 +44,12 @@ addDict(CompleteDict);
 import { addDict } from 'pinyin-pro';
 import ModernDict from '@pinyin-pro/data/modern';
 addDict(ModernDict);
+```
+
+使用佛经词典（处理佛典文本时再加载，不影响默认读音）:
+
+```js
+import { addDict } from 'pinyin-pro';
+import BuddhistDict from '@pinyin-pro/data/buddhist';
+addDict(BuddhistDict);
 ```

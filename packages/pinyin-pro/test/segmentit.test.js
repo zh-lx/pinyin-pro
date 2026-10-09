@@ -40,6 +40,25 @@ describe('segmentit', () => {
     expect(trieOnly.match('中中华', 'off')).toEqual([]);
   });
 
+  it('[segmentit]matches suffixes through each fail pointer depth', () => {
+    const ac = new AC();
+    const patterns = ['甲乙丙', '乙丙', '丙'].map((zh) => ({
+      zh,
+      pinyin: '',
+      probability: 1,
+      length: zh.length,
+      priority: 1,
+      dict: 'test',
+    }));
+    ac.build(patterns);
+
+    expect(ac.match('甲乙丙', 'off').map(({ zh, index }) => ({ zh, index }))).toEqual([
+      { zh: '甲乙丙', index: 0 },
+      { zh: '乙丙', index: 1 },
+      { zh: '丙', index: 2 },
+    ]);
+  });
+
   it('[segmentit]schedule idle build when requestIdleCallback is available', () => {
     const requestIdleCallback = vi.fn((callback) => callback());
     vi.stubGlobal('requestIdleCallback', requestIdleCallback);
@@ -47,6 +66,26 @@ describe('segmentit', () => {
     scheduleAcBuild();
 
     expect(requestIdleCallback).toHaveBeenCalledOnce();
+    vi.unstubAllGlobals();
+  });
+
+  it('[segmentit]keep AC build lazy without requestIdleCallback', () => {
+    const setTimeout = vi.spyOn(globalThis, 'setTimeout');
+    vi.stubGlobal('requestIdleCallback', undefined);
+
+    scheduleAcBuild();
+
+    expect(setTimeout).not.toHaveBeenCalled();
+    setTimeout.mockRestore();
+    vi.unstubAllGlobals();
+  });
+
+  it('[segmentit]ignore scheduling errors during initialization', () => {
+    vi.stubGlobal('requestIdleCallback', () => {
+      throw new Error('timers are not allowed in global scope');
+    });
+
+    expect(() => scheduleAcBuild()).not.toThrow();
     vi.unstubAllGlobals();
   });
 

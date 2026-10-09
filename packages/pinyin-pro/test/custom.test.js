@@ -1,4 +1,4 @@
-import { pinyin, addDict, customPinyin, clearCustomDict, polyphonic } from '../lib/index';
+import { pinyin, addDict, removeDict, customPinyin, clearCustomDict, polyphonic } from '../lib/index';
 import { acTree } from '../lib/common/segmentit';
 import { getCustomMultipleDict, getCustomPolyphonicDict } from '../lib/core/custom';
 import { expect, describe, it } from 'vitest';
@@ -145,6 +145,43 @@ describe('customConfig', () => {
 
     clearAllCustomDicts();
     expect(getPatternCount()).to.be.equal(initialPatternCount);
+  });
+
+  it('[custom] uses the latest value after several updates', () => {
+    clearAllCustomDicts();
+    customPinyin({ 银行: 'yin hang' });
+    customPinyin({ 重庆: 'chong qing' });
+    customPinyin({ 银行: 'yin xing' });
+
+    expect(pinyin('银行重庆')).to.be.equal('yin xing chong qing');
+    expect(acTree.match('银行重庆', 'off').some(({ zh, pinyin }) =>
+      zh === '银行' && pinyin === 'yin xing'
+    )).to.be.true;
+    clearAllCustomDicts();
+  });
+
+  it('[custom] clears installed and pending words', () => {
+    clearAllCustomDicts();
+    const original = pinyin('银行重庆');
+    customPinyin({ 银行: 'yin hang' });
+    expect(pinyin('银行')).to.be.equal('yin hang');
+    customPinyin({ 重庆: 'chong qing' });
+    clearCustomDict('pinyin');
+
+    expect(pinyin('银行重庆')).to.be.equal(original);
+    clearAllCustomDicts();
+  });
+
+  it('[custom] keeps suffix matches when a dictionary follows an update', () => {
+    clearAllCustomDicts();
+    customPinyin({ 乙丙: 'yi bing' });
+    addDict({ 甲乙丙: 'jia yi bing' }, 'custom-build-order');
+
+    expect(acTree.match('甲乙丙', 'off').some(({ zh, pinyin }) =>
+      zh === '乙丙' && pinyin === 'yi bing'
+    )).to.be.true;
+    removeDict('custom-build-order');
+    clearAllCustomDicts();
   });
 
   it('[custom] double unicode1', () => {

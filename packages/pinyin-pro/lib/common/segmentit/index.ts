@@ -52,14 +52,31 @@ export class AC {
   root: TrieNode;
   dictMap = new Map<string | Symbol, Set<Pattern>>();
   queues: TrieNode[][] = [];
+  private pendingBuild: (() => void) | null = null;
 
   constructor() {
     this.root = new TrieNode(null);
   }
 
   build(patternList: Pattern[]) {
+    this.flushPendingBuild();
     this.buildTrie(patternList);
     this.buildFailPointer();
+  }
+
+  setPendingBuild(build: () => void) {
+    this.pendingBuild = build;
+  }
+
+  clearPendingBuild() {
+    this.pendingBuild = null;
+  }
+
+  private flushPendingBuild() {
+    const build = this.pendingBuild;
+    if (!build) return;
+    this.pendingBuild = null;
+    build();
   }
 
   // 构建 trie 树
@@ -69,12 +86,13 @@ export class AC {
       let cur = this.root;
       for (let i = 0; i < zhChars.length; i++) {
         let c = zhChars[i];
-        if (!cur.children.has(c)) {
-          const trieNode = new TrieNode(cur, c);
-          cur.children.set(c, trieNode);
-          this.addNodeToQueues(trieNode, i + 1);
+        let next = cur.children.get(c);
+        if (!next) {
+          next = new TrieNode(cur, c);
+          cur.children.set(c, next);
+          this.addNodeToQueues(next, i + 1);
         }
-        cur = cur.children.get(c) as TrieNode;
+        cur = next;
       }
       this.insertPattern(cur.patterns, pattern);
       pattern.node = cur;
@@ -84,27 +102,24 @@ export class AC {
 
   // 构建失败指针
   buildFailPointer() {
-    let queue: TrieNode[] = [];
-    let queueIndex = 0;
-    this.queues.forEach((_queue) => {
-      queue = queue.concat(_queue);
-    });
-    this.queues = [];
+    for (let depth = 1; depth < this.queues.length; depth++) {
+      const queue = this.queues[depth];
+      if (!queue) continue;
+      for (const node of queue) {
+        let failNode = node.parent && (node.parent.fail as TrieNode | null);
+        let key = node.key;
 
-    while (queue.length > queueIndex) {
-      let node = queue[queueIndex++] as TrieNode;
-      let failNode = node.parent && (node.parent.fail as TrieNode | null);
-      let key = node.key;
-
-      while (failNode && !failNode.children.has(key)) {
-        failNode = failNode.fail;
-      }
-      if (!failNode) {
-        node.fail = this.root;
-      } else {
-        node.fail = failNode.children.get(key) as TrieNode;
+        while (failNode && !failNode.children.has(key)) {
+          failNode = failNode.fail;
+        }
+        if (!failNode) {
+          node.fail = this.root;
+        } else {
+          node.fail = failNode.children.get(key) as TrieNode;
+        }
       }
     }
+    this.queues = [];
   }
 
   // 将 pattern 添加到 dictMap 中
@@ -159,6 +174,9 @@ export class AC {
     surname: SurnameMode,
     zhChars: string[] = splitString(text),
   ) {
+    if (this.pendingBuild) {
+      this.flushPendingBuild();
+    }
     let cur = this.root;
     let result: MatchPattern[] = [];
     for (let i = 0; i < zhChars.length; i++) {
@@ -243,10 +261,12 @@ export function ensureAcBuilt() {
 }
 
 export function scheduleAcBuild() {
-  if (typeof requestIdleCallback === "function") {
-    requestIdleCallback(() => ensureAcBuilt());
-  } else {
-    setTimeout(ensureAcBuilt, 0);
+  try {
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => ensureAcBuilt());
+    }
+  } catch {
+    // Some runtimes forbid scheduling asynchronous work during module initialization.
   }
 }
 
