@@ -217,7 +217,7 @@ interface HtmlOptions {
   segmentit?: TokenizationAlgorithm; // v3.20.0+
   surname?: 'off' | 'head' | 'all'; // v3.21.0+
   mode?: 'normal' | 'surname'; // deprecated, use surname to replace
-  toneSandhi?: boolean;
+  toneSandhi?: boolean | { yi?: boolean; bu?: boolean; thirdTone?: boolean };
   initialPattern?: 'standard' | 'yw'; // 3.27.0+
   traditional?: boolean; // 3.28.0+
 }

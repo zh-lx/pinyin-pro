@@ -344,22 +344,29 @@ pinyin('赵钱孙李额', { pattern: 'first', toneType: 'none', type: 'array' })
   },
   {
     option: 'toneSandhi',
-    type: 'boolean',
+    type: 'boolean | object',
     description:
-      '是否应用智能变调，包括<code>一</code>和<code>不</code>（参考<a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>），以及两个连续三声的变调（如 你好 → ní hǎo，参考<a href=https://en.wikipedia.org/wiki/Tone_sandhi#Mandarin_Chinese target="_blank">Wikipedia</a>）',
+      '变调控制。boolean 保持旧语义：true 只开启<code>一</code>和<code>不</code>变调（参考<a href=https://zh.wiktionary.org/wiki/Appendix:%E2%80%9C%E4%B8%80%E2%80%9D%E5%8F%8A%E2%80%9C%E4%B8%8D%E2%80%9D%E7%9A%84%E5%8F%98%E8%B0%83 target="_blank">维基百科</a>），false 全部关闭。对象可分别控制 <code>yi</code>、<code>bu</code>、<code>thirdTone</code>（连续三声如 你好 → ní hǎo，参考<a href=https://en.wikipedia.org/wiki/Tone_sandhi#Mandarin_Chinese target="_blank">Wikipedia</a>）',
     default: 'true',
     children: [
       {
         value: 'true',
-        desc: '应用',
-        example: `pinyin('一旦被发现', { toneSandhi: true }); // 'yí dàn bèi fā xiàn'
-pinyin('你好', { toneSandhi: true }); // 'ní hǎo'`,
+        desc: '开启「一」「不」变调，不开连续三声',
+        example: `pinyin('一旦被发现'); // 'yí dàn bèi fā xiàn'
+pinyin('你好'); // 'nǐ hǎo'`,
       },
       {
         value: 'false',
-        desc: '不应用',
+        desc: '关闭全部变调',
         example: `pinyin('一旦被发现', { toneSandhi: false }); // 'yī dàn bèi fā xiàn'
 pinyin('你好', { toneSandhi: false }); // 'nǐ hǎo'`,
+      },
+      {
+        value: '{ yi, bu, thirdTone }',
+        desc: '分别控制。「一」「不」默认 true，连续三声默认 false',
+        example: `pinyin('一把', { toneSandhi: { yi: false } }); // 'yī bǎ'
+pinyin('不是', { toneSandhi: { bu: false } }); // 'bù shì'
+pinyin('你好', { toneSandhi: { thirdTone: true } }); // 'ní hǎo'`,
       },
     ],
   },

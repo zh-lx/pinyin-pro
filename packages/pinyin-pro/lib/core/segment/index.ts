@@ -146,7 +146,7 @@ export function segment(word: string, options?: SegmentCompleteOptions) {
   );
 
   // 变调处理
-  list = middlewareToneSandhi(list, options.toneSandhi as boolean);
+  list = middlewareToneSandhi(list, options.toneSandhi);
 
   // nonZh
   list = middleWareNonZh(list, options);

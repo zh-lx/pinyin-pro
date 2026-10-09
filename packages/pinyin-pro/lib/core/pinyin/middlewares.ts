@@ -1,7 +1,7 @@
 import { stringLength } from "@/common/utils";
 import type { SingleWordResult } from "../../common/type";
 import { getAllPinyin, getMultiplePinyin } from "./handle";
-import { CompleteOptions } from "./index";
+import type { CompleteOptions, ToneSandhiOptions } from "./index";
 import {
   getNumOfTone,
   getInitialAndFinal,
@@ -263,22 +263,23 @@ const convertThirdToneToSecondTone = (pinyin: string) => {
   );
 };
 
-// 是否开启变调
-export const middlewareToneSandhi = (
-  list: SingleWordResult[],
-  toneSandhi: boolean,
-): SingleWordResult[] => {
+const resolveToneSandhi = (
+  toneSandhi?: boolean | ToneSandhiOptions,
+): Required<ToneSandhiOptions> => {
   if (toneSandhi === false) {
-    list.forEach((item) => {
-      if (item.origin === "一") {
-        item.result = item.originPinyin = "yī";
-      } else if (item.origin === "不") {
-        item.result = item.originPinyin = "bù";
-      }
-    });
-    return list;
+    return { yi: false, bu: false, thirdTone: false };
   }
+  if (toneSandhi && typeof toneSandhi === "object") {
+    return {
+      yi: toneSandhi.yi ?? true,
+      bu: toneSandhi.bu ?? true,
+      thirdTone: toneSandhi.thirdTone ?? false,
+    };
+  }
+  return { yi: true, bu: true, thirdTone: false };
+};
 
+const applyThirdToneSandhi = (list: SingleWordResult[]) => {
   for (let start = 0; start < list.length; ) {
     if (!isThirdTone(list[start])) {
       start += 1;
@@ -297,6 +298,28 @@ export const middlewareToneSandhi = (
     }
 
     start = end;
+  }
+};
+
+// 是否开启变调
+export const middlewareToneSandhi = (
+  list: SingleWordResult[],
+  toneSandhi?: boolean | ToneSandhiOptions,
+): SingleWordResult[] => {
+  const { yi, bu, thirdTone } = resolveToneSandhi(toneSandhi);
+
+  if (thirdTone) {
+    applyThirdToneSandhi(list);
+  }
+
+  if (!yi || !bu) {
+    list.forEach((item) => {
+      if (!yi && item.origin === "一") {
+        item.result = item.originPinyin = "yī";
+      } else if (!bu && item.origin === "不") {
+        item.result = item.originPinyin = "bù";
+      }
+    });
   }
   return list;
 };
