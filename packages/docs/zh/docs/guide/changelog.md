@@ -1,5 +1,15 @@
 # 更新日志
 
+## 3.29.5
+
+- 【feat】支持连续三声变调，可通过 `toneSandhi.thirdTone` 开启，同时保持原有 `toneSandhi` 布尔值的兼容语义 [#356](https://github.com/zh-lx/pinyin-pro/pull/356)
+- 【perf】`match`: 使用回溯指针重建匹配路径，减少匹配过程中的数组分配 [#367](https://github.com/zh-lx/pinyin-pro/pull/367)
+- 【perf】`match`: 优化前缀匹配逻辑，减少不必要的字符串处理 [#369](https://github.com/zh-lx/pinyin-pro/pull/369)
+- 【perf】`polyphonic`: 复用 `final` 解析结果，减少 `type: 'all'` 模式下的重复计算 [#372](https://github.com/zh-lx/pinyin-pro/pull/372)
+- 【perf】`match`: 复用已拆分的文本字符，避免重复分割 [#373](https://github.com/zh-lx/pinyin-pro/pull/373)
+- 【perf】优化 AC 自动机构建过程中的节点查找和队列处理 [#374](https://github.com/zh-lx/pinyin-pro/pull/374)
+- 【perf】合并连续的自定义拼音更新，减少自定义词典的重复构建 [#375](https://github.com/zh-lx/pinyin-pro/pull/375)
+
 ## 3.29.4
 
 - 【fix】兼容 Cloudflare Workers 等运行时在模块初始化阶段禁用定时器的限制 [#364](https://github.com/zh-lx/pinyin-pro/pull/364)

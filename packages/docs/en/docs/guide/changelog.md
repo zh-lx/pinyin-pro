@@ -1,5 +1,15 @@
 # ChangeLog
 
+## 3.29.5
+
+- 【feat】Add opt-in consecutive third-tone sandhi through `toneSandhi.thirdTone` while preserving the existing boolean `toneSandhi` semantics [#356](https://github.com/zh-lx/pinyin-pro/pull/356)
+- 【perf】`match`: Reconstruct matching paths with backpointers to reduce array allocations [#367](https://github.com/zh-lx/pinyin-pro/pull/367)
+- 【perf】`match`: Optimize prefix matching to avoid unnecessary string processing [#369](https://github.com/zh-lx/pinyin-pro/pull/369)
+- 【perf】`polyphonic`: Reuse parsed `final` parts to avoid repeated work in `type: 'all'` mode [#372](https://github.com/zh-lx/pinyin-pro/pull/372)
+- 【perf】`match`: Reuse split text characters to avoid repeated splitting [#373](https://github.com/zh-lx/pinyin-pro/pull/373)
+- 【perf】Optimize node lookups and queue handling while building the AC automaton [#374](https://github.com/zh-lx/pinyin-pro/pull/374)
+- 【perf】Batch consecutive custom-pinyin updates to reduce repeated custom dictionary rebuilds [#375](https://github.com/zh-lx/pinyin-pro/pull/375)
+
 ## 3.29.4
 
 - 【fix】Tolerate runtimes that forbid timers during module initialization, such as Cloudflare Workers [#364](https://github.com/zh-lx/pinyin-pro/pull/364)
