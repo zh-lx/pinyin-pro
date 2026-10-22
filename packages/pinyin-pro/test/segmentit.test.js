@@ -7,6 +7,46 @@ const completeDict = require("@pinyin-pro/data/complete.json");
 addDict(completeDict);
 
 describe('segmentit', () => {
+  it.each([1, 42, 20261023])('[segmentit]random differential matching, seed %s', (seed) => {
+    let state = seed;
+    const random = (limit) => {
+      state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+      return Math.floor(state / 4294967296 * limit);
+    };
+    const alphabet = ['甲', '乙', '丙', '𠮷'];
+    const word = (length) => Array.from({ length }, () => alphabet[random(alphabet.length)]).join('');
+    for (let trial = 0; trial < 20; trial++) {
+      const words = [...new Set(Array.from({ length: 20 }, () => word(1 + random(5))))];
+      const texts = [word(40), words.join(''), words.join('外')];
+      for (let order = 0; order < 3; order++) {
+        const shuffled = [...words];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = random(i + 1);
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const ac = new AC();
+        const active = [];
+        for (const zh of shuffled) {
+          active.push(Array.from(zh));
+          ac.build([{ zh, pinyin: zh, probability: 1, length: Array.from(zh).length, priority: 1, dict: 'random' }]);
+          for (const text of texts) {
+            const chars = Array.from(text);
+            const expected = [];
+            for (const pattern of active) {
+              for (let index = 0; index <= chars.length - pattern.length; index++) {
+                if (pattern.every((char, offset) => chars[index + offset] === char)) {
+                  expected.push(`${index}:${pattern.join('')}`);
+                }
+              }
+            }
+            const context = JSON.stringify({ seed, trial, order, active, text });
+            expect(ac.match(text, 'off').map(({ zh, index }) => `${index}:${zh}`).sort(), context).toEqual(expected.sort());
+          }
+        }
+      }
+    }
+  });
+
   it.each([
     ['甲乙丙', '乙丙', '丙'],
     ['丙', '乙丙', '甲乙丙'],
