@@ -7,6 +7,57 @@ const completeDict = require("@pinyin-pro/data/complete.json");
 addDict(completeDict);
 
 describe('segmentit', () => {
+  it.each([
+    ['甲乙丙', '乙丙', '丙'],
+    ['丙', '乙丙', '甲乙丙'],
+    ['乙丙', '甲乙丙', '丙'],
+    ['甲乙丙', '丙', '乙丙'],
+    ['丙', '甲乙丙', '乙丙'],
+    ['乙丙', '丙', '甲乙丙'],
+  ])('[segmentit]incremental suffixes: %s, %s, %s', (...words) => {
+    const ac = new AC();
+    for (const zh of words) {
+      ac.build([{ zh, pinyin: zh, probability: 1, length: zh.length, priority: 1, dict: zh }]);
+    }
+    expect(ac.match('甲乙丙', 'off').map(({ zh, index }) => ({ zh, index }))).toEqual([
+      { zh: '甲乙丙', index: 0 },
+      { zh: '乙丙', index: 1 },
+      { zh: '丙', index: 2 },
+    ]);
+  });
+
+  it('[segmentit]matches a direct search after each dictionary update', () => {
+    const ac = new AC();
+    const words = ['甲乙丙', '乙丙丁', '丙丁', '丁', '乙丙', '丙', '甲乙', '乙', '𠮷乙', '乙𠮷', '𠮷'];
+    const text = '甲乙丙丁甲甲乙𠮷乙丙丁';
+    const chars = Array.from(text);
+    const active = new Set();
+    const check = () => {
+      const expected = [];
+      for (const zh of active) {
+        const length = Array.from(zh).length;
+        for (let index = 0; index <= chars.length - length; index++) {
+          if (chars.slice(index, index + length).join('') === zh) {
+            expected.push(`${index}:${zh}`);
+          }
+        }
+      }
+      expect(ac.match(text, 'off').map(({ zh, index }) => `${index}:${zh}`).sort()).toEqual(expected.sort());
+    };
+    for (const zh of words) {
+      ac.build([{ zh, pinyin: zh, probability: 1, length: Array.from(zh).length, priority: 1, dict: zh }]);
+      active.add(zh);
+      check();
+    }
+    ac.build([]);
+    check();
+    for (const zh of words) {
+      ac.removeDict(zh);
+      active.delete(zh);
+      check();
+    }
+  });
+
   it('[segmentit]match after root miss and fail fallback', () => {
     const ac = new AC();
     const createPattern = (zh, pinyin) => ({

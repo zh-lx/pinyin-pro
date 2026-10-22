@@ -25,6 +25,7 @@ declare class TrieNode {
     children: Map<string, TrieNode>;
     fail: TrieNode | null;
     patterns: Pattern[];
+    depth: number;
     parent: TrieNode | null;
     key: string;
     constructor(parent: TrieNode | null, key?: string);
@@ -33,6 +34,7 @@ export declare class AC {
     root: TrieNode;
     dictMap: Map<string | Symbol, Set<Pattern>>;
     queues: TrieNode[][];
+    private nodesByKey;
     private pendingBuild;
     constructor();
     build(patternList: Pattern[]): void;

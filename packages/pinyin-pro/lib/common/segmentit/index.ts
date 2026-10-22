@@ -36,10 +36,12 @@ class TrieNode {
   children: Map<string, TrieNode>; // 子节点
   fail: TrieNode | null; // 失效指针
   patterns: Pattern[];
+  depth: number;
   parent: TrieNode | null; // 父节点
   key: string; // 所在父节点的 key
 
   constructor(parent: TrieNode | null, key = "") {
+    this.depth = parent ? parent.depth + 1 : 0;
     this.children = new Map();
     this.fail = null;
     this.patterns = [];
@@ -52,6 +54,7 @@ export class AC {
   root: TrieNode;
   dictMap = new Map<string | Symbol, Set<Pattern>>();
   queues: TrieNode[][] = [];
+  private nodesByKey = new Map<string, TrieNode[]>();
   private pendingBuild: (() => void) | null = null;
 
   constructor() {
@@ -102,10 +105,37 @@ export class AC {
 
   // 构建失败指针
   buildFailPointer() {
+    const minDepthByKey = new Map<string, number>();
+    for (const queue of this.nodesByKey.size ? this.queues : []) {
+      if (!queue) continue;
+      for (const node of queue) {
+        const depth = minDepthByKey.get(node.key);
+        if (depth === undefined || node.depth < depth) {
+          minDepthByKey.set(node.key, node.depth);
+        }
+      }
+    }
+    // Only new suffix paths can change an existing failure target.
+    // Such targets have the same final key and a smaller depth.
+    for (const [key, depth] of minDepthByKey) {
+      const nodes = this.nodesByKey.get(key);
+      if (!nodes) continue;
+      for (const node of nodes) {
+        if (node.depth > depth) {
+          this.addNodeToQueues(node, node.depth);
+        }
+      }
+    }
     for (let depth = 1; depth < this.queues.length; depth++) {
       const queue = this.queues[depth];
       if (!queue) continue;
       for (const node of queue) {
+        // Index new nodes after candidate collection to avoid duplicate queue entries.
+        if (node.fail === null) {
+          const nodes = this.nodesByKey.get(node.key);
+          if (nodes) nodes.push(node);
+          else this.nodesByKey.set(node.key, [node]);
+        }
         let failNode = node.parent && (node.parent.fail as TrieNode | null);
         let key = node.key;
 
