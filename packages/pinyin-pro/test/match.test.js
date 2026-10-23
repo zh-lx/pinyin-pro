@@ -67,6 +67,33 @@ describe("match", () => {
     expect(result).to.deep.equal([0, 1]);
   });
 
+  it.each([
+    { precision: "any" },
+    { precision: "any", lastPrecision: "every" },
+  ])("preserves caller options %j", (options) => {
+    const original = { ...options };
+    expect(match("开会", "kaiui", options)).to.deep.equal([0, 1]);
+    expect(options).to.deep.equal(original);
+  });
+
+  it.each([
+    { precision: "any" },
+    { precision: "any", lastPrecision: "every" },
+  ])("accepts frozen options %j", (options) => {
+    expect(match("开会", "kaiui", Object.freeze(options))).to.deep.equal([0, 1]);
+  });
+
+  it("reuses options after changing precision", () => {
+    const options = { precision: "any" };
+    expect(match("开会", "kaiui", options)).to.deep.equal([0, 1]);
+    expect(match("开会", "kaiui", options)).to.deep.equal([0, 1]);
+
+    options.precision = "start";
+    expect(match("开会", "kaiui", options)).to.equal(null);
+    expect(match("开会", "kaihu", options)).to.deep.equal([0, 1]);
+    expect(options).to.deep.equal({ precision: "start" });
+  });
+
   it("[match]any&empty", () => {
     const result = match("开会", "", { precision: "any" });
     expect(result).to.deep.equal(null);
