@@ -62,10 +62,28 @@ type DICT = {
     | [string, number, string]; // [拼音, 词频概率, 词性]
 };
 
-function addDict(dict: DICT | {}, name?: string): void;
+type DictOptions = {
+  name?: string;
+  dict1?: 'add' | 'replace' | 'ignore';
+};
+
+function addDict(dict: DICT | {}, options?: string | DictOptions): void;
 ```
 
 ### 参数
 
 - `dict` (必传)：词典。
-- `name` (可选)：词典名称。
+- `options`（可选）：词典名称或配置对象。
+- `options.name`（可选）：词典名称。
+- `options.dict1`（可选）：单字词典的处理方式。默认值为 `add`。
+
+### 单字词典的处理顺序
+
+单字修改按 `addDict` 的调用顺序生效。`replace` 替换当前读音。`add` 追加尚未存在的读音。
+`ignore` 不修改单字词典。
+
+同名词典的多次添加保留各次修改的调用顺序。
+`removeDict(name)` 删除该名称下的全部修改。
+删除后，系统根据原始读音和剩余修改重新计算受影响汉字的读音。
+删除最后一项修改后，系统恢复原始读音。
+未命名的调用共用一个词典名称。`removeDict()` 删除这些调用的修改。
