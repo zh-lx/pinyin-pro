@@ -25,7 +25,7 @@ type DictChange = {
 };
 
 const affectedCharsByDict = new Map<string | Symbol, Set<string>>();
-const charChanges = new Map<string, { original: string; changes: DictChange[] }>();
+const charChanges = new Map<string, { original: string | undefined; changes: DictChange[] }>();
 
 export function addDict(dict: DICT | {}, options?: string | DictOptions) {
   ensureAcBuilt();
@@ -87,20 +87,24 @@ function addToOriginDict(
   if (handle === "ignore") {
     return;
   }
-  if (!affectedCharsByDict.has(dict)) {
-    affectedCharsByDict.set(dict, new Set());
+  let chars = affectedCharsByDict.get(dict);
+  if (!chars) {
+    chars = new Set();
+    affectedCharsByDict.set(dict, chars);
   }
-  affectedCharsByDict.get(dict)!.add(char);
-  if (!charChanges.has(char)) {
-    charChanges.set(char, { original: DICT1.get(char), changes: [] });
+  chars.add(char);
+  let state = charChanges.get(char);
+  if (!state) {
+    state = { original: DICT1.get(char), changes: [] };
+    charChanges.set(char, state);
   }
   const change: DictChange = { dict, pinyin, handle };
   // Retain duplicate additions because another dictionary can own the same reading.
-  charChanges.get(char)!.changes.push(change);
+  state.changes.push(change);
   DICT1.set(char, applyChange(DICT1.get(char), change));
 }
 
-function applyChange(current: string, { pinyin, handle }: DictChange): string {
+function applyChange(current: string | undefined, { pinyin, handle }: DictChange): string {
   if (handle === "replace" || !current) {
     return pinyin;
   }
@@ -109,10 +113,16 @@ function applyChange(current: string, { pinyin, handle }: DictChange): string {
 
 function removeOriginDict(dict: string | Symbol) {
   affectedCharsByDict.get(dict)?.forEach((char) => {
+    // Each indexed character retains its state until its final change is removed.
     const state = charChanges.get(char)!;
     state.changes = state.changes.filter((change) => change.dict !== dict);
     // Replay surviving changes in call order, including repeated dictionary names.
-    DICT1.set(char, state.changes.reduce(applyChange, state.original));
+    const pinyin = state.changes.reduce<string | undefined>(applyChange, state.original);
+    if (pinyin === undefined) {
+      DICT1.delete(char);
+    } else {
+      DICT1.set(char, pinyin);
+    }
     if (!state.changes.length) {
       charChanges.delete(char);
     }

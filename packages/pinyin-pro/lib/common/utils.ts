@@ -59,6 +59,14 @@ export class FastDictFactory {
     }
   }
 
+  delete(word: string) {
+    if (word.length > 1) {
+      this.StringDICT.delete(word);
+    } else {
+      delete this.NumberDICT[word.charCodeAt(0)];
+    }
+  }
+
   clear() {
     this.NumberDICT = [];
     this.StringDICT.clear();

@@ -1,5 +1,6 @@
 import { pinyin, polyphonic, match, addDict, removeDict } from '../lib/index';
 import { afterEach, expect, describe, it } from 'vitest';
+import DICT1 from '../lib/data/dict1';
 
 describe("addDict", () => {
   it("[addDict]string dict", () => {
@@ -108,6 +109,44 @@ describe("single-character dictionary ownership", () => {
     expect(match("汉", "han")).to.deep.equal([0]);
     expect(match("汉", "yin")).to.equal(null);
     expect(match("汉", "yu")).to.equal(null);
+  });
+
+  it("matches original and surviving readings in add mode", () => {
+    addDict({ 汉: "yǔ" }, { name: "owner-A", dict1: "add" });
+    addDict({ 汉: "yīn" }, { name: "owner-B", dict1: "add" });
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yu")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.deep.equal([0]);
+
+    removeDict("owner-A");
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.deep.equal([0]);
+    expect(match("汉", "yu")).to.equal(null);
+
+    removeDict("owner-B");
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.equal(null);
+    expect(match("汉", "yu")).to.equal(null);
+  });
+
+  it.each(["\uE000", "\u{F0000}"])("removes storage entries for an unknown character %s", (char) => {
+    const hasEntry = () => char.length > 1
+      ? DICT1.StringDICT.has(char)
+      : Object.prototype.hasOwnProperty.call(DICT1.NumberDICT, char.charCodeAt(0));
+
+    expect(hasEntry()).to.equal(false);
+    for (const removed of ["owner-A", "owner-B"]) {
+      addDict({ [char]: "yǔ" }, { name: "owner-A", dict1: "replace" });
+      addDict({ [char]: "yīn" }, { name: "owner-B", dict1: "add" });
+      expect(hasEntry()).to.equal(true);
+      removeDict(removed);
+      expect(hasEntry()).to.equal(true);
+      expect(read(char)).to.equal(removed === "owner-A" ? "yīn" : "yǔ");
+      removeDict(removed === "owner-A" ? "owner-B" : "owner-A");
+      expect(DICT1.get(char)).to.equal(undefined);
+      expect(hasEntry()).to.equal(false);
+      expect(read(char)).to.equal(char);
+    }
   });
 
   it.each([

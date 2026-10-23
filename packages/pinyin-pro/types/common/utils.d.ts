@@ -6,5 +6,6 @@ export declare class FastDictFactory {
     constructor();
     get(word: string): string;
     set(word: string, pinyin: string): void;
+    delete(word: string): void;
     clear(): void;
 }
