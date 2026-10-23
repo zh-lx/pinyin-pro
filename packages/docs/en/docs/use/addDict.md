@@ -62,10 +62,28 @@ type DICT = {
     | [string, number, string]; // [Pinyin, Frequency Probability, Part of Speech]
 };
 
-function addDict(dict: DICT | {}, name?: string): void;
+type DictOptions = {
+  name?: string;
+  dict1?: 'add' | 'replace' | 'ignore';
+};
+
+function addDict(dict: DICT | {}, options?: string | DictOptions): void;
 ```
 
 ### Parameters
 
 - `dict` (required): The dictionary.
-- `name` (optional): The name of the dictionary.
+- `options` (optional): A dictionary name or an options object.
+- `options.name` (optional): The dictionary name.
+- `options.dict1` (optional): Controls changes to the single-character dictionary. The default is `add`.
+
+### Single-character dictionary order
+
+Changes apply in `addDict` call order. `replace` replaces the current readings. `add` appends a reading unless it already exists.
+`ignore` leaves the single-character dictionary unchanged.
+
+Repeated calls with the same name retain their changes in call order.
+`removeDict(name)` removes all changes for that name.
+It rebuilds affected characters from their original readings and the remaining changes.
+Removing the final change restores the original readings.
+Unnamed calls share one dictionary name. `removeDict()` removes their changes.

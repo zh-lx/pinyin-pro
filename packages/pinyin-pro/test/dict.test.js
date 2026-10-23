@@ -1,5 +1,6 @@
-import { pinyin, addDict, removeDict } from '../lib/index';
-import { expect, describe, it } from 'vitest';
+import { pinyin, polyphonic, match, addDict, removeDict } from '../lib/index';
+import { afterEach, expect, describe, it } from 'vitest';
+import DICT1 from '../lib/data/dict1';
 
 describe("addDict", () => {
   it("[addDict]string dict", () => {
@@ -75,6 +76,149 @@ describe("addDict", () => {
     addDict(stringDict, { name: 'double-unicode-dict' });
     const result = pinyin("𧒽");
     expect(result).to.be.equal("lei");
+    removeDict('double-unicode-dict');
+  });
+});
+
+describe("single-character dictionary ownership", () => {
+  const read = (char = "汉") => pinyin(char, { multiple: true });
+
+  afterEach(() => {
+    removeDict("owner-A");
+    removeDict("owner-B");
     removeDict();
+  });
+
+  it("preserves active readings across public APIs and restores original readings", () => {
+    expect(polyphonic("汉")).to.deep.equal(["hàn"]);
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.equal(null);
+
+    addDict({ 汉: "yǔ" }, { name: "owner-A", dict1: "replace" });
+    addDict({ 汉: "yīn" }, { name: "owner-B", dict1: "replace" });
+    removeDict("owner-A");
+
+    expect(polyphonic("汉")).to.deep.equal(["yīn"]);
+    expect(match("汉", "yin")).to.deep.equal([0]);
+    expect(match("汉", "yu")).to.equal(null);
+    expect(match("汉", "han")).to.equal(null);
+
+    removeDict("owner-B");
+
+    expect(polyphonic("汉")).to.deep.equal(["hàn"]);
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.equal(null);
+    expect(match("汉", "yu")).to.equal(null);
+  });
+
+  it("matches original and surviving readings in add mode", () => {
+    addDict({ 汉: "yǔ" }, { name: "owner-A", dict1: "add" });
+    addDict({ 汉: "yīn" }, { name: "owner-B", dict1: "add" });
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yu")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.deep.equal([0]);
+
+    removeDict("owner-A");
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.deep.equal([0]);
+    expect(match("汉", "yu")).to.equal(null);
+
+    removeDict("owner-B");
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.equal(null);
+    expect(match("汉", "yu")).to.equal(null);
+  });
+
+  it.each(["\uE000", "\u{F0000}"])("removes storage entries for an unknown character %s", (char) => {
+    const hasEntry = () => char.length > 1
+      ? DICT1.StringDICT.has(char)
+      : Object.prototype.hasOwnProperty.call(DICT1.NumberDICT, char.charCodeAt(0));
+
+    expect(hasEntry()).to.equal(false);
+    for (const removed of ["owner-A", "owner-B"]) {
+      addDict({ [char]: "yǔ" }, { name: "owner-A", dict1: "replace" });
+      addDict({ [char]: "yīn" }, { name: "owner-B", dict1: "add" });
+      expect(hasEntry()).to.equal(true);
+      removeDict(removed);
+      expect(hasEntry()).to.equal(true);
+      expect(read(char)).to.equal(removed === "owner-A" ? "yīn" : "yǔ");
+      removeDict(removed === "owner-A" ? "owner-B" : "owner-A");
+      expect(DICT1.get(char)).to.equal(undefined);
+      expect(hasEntry()).to.equal(false);
+      expect(read(char)).to.equal(char);
+    }
+  });
+
+  it.each([
+    ["replace", "replace", "yīn", "yǔ", "yīn"],
+    ["add", "add", "hàn yǔ yīn", "hàn yǔ", "hàn yīn"],
+    ["replace", "add", "yǔ yīn", "yǔ", "hàn yīn"],
+    ["add", "replace", "yīn", "hàn yǔ", "yīn"],
+  ])("replays %s then %s in either removal order", (first, second, both, onlyA, onlyB) => {
+    const original = read();
+    for (const removed of ["owner-A", "owner-B"]) {
+      addDict({ 汉: "yǔ" }, { name: "owner-A", dict1: first });
+      addDict({ 汉: "yīn" }, { name: "owner-B", dict1: second });
+      expect(read()).to.equal(both);
+      removeDict(removed);
+      expect(read()).to.equal(removed === "owner-A" ? onlyB : onlyA);
+      removeDict(removed);
+      expect(read()).to.equal(removed === "owner-A" ? onlyB : onlyA);
+      removeDict(removed === "owner-A" ? "owner-B" : "owner-A");
+      expect(read()).to.equal(original);
+    }
+  });
+
+  it.each(["owner-A", "owner-B"])("keeps repeated names in call order when removing %s", (removed) => {
+    const original = read();
+    addDict({ 汉: "yǔ" }, { name: "owner-A", dict1: "replace" });
+    addDict({ 汉: "yīn" }, { name: "owner-B", dict1: "replace" });
+    addDict({ 汉: "hàn" }, { name: "owner-A", dict1: "add" });
+    expect(read()).to.equal("yīn hàn");
+    removeDict(removed);
+    expect(read()).to.equal(removed === "owner-A" ? "yīn" : "yǔ hàn");
+    removeDict(removed === "owner-A" ? "owner-B" : "owner-A");
+    expect(read()).to.equal(original);
+  });
+
+  it("retains duplicate additions owned by another dictionary", () => {
+    addDict({ 汉: "yīn" }, { name: "owner-A" });
+    addDict({ 汉: "yīn" }, { name: "owner-B" });
+    expect(read()).to.equal("hàn yīn");
+    removeDict("owner-A");
+    expect(read()).to.equal("hàn yīn");
+    removeDict("owner-B");
+    expect(read()).to.equal("hàn");
+  });
+
+  it.each(["owner-A", "owner-B"])("ignores entries when removing %s", (removed) => {
+    addDict({ 汉: "yīn" }, { name: "owner-A", dict1: "ignore" });
+    addDict({ 汉: "yǔ" }, { name: "owner-B", dict1: "replace" });
+    removeDict(removed);
+    expect(read()).to.equal(removed === "owner-A" ? "yǔ" : "hàn");
+    removeDict(removed === "owner-A" ? "owner-B" : "owner-A");
+    expect(read()).to.equal("hàn");
+  });
+
+  it.each(["䃜", "𧒽"])("restores the original value for %s after name reuse", (char) => {
+    const original = read(char);
+    for (let cycle = 0; cycle < 2; cycle++) {
+      addDict({ [char]: "yīn" }, { name: "owner-A", dict1: "replace" });
+      addDict({ [char]: "yǔ" }, { name: "owner-A", dict1: "replace" });
+      addDict({ [char]: "hàn" }, { name: "owner-B", dict1: "add" });
+      removeDict("owner-A");
+      expect(read(char)).to.equal(original === char ? "hàn" : `${original} hàn`);
+      removeDict("owner-B");
+      expect(read(char)).to.equal(original);
+    }
+  });
+
+  it("keeps named entries when removing the unnamed dictionary", () => {
+    addDict({ 汉: "yǔ" }, { dict1: "replace" });
+    addDict({ 汉: "yīn" }, { name: "owner-B", dict1: "replace" });
+    removeDict();
+    expect(read()).to.equal("yīn");
+    removeDict("owner-B");
+    expect(read()).to.equal("hàn");
   });
 });

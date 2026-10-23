@@ -18,7 +18,14 @@ type DictOptions = {
   dict1?: "add" | "replace" | "ignore";
 };
 
-const originDictMap = new Map<string | Symbol, { [word: string]: string }>();
+type DictChange = {
+  dict: string | Symbol;
+  pinyin: string;
+  handle: "add" | "replace";
+};
+
+const affectedCharsByDict = new Map<string | Symbol, Set<string>>();
+const charChanges = new Map<string, { original: string | undefined; changes: DictChange[] }>();
 
 export function addDict(dict: DICT | {}, options?: string | DictOptions) {
   ensureAcBuilt();
@@ -77,29 +84,48 @@ function addToOriginDict(
   pinyin: string,
   handle: "add" | "replace" | "ignore" = "add"
 ) {
-  if (!originDictMap.get(dict)) {
-    originDictMap.set(dict, {})
+  if (handle === "ignore") {
+    return;
   }
-  const originDict = originDictMap.get(dict)!;
-  if (!originDict[char]) {
-    originDict[char] = DICT1.get(char) as string;
+  let chars = affectedCharsByDict.get(dict);
+  if (!chars) {
+    chars = new Set();
+    affectedCharsByDict.set(dict, chars);
   }
-  if (handle === "add") {
-    const existedPinyin = DICT1.get(char);
-    if (existedPinyin && !existedPinyin.split(' ').includes(pinyin)) {
-      DICT1.set(char, `${existedPinyin} ${pinyin}`);
-    } else if (!DICT1.get(char)) {
-      DICT1.set(char, pinyin);
-    }
-  } else if (handle === "replace") {
-    DICT1.set(char, pinyin);
+  chars.add(char);
+  let state = charChanges.get(char);
+  if (!state) {
+    state = { original: DICT1.get(char), changes: [] };
+    charChanges.set(char, state);
   }
+  const change: DictChange = { dict, pinyin, handle };
+  // Retain duplicate additions because another dictionary can own the same reading.
+  state.changes.push(change);
+  DICT1.set(char, applyChange(DICT1.get(char), change));
+}
+
+function applyChange(current: string | undefined, { pinyin, handle }: DictChange): string {
+  if (handle === "replace" || !current) {
+    return pinyin;
+  }
+  return current.split(" ").includes(pinyin) ? current : `${current} ${pinyin}`;
 }
 
 function removeOriginDict(dict: string | Symbol) {
-  const originDict = originDictMap.get(dict) || {};
-  for (let char in originDict) {
-    DICT1.set(char, originDict[char]);
-    delete originDict[char];
-  }
+  affectedCharsByDict.get(dict)?.forEach((char) => {
+    // Each indexed character retains its state until its final change is removed.
+    const state = charChanges.get(char)!;
+    state.changes = state.changes.filter((change) => change.dict !== dict);
+    // Replay surviving changes in call order, including repeated dictionary names.
+    const pinyin = state.changes.reduce<string | undefined>(applyChange, state.original);
+    if (pinyin === undefined) {
+      DICT1.delete(char);
+    } else {
+      DICT1.set(char, pinyin);
+    }
+    if (!state.changes.length) {
+      charChanges.delete(char);
+    }
+  });
+  affectedCharsByDict.delete(dict);
 }
