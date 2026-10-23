@@ -41,6 +41,7 @@ export declare class AC {
     private flushPendingBuild;
     buildTrie(patternList: Pattern[]): void;
     buildFailPointer(): void;
+    private rebuildFailPointers;
     addPatternToDictMap(pattern: Pattern): void;
     addNodeToQueues(trieNode: TrieNode, depth: number): void;
     insertPattern(patterns: Pattern[], pattern: Pattern): void;
