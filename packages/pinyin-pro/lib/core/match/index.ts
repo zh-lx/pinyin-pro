@@ -73,9 +73,6 @@ const getMatchPinyin = (char: string, options: Required<MatchOptions>) => {
  * @return {Array | null} 若匹配成功，返回 text 中匹配成功的下标数组；若匹配失败，返回 null
  */
 export const match = (text: string, pinyin: string, options?: MatchOptions) => {
-  if (options?.precision === "any") {
-    options.lastPrecision = "any";
-  }
   if (options?.v) {
     const replacement = typeof options.v === "string" ? options.v : "v";
     pinyin = pinyin.replace(/ü/g, replacement);
@@ -84,6 +81,9 @@ export const match = (text: string, pinyin: string, options?: MatchOptions) => {
     ...DefaultMatchOptions,
     ...(options || {}),
   } as Required<MatchOptions>;
+  if (completeOptions.precision === "any") {
+    completeOptions.lastPrecision = "any";
+  }
   // 是否大小写不敏感
   if (completeOptions.insensitive !== false) {
     text = text.toLowerCase();
