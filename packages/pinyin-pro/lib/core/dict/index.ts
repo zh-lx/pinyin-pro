@@ -24,7 +24,7 @@ type DictChange = {
   handle: "add" | "replace";
 };
 
-const originDictMap = new Map<string | Symbol, Set<string>>();
+const affectedCharsByDict = new Map<string | Symbol, Set<string>>();
 const charChanges = new Map<string, { original: string; changes: DictChange[] }>();
 
 export function addDict(dict: DICT | {}, options?: string | DictOptions) {
@@ -87,10 +87,10 @@ function addToOriginDict(
   if (handle === "ignore") {
     return;
   }
-  if (!originDictMap.has(dict)) {
-    originDictMap.set(dict, new Set());
+  if (!affectedCharsByDict.has(dict)) {
+    affectedCharsByDict.set(dict, new Set());
   }
-  originDictMap.get(dict)!.add(char);
+  affectedCharsByDict.get(dict)!.add(char);
   if (!charChanges.has(char)) {
     charChanges.set(char, { original: DICT1.get(char), changes: [] });
   }
@@ -108,7 +108,7 @@ function applyChange(current: string, { pinyin, handle }: DictChange): string {
 }
 
 function removeOriginDict(dict: string | Symbol) {
-  originDictMap.get(dict)?.forEach((char) => {
+  affectedCharsByDict.get(dict)?.forEach((char) => {
     const state = charChanges.get(char)!;
     state.changes = state.changes.filter((change) => change.dict !== dict);
     // Replay surviving changes in call order, including repeated dictionary names.
@@ -117,5 +117,5 @@ function removeOriginDict(dict: string | Symbol) {
       charChanges.delete(char);
     }
   });
-  originDictMap.delete(dict);
+  affectedCharsByDict.delete(dict);
 }

@@ -1,4 +1,4 @@
-import { pinyin, addDict, removeDict } from '../lib/index';
+import { pinyin, polyphonic, match, addDict, removeDict } from '../lib/index';
 import { afterEach, expect, describe, it } from 'vitest';
 
 describe("addDict", () => {
@@ -86,6 +86,28 @@ describe("single-character dictionary ownership", () => {
     removeDict("owner-A");
     removeDict("owner-B");
     removeDict();
+  });
+
+  it("preserves active readings across public APIs and restores original readings", () => {
+    expect(polyphonic("汉")).to.deep.equal(["hàn"]);
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.equal(null);
+
+    addDict({ 汉: "yǔ" }, { name: "owner-A", dict1: "replace" });
+    addDict({ 汉: "yīn" }, { name: "owner-B", dict1: "replace" });
+    removeDict("owner-A");
+
+    expect(polyphonic("汉")).to.deep.equal(["yīn"]);
+    expect(match("汉", "yin")).to.deep.equal([0]);
+    expect(match("汉", "yu")).to.equal(null);
+    expect(match("汉", "han")).to.equal(null);
+
+    removeDict("owner-B");
+
+    expect(polyphonic("汉")).to.deep.equal(["hàn"]);
+    expect(match("汉", "han")).to.deep.equal([0]);
+    expect(match("汉", "yin")).to.equal(null);
+    expect(match("汉", "yu")).to.equal(null);
   });
 
   it.each([
