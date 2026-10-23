@@ -102,6 +102,14 @@ export class AC {
 
   // 构建失败指针
   buildFailPointer() {
+    if (this.queues.length) {
+      this.rebuildFailPointers();
+    }
+  }
+
+  private rebuildFailPointers() {
+    // New suffix nodes can change failure pointers on existing branches.
+    this.queues = [[], Array.from(this.root.children.values())];
     for (let depth = 1; depth < this.queues.length; depth++) {
       const queue = this.queues[depth];
       if (!queue) continue;
@@ -116,6 +124,9 @@ export class AC {
           node.fail = this.root;
         } else {
           node.fail = failNode.children.get(key) as TrieNode;
+        }
+        for (const child of node.children.values()) {
+          this.addNodeToQueues(child, depth + 1);
         }
       }
     }
@@ -159,12 +170,30 @@ export class AC {
   removeDict(dictName: string | symbol) {
     if (this.dictMap.has(dictName)) {
       const set = this.dictMap.get(dictName) as Set<Pattern>;
+      const nodes = new Set<TrieNode>();
       set.forEach((pattern) => {
-        (pattern.node as TrieNode).patterns = (
-          pattern.node as TrieNode
-        ).patterns.filter((_pattern) => _pattern !== pattern);
+        nodes.add(pattern.node as TrieNode);
+        delete pattern.node;
+      });
+      nodes.forEach((node) => {
+        node.patterns = node.patterns.filter((pattern) => !set.has(pattern));
       });
       this.dictMap.delete(dictName);
+      let pruned = false;
+      nodes.forEach((node) => {
+        while (node.parent && !node.patterns.length && !node.children.size) {
+          const parent = node.parent;
+          parent.children.delete(node.key);
+          node.parent = null;
+          node.fail = null;
+          node = parent;
+          pruned = true;
+        }
+      });
+      if (pruned) {
+        // Surviving nodes can still reference removed suffix nodes.
+        this.rebuildFailPointers();
+      }
     }
   }
 

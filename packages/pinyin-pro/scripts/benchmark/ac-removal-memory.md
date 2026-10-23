@@ -1,8 +1,7 @@
 # Dictionary removal memory benchmark
 
-`AC.removeDict()` removes patterns but retains Trie nodes.
-This benchmark measures retained nodes and heap growth while dictionaries change.
-It does not change the package implementation.
+`AC.removeDict()` now prunes unused branches and repairs failure pointers.
+This benchmark checks node reclamation and measures heap usage during repeated dictionary changes.
 
 ## Run
 
@@ -14,95 +13,124 @@ node --test packages/pinyin-pro/scripts/benchmark/ac-removal-memory.smoke.js
 node packages/pinyin-pro/scripts/benchmark/ac-removal-memory.js > /tmp/ac-removal-memory-results.jsonl
 ```
 
-The script loads the source `AC` class through the existing `ts-node` dependency.
-Each scenario runs in three separate child processes with `--expose-gc`.
+The script loads source through the existing `ts-node` dependency.
+Each scenario runs in three independent child processes with `--expose-gc`.
 The smoke test uses two cycles with three words per cycle.
-The full benchmark uses 100 cycles with 500 words per cycle.
+The full benchmark uses 100 cycles with 500 six-character words per cycle.
+
+## Implementation
+
+Removal filters each affected node once and clears removed patterns' node references.
+It prunes empty branches from their leaves toward the root.
+It clears parent and failure references on detached nodes.
+If pruning changes the structure, it rebuilds failure pointers across all surviving nodes.
+
+Adding new nodes also rebuilds failure pointers across existing branches.
+This supports reintroducing a removed suffix that existing words need as a failure target.
+Adding patterns without creating nodes skips that rebuild.
+Removal preserves surviving nodes and their pattern order.
+Pending build callbacks retain their existing execution behavior.
 
 ## Method
 
-Each process creates an independent AC instance.
+Each process uses an independent AC instance.
 Warmup uses a separate instance for five cycles. The process releases that instance before measurement.
-Each measured cycle builds 500 six-character words and removes their dictionary.
-All cycles use the same dictionary name.
-The input arrays leave the call stack before measurement.
+Every measured cycle builds a dictionary and removes it under the same name.
+Input arrays leave the call stack before memory measurement.
 
 - `unique`: Each cycle uses a different first character. Words within a cycle have different second characters.
 - `reuse`: Every cycle uses the same 500 words.
-- `discard`: Each cycle uses different words. A new AC replaces the old instance after removal.
+- `discard`: Each cycle uses different words. A new AC replaces the instance after removal.
+- `retained`: The AC keeps 10,000 other words while temporary dictionaries change.
 
-Each checkpoint records heap usage before GC and after GC.
-Node counting follows `children`, `parent`, `fail`, pattern `node` references, dictionary entries, and queued nodes.
-The benchmark sets no pending build callback.
-It checks that pattern counts, dictionary counts, and queue counts are zero after removal.
-Each cycle also checks that a removed word no longer matches.
+The retained dictionary contains 50,002 nodes. Its initial construction occurs before the baseline measurement.
+The smoke test retains three words instead.
+
+Checkpoints record heap usage before and after GC.
+Node counting follows children, parent links, failure links, pattern references, dictionary entries, and queued nodes.
+No pending callback participates in this benchmark.
+The script checks that temporary words no longer match after removal.
+It also checks node, pattern, dictionary, and queue counts.
 
 `released` means the process releases its last AC reference before measurement.
-Heap growth uses each process's cycle-zero post-GC heap as its baseline.
-The raw `retainedBytes` field instead uses the initial warmup baseline, before the cycle-zero checkpoint.
-Small differences between these baselines reflect runtime and GC noise.
-Pre-GC values include temporary allocations from earlier node counts.
-Heap totals include Node and the source loader. Post-GC growth is the relevant retention measurement.
+Heap growth uses each process's cycle-zero post-GC measurement as the baseline.
+The raw `retainedBytes` field instead uses the earlier warmup baseline.
+Pre-GC usage includes temporary allocations from earlier node counts.
+Heap totals include Node and the source loader. Small positive or negative deltas reflect runtime and GC noise.
 
-## Results
+## Baseline
 
 Source revision: `0785234b4dc0fa3ea9f244e3d77703b2df6a9db4`.
+The baseline script and report are available at commit `b2ae1ab`.
+Raw baseline samples remain in [ac-removal-memory-results.jsonl](./ac-removal-memory-results.jsonl).
+
+| Scenario | Cycles | Reachable nodes | Post-GC heap growth (MiB) |
+| --- | ---: | ---: | ---: |
+| unique | 10 | 25,011 | 6.71 |
+| unique | 50 | 125,051 | 33.98 |
+| unique | 100 | 250,101 | 68.06 |
+| reuse | 100 | 2,502 | 0.59 |
+
+The baseline has no remaining patterns or dictionary entries at these checkpoints.
+Failure pointers can still retain a node after its child edge is detached.
+
+## Fixed results
+
 Environment: Node v24.15.0, Linux x64.
-Values below are medians from three independent processes.
-Raw samples are in [ac-removal-memory-results.jsonl](./ac-removal-memory-results.jsonl).
+Values are medians from three independent processes.
+Raw fixed samples are in [ac-removal-memory-fixed-results.jsonl](./ac-removal-memory-fixed-results.jsonl).
+The measured `lib/common/segmentit/index.ts` has this SHA-256:
 
-| Scenario | Cycles | Reachable nodes | Heap before GC (MiB) | Heap after GC (MiB) | Heap growth (MiB) |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| unique | 0 | 1 | 41.54 | 41.39 | +0.00 |
-| unique | 1 | 2,502 | 42.74 | 42.11 | +0.71 |
-| unique | 10 | 25,011 | 55.69 | 48.11 | +6.71 |
-| unique | 25 | 62,526 | 59.22 | 58.33 | +16.94 |
-| unique | 50 | 125,051 | 78.79 | 75.38 | +33.98 |
-| unique | 100 | 250,101 | 115.35 | 109.45 | +68.06 |
-| unique | released | 0 | 134.63 | 41.30 | -0.09 |
-| reuse | 0 | 1 | 41.55 | 41.38 | +0.00 |
-| reuse | 1 | 2,502 | 42.73 | 42.09 | +0.70 |
-| reuse | 10 | 2,502 | 48.06 | 41.98 | +0.58 |
-| reuse | 25 | 2,502 | 50.52 | 41.98 | +0.58 |
-| reuse | 50 | 2,502 | 54.46 | 41.99 | +0.59 |
-| reuse | 100 | 2,502 | 48.50 | 41.99 | +0.59 |
-| reuse | released | 0 | 43.98 | 41.30 | -0.09 |
-| discard | 0 | 1 | 41.55 | 41.25 | +0.00 |
-| discard | 1 | 1 | 42.67 | 41.95 | +0.70 |
-| discard | 10 | 1 | 53.55 | 41.97 | +0.73 |
-| discard | 25 | 1 | 45.98 | 41.97 | +0.73 |
-| discard | 50 | 1 | 71.27 | 41.98 | +0.73 |
-| discard | 100 | 1 | 69.83 | 41.98 | +0.73 |
-| discard | released | 0 | 41.99 | 41.30 | +0.05 |
+```text
+c2850bf0f720eb8b995c912678c29781dcf8c9df7d7d0482df7629d650051189
+```
 
-All three samples produce identical node counts.
-In this workload, each unique batch retains 2,501 additional nodes after removal and GC.
-After 100 cycles, 50,000 different words leave 250,101 reachable nodes.
-Reusing words keeps the node count constant. Releasing the AC returns heap usage close to baseline.
-These results establish retention for this synthetic workload. They do not predict a specific production growth rate.
+| Scenario | Cycles | Reachable nodes | Post-GC heap growth (MiB) |
+| --- | ---: | ---: | ---: |
+| unique | 10 | 1 | -0.41 |
+| unique | 50 | 1 | -0.40 |
+| unique | 100 | 1 | -0.38 |
+| unique | released | 0 | -0.38 |
+| reuse | 10 | 1 | -0.14 |
+| reuse | 50 | 1 | -0.13 |
+| reuse | 100 | 1 | -0.11 |
+| reuse | released | 0 | -0.11 |
+| discard | 10 | 1 | +0.02 |
+| discard | 50 | 1 | +0.02 |
+| discard | 100 | 1 | +0.04 |
+| discard | released | 0 | +0.04 |
+| retained | 10 | 50,002 | -0.07 |
+| retained | 50 | 50,002 | -0.07 |
+| retained | 100 | 50,002 | -0.05 |
+| retained | released | 0 | -17.35 |
 
-The script asserts the current node counts to detect measurement errors.
-A future reclamation change must update those assertions and the failure-reference demonstration.
+Every sample has the expected node count at every checkpoint.
+The first three scenarios retain only the root after removal.
+The retained scenario keeps exactly its original 50,002 nodes.
+The measurements show no sustained heap growth from temporary dictionaries.
+These synthetic results do not predict a specific production memory limit.
 
-## Failure references
+## Structural update cost
 
-A separate experiment builds `甲乙` and `乙` under different dictionary names.
-After removing the second dictionary, the `甲乙` node still has a failure pointer to the `乙` node.
-The experiment detaches the root's `乙` child edge.
-Traversal through children then finds three nodes. Traversal through all references still finds four nodes.
-This experiment only changes its temporary instance.
+The table reports cumulative times for 100 cycles. Each cycle handles 500 temporary words.
+Timing covers `build()` and `removeDict()` calls. It excludes input generation, assertions, explicit GC, and node counting.
 
-Removing child edges alone therefore does not guarantee reclamation.
-A future implementation must repair failure pointers or rebuild them from retained patterns.
-The current `buildFailPointer()` only visits queued nodes. Calling it after removal does not rebuild every remaining failure pointer.
+| Scenario | Total build time (ms) | Total removal time (ms) |
+| --- | ---: | ---: |
+| unique | 48.53 | 39.96 |
+| reuse | 46.38 | 40.49 |
+| discard | 45.34 | 39.37 |
+| retained | 512.29 | 474.78 |
 
-## Follow-up work
+With 10,000 retained words, mean build and removal costs are about five milliseconds per batch in this run.
+A structural update traverses surviving nodes to repair failure pointers.
+This adds CPU cost when dictionaries change. Read-only matching does not perform that traversal.
+Large retained dictionaries can increase update latency and temporary queue memory.
+The baseline measurement does not record operation timings, so these numbers are not a before-and-after speed comparison.
 
-First evaluate rebuilding the Trie from active patterns.
-Rebuilding must update pattern `node` references and keep dictionary indexes consistent.
-It must preserve priority order and equal-priority tie behavior.
-Measure rebuild latency and peak memory with a large retained dictionary.
-A deletion threshold could reduce rebuild frequency.
+## Regression coverage
 
-Test shared prefixes, suffix words, cross-dictionary failure pointers, duplicate words, dictionary reuse, and pending build callbacks.
-This benchmark provides evidence for that work. It does not implement node reclamation.
+Tests cover repeated removal, shared prefixes, equal-priority patterns, suffix chains, dictionary reuse, queued nodes, and supplementary Unicode.
+They also verify pending callback behavior and removal of stale pattern references.
+The failure-reference benchmark now checks that detached nodes have no parent or failure links.
+It verifies that surviving nodes no longer reference the removed suffix.
