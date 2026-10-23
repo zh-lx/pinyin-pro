@@ -22,6 +22,26 @@ function nodes(ac) {
 
 const matches = (ac, text) => ac.match(text, 'off').map(({ pinyin }) => pinyin);
 
+describe('AC incremental dictionary additions', () => {
+  it('matches a suffix added after an existing longer word', () => {
+    const ac = new AC();
+    ac.build([pattern('甲乙丙', 'long')]);
+    expect(matches(ac, '甲乙丙')).toEqual(['甲乙丙']);
+
+    ac.build([pattern('乙丙', 'suffix')]);
+    expect(matches(ac, '甲乙丙')).toEqual(['甲乙丙', '乙丙']);
+  });
+
+  it('uses a new suffix path for fallback from an existing prefix', () => {
+    const ac = new AC();
+    ac.build([pattern('甲乙丙', 'long')]);
+    ac.build([pattern('乙丁', 'suffix')]);
+
+    expect(ac.match('甲乙丁', 'off').map(({ zh, index }) => ({ zh, index })))
+      .toEqual([{ zh: '乙丁', index: 1 }]);
+  });
+});
+
 describe('AC dictionary removal', () => {
   it('reclaims different words across repeated removal cycles', () => {
     const ac = new AC();
