@@ -24,6 +24,8 @@ const DefaultConvertOptions = {
 const toneMap = {
   a: ['a', 'ā', 'á', 'ǎ', 'à'],
   o: ['o', 'ō', 'ó', 'ǒ', 'ò'],
+  // `v` stands for `ü`, e.g. lve4 -> lüè. It must be checked before `e`.
+  ve: ['üe', 'üē', 'üé', 'üě', 'üè'],
   e: ['e', 'ē', 'é', 'ě', 'è'],
   ü: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ'],
   v: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ'],

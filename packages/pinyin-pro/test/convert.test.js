@@ -47,6 +47,11 @@ describe('convert', () => {
     expect(result).to.be.equal('lǜ sè');
   });
 
+  it('[convert]v before e', () => {
+    const result = convert('lve4 nve4 lve0');
+    expect(result).to.be.equal('lüè nüè lüe');
+  });
+
   it('[convert]format noen', () => {
     // @ts-ignore
     const result = convert('lv4 se4', { format: 'none' });
